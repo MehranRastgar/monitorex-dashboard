@@ -24,7 +24,9 @@ import imageLoader from "../../imageLoader";
 import { signInCheck } from "../../store/slices/clientSlice";
 import { BsHeadset } from "react-icons/bs";
 import classes from "./MainLayout.module.scss";
-import SidebarContext from "../../store/sidebarContext";
+import SidebarContext, {
+  SidebarContextProvider,
+} from "../../store/sidebarContext";
 
 const fetcher = (URL: string) => axios.get(URL).then((res) => res.data);
 const config: SWRConfiguration = {
@@ -38,6 +40,7 @@ import LoadingOne, { LoadingTwo } from "../loader/default";
 import { setDeviceType } from "../../store/slices/themeSlice";
 import Sidebar from "../sidebar/Sidebar";
 import { LoginContextProvider } from "../../store/loginContext";
+import { ThemeContextProvider } from "../../store/themeContext";
 
 var changeRoute: boolean = false;
 
@@ -189,7 +192,7 @@ function Layout({ children }: { children: any }) {
                 className=""
                 loader={imageLoader}
                 alt="InoMal Logo"
-                src={"/Asset14.png"}
+                src={"/Monitorx.png"}
                 unoptimized
                 width={160}
                 height={100}
@@ -205,20 +208,24 @@ function Layout({ children }: { children: any }) {
       )}
       <LangContextProvider>
         <LoginContextProvider>
-          <div className={classes.container}>
-            <Sidebar />
-            <div className={classes.main}>
-              <div
-                className={`${classes.main__content} ${
-                  !sidebarCtx.isOpen ? classes.close_sidebar : ""
-                } main_wrapper`}
-              >
-                <TopNav />
-                {/* <Outlet /> */}
-                {children}
+          <ThemeContextProvider>
+            <SidebarContextProvider>
+              <div className={classes.container}>
+                <Sidebar />
+                <div className={classes.main}>
+                  <div
+                    className={`${classes.main__content} ${
+                      !sidebarCtx.isOpen ? classes.close_sidebar : ""
+                    } main_wrapper`}
+                  >
+                    <TopNav />
+                    {/* <Outlet /> */}
+                    {children}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </SidebarContextProvider>
+          </ThemeContextProvider>
         </LoginContextProvider>
       </LangContextProvider>
     </>

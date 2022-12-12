@@ -34,9 +34,9 @@ function TopNav() {
             <Icon icon="eva:close-fill" width="24" />
           </div>
         </div>
-        <div className={classes.search_desktop_wrapper}>
+        {/* <div className={classes.search_desktop_wrapper}>
           <SearchBox />
-        </div>
+        </div> */}
       </div>
       <TopNavRightBox />
       <br />

@@ -19,6 +19,7 @@ interface IImperativeHandler {
   focus: () => void;
   value?: string;
 }
+// eslint-disable-next-line react/display-name
 const Input = React.forwardRef<IImperativeHandler, Props>((props, ref) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [value, setValue] = useState(props.value || "");

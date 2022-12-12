@@ -12,6 +12,8 @@ import { Icon } from "@iconify/react";
 import classes from "./Sidebar.module.scss";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
+import SidebarContext from "../../store/sidebarContext";
+import LoginContext from "../../store/loginContext";
 
 function Sidebar() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -19,8 +21,8 @@ function Sidebar() {
   const { width } = useWindowSize();
   const router = useRouter();
   // const location = useLocation();
-  // const sidebarCtx = useContext(SidebarContext);
-  // const loginCtx = useContext(LoginContext);
+  const sidebarCtx = useContext(SidebarContext);
+  const loginCtx = useContext(LoginContext);
   const { t } = useTranslation();
 
   function openSidebarHandler() {
@@ -51,8 +53,8 @@ function Sidebar() {
   return (
     <div
       className={`${classes.sidebar} ${
-        // !sidebarCtx.isOpen && classes.sidebar_close
-        false && classes.sidebar_close
+        !sidebarCtx.isOpen && classes.sidebar_close
+        // false && classes.sidebar_close
       }`}
     >
       <div className={classes.sidebar__logo}>

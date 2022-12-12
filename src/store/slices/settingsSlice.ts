@@ -4,7 +4,7 @@ import type { AppState, AppThunk } from "../store";
 // import { fetchCount } from './../counterAPI'
 import type { PropertyProperty, Settings } from "../../types/types";
 import { fetchSettings } from "../api/settingsApi";
-import { Search } from "../../../pages";
+// import { Search } from "../../../pages";
 
 export interface PriceRange {
   pricegte?: number;

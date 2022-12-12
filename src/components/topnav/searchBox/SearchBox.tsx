@@ -15,7 +15,7 @@ function SearchBox() {
       />
       <input
         type="search"
-        placeholder={t("search")}
+        placeholder={t("search") ?? "جستجو"}
         name="search"
         className={classes.searchBox_input}
       />

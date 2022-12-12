@@ -7,7 +7,7 @@ const SidebarContext = React.createContext<SidebarContextObj>({
   toggleSidebar: () => {},
 });
 
-export const SidebarContextProvider: React.FC = (props) => {
+export const SidebarContextProvider: React.FC<{ children: any }> = (props) => {
   const [isOpen, setIsOpen] = useState(true);
   function ToggleSidebar() {
     setIsOpen((prev) => !prev);

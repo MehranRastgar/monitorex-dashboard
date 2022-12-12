@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { Itable as Props, complex } from "../../../interfaces/Itable";
 import Card from "../../UI/card/Card";
 import Badge from "../../UI/badge/Badge";
@@ -7,13 +7,14 @@ import Modal from "../../UI/modal/Modal";
 import { useTranslation } from "react-i18next";
 import { Icon } from "@iconify/react";
 import classes from "./CustomTable.module.scss";
+import Link from "next/link";
 
 const CustomTable: React.FC<Props> = (props) => {
   const [showModal, setShowModal] = useState(false);
   function showModalHandler() {
     setShowModal((prev) => !prev);
   }
-  function tableBody(item: complex, index: number) {
+  function tableBody(item: complex, index: number): JSX.Element | undefined {
     /* type guard (in typescript) */
     if ("username" in item) {
       //for implementing top customers
@@ -65,7 +66,7 @@ const CustomTable: React.FC<Props> = (props) => {
                 <Icon icon="fluent:delete-24-regular" width="24" />
               </div>
               <div className={classes.actions__edit}>
-                <Link to={`/customers/${item.ID}`}>
+                <Link href={`/customers/${item.ID}`}>
                   <Icon icon="fluent:edit-16-regular" width="24" />
                 </Link>
               </div>
@@ -99,7 +100,7 @@ const CustomTable: React.FC<Props> = (props) => {
                 <Icon icon="fluent:delete-24-regular" width="24" />
               </div>
               <div className={classes.actions__edit}>
-                <Link to={`/products/${item.ID}`}>
+                <Link href={`/products/${item.ID}`}>
                   <Icon icon="fluent:edit-16-regular" width="24" />
                 </Link>
               </div>
@@ -108,6 +109,7 @@ const CustomTable: React.FC<Props> = (props) => {
         </tr>
       );
     }
+    return undefined;
   }
 
   const initDataShow = () => {

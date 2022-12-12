@@ -11,7 +11,7 @@ function Profile() {
   return (
     <div className={classes.profile}>
       <div className={classes.profile__avatar}>
-        <img src={images.logo} alt="avatar" />
+        <img src={"Rectangle2.png"} alt="avatar" />
       </div>
       <div className={classes.profile__info}>
         <p className={classes.profile__userName}>{t("mehranRastgar")}</p>
