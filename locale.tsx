@@ -10,6 +10,8 @@ i18n
     resources: {
       en: {
         translation: {
+          groups: "groups",
+          routes: "routes",
           sensors: "Sensors",
           users: "Users",
           systemlogs: "system logs",
@@ -33,7 +35,6 @@ i18n
           numberOfAlarms: "number of alarms",
           numberOfCurreptedSensors: "number of currepted Sensors",
           numberOfAvailableSensors: "number of available Sensors",
-
           quickAnalysis: "Quick Analysis",
           topCustomers: "Top Customers",
           latestTransaction: "Latest Transactions",
@@ -84,7 +85,6 @@ i18n
           revenueAmount: "2,500",
           currency: "$",
           pieces: "pieces",
-
           summaryOfSale: "Chart Of Sale",
           summaryOfRevenue: "Chart Of Revenue",
           summaryOfOrders: "Chart Of Order",
@@ -106,6 +106,8 @@ i18n
       },
       fa: {
         translation: {
+          groups: "گروه ها",
+          routes: "مسیرها",
           sensors: "سنسورها",
           users: "کاربرها",
           systemlogs: "لاگ سیستم",

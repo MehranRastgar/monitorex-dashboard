@@ -18,39 +18,38 @@
   margin: 0;
 }
 
-.table {
-  width: 100%;
-  min-width: 300px;
-  border-spacing: 0;
-}
-
 .largeTable {
   border-spacing: 0;
   min-width: 900px;
   width: 100%;
-}
-
-th {
-  background-color: var(--primaryColor);
-  color: var(--card-bgc);
-  text-align: left;
-  white-space: wrap;
-  &:first-child {
-    border-top-left-radius: $largeBorderRadius;
-  }
-  &:last-child {
-    border-top-right-radius: $largeBorderRadius;
+  th,
+  td {
+    padding: 0.8rem 1rem;
+    white-space: nowrap;
   }
 }
 
-tr:nth-child(odd) {
-  background-color: var(--card-bgc);
-}
-
-th,
-td {
-  padding: 0.8rem 1rem;
-  white-space: nowrap;
+.table {
+  width: 100%;
+  min-width: 300px;
+  border-spacing: 0;
+  th {
+    background-color: var(--primaryColor);
+    color: var(--card-bgc);
+    text-align: left;
+    white-space: wrap;
+    &:first-child {
+      padding: 8px;
+      border-top-left-radius: $largeBorderRadius;
+    }
+    &:last-child {
+      padding: 8px;
+      border-top-right-radius: $largeBorderRadius;
+    }
+  }
+  tr:nth-child(odd) {
+    background-color: var(--card-bgc);
+  }
 }
 
 .userName,
@@ -147,15 +146,22 @@ td {
 }
 
 html[dir="rtl"] {
-  th {
-    text-align: right;
-    &:first-child {
-      border-top-right-radius: $largeBorderRadius;
-      border-top-left-radius: 0;
-    }
-    &:last-child {
-      border-top-left-radius: $largeBorderRadius;
-      border-top-right-radius: 0;
+  .table {
+    width: 100%;
+    min-width: 300px;
+    border-spacing: 0;
+    th {
+      text-align: right;
+      &:first-child {
+        border-top-right-radius: $largeBorderRadius;
+        border-top-left-radius: 0;
+        padding: 8px;
+      }
+      &:last-child {
+        border-top-left-radius: $largeBorderRadius;
+        border-top-right-radius: 0;
+        padding: 8px;
+      }
     }
   }
   .actions__box {

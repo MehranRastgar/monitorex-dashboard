@@ -174,7 +174,9 @@ const CustomTable: React.FC<Props> = (props) => {
                   <thead>
                     <tr>
                       {props.headData.map((item, index) => (
-                        <th key={index}>{t(item)}</th>
+                        <th id={index + "-id"} key={index + "-key"}>
+                          {t(item)}
+                        </th>
                       ))}
                     </tr>
                   </thead>

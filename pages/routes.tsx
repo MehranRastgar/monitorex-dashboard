@@ -11,9 +11,9 @@ function Dashboard() {
     <Layout>
       <section>
         <h2 className="title">{t("dashboard")}</h2>
-        <Summary />
-        <SaleChart />
-        {/* <DashboardTables /> */}
+        {/* <Summary /> */}
+        {/* <SaleChart /> */}
+        <DashboardTables />
       </section>
     </Layout>
   );

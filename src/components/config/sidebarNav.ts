@@ -6,9 +6,21 @@ const sidebarNav = [
     text: "dashboard",
   },
   {
+    link: "/groups",
+    section: "groups",
+    icon: "material-symbols:group-work-outline",
+    text: "groups",
+  },
+  {
+    link: "/routes",
+    section: "routes",
+    icon: "material-symbols:route-sharp",
+    text: "routes",
+  },
+  {
     link: "/sensors",
     section: "sensors",
-    icon: "icon-park-outline:ad-product",
+    icon: "material-symbols:motion-sensor-active-rounded",
     text: "sensors",
   },
   {
@@ -17,6 +29,7 @@ const sidebarNav = [
     icon: "ph:users-bold",
     text: "users",
   },
+
   {
     link: "/systemlogs",
     section: "systemlogs",
@@ -28,6 +41,12 @@ const sidebarNav = [
     section: "analytics",
     icon: "carbon:analytics",
     text: "analytics",
+  },
+  {
+    link: "/loggersettings",
+    section: "loggersettings",
+    icon: "material-symbols:settings-account-box",
+    text: "logger settings",
   },
   // {
   //   link: "/discount",
