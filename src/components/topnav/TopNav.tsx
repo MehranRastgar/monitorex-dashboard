@@ -29,7 +29,6 @@ function TopNav() {
           <div className="topNav_left_menu_open">
             <Icon icon="ci:menu-alt-03" width="24" />
           </div>
-
           <div className="topNav_left_menu_close">
             <Icon icon="eva:close-fill" width="24" />
           </div>

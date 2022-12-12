@@ -3,14 +3,17 @@ import { useTranslation } from "react-i18next";
 import Summary from "../src/components/summary/Summary";
 import SaleChart from "../src/components/chart/Chart";
 import DashboardTables from "../src/components/tables/DashboardTables";
+import Layout from "../src/components/layout/Layout";
 
-function Dashboard() {
+function Sensors() {
   const { t } = useTranslation();
   return (
-    <section>
-      <h2 className="title">{t("dashboard")}</h2>
-    </section>
+    <Layout>
+      <section>
+        <h2 className="title">{t("dashboard")}</h2>
+      </section>
+    </Layout>
   );
 }
 
-export default Dashboard;
+export default Sensors;

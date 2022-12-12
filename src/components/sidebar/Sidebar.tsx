@@ -58,7 +58,7 @@ function Sidebar() {
       }`}
     >
       <div className={classes.sidebar__logo}>
-        <img src={"Monitorx.png"} alt="monitorex" />
+        <img src={"Monitorex.png"} alt="monitorex" />
       </div>
       <div className={classes.sidebar__menu}>
         {sidebarNav.map((nav, index) => (

@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { isMobile, deviceDetect } from "react-device-detect";
 import { LangContextProvider } from "../../store/langContext";
-import TopNav from "../../components/topnav/TopNav";
+import TopNav from "../topnav/TopNav";
 
 const eventScreenSize: number = 800;
 import useSWR from "swr";
@@ -65,7 +65,7 @@ function isComplete() {
 
 var scrollBefore = 0;
 
-function Layout({ children }: { children: any }) {
+function LayoutLogin({ children }: { children: any }) {
   // const { data, error } = useSWR<Settings[]>(
   //   process.env.NEXT_PUBLIC_BASE_API_URL + "/settings/name/categories",
   //   fetcher,
@@ -209,22 +209,17 @@ function Layout({ children }: { children: any }) {
         <></>
       )}
 
-      <div className={classes.container}>
-        <Sidebar />
-        <div className={classes.main}>
-          <div
-            className={`${classes.main__content} ${
-              !sidebarCtx.isOpen ? classes.close_sidebar : ""
-            } main_wrapper`}
-          >
-            <TopNav />
-            {/* <Outlet /> */}
-            {children}
-          </div>
-        </div>
+      <div className="flex bg-transparent h-[100%] w-[100%]">
+        {/* <Sidebar /> */}
+        {/* <div className={classes.main}> */}
+
+        {/* <TopNav /> */}
+        {/* <Outlet /> */}
+        {children}
+        {/* </div> */}
       </div>
     </>
   );
 }
 
-export default Layout;
+export default LayoutLogin;

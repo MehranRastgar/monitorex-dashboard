@@ -29,13 +29,23 @@ import type { AppProps } from "next/app";
 import store from "../src/store/store";
 
 import Layout from "../src/components/layout/Layout";
+import { LangContextProvider } from "../src/store/langContext";
+import { LoginContextProvider } from "../src/store/loginContext";
+import { ThemeContextProvider } from "../src/store/themeContext";
+import { SidebarContextProvider } from "../src/store/sidebarContext";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <LangContextProvider>
+        <LoginContextProvider>
+          <ThemeContextProvider>
+            <SidebarContextProvider>
+              <Component {...pageProps} />
+            </SidebarContextProvider>
+          </ThemeContextProvider>
+        </LoginContextProvider>
+      </LangContextProvider>
     </Provider>
   );
 }
