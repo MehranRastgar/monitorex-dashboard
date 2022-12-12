@@ -1,0 +1,33 @@
+$ NODE_ENV='production' next build
+info  - Loaded env from G:\gh\scada\adminpanel\monitorex-dashboard\.env.local
+info  - Linting and checking validity of types...
+
+./src/components/layout/Layout.tsx
+90:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+137:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+158:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/sidebar/Sidebar.tsx
+48:9  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/tables/customTable/CustomTable.tsx
+46:13  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+82:13  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+Failed to compile.
+
+./pages/_document.tsx:6:31
+Type error: Type '{ children: Element[]; lang: string; dir: string; theme: string; }' is not assignable to type 'IntrinsicAttributes & ClassAttributes<HTMLHtmlElement> & HtmlHTMLAttributes<HTMLHtmlElement>'.
+  Property 'theme' does not exist on type 'IntrinsicAttributes & ClassAttributes<HTMLHtmlElement> & HtmlHTMLAttributes<HTMLHtmlElement>'.
+
+[0m [90m 4 | [39m[36mexport[39m [36mdefault[39m [36mfunction[39m [33mDocument[39m() {[0m
+[0m [90m 5 | [39m  [36mreturn[39m ([0m
+[0m[31m[1m>[22m[39m[90m 6 | [39m    [33m<[39m[33mHtml[39m lang[33m=[39m[32m"fa"[39m dir[33m=[39m[32m"rtl"[39m theme[33m=[39m[32m"dark"[39m[33m>[39m[0m
+[0m [90m   | [39m                              [31m[1m^[22m[39m[0m
+[0m [90m 7 | [39m      {[90m/* <meta[39m[0m
+[0m [90m 8 | [39m[90m        name="viewport"[39m[0m
+[0m [90m 9 | [39m[90m        content="width=device-width, initial-scale=1, viewport-fit=cover"[39m[0m
+Note: This command was run via npm module 'win-node-env'
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
