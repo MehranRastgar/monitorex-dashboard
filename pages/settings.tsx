@@ -10,13 +10,136 @@ function Settings() {
   return (
     <Layout>
       <section>
-        <h2 className="title">{t("dashboard")}</h2>
-        <Summary />
-        <SaleChart />
-        {/* <DashboardTables /> */}
+        <h2 className="title">{t("settings")}</h2>
+        <BasicTabs />
       </section>
     </Layout>
   );
 }
 
 export default Settings;
+
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
+import SettingsSensors from "../src/components/pages/settings/sensors";
+import SettingsDevices from "../src/components/pages/settings/device/devices";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+function a11yProps(index: number) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+function BasicTabs() {
+  const [value, setValue] = React.useState(0);
+  const { t } = useTranslation();
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+          variant="fullWidth"
+          textColor="inherit"
+          TabIndicatorProps={{
+            children: <span className="MuiTabs-indicatorSpan" />,
+          }}
+        >
+          <StyledTab label={t("devices")} {...a11yProps(0)} />
+          <StyledTab label={t("routes")} {...a11yProps(1)} />
+          <StyledTab label={t("sensors")} {...a11yProps(2)} />
+        </Tabs>
+      </Box>
+      <TabPanel value={value} index={0}>
+        <SettingsDevices />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <SettingsDevices />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <SettingsSensors />
+      </TabPanel>
+    </Box>
+  );
+}
+
+interface StyledTabsProps {
+  children?: React.ReactNode;
+  value: number;
+  onChange: (event: React.SyntheticEvent, newValue: number) => void;
+}
+
+const StyledTabs = styled((props: StyledTabsProps) => (
+  <Tabs
+    {...props}
+    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+  />
+))({
+  "& .MuiTabs-indicator": {
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+  },
+  "& .MuiTabs-indicatorSpan": {
+    maxWidth: 40,
+    width: "100%",
+    backgroundColor: "#635ee7",
+  },
+});
+
+interface StyledTabProps {
+  label: string;
+}
+
+const StyledTab = styled((props: StyledTabProps) => (
+  <Tab disableRipple {...props} />
+))(({ theme }) => ({
+  textTransform: "none",
+  fontWeight: theme.typography.fontWeightRegular,
+  fontSize: theme.typography.pxToRem(15),
+  fontFamily: "inherit",
+  marginRight: theme.spacing(1),
+  color: "rgba(255, 255, 255, 0.7)",
+  "&.Mui-selected": {
+    color: "#fff",
+  },
+  "&.Mui-focusVisible": {
+    backgroundColor: "rgba(100, 95, 228, 0.32)",
+  },
+}));

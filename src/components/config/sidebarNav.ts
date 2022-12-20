@@ -5,17 +5,12 @@ const sidebarNav = [
     icon: "lucide:layout-dashboard", //width:"20"
     text: "dashboard",
   },
+
   {
-    link: "/groups",
-    section: "groups",
-    icon: "material-symbols:group-work-outline",
-    text: "groups",
-  },
-  {
-    link: "/routes",
-    section: "routes",
+    link: "/devices",
+    section: "devices",
     icon: "material-symbols:route-sharp",
-    text: "routes",
+    text: "devices",
   },
   {
     link: "/sensors",
@@ -31,22 +26,22 @@ const sidebarNav = [
   },
 
   {
-    link: "/systemlogs",
-    section: "systemlogs",
-    icon: "icon-park-outline:transaction-order",
-    text: "systemlogs",
-  },
-  {
     link: "/analytics",
     section: "analytics",
     icon: "carbon:analytics",
     text: "analytics",
   },
   {
-    link: "/loggersettings",
-    section: "loggersettings",
+    link: "/settings",
+    section: "settings",
     icon: "material-symbols:settings-account-box",
-    text: "logger settings",
+    text: "settings",
+  },
+  {
+    link: "/systemlogs",
+    section: "systemlogs",
+    icon: "icon-park-outline:transaction-order",
+    text: "systemlogs",
   },
   // {
   //   link: "/discount",

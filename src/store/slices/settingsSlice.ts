@@ -1,75 +1,54 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
 import type { AppState, AppThunk } from "../store";
-// import { fetchCount } from './../counterAPI'
-import type { PropertyProperty, Settings } from "../../types/types";
+import type { PropertyProperty } from "../../types/types";
 import { fetchSettings } from "../api/settingsApi";
-// import { Search } from "../../../pages";
 
-export interface PriceRange {
-  pricegte?: number;
-  pricelte?: number;
+export type ApiFetchStatus = "initial" | "request" | "rejected" | "success";
+export interface Sensor {}
+export type deviceTypes = "Sensors Module" | "Electrical panel";
+export interface Device {
+  id: string;
+  title: string;
+  type: deviceTypes;
+  dateCreated: Date;
 }
-export interface FilterType {
-  priceRange?: PriceRange;
-  state?: boolean;
-  justAvailable: boolean;
-  unbleivable: boolean;
-  isSale: boolean;
-  brands: string[];
-  category: string[];
-  availableBrands: string[];
+export interface Devices {
+  data?: Device[];
+  status: ApiFetchStatus;
 }
-export interface SearchType {
-  filter: FilterType;
-  sortType: "asce" | "desc";
-  sortBy:
-    | "price"
-    | "interest"
-    | "brand"
-    | "name"
-    | "date"
-    | "sale"
-    | "sell"
-    | "view"
-    | string;
+export interface Sensors {
+  data?: Sensor[];
+  status: ApiFetchStatus;
 }
-export const SortTranslate = {
-  price: "بر اساس قیمت",
-  interest: "محبوب ترینها",
-  brand: "به ترتیب برند",
-  name: "بر اساس اسم",
-  date: "تاریخ بروزرسانی",
-  sale: "بیشترین تخفیف",
-  sell: "پر فروشترین ها",
-  view: "بیشترین بازدید",
-};
-export interface SettingsState {
-  value: Settings[];
-  categories: Settings;
-  status: "idle" | "loading" | "failed";
-  crm: "open" | "close";
-  search: SearchType;
-  searchState: "edited" | "idle" | "shouldhandle";
+export interface Theme {
+  themeColor?: "dark" | "light";
+}
+export interface Theme {
+  data?: Theme;
+  status: ApiFetchStatus;
+}
+export interface User {
+  data?: Theme;
+  status: ApiFetchStatus;
+}
+export interface Settings {
+  devices: Devices;
+  sensors?: Sensors;
+  theme?: Theme;
+  user?: User;
 }
 
-const initialState: SettingsState = {
-  searchState: "idle",
-  value: [],
-  categories: {},
-  status: "loading",
-  crm: "close",
-  search: {
-    sortType: "asce",
-    sortBy: "interest",
-    filter: {
-      justAvailable: false,
-      unbleivable: false,
-      isSale: false,
-      brands: [],
-      category: [],
-      availableBrands: [],
-    },
+const initialState: Settings = {
+  devices: {
+    data: [
+      {
+        id: "",
+        title: "",
+        type: "Sensors Module",
+        dateCreated: new Date(),
+      },
+    ],
+    status: "success",
   },
 };
 
@@ -93,22 +72,20 @@ export const settingsSlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     crmChangeState: (state) => {
-      if (state.crm === "close") {
-        state.crm = "open";
-      }
+      // if (state.crm === "close") {
+      //   state.crm = "open";
+      // }
       // else {
       //   state.crm = "close";
       // }
       // console.log("is cloese");
     },
-    setSearchConfig: (state, action: PayloadAction<SearchType>) => {
-      state.search = action.payload;
-    },
+
     setSearchState: (
       state,
       action: PayloadAction<"edited" | "idle" | "shouldhandle">
     ) => {
-      state.searchState = action.payload;
+      // state.searchState = action.payload;
     },
     // decrement: (state) => {
     //   state.value -= 1
@@ -124,19 +101,19 @@ export const settingsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchSettingsAsync.pending, (state) => {
-        state.status = "loading";
+        // state.status = "loading";
       })
       .addCase(fetchSettingsAsync.fulfilled, (state, action) => {
-        state.status = "idle";
-        state.value = action.payload;
-        const index = action.payload.findIndex(
-          (item) => item.name === "categories"
-        );
-        state.categories = action?.payload?.[index] ?? [];
+        // state.status = "idle";
+        // state.value = action.payload;
+        // const index = action.payload.findIndex(
+        //   (item) => item.name === "categories"
+        // );
+        // state.categories = action?.payload?.[index] ?? [];
       })
       .addCase(fetchSettingsAsync.rejected, (state, action) => {
-        state.status = "failed";
-        state.value = [];
+        // state.status = "failed";
+        // state.value = [];
       });
   },
 });
@@ -147,13 +124,13 @@ export const { crmChangeState, setSearchConfig, setSearchState } =
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectSettings = (state: AppState) => state.settings.value;
-export const selectSettingsStatus = (state: AppState) => state.settings.status;
-export const crmStatus = (state: AppState) => state.settings.crm;
-export const searchConfig = (state: AppState) => state.settings.search;
-export const selectCategories = (state: AppState) => state.settings.categories;
-export const selectSearchState = (state: AppState) =>
-  state.settings.searchState;
+// export const selectSettings = (state: AppState) => state.settings.value;
+// export const selectSettingsStatus = (state: AppState) => state.settings.status;
+// export const crmStatus = (state: AppState) => state.settings.crm;
+// export const searchConfig = (state: AppState) => state.settings.search;
+// export const selectCategories = (state: AppState) => state.settings.categories;
+// export const selectSearchState = (state: AppState) =>
+//   state.settings.searchState;
 
 // export const selectUserInfo = (state: AppState) => state.client.value;
 // We can also write thunks by hand, which may contain both sync and async logi c.

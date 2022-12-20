@@ -11,13 +11,7 @@ import type { SWRConfiguration } from "swr";
 import Script from "next/script";
 import axios from "axios";
 import { Settings } from "../../types/types";
-import {
-  fetchSettingsAsync,
-  selectSettingsStatus,
-  selectSettings,
-  crmStatus,
-  crmChangeState,
-} from "../../store/slices/settingsSlice";
+import { fetchSettingsAsync } from "../../store/slices/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import imageLoader from "../../imageLoader";
 // import FooterMain from "./footers/footer";
@@ -72,7 +66,6 @@ function LayoutLogin({ children }: { children: any }) {
   //   config
   // );
   const dispatch = useAppDispatch();
-  const crmRequest = useAppSelector(crmStatus);
   const [ismob, setIsmob] = useState<string>("undefined");
   const [updateSize, setUpdateSize] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
@@ -171,21 +164,6 @@ function LayoutLogin({ children }: { children: any }) {
 
   return (
     <>
-      {crmRequest === "open" ? (
-        <Script
-          id="goftino"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-        
-          !function(){var i="mW4ieC",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();
-        
-        `,
-          }}
-        />
-      ) : (
-        <></>
-      )}
       {isLoading ? (
         <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-transparent top-0 left-0 h-[100%] w-[100%]">
           <div className="flex flex-wrap h-fit">

@@ -3,7 +3,7 @@ import Script from "next/script";
 
 export default function Document() {
   return (
-    <Html lang="fa" dir="rtl">
+    <Html lang="fa">
       {/* <meta
         name="viewport"
         content="width=device-width, initial-scale=1, viewport-fit=cover"
@@ -26,7 +26,7 @@ export default function Document() {
         {/* <title>بلاگ-پایتخت</title> */}
       </Head>
 
-      <body title="shopsoo">
+      <body title="monitorex">
         {/* <noscript>
             <iframe
               src={`https://www.googletagmanager.com/ns.html?id=${process.env.GOOGLE_TAG_MANAGER}`}

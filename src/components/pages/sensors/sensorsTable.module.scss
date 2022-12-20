@@ -35,6 +35,8 @@
   border-spacing: 0;
   padding: 16px;
   border: 10px;
+  background-color: var(--bgc);
+
   th {
     background-color: var(--primaryColor);
     color: var(--card-bgc);
@@ -154,6 +156,7 @@ html[dir="rtl"] {
     min-width: 300px;
     border-spacing: 0;
     padding: 16px;
+    background-color: var(--bgc);
 
     th {
       text-align: right;
@@ -173,5 +176,14 @@ html[dir="rtl"] {
     right: auto;
     left: 53%;
     transform-origin: left;
+  }
+}
+
+.grid_container {
+  text-decoration-color: aquamarine;
+  background-color: #ebebeb;
+  text-decoration-color: blue;
+  .MuiDataGrid-cell {
+    color: blue;
   }
 }

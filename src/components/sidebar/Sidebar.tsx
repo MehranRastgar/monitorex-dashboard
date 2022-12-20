@@ -14,6 +14,8 @@ import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import SidebarContext from "../../store/sidebarContext";
 import LoginContext from "../../store/loginContext";
+import Image from "next/image";
+import imageLoader from "../imageLoader";
 
 function Sidebar() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -58,7 +60,14 @@ function Sidebar() {
       }`}
     >
       <div className={classes.sidebar__logo}>
-        <img src={"Monitorex.png"} alt="monitorex" />
+        <Image
+          className={`${classes.sidebar__logo_img} `}
+          loader={imageLoader}
+          src={"Monitorex.png"}
+          alt="monitorex"
+          width={100}
+          height={50}
+        />
       </div>
       <div className={classes.sidebar__menu}>
         {sidebarNav.map((nav, index) => (

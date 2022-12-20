@@ -686,3 +686,35 @@ a:link {
   color: #3498db;
   font-family: inherit;
 }
+.MuiTablePagination-actions {
+  direction: ltr;
+}
+
+/* .MuiButton-root {
+  text-decoration-color: #ff0000;
+} */
+
+/* .MuiButton-text {
+  text-decoration-color: #ff0000;
+}
+.MuiButton-textPrimary {
+  text-decoration-color: #ff0000;
+}
+.MuiButton-textScondery {
+  text-decoration: dotted;
+  text-decoration-color: #ff0000;
+}
+.MuiButton-outlinedPrimary {
+  text-decoration: dotted;
+  text-decoration-color: #ff0000;
+} */
+
+/* .MuiTableBody-root {
+  background-color: aqua;
+}
+.MuiTableCell-head {
+  background-color: aqua;
+}
+.MuiTable-root {
+  background-color: aqua;
+} */

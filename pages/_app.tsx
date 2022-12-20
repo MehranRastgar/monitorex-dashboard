@@ -33,19 +33,23 @@ import { LangContextProvider } from "../src/store/langContext";
 import { LoginContextProvider } from "../src/store/loginContext";
 import { ThemeContextProvider } from "../src/store/themeContext";
 import { SidebarContextProvider } from "../src/store/sidebarContext";
+import { QueryClient, QueryClientProvider } from "react-query";
+const queryClient = new QueryClient();
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <LangContextProvider>
-        <LoginContextProvider>
-          <ThemeContextProvider>
-            <SidebarContextProvider>
-              <Component {...pageProps} />
-            </SidebarContextProvider>
-          </ThemeContextProvider>
-        </LoginContextProvider>
-      </LangContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <LangContextProvider>
+          <LoginContextProvider>
+            <ThemeContextProvider>
+              <SidebarContextProvider>
+                <Component {...pageProps} />
+              </SidebarContextProvider>
+            </ThemeContextProvider>
+          </LoginContextProvider>
+        </LangContextProvider>
+      </QueryClientProvider>
     </Provider>
   );
 }
