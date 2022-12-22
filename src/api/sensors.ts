@@ -26,12 +26,9 @@ export interface MetaField {
   value?: number;
 }
 
-export async function GetSensorsSeries(): Promise<FetchSensorXY[]> {
+export async function GetSensorsSeries(id: string): Promise<FetchSensorXY[]> {
   //   return await fetch(getSensors);
-  const { data: data } = await axios.get(
-    getSensorSeries + "6399d1ee2ea92f84e75b2798",
-    getConfig
-  );
+  const { data: data } = await axios.get(getSensorSeries + id, getConfig);
   const datares: FetchSensorXY[] = [...data];
   return datares;
 }

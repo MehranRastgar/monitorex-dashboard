@@ -3,7 +3,6 @@ import { faker } from "@faker-js/faker";
 
 import { useTranslation } from "react-i18next";
 import LineChart from "./LineChart";
-import BarChart from "./BarChart";
 import classes from "./Chart.module.scss";
 import data from "../../constants/data";
 import Card from "../UI/card/Card";
@@ -52,20 +51,10 @@ const SaleChart = () => {
       <div className={classes.charts__container}>
         <div className={classes.charts__wrapper}>
           <Card>
-            <div className={classes.chart__wrapper}>
-              <BarChart
-                chartData={orderData}
-                chartTitle={`${t("summaryOfOrders")}`}
-              />
-            </div>
+            <div className={classes.chart__wrapper}></div>
           </Card>
           <Card>
-            <div className={classes.chart__wrapper}>
-              <BarChart
-                chartData={revenueData}
-                chartTitle={`${t("summaryOfRevenue")}`}
-              />
-            </div>
+            <div className={classes.chart__wrapper}></div>
           </Card>
         </div>
         <Card>

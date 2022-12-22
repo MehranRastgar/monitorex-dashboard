@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import { SensorsReceiveTpe } from "./sensorsTable";
 const data = [
   {
     name: "Page A",
@@ -54,9 +55,15 @@ const data = [
     amt: 2100,
   },
 ];
-export default function ChartSensor() {
+export default function ChartSensor({
+  itemSelected,
+}: {
+  itemSelected: SensorsReceiveTpe;
+}) {
   const [userData, setUserData] = useState<any>();
-  const query = useQuery("sensorseries", GetSensorsSeries);
+  const query = useQuery("sensorseries", () =>
+    GetSensorsSeries(String(itemSelected._id))
+  );
 
   function createData() {
     const tempdata: {
@@ -67,7 +74,7 @@ export default function ChartSensor() {
     }[] = [];
     console.log(query.data?.length);
     query.data?.map((item, index) => {
-      if (item?.timestamp !== undefined && index % 10 === 0) {
+      if (item?.timestamp !== undefined && index % 1 === 0) {
         const datess = new Date(item.timestamp);
         tempdata.push({
           value: Number(item?.metaField?.value),
@@ -126,13 +133,10 @@ export default function ChartSensor() {
             desc="true"
           >
             <CartesianGrid strokeDasharray="3 3" />
-
             <XAxis dataKey="timeMinute" interval="preserveStart" />
             <YAxis axisType="yAxis" interval="preserveStartEnd" />
             <Legend />
             <Line type="basis" dataKey="value" stroke="#82ca9d" />
-            <Line type="basis" dataKey="value2" stroke="#82ca9d" />
-            <Line type="basis" dataKey="value3" stroke="#82ca9d" />
           </LineChart>
         ) : (
           <></>

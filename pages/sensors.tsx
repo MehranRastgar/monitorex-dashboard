@@ -26,7 +26,7 @@ function Sensors() {
     <Layout>
       <section>
         <h2 className="title">{t("sensors")}</h2>
-        {/* <Summary /> */}
+        <Summary />
 
         <SensorsTable />
         <div className="flex flex-wrap my-10">
@@ -35,8 +35,12 @@ function Sensors() {
             <SelectedSensorsAcording />
           </div>
         </div>
-        <div className="flex w-full justify-center my-20">
-          <ChartSensor />
+        <div className="flex flex-wrap w-full justify-center my-20">
+          {selectedsensors?.map((itemSelected) => (
+            <>
+              <ChartSensor itemSelected={itemSelected} />
+            </>
+          ))}
         </div>
       </section>
     </Layout>
