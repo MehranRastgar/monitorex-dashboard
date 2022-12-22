@@ -12,7 +12,7 @@ function Dashboard() {
       <section>
         <h2 className="title">{t("dashboard")}</h2>
         <Summary />
-        <SaleChart />
+        {/* <SaleChart /> */}
         {/* <DashboardTables /> */}
       </section>{" "}
     </Layout>

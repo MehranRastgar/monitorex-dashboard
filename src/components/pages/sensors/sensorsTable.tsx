@@ -10,36 +10,13 @@ import { GetSensors } from "../../../api/sensors";
 import classes from "./sensorsTable.module.scss";
 import { useTranslation, withTranslation } from "react-i18next";
 export default function SensorsTable() {
-  const queryClient = useQueryClient();
-  const query = useQuery("sensors", GetSensors);
-  // const mutation = useMutation(postTodo, {
-  //   onSuccess: () => {
-  //     // Invalidate and refetch
-  //     queryClient.invalidateQueries("todos");
-  //   },
-  // });
-  const mutation = useMutation({
-    mutationFn: GetSensors,
-    onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["sensors"] });
-    },
-  });
-
-  useEffect(() => {
-    let timer1 = setTimeout((timer1) => mutation.mutate(), 60000);
-    console.log(query);
-
-    return () => {
-      clearTimeout(timer1);
-    };
-  }, [query]);
+  // const querySensors = useQuery("sensors", GetSensors);
+  const sensors = useAppSelector(selectSensorsData);
+  // const sensorsStatus = useAppSelector(selectSensorsStatus)
   function handleClick() {}
   return (
     <>
-      <PageSizeCustomOptions
-        rowsData={query?.status === "success" ? query.data : []}
-      />
+      <PageSizeCustomOptions rowsData={sensors !== undefined ? sensors : []} />
     </>
   );
 }
@@ -54,6 +31,13 @@ import { DemoDataReturnType, useDemoData } from "@mui/x-data-grid-generator";
 import { alpha, styled } from "@mui/material";
 import axios from "axios";
 import { getSensorLastSerie } from "../../../constants/apis";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import {
+  selectSelectedSensors,
+  selectSensorsData,
+  selectSensorsStatus,
+  setSelectedSensor,
+} from "../../../store/slices/sensorsSlice";
 
 const rows = [
   { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
@@ -107,14 +91,13 @@ export function PageSizeCustomOptions({
   rowsData: SensorsReceiveTpe[];
 }) {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const [val, setVal] = React.useState([{}]);
   const columns: GridColDef[] = [
     {
       field: "_id",
       headerName: "_id",
       width: 85,
-      cellClassName: "text-blue-600",
-      headerClassName: "text-red-600",
     },
     { field: "title", headerName: t("title") ?? "title", width: 130 },
     {
@@ -203,15 +186,15 @@ export function PageSizeCustomOptions({
         `${t(params.row.resolution) || ""}
         `,
     },
-    {
-      field: "report",
-      headerName: t("report") ?? "report",
-      type: "button",
-      width: 100,
-      valueGetter: (params: GridValueGetterParams) => "گزارش گیری",
-      cellClassName:
-        "flex border bg-blue-200 rounded-md p-1 m-auto cursor-pointer",
-    },
+    // {
+    //   field: "report",
+    //   headerName: t("report") ?? "report",
+    //   type: "button",
+    //   width: 100,
+    //   valueGetter: (params: GridValueGetterParams) => "گزارش گیری",
+    //   cellClassName:
+    //     "flex border bg-blue-200 rounded-md p-1 m-auto cursor-pointer",
+    // },
   ];
   // function getLastUpdate(_id: string) {
   //   console.log();
@@ -245,13 +228,22 @@ export function PageSizeCustomOptions({
 
   useEffect(() => {
     console.table(selectionModel);
+    console.log(selectionModel.length);
+    const datapush: SensorsReceiveTpe[] = [];
+    selectionModel?.map((item, index) => {
+      const indexindata = data2?.rows?.findIndex((it) => it._id === item);
+      console.log(data2?.rows?.[indexindata]);
+      datapush.push(data2?.rows?.[indexindata]);
+      console.log(datapush);
+    });
+    dispatch(setSelectedSensor(datapush));
   }, [selectionModel]);
 
   return (
     <div
       className={classes.grid_container}
       style={{
-        height: 600,
+        height: 640,
         width: "100%",
       }}
     >
@@ -260,8 +252,9 @@ export function PageSizeCustomOptions({
         // style={classes.grid_container}
         sx={{
           ".MuiDataGrid-columnHeaderTitle": {
-            fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+            fontFamily: ["Source Sans Bold", "sans-serif"].join(","),
             fontSize: 14,
+            color: "var(--header-text-color)",
           },
           ".MuiDataGrid-cellContent": {
             fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
@@ -269,9 +262,14 @@ export function PageSizeCustomOptions({
             fontWeight: 400,
             display: "-ms-inline-grid",
             textAlign: "center",
+            color: "var(--header-text-color)",
           },
+          "	.MuiDataGrid-cellCheckbox": {},
           boxShadow: 2,
+          bgcolor: "var(--bgc)",
           border: 2,
+          borderRadius: "20px",
+          padding: 2,
           borderColor: "primary.light",
           ".MuiDataGrid-cell:hover": {
             color: "primary.main",

@@ -33,6 +33,13 @@ import Router, { useRouter } from "next/router";
 import LoadingOne, { LoadingTwo } from "../loader/default";
 import { setDeviceType } from "../../store/slices/themeSlice";
 import Sidebar from "../sidebar/Sidebar";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { GetSensors } from "../../api/sensors";
+import {
+  selectSensorsStatus,
+  setSensorsData,
+  setSensorsStatus,
+} from "../../store/slices/sensorsSlice";
 
 var changeRoute: boolean = false;
 
@@ -161,6 +168,44 @@ function Layout({ children }: { children: any }) {
     // if()
   }
   const sidebarCtx = useContext(SidebarContext);
+  const queryClient = useQueryClient();
+  const querySensors = useQuery("sensors", GetSensors);
+  const selectsensorsstatus = useAppSelector(selectSensorsStatus);
+  // const mutation = useMutation(postTodo, {
+  //   onSuccess: () => {
+  //     // Invalidate and refetch
+  //     queryClient.invalidateQueries("todos");
+  //   },
+  // });
+  const mutation = useMutation({
+    mutationFn: GetSensors,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["sensors"] });
+      console.log("sensor query is revalidate");
+    },
+  });
+
+  useEffect(() => {
+    let timer1 = setTimeout(() => mutation.mutate(), 30000);
+    // console.log(query);
+    if (querySensors.isFetching === true) {
+      dispatch(setSensorsStatus("request"));
+      console.log("sensor query is updated");
+    }
+    if (
+      querySensors.status === "success" &&
+      selectsensorsstatus !== "success"
+    ) {
+      dispatch(setSensorsData(querySensors.data));
+      dispatch(setSensorsStatus("success"));
+      console.log(querySensors.dataUpdatedAt);
+      console.log(new Date().getTime() - querySensors.dataUpdatedAt);
+    }
+    return () => {
+      clearTimeout(timer1);
+    };
+  }, [querySensors.isFetching, querySensors.isSuccess]);
 
   return (
     <>

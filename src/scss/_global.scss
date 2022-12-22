@@ -12,6 +12,8 @@ html {
   --sidebar: #f2f2f2;
   --card-bgc: #f9f9fa;
   --text-color: #424750;
+  --header-text-color: #1e1f20;
+
   //light theme status
   --approved-bgc: rgba(86, 240, 0, 0.3);
   --approved-textColor: #246500;
@@ -29,6 +31,7 @@ html[theme="dark"] {
   --sidebar: #252525;
   --card-bgc: #1e2529;
   --text-color: #ebebeb;
+  --header-text-color: #f7f4f4;
 
   //light theme status
   --approved-bgc: rgba(66, 171, 8, 0.3);

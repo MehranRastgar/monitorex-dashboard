@@ -1,14 +1,85 @@
 import React, { useEffect, useState } from "react";
-// import Chart from "chart.js/auto";
-// import { Line } from "react-chartjs-2";
-// import { CategoryScale } from "chart.js";
 import { useQuery } from "react-query";
 import { GetSensorsSeries } from "../../../api/sensors";
-import DemoLine from "./ChartAnt";
-
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+} from "recharts";
+const data = [
+  {
+    name: "Page A",
+    uv: 4000,
+    pv: 2400,
+    amt: 2400,
+  },
+  {
+    name: "Page B",
+    uv: 3000,
+    pv: 1398,
+    amt: 2210,
+  },
+  {
+    name: "Page C",
+    uv: 2000,
+    pv: 9800,
+    amt: 2290,
+  },
+  {
+    name: "Page D",
+    uv: 2780,
+    pv: 3908,
+    amt: 2000,
+  },
+  {
+    name: "Page E",
+    uv: 1890,
+    pv: 4800,
+    amt: 2181,
+  },
+  {
+    name: "Page F",
+    uv: 2390,
+    pv: 3800,
+    amt: 2500,
+  },
+  {
+    name: "Page G",
+    uv: 3490,
+    pv: 4300,
+    amt: 2100,
+  },
+];
 export default function ChartSensor() {
   const [userData, setUserData] = useState<any>();
   const query = useQuery("sensorseries", GetSensorsSeries);
+
+  function createData() {
+    const tempdata: {
+      value: number;
+      value2: number;
+      value3: number;
+      timeMinute: string;
+    }[] = [];
+    console.log(query.data?.length);
+    query.data?.map((item, index) => {
+      if (item?.timestamp !== undefined && index % 10 === 0) {
+        const datess = new Date(item.timestamp);
+        tempdata.push({
+          value: Number(item?.metaField?.value),
+          timeMinute: datess.toLocaleTimeString(),
+          value2: Number(item?.metaField?.value) + 8,
+          value3: Number(item?.metaField?.value) + 15,
+        });
+        // tempdata.push(Number(item?.metaField?.value));
+      }
+    });
+    setUserData(tempdata);
+  }
 
   useEffect(() => {
     //     if (query.status === "success")
@@ -37,15 +108,32 @@ export default function ChartSensor() {
     //           },
     //         ],
     //       });
+    createData();
   }, [query.status]);
   return (
     <>
       {/* <div style={{ width: 1200 }}>
         {userData !== undefined ? <LineChart chartData={userData} /> : <></>}
       </div> */}
-      <div style={{ width: 1200 }}>
-        {query.status === "success" ? (
-          <DemoLine chartData={query.data} />
+      {/* <Example /> */}
+      <div style={{ width: 1200, height: 600 }}>
+        {userData?.length ? (
+          <LineChart
+            width={1200}
+            height={500}
+            data={userData}
+            throttleDelay={1000}
+            desc="true"
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+
+            <XAxis dataKey="timeMinute" interval="preserveStart" />
+            <YAxis axisType="yAxis" interval="preserveStartEnd" />
+            <Legend />
+            <Line type="basis" dataKey="value" stroke="#82ca9d" />
+            <Line type="basis" dataKey="value2" stroke="#82ca9d" />
+            <Line type="basis" dataKey="value3" stroke="#82ca9d" />
+          </LineChart>
         ) : (
           <></>
         )}
@@ -53,11 +141,9 @@ export default function ChartSensor() {
     </>
   );
 }
+//<DemoLine chartData={query.data} />
 
-function LineChart({ chartData }: { chartData: any }) {
-  return <>{/* <Line data={chartData} /> */}</>;
-}
-
+//<Line data={chartData} />
 export const UserData = [
   {
     id: 1,

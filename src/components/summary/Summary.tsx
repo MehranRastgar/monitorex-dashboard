@@ -4,30 +4,42 @@ import SummaryBox from "./SummaryBox";
 import { useTranslation } from "react-i18next";
 import classes from "./Summary.module.scss";
 import { IsummData } from "../../interfaces/IsummData";
+import { useAppSelector } from "../../store/hooks";
+import {
+  selectSensorsHasNotWork,
+  selectSensorsHasWork,
+  selectSensorsLength,
+} from "../../store/slices/sensorsSlice";
 
-const summaryData: IsummData[] = [
+var summaryData: IsummData[] = [
   {
     icon: "material-symbols:nest-thermostat-sensor-eu-outline",
     text: "numberOfAvailableSensors",
-    amount: "salesAmount",
+    amount: "loading",
     currency: "pieces",
   },
   {
     icon: "material-symbols:motion-sensor-urgent",
     text: "numberOfCurreptedSensors",
-    amount: "orderAmount",
+    amount: "loading",
     currency: "pieces",
   },
   {
     icon: "material-symbols:add-alert",
     text: "numberOfAlarms",
-    amount: "0",
+    amount: "loading",
     currency: "",
   },
 ];
 
 function Summary() {
   const { t } = useTranslation();
+  const selectAmountSensors = useAppSelector(selectSensorsHasWork);
+  const selectAmountSensorHasnotWork = useAppSelector(selectSensorsHasNotWork);
+  summaryData[0].amount = String(selectAmountSensors?.toLocaleString());
+  summaryData[1].amount = String(
+    selectAmountSensorHasnotWork?.toLocaleString()
+  );
   return (
     <section className={classes.summary}>
       <p className="subTitle">{t("summary")}</p>

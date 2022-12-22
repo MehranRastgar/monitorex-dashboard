@@ -3,20 +3,23 @@ info  - Loaded env from G:\gh\scada\adminpanel\monitorex-dashboard\.env.local
 info  - Linting and checking validity of types...
 
 ./src/components/layout/Layout.tsx
-95:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-142:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
-163:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+88:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+135:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+156:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/layout/LayoutLogin.tsx
-95:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-142:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
-163:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+88:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+135:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+156:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/login/Login.tsx
 55:11  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
 
-./src/components/sidebar/Sidebar.tsx
-61:9  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+./src/components/pages/sensors/ChartAnt.tsx
+23:6  Warning: React Hook useEffect has a missing dependency: 'createData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/pages/sensors/sensorsTable.tsx
+36:6  Warning: React Hook useEffect has a missing dependency: 'mutation'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/tables/customTable/CustomTable.tsx
 47:13  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
@@ -34,13 +37,13 @@ Warning: A null PostCSS plugin was provided. This entry will be ignored.
 <w> while serializing webpack/lib/cache/PackFileCacheStrategy.PackContentItems -> webpack/lib/NormalModule -> Array { 1 items } -> webpack/lib/ModuleWarning -> Warning
 warn  - Compiled with warnings
 
-info  - Collecting page data...
 ./src/components/login/Login.module.scss.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[3].oneOf[5].use[1]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[3].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[3].oneOf[5].use[3]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[3].oneOf[5].use[4]!./src/components/login/Login.module.scss
 Warning
 
 (1:1062) autoprefixer: start value has mixed support, consider using flex-start instead
 
 Import trace for requested module:
+info  - Collecting page data...
 ./src/components/login/Login.module.scss.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[3].oneOf[5].use[1]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[3].oneOf[5].use[2]!./node_modules/next/dist/build/webpack/loaders/resolve-url-loader/index.js??ruleSet[1].rules[3].oneOf[5].use[3]!./node_modules/next/dist/compiled/sass-loader/cjs.js??ruleSet[1].rules[3].oneOf[5].use[4]!./src/components/login/Login.module.scss
 ./src/components/login/Login.module.scss
 ./src/components/login/Login.tsx
@@ -62,24 +65,27 @@ info  - Generating static pages (8/8)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ○ /                                      1.53 kB        1.13 MB
-├   /_app                                  0 B             125 kB
-├ ○ /404                                   413 B           150 kB
-├ λ /api/sendotp                           0 B             125 kB
-├ λ /api/signin                            0 B             125 kB
-├ ○ /login                                 3.14 kB         148 kB
+┌ ○ /                                      980 kB         1.14 MB
+├   └ css/1c017a01298b66df.css             2.47 kB
+├   /_app                                  0 B             136 kB
+├ ○ /404                                   411 B           160 kB
+├ λ /api/sendotp                           0 B             136 kB
+├ λ /api/signin                            0 B             136 kB
+├ ○ /login                                 2.82 kB         158 kB
 ├   └ css/00bc3dc5ad4eafdd.css             1.21 kB
-├ ○ /routes                                2.26 kB         152 kB
-├   └ css/afffe4a2f14001e5.css             3.19 kB
-├ ○ /sensors                               321 B           150 kB
-├ ○ /settings                              1.53 kB        1.13 MB
-└ ○ /users                                 307 B           150 kB
-+ First Load JS shared by all              131 kB
+├ ○ /routes                                2.26 kB         162 kB
+├   └ css/680770b402348ad2.css             3.2 kB
+├ ○ /sensors (954 ms)                      222 kB          409 kB
+├   └ css/4f24544eb8592b90.css             2.59 kB
+├ ○ /settings (1462 ms)                    6.81 kB         194 kB
+├   └ css/d92d8b651b600b6b.css             2.52 kB
+└ ○ /users                                 307 B           160 kB
++ First Load JS shared by all              142 kB
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-06861021d5663598.js        26.7 kB
-  ├ chunks/pages/_app-bb03d9560b30e607.js  51.7 kB
-  ├ chunks/webpack-527576ff117bb29f.js     826 B
-  └ css/5d40205acfe12143.css               6.08 kB
+  ├ chunks/pages/_app-bc352b5b4a0f4daa.js  62.4 kB
+  ├ chunks/webpack-1e9d3f973bd7f51f.js     1.01 kB
+  └ css/d4ec8645eb4cdb71.css               6.2 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

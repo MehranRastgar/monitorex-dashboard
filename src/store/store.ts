@@ -5,10 +5,12 @@ import clientReducer from "./slices/clientSlice";
 import themeReducer from "./slices/themeSlice";
 import settingsReducer from "./slices/settingsSlice";
 import orderReducer from "./slices/orderSlice";
+import sensorsReducer from "./slices/sensorsSlice";
 
 export function makeStore() {
   return configureStore({
     reducer: {
+      sensors: sensorsReducer,
       counter: counterReducer,
       client: clientReducer,
       theme: themeReducer,
