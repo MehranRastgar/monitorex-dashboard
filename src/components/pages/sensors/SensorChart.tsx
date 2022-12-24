@@ -74,12 +74,12 @@ export default function ChartSensor({
     }[] = [];
     console.log(query.data?.length);
     query.data?.map((item, index) => {
-      if (item?.timestamp !== undefined && index % 1 === 0) {
+      if (item?.timestamp !== undefined && index % 10 === 0) {
         const datess = new Date(item.timestamp);
         tempdata.push({
           value: Number(item?.metaField?.value),
           timeMinute: datess.toLocaleTimeString(),
-          value2: Number(item?.metaField?.value) + 8,
+          value2: 0,
           value3: Number(item?.metaField?.value) + 15,
         });
         // tempdata.push(Number(item?.metaField?.value));
@@ -123,6 +123,7 @@ export default function ChartSensor({
         {userData !== undefined ? <LineChart chartData={userData} /> : <></>}
       </div> */}
       {/* <Example /> */}
+
       <div style={{ width: 1200, height: 600 }}>
         {userData?.length ? (
           <LineChart
@@ -131,12 +132,20 @@ export default function ChartSensor({
             data={userData}
             throttleDelay={1000}
             desc="true"
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
+            }}
           >
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="timeMinute" interval="preserveStart" />
             <YAxis axisType="yAxis" interval="preserveStartEnd" />
+            <Tooltip />
+
             <Legend />
-            <Line type="basis" dataKey="value" stroke="#82ca9d" />
+            <Line type="linear" dataKey="value" stroke="#5c009d" />
           </LineChart>
         ) : (
           <></>
