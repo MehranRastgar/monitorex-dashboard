@@ -10,8 +10,8 @@ i18n
     resources: {
       en: {
         translation: {
+          management: "Management",
           sensorsSelected: "Selected sensors",
-
           C: "ºC",
           F: "ºF",
           lastValue: "Last value",
@@ -124,6 +124,7 @@ i18n
       },
       fa: {
         translation: {
+          management: "مدیریت",
           sensorsSelected: "سنسورهای انتخاب شده",
           C: "ºC",
           F: "ºF",

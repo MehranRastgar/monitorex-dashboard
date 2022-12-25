@@ -32,6 +32,12 @@ const sidebarNav = [
     text: "analytics",
   },
   {
+    link: "/management",
+    section: "management",
+    icon: "material-symbols:manage-accounts",
+    text: "management",
+  },
+  {
     link: "/settings",
     section: "settings",
     icon: "material-symbols:settings-account-box",

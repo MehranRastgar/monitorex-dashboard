@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Summary from "../src/components/summary/Summary";
 import SaleChart from "../src/components/chart/Chart";
@@ -6,16 +6,20 @@ import DashboardTables from "../src/components/tables/DashboardTables";
 import Layout from "../src/components/layout/Layout";
 
 function Settings() {
+  const [value, setValue] = useState(0);
   const { t } = useTranslation();
   useEffect(() => {}, [,]);
 
   return (
     <Layout>
       <section>
-        <h2 className="title">{t("settings")}</h2>
-        <BasicTabs />
-
-        {/* <DeviceList /> */}
+        <h2 className="title">{t("management")}</h2>
+        <BasicTabs value={value} setValue={setValue} />
+        <Box sx={{ p: 3 }}>
+          {value === 0 ? <DeviceList props={{ title: "devices" }} /> : <></>}
+          {/* {value === 1 ? <SensorList props={{ title: "sensors" }} /> : <></>} */}
+          {value === 2 ? <DeviceList props={{ title: "devices" }} /> : <></>}
+        </Box>
       </section>
     </Layout>
   );
@@ -69,15 +73,12 @@ function a11yProps(index: number) {
   };
 }
 
-function BasicTabs() {
-  const [value, setValue] = React.useState(0);
+function BasicTabs({ setValue, value }: { setValue: any; value: number }) {
   const { t } = useTranslation();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  useEffect(() => {}, [value]);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -97,16 +98,6 @@ function BasicTabs() {
           <StyledTab label={t("users")} {...a11yProps(2)} />
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        {/* <SettingsDevices /> */}
-        <DeviceList props={{ title: "devices" }} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <SettingsDevices />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <SettingsSensors />
-      </TabPanel>
     </Box>
   );
 }
