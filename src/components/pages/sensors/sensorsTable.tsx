@@ -64,6 +64,11 @@ export interface SensorsReceiveTpe {
   metaField?: string;
   updatedAt?: Date;
   sensorLastSerie?: SensorLastSerie;
+  sensorRealtimeValues: SensorRealtimeValues;
+}
+export interface SensorRealtimeValues {
+  value: number;
+  updateTime: Date;
 }
 
 export interface SensorLastSerie {
