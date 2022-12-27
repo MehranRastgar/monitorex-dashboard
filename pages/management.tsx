@@ -16,7 +16,7 @@ function Settings() {
         <h2 className="title">{t("management")}</h2>
         <BasicTabs value={value} setValue={setValue} />
         <Box sx={{ p: 3 }}>
-          {value === 0 ? <DeviceList props={{ title: "devices" }} /> : <></>}
+          {value === 0 ? <DeviceManagement /> : <></>}
           {/* {value === 1 ? <SensorList props={{ title: "sensors" }} /> : <></>} */}
           {value === 2 ? <DeviceList props={{ title: "devices" }} /> : <></>}
         </Box>
@@ -35,6 +35,7 @@ import { styled } from "@mui/material/styles";
 import SettingsSensors from "../src/components/pages/settings/sensors";
 import SettingsDevices from "../src/components/pages/settings/device/devices";
 import DeviceList from "../src/atomic/organisms/device/DeviceList";
+import DeviceManagement from "../src/atomic/templates/DeviceManagement";
 
 interface TabPanelProps {
   children?: React.ReactNode;

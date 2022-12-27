@@ -5,39 +5,77 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useTranslation } from "react-i18next";
 import DeviceForm from "./deviceForm";
+import ListDataGrid from "../../molecules/device/ListDataGrid";
+import Item from "../../atoms/Item/Item";
+import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import {
+  selectDevicesData,
+  setDevicesData,
+  setDevicesStatus,
+  setSelectedDevice,
+} from "../../../store/slices/devicesSlice";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "react-query";
+import { GetDevices } from "../../../api/devices";
+import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
+import { DevicesReceiveType } from "../../../store/api/devicesApi";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "var(--bgc)",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: "var(--primary)",
-}));
-
-export default function DeviceList({
-  props,
-}: {
-  props: {
-    title?: string;
-    devieData?: Device;
-    time?: string;
-  };
-}) {
+export default function DeviceList() {
   const { t } = useTranslation();
-  //itemShouldRender
+  const dispatch = useAppDispatch();
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
+  const devices = useAppSelector(selectDevicesData);
+  const columns: GridColDef[] = [
+    {
+      field: "_id",
+      headerName: "id",
+      width: 50,
+    },
+    {
+      field: "title",
+      headerName: t("title") ?? "title",
+      width: 150,
+    },
+    {
+      field: "type",
+      headerName: t("type") ?? "type",
+      width: 150,
+    },
+  ];
+  React.useEffect(() => {
+    const indexindata = devices.findIndex((it) => it._id === selectionModel[0]);
+    const datapush: DevicesReceiveType[] = [];
+    datapush.push(devices?.[indexindata]);
+    dispatch(setSelectedDevice(datapush));
+  }, [selectionModel]);
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid xs={4}>
-          <Item sx={{ fontSize: 24 }}>{t(props.title ?? "")}</Item>
-          <Item>xs=4</Item>
-          <Item>xs=4</Item>
-          <Item>xs=4</Item>
-        </Grid>
-        <Grid xs={8}>{/* <DeviceForm  /> */}</Grid>
-      </Grid>
-    </Box>
+    <>
+      <Box className={"select-none"}>
+        <Box sx={{ p: 1 }}>
+          <Item>
+            <div className="font-Vazir-Medium text-[20px]">{t("list")}</div>
+          </Item>
+        </Box>
+        <Box sx={{ p: 1 }}>
+          {/* {selectionModel?.[0]} */}
+          <ListDataGrid
+            RowsData={devices ?? []}
+            columns={columns}
+            title={"devices"}
+            selectionModel={selectionModel}
+            setSelectionModel={setSelectionModel}
+          />
+        </Box>
+      </Box>
+    </>
   );
 }
 

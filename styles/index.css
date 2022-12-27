@@ -690,6 +690,13 @@ a:link {
   direction: ltr;
 }
 
+.MuiTextField-root {
+  background: "var(--pending-bgc)";
+}
+.MuiInputBase-input {
+  background: "var(--pending-bgc)";
+}
+
 /* .MuiButton-root {
   text-decoration-color: #ff0000;
 } */

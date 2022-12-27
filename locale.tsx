@@ -10,6 +10,8 @@ i18n
     resources: {
       en: {
         translation: {
+          type: "type",
+          deviceName: "Device Name:",
           management: "Management",
           sensorsSelected: "Selected sensors",
           C: "ºC",
@@ -124,6 +126,8 @@ i18n
       },
       fa: {
         translation: {
+          type: "نوع",
+          deviceName: "نام دستگاه :",
           management: "مدیریت",
           sensorsSelected: "سنسورهای انتخاب شده",
           C: "ºC",

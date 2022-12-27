@@ -6,6 +6,7 @@ import themeReducer from "./slices/themeSlice";
 import settingsReducer from "./slices/settingsSlice";
 import orderReducer from "./slices/orderSlice";
 import sensorsReducer from "./slices/sensorsSlice";
+import devicesReducer from "./slices/devicesSlice";
 
 export function makeStore() {
   return configureStore({
@@ -16,6 +17,7 @@ export function makeStore() {
       theme: themeReducer,
       settings: settingsReducer,
       order: orderReducer,
+      devices: devicesReducer,
     },
   });
 }

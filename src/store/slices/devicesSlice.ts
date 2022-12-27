@@ -3,21 +3,48 @@ import type { AppState, AppThunk } from "../store";
 import type { PropertyProperty } from "../../types/types";
 import { SensorsReceiveTpe } from "../../components/pages/sensors/sensorsTable";
 import { fetchSensors } from "../api/sensorsApi";
+import { DevicesReceiveType, fetchDevices } from "../api/devicesApi";
 
 export type ApiFetchStatus = "initial" | "request" | "rejected" | "success";
-
-export interface Sensors {
-  data?: SensorsReceiveTpe[];
-  selectedSensor?: SensorsReceiveTpe[];
-  status: ApiFetchStatus;
-  sensorHasWork: number;
-  sensorHasNotWork: number;
+export interface factors {
+  factorName: string;
+  factorPosition:
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | 12
+    | 13
+    | 14
+    | 15
+    | 16;
+  factorValue: number;
 }
-
-const initialState: Sensors = {
+export interface deviceAddress {
+  multiPort: number;
+  sMultiPort: number;
+}
+export interface Device {
+  title: string;
+  address: deviceAddress;
+  type: "Electrical panel" | "Sensor Cotroller";
+  DeviceUniqueName: string;
+  factors: factors[];
+}
+export interface Devices {
+  data: DevicesReceiveType[];
+  status: ApiFetchStatus;
+  selectedDevice: DevicesReceiveType[];
+}
+const initialState: Devices = {
   data: [],
-  sensorHasWork: 0,
-  sensorHasNotWork: 0,
+  selectedDevice: [],
   status: "initial",
 };
 
@@ -26,40 +53,29 @@ const initialState: Sensors = {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
-export const fetchSensorsAsync = createAsyncThunk(
-  "sensors/fetchSensors",
+export const fetchDevicesAsync = createAsyncThunk(
+  "devices/fetchDevices",
   async () => {
-    const response = await fetchSensors();
+    const response = await fetchDevices();
     // The value we return becomes the `fulfilled` action payload
     return response;
   }
 );
 
-export const sensorsSlice = createSlice({
-  name: "sensors",
+export const devicesSlice = createSlice({
+  name: "devices",
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setSensorsData: (state, action: PayloadAction<SensorsReceiveTpe[]>) => {
+    setDevicesData: (state, action: PayloadAction<DevicesReceiveType[]>) => {
       state.data = action.payload;
-      let number = 0;
-      action.payload?.map((item) => {
-        if (item?.sensorLastSerie?.timestamp !== undefined) {
-          const timedate = new Date(item?.sensorLastSerie?.timestamp);
-          const now = new Date();
-          const dif = now.getTime() - timedate.getTime();
-          if (dif / 1000 / 60 < 15) number++;
-        }
-      });
-      state.sensorHasWork = number;
-      state.sensorHasNotWork = state?.data?.length - number;
     },
-    setSensorsStatus: (state, action: PayloadAction<ApiFetchStatus>) => {
+    setDevicesStatus: (state, action: PayloadAction<ApiFetchStatus>) => {
       state.status = action.payload;
     },
 
-    setSelectedSensor: (state, action: PayloadAction<SensorsReceiveTpe[]>) => {
-      state.selectedSensor = action.payload;
+    setSelectedDevice: (state, action: PayloadAction<DevicesReceiveType[]>) => {
+      state.selectedDevice = action.payload;
     },
   },
 
@@ -68,38 +84,38 @@ export const sensorsSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSensorsAsync.pending, (state) => {
+      .addCase(fetchDevicesAsync.pending, (state) => {
         state.status = "request";
       })
-      .addCase(fetchSensorsAsync.fulfilled, (state, action) => {
+      .addCase(fetchDevicesAsync.fulfilled, (state, action) => {
         state.status = "success";
         state.data = action.payload;
         // state.categories = action?.payload?.[index] ?? [];
       })
-      .addCase(fetchSensorsAsync.rejected, (state, action) => {
+      .addCase(fetchDevicesAsync.rejected, (state, action) => {
         state.status = "rejected";
         state.data = [];
       });
   },
 });
 
-export const { setSensorsData, setSelectedSensor, setSensorsStatus } =
-  sensorsSlice.actions;
+export const { setDevicesData, setSelectedDevice, setDevicesStatus } =
+  devicesSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
-export const selectSensorsData = (state: AppState) => state.sensors.data;
-export const selectSensorsStatus = (state: AppState) => state.sensors.status;
-export const selectSelectedSensors = (state: AppState) =>
-  state.sensors.selectedSensor;
-export const selectSensorsLength = (state: AppState) =>
-  state.sensors.data?.length;
-export const selectSensorsHasWork = (state: AppState) =>
-  state.sensors.sensorHasWork;
+export const selectDevicesData = (state: AppState) => state.devices.data;
+export const selectDevicesStatus = (state: AppState) => state.devices.status;
+export const selectSelectedDevices = (state: AppState) =>
+  state.devices.selectedDevice;
+export const selectDevicesLength = (state: AppState) =>
+  state.devices.data?.length;
+// export const selectSensorsHasWork = (state: AppState) =>
+//   state.devices.sensorHasWork;
 
-export const selectSensorsHasNotWork = (state: AppState) =>
-  state.sensors.sensorHasNotWork;
+// export const selectDevicesHasNotWork = (state: AppState) =>
+//   state.devices.sensorHasNotWork;
 // export const selectUserInfo = (state: AppState) => state.client.value;
 // We can also write thunks by hand, which may contain both sync and async logi c.
 // Here's an example of conditionally dispatching actions based on current state.
@@ -112,4 +128,4 @@ export const selectSensorsHasNotWork = (state: AppState) =>
 //     }
 //   }
 
-export default sensorsSlice.reducer;
+export default devicesSlice.reducer;
