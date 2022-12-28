@@ -40,11 +40,11 @@ export interface Device {
 export interface Devices {
   data: DevicesReceiveType[];
   status: ApiFetchStatus;
-  selectedDevice: DevicesReceiveType[];
+  selectedDevice: DevicesReceiveType;
 }
 const initialState: Devices = {
   data: [],
-  selectedDevice: [],
+  selectedDevice: {},
   status: "initial",
 };
 
@@ -74,7 +74,7 @@ export const devicesSlice = createSlice({
       state.status = action.payload;
     },
 
-    setSelectedDevice: (state, action: PayloadAction<DevicesReceiveType[]>) => {
+    setSelectedDevice: (state, action: PayloadAction<DevicesReceiveType>) => {
       state.selectedDevice = action.payload;
     },
   },
@@ -107,7 +107,7 @@ export const { setDevicesData, setSelectedDevice, setDevicesStatus } =
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectDevicesData = (state: AppState) => state.devices.data;
 export const selectDevicesStatus = (state: AppState) => state.devices.status;
-export const selectSelectedDevices = (state: AppState) =>
+export const selectSelectedDevice = (state: AppState) =>
   state.devices.selectedDevice;
 export const selectDevicesLength = (state: AppState) =>
   state.devices.data?.length;

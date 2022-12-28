@@ -1,12 +1,15 @@
-import React, { useEffect, useState, ChangeEvent } from "react";
+import React, { useEffect, useState, ChangeEvent, useRef } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useTranslation } from "react-i18next";
 import Item from "../../atoms/Item/Item";
-import { useAppSelector } from "../../../store/hooks";
-import { selectSelectedDevices } from "../../../store/slices/devicesSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import {
+  selectSelectedDevice,
+  setSelectedDevice,
+} from "../../../store/slices/devicesSlice";
 import {
   Autocomplete,
   AutocompleteInputChangeReason,
@@ -52,128 +55,53 @@ const style = {
     fontSize: 16,
   },
 };
+const StyleDisable = {
+  ...style,
+  ".MuiInputBase-input": {
+    color: "var(--text-color)",
+    userSelect: "none",
+    "&.Mui-disabled": {
+      // background: "initial",
+      color: "white",
+      opacity: 0.7,
+    },
+  },
 
+  ".MuiFilledInput-input": {
+    textDecorationColor: "var(--text-color)",
+  },
+  ".Mui-disabled": {
+    // background: "initial",
+    ".MuiFilledInput-input": {
+      color: "var(--text-color)",
+    },
+    "-webkit-text-fill-color": "var(--text-color)",
+    opacity: 0.8,
+  },
+};
 const idPrefix = "device_";
 export default function DeviceForm() {
+  // const refTitle = useRef<React.MutableRefObject<HTMLInputElement>>();
   const { t } = useTranslation();
   //itemShouldRender
-  const selectedDevices = useAppSelector(selectSelectedDevices);
-  const [device, setDevice] = useState(selectedDevices?.[0] ?? undefined);
-  const [numberOfPorts, setNumberOfPorts] = useState<string | undefined>(
-    selectedDevices?.[0]?.numberOfPorts?.toString()
-  );
-  const [multiPort, setMultiPort] = useState<string | undefined>(
-    selectedDevices?.[0]?.address?.multiPort?.toString()
-  );
-  const [sMultiPort, setSMultiPort] = useState<string | undefined>(
-    selectedDevices?.[0]?.address?.sMultiPort?.toString()
-  );
-  const [deviceType, setDeviceType] = useState<string | undefined>(
-    selectedDevices?.[0]?.type
-  );
-  const [sensors, setSensors] = useState<SensorsReceiveTpe[] | undefined>(
-    selectedDevices?.[0]?.sensors
-  );
-  function getThisElement(elementID: string) {
-    const elem = document.getElementById(
-      idPrefix + elementID
-    ) as HTMLInputElement;
-    return elem?.value;
-  }
-  function setThisElement(elementID: string) {
-    const elem = document.getElementById(elementID) as HTMLInputElement;
-    elem?.value !== undefined
-      ? eval(
-          `(elem.value = selectedDevices[0]?.${elementID.replace(
-            idPrefix,
-            ""
-          )} ?? "")`
-        )
-      : (elem.value = "");
-  }
-  function pushChange() {
-    console.log("component will update:::pushChange");
-    if (
-      (document?.getElementById(idPrefix + "title") as HTMLInputElement)
-        .value !== undefined &&
-      selectedDevices?.[0] !== undefined
-    ) {
-      console.log("component will update:::pushChange::first if");
+  const selectedDevice = useAppSelector(selectSelectedDevice);
+  const dispatch = useAppDispatch();
 
-      if (selectedDevices?.[0] !== undefined)
-        Object.keys(selectedDevices?.[0])?.map((items, index) => {
-          console.log("component will update:::pushChange::second if");
+  // setDevice(selectedDevice);
+  // setNumberOfPorts(selectedDevice?.numberOfPorts?.toString());
+  // setMultiPort(selectedDevice?.address?.multiPort?.toString());
+  // setSMultiPort(selectedDevice?.address?.sMultiPort?.toString());
+  // setDeviceType(selectedDevice?.type?.toString());
+  // if (selectedDevice !== undefined) pushChange();
+  useEffect(() => {}, [selectedDevice]);
 
-          if (
-            (document?.getElementById(idPrefix + items) as HTMLInputElement)
-              ?.value !== undefined
-          )
-            setThisElement(idPrefix + items);
-          if (Object.keys(idPrefix + items).length) {
-            Object.keys(selectedDevices?.[0])?.map((itemi, indexi) => {
-              if (
-                (document?.getElementById(idPrefix + itemi) as HTMLInputElement)
-                  ?.value !== undefined
-              )
-                setThisElement(idPrefix + itemi);
-            });
-          }
-        });
-      device?.__v;
-      console.log("component will update:::pushChange::out");
-      // const itwillwork = document?.getElementById(
-      //   "numberOfPorts"
-      // ) as HTMLInputElement;
-      // itwillwork.value = "4";
-    }
-  }
-
-  function putNewChange() {
-    console.log(getThisElement("title"));
-    console.log(getThisElement("type"));
-    console.log(getThisElement("_id"));
-    console.log(getThisElement("title"));
-  }
-
-  useEffect(() => {
-    setDevice(selectedDevices?.[0]);
-    setNumberOfPorts(selectedDevices?.[0]?.numberOfPorts?.toString());
-    setMultiPort(selectedDevices?.[0]?.address?.multiPort?.toString());
-    setSMultiPort(selectedDevices?.[0]?.address?.sMultiPort?.toString());
-    setDeviceType(selectedDevices?.[0]?.type?.toString());
-    if (selectedDevices?.[0] !== undefined) pushChange();
-  }, [selectedDevices]);
-
-  function handleChange(
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    const valueOfDeviceForm: DevicesReceiveType = {
-      ...device,
-    };
-    console.log(e.target.id);
-    eval(`valueOfDeviceForm.${e.target.id} = e.target.value`);
-    setDevice(valueOfDeviceForm);
-  }
-
-  const handleChangethat = (event: SelectChangeEvent) => {
-    setNumberOfPorts(event?.target?.value?.toString());
-  };
-  const handleChangeMultiPort = (event: SelectChangeEvent) => {
-    setMultiPort(event?.target?.value?.toString());
-  };
-  const handleChangeSMultiPort = (event: SelectChangeEvent) => {
-    setSMultiPort(event?.target?.value?.toString());
-  };
-  const handleChangeTypeOfDevice = (event: SelectChangeEvent) => {
-    setDeviceType(event?.target?.value);
-  };
-  if (selectedDevices?.[0] !== undefined)
+  if (selectedDevice !== undefined)
     return (
       <Box className={"select-none"} sx={{ flexGrow: 1 }}>
         <Box sx={{ p: 1 }}>
           <Item>
             <div className="font-Vazir-Medium text-[20px]">
-              {t("deviceName")} {selectedDevices?.[0]?.title ?? ""}
+              {t("deviceName")} {selectedDevice?.title ?? ""}
             </div>
           </Item>
         </Box>
@@ -186,7 +114,17 @@ export default function DeviceForm() {
               <Grid container spacing={2}>
                 <Grid>
                   <TextField
-                    id={idPrefix + "title"}
+                    // ref={refTitle}
+                    // id={idPrefix + "title"}
+                    value={selectedDevice.title}
+                    onChange={(e) => {
+                      dispatch(
+                        setSelectedDevice({
+                          ...selectedDevice,
+                          title: e.target.value,
+                        })
+                      );
+                    }}
                     variant="filled"
                     sx={style}
                     label={t("title")}
@@ -196,12 +134,17 @@ export default function DeviceForm() {
                   <FormControl variant="filled" sx={style}>
                     <InputLabel id="type">type</InputLabel>
                     <Select
-                      id={idPrefix + "type"}
+                      // id={idPrefix + "type"}
                       labelId="type"
-                      value={
-                        deviceType ?? selectedDevices?.[0]?.type?.toString()
-                      }
-                      onChange={handleChangeTypeOfDevice}
+                      value={selectedDevice?.type?.toString()}
+                      onChange={(e) => {
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            type: e.target.value,
+                          })
+                        );
+                      }}
                       label="type"
                     >
                       <MenuItem value=""></MenuItem>
@@ -219,13 +162,17 @@ export default function DeviceForm() {
                       numberOfPorts
                     </InputLabel>
                     <Select
-                      id={idPrefix + "numberOfPorts"}
+                      // id={idPrefix + "numberOfPorts"}
                       labelId="demo-simple-select-standard-label"
-                      value={
-                        numberOfPorts ??
-                        selectedDevices?.[0]?.numberOfPorts?.toString()
-                      }
-                      onChange={handleChangethat}
+                      value={selectedDevice?.numberOfPorts?.toString()}
+                      onChange={(e) => {
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            numberOfPorts: Number(e.target.value),
+                          })
+                        );
+                      }}
                       label="numberOfPorts"
                     >
                       <MenuItem value=""></MenuItem>
@@ -239,8 +186,8 @@ export default function DeviceForm() {
                 </Grid>
                 <Grid>
                   <DeviceShowWhat
-                    type={deviceType ?? ""}
-                    port={Number(numberOfPorts)}
+                    type={selectedDevice.type}
+                    port={selectedDevice.numberOfPorts}
                   />
                 </Grid>
               </Grid>
@@ -262,11 +209,18 @@ export default function DeviceForm() {
                     <Select
                       id={idPrefix + "address.sMultiPort"}
                       labelId="demo-simple-select-standard-label"
-                      value={
-                        sMultiPort ??
-                        selectedDevices?.[0]?.address?.sMultiPort?.toString()
-                      }
-                      onChange={handleChangeSMultiPort}
+                      value={selectedDevice?.address?.sMultiPort?.toString()}
+                      onChange={(e) => {
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            address: {
+                              ...selectedDevice.address,
+                              sMultiPort: Number(e.target.value),
+                            },
+                          })
+                        );
+                      }}
                       label="Super MultiPort"
                     >
                       <MenuItem value="">
@@ -288,11 +242,18 @@ export default function DeviceForm() {
                     <Select
                       id={idPrefix + "address.multiPort"}
                       labelId="demo-simple-select-standard-label"
-                      value={
-                        multiPort ??
-                        selectedDevices?.[0]?.address?.multiPort?.toString()
-                      }
-                      onChange={handleChangeMultiPort}
+                      value={selectedDevice?.address?.multiPort?.toString()}
+                      onChange={(e) => {
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            address: {
+                              ...selectedDevice.address,
+                              multiPort: Number(e.target.value),
+                            },
+                          })
+                        );
+                      }}
                       label="multiPort"
                     >
                       <MenuItem value="">
@@ -311,10 +272,8 @@ export default function DeviceForm() {
           </Item>
         </Box>
         <DevicesPart
-          setSensorInput={setSensors}
-          sensorsInput={sensors}
-          type={deviceType ?? ""}
-          port={Number(numberOfPorts)}
+          type={selectedDevice.type}
+          port={selectedDevice.numberOfPorts}
         />
         <Box sx={{ p: 1 }}>
           <Item>
@@ -329,51 +288,53 @@ export default function DeviceForm() {
                     disabled
                     variant="filled"
                     sx={{
-                      ...style,
-                      ".MuiInputBase-input": {
-                        color: "var(--text-color)",
-                        userSelect: "none",
-                      },
-                      ".MuiFilledInput-input": {
-                        textDecorationColor: "var(--text-color)",
-                        "::Mui-disabled": {
-                          userSelect: "none",
-                          textDecorationColor: "var(--text-color)",
-                        },
-                      },
-                      ".Mui-disabled": {
-                        userSelect: "none",
-                        textDecorationColor: "var(--text-color)",
-                      },
+                      ...StyleDisable,
+
                       width: 250,
                     }}
                     label={t("db_id")}
+                    value={selectedDevice?._id}
                   />
                 </Grid>
                 <Grid>
                   <TextField
                     disabled
-                    id={idPrefix + "createdAt"}
                     variant="filled"
-                    sx={{ ...style, width: 250 }}
+                    value={new Date(
+                      selectedDevice?.createdAt ?? 0
+                    )?.toLocaleString()}
+                    sx={{
+                      ...StyleDisable,
+
+                      width: 250,
+                    }}
                     label={t("createdAt")}
                   />
                 </Grid>
                 <Grid>
                   <TextField
+                    value={new Date(
+                      selectedDevice?.updatedAt ?? 0
+                    )?.toLocaleString()}
                     disabled
-                    id={idPrefix + "updatedAt"}
                     variant="filled"
-                    sx={{ ...style, width: 250 }}
+                    sx={{
+                      ...StyleDisable,
+
+                      width: 250,
+                    }}
                     label={t("updatedAt")}
                   />
                 </Grid>
                 <Grid>
                   <TextField
+                    value={selectedDevice?.__v}
                     disabled
-                    id={idPrefix + "__v"}
                     variant="filled"
-                    sx={{ ...style, width: 110 }}
+                    sx={{
+                      ...StyleDisable,
+                      width: 100,
+                    }}
                     label={t("schema version")}
                   />
                 </Grid>
@@ -381,7 +342,9 @@ export default function DeviceForm() {
             </Box>
           </Item>
         </Box>
-        <Button onClick={putNewChange}>Save Changes</Button>
+        <Button onClick={(e) => console.log(selectedDevice)}>
+          Save Changes
+        </Button>
       </Box>
     );
   else return <></>;
@@ -404,7 +367,8 @@ const selectPort: object[] = [
   },
 ];
 
-function DeviceShowWhat({ port, type }: { port: number; type: string }) {
+function DeviceShowWhat({ port, type }: { port?: number; type?: string }) {
+  useEffect(() => {}, [port, type]);
   return (
     <>
       <div className="mr-10">
@@ -432,27 +396,20 @@ function DeviceShowWhat({ port, type }: { port: number; type: string }) {
   );
 }
 
-function DevicesPart({
-  port,
-  type,
-  sensorsInput,
-  setSensors,
-}: {
-  port: number;
-  type: string;
-  sensorsInput: sensor[];
-  setSensors: any;
-}) {
+function DevicesPart({ port, type }: { port?: number; type?: string }) {
   const { t } = useTranslation();
+  const selectedDevice = useAppSelector(selectSelectedDevice);
   const [sensorsL, setSensorsL] = useState<{ sensor: number }[]>([]);
   const [unitstate, setUnitstate] = useState<string>("");
 
   function makeSensors() {
     let s: { sensor: number }[] = [];
-    for (let i = 1; i <= port; i++) {
-      s.push({ sensor: i });
+    if (port && type) {
+      for (let i = 1; i <= port; i++) {
+        s.push({ sensor: i });
+      }
+      setSensorsL(s);
     }
-    setSensorsL(s);
   }
   const topUnits = [
     { title: "temperature Centigrade", unit: "°C" },
@@ -471,21 +428,21 @@ function DevicesPart({
     { title: "Velucity" },
     { title: "Density" },
   ];
-  function MyFormHelperText() {
-    // const { focused } = useFormControl() || {};
+  // function MyFormHelperText() {
+  //   // const { focused } = useFormControl() || {};
 
-    // const helperText = React.useMemo(() => {
-    //   if (focused) {
-    //     return "This field is being focused";
-    //   }
+  //   // const helperText = React.useMemo(() => {
+  //   //   if (focused) {
+  //   //     return "This field is being focused";
+  //   //   }
 
-    //   return "Helper text";
-    // }, [focused]);
+  //   //   return "Helper text";
+  //   // }, [focused]);
 
-    return <FormHelperText>{unitstate}</FormHelperText>;
-  }
+  //   return <FormHelperText>{unitstate}</FormHelperText>;
+  // }
   useEffect(() => {
-    makeSensors();
+    if (port && type) makeSensors();
   }, [port, unitstate]);
   return (
     <>
@@ -495,13 +452,13 @@ function DevicesPart({
             <Item>
               <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
                 {t("Sensor - ") + sensorNum.sensor}
-                {sensorsInput?.[index]?.title}
+                {selectedDevice?.sensors?.[index]?.title}
               </h2>
               <Box sx={{ p: 1, flexGrow: 1 }}>
                 <Grid container spacing={2}>
                   <Grid>
                     <TextField
-                      id={idPrefix + "sensor_" + index + "_title"}
+                      id={idPrefix + `sensor?.[${index}]?.title`}
                       variant="filled"
                       sx={{
                         ...style,
@@ -512,7 +469,7 @@ function DevicesPart({
                   </Grid>
                   <Grid>
                     <Autocomplete
-                      id={idPrefix + "sensor_" + index + "_type"}
+                      id={idPrefix + `sensor?.[${index}]?.type`}
                       freeSolo
                       onInputChange={(
                         event: React.SyntheticEvent<Element, Event>,
@@ -541,7 +498,7 @@ function DevicesPart({
                   </Grid>
                   <Grid>
                     <Autocomplete
-                      id={idPrefix + "sensor_" + index + "_unit"}
+                      id={idPrefix + `sensor?.[${index}]?.unit`}
                       freeSolo
                       onInputChange={(
                         event: React.SyntheticEvent<Element, Event>,
@@ -589,7 +546,7 @@ function DevicesPart({
                   </Grid>
                   <Grid>
                     <TextField
-                      id={idPrefix + "_sensor_" + index + "_id"}
+                      id={idPrefix + `sensor?.[${index}]?._id`}
                       disabled
                       variant="filled"
                       sx={{
@@ -641,4 +598,8 @@ interface SensorT {
 export interface SensorRealtimeValuesT {
   value: number;
   updateTime: Date;
+}
+
+export function TitleHandler() {
+  return <></>;
 }

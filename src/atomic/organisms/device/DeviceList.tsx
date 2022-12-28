@@ -51,9 +51,7 @@ export default function DeviceList() {
   ];
   React.useEffect(() => {
     const indexindata = devices.findIndex((it) => it._id === selectionModel[0]);
-    const datapush: DevicesReceiveType[] = [];
-    datapush.push(devices?.[indexindata]);
-    dispatch(setSelectedDevice(datapush));
+    dispatch(setSelectedDevice(devices?.[indexindata]));
   }, [selectionModel]);
 
   return (
