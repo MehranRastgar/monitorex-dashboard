@@ -25,10 +25,10 @@ export interface DevicesReceiveType {
   DeviceUniqueName?: string;
   numberOfPorts?: number;
   factors?: Factor[];
+  sensors?: SensorsReceiveTpe[];
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;
-  sensors?: any[];
 }
 
 export interface Address {

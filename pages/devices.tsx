@@ -29,7 +29,7 @@ export default function Devices() {
   return (
     <Layout>
       <section>
-        <DeviceList props={{ title: "devices" }} />
+        <DeviceList />
       </section>
     </Layout>
   );

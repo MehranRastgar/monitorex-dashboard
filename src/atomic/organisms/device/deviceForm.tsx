@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -9,16 +9,25 @@ import { useAppSelector } from "../../../store/hooks";
 import { selectSelectedDevices } from "../../../store/slices/devicesSlice";
 import {
   Autocomplete,
+  AutocompleteInputChangeReason,
+  Badge,
   Button,
   dialogClasses,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
   TextField,
+  useFormControl,
 } from "@mui/material";
 import { DevicesReceiveType } from "../../../store/api/devicesApi";
+import { Icon } from "@iconify/react";
+import { prototype } from "chart.js";
+import { sensor } from "../../../interfaces/Sensor";
+import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
+import { options } from "../../../components/chart/LineChart";
 
 // const Item = styled(Paper)(({ theme }) => ({
 //   backgroundColor: "var(--bgc)",
@@ -44,23 +53,26 @@ const style = {
   },
 };
 
-const idPrefix = "device-";
+const idPrefix = "device_";
 export default function DeviceForm() {
   const { t } = useTranslation();
   //itemShouldRender
   const selectedDevices = useAppSelector(selectSelectedDevices);
-  const [device, setDevice] = React.useState(selectedDevices?.[0] ?? undefined);
-  const [numberOfPorts, setNumberOfPorts] = React.useState<string | undefined>(
-    undefined
+  const [device, setDevice] = useState(selectedDevices?.[0] ?? undefined);
+  const [numberOfPorts, setNumberOfPorts] = useState<string | undefined>(
+    selectedDevices?.[0]?.numberOfPorts?.toString()
   );
-  const [multiPort, setMultiPort] = React.useState<string | undefined>(
-    undefined
+  const [multiPort, setMultiPort] = useState<string | undefined>(
+    selectedDevices?.[0]?.address?.multiPort?.toString()
   );
-  const [sMultiPort, setSMultiPort] = React.useState<string | undefined>(
-    undefined
+  const [sMultiPort, setSMultiPort] = useState<string | undefined>(
+    selectedDevices?.[0]?.address?.sMultiPort?.toString()
   );
-  const [deviceType, setDeviceType] = React.useState<string | undefined>(
-    undefined
+  const [deviceType, setDeviceType] = useState<string | undefined>(
+    selectedDevices?.[0]?.type
+  );
+  const [sensors, setSensors] = useState<SensorsReceiveTpe[] | undefined>(
+    selectedDevices?.[0]?.sensors
   );
   function getThisElement(elementID: string) {
     const elem = document.getElementById(
@@ -123,17 +135,17 @@ export default function DeviceForm() {
     console.log(getThisElement("title"));
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     setDevice(selectedDevices?.[0]);
-    setNumberOfPorts(undefined);
-    setMultiPort(undefined);
-    setSMultiPort(undefined);
-    setDeviceType(undefined);
+    setNumberOfPorts(selectedDevices?.[0]?.numberOfPorts?.toString());
+    setMultiPort(selectedDevices?.[0]?.address?.multiPort?.toString());
+    setSMultiPort(selectedDevices?.[0]?.address?.sMultiPort?.toString());
+    setDeviceType(selectedDevices?.[0]?.type?.toString());
     if (selectedDevices?.[0] !== undefined) pushChange();
   }, [selectedDevices]);
 
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     const valueOfDeviceForm: DevicesReceiveType = {
       ...device,
@@ -144,13 +156,13 @@ export default function DeviceForm() {
   }
 
   const handleChangethat = (event: SelectChangeEvent) => {
-    setNumberOfPorts(event?.target?.value);
+    setNumberOfPorts(event?.target?.value?.toString());
   };
   const handleChangeMultiPort = (event: SelectChangeEvent) => {
-    setMultiPort(event?.target?.value);
+    setMultiPort(event?.target?.value?.toString());
   };
   const handleChangeSMultiPort = (event: SelectChangeEvent) => {
-    setSMultiPort(event?.target?.value);
+    setSMultiPort(event?.target?.value?.toString());
   };
   const handleChangeTypeOfDevice = (event: SelectChangeEvent) => {
     setDeviceType(event?.target?.value);
@@ -160,15 +172,16 @@ export default function DeviceForm() {
       <Box className={"select-none"} sx={{ flexGrow: 1 }}>
         <Box sx={{ p: 1 }}>
           <Item>
-            {" "}
             <div className="font-Vazir-Medium text-[20px]">
               {t("deviceName")} {selectedDevices?.[0]?.title ?? ""}
             </div>
           </Item>
         </Box>
         <Box sx={{ p: 1 }}>
-          {/* device?._id !== undefined */}
           <Item>
+            <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+              {t("specifications")}
+            </h2>
             <Box sx={{ p: 1, flexGrow: 1 }}>
               <Grid container spacing={2}>
                 <Grid>
@@ -200,16 +213,49 @@ export default function DeviceForm() {
                     </Select>
                   </FormControl>
                 </Grid>
+                <Grid>
+                  <FormControl variant="filled" sx={{ ...style, width: 150 }}>
+                    <InputLabel id="demo-simple-select-standard-label">
+                      numberOfPorts
+                    </InputLabel>
+                    <Select
+                      id={idPrefix + "numberOfPorts"}
+                      labelId="demo-simple-select-standard-label"
+                      value={
+                        numberOfPorts ??
+                        selectedDevices?.[0]?.numberOfPorts?.toString()
+                      }
+                      onChange={handleChangethat}
+                      label="numberOfPorts"
+                    >
+                      <MenuItem value=""></MenuItem>
+                      {selectNumberOfPorts.map((nPSe, index) => (
+                        <MenuItem key={index} value={nPSe}>
+                          {nPSe.toString()}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid>
+                  <DeviceShowWhat
+                    type={deviceType ?? ""}
+                    port={Number(numberOfPorts)}
+                  />
+                </Grid>
               </Grid>
             </Box>
           </Item>
         </Box>
         <Box sx={{ p: 1 }}>
           <Item>
+            <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+              {t("configuration")}
+            </h2>
             <Box sx={{ p: 1, flexGrow: 1 }}>
               <Grid container spacing={2}>
                 <Grid>
-                  <FormControl variant="filled" sx={style}>
+                  <FormControl variant="filled" sx={{ ...style, width: 150 }}>
                     <InputLabel id="demo-simple-select-standard-label">
                       Super multiPort
                     </InputLabel>
@@ -235,7 +281,7 @@ export default function DeviceForm() {
                   </FormControl>
                 </Grid>
                 <Grid>
-                  <FormControl variant="filled" sx={style}>
+                  <FormControl variant="filled" sx={{ ...style, width: 150 }}>
                     <InputLabel id="demo-simple-select-standard-label">
                       multiPort
                     </InputLabel>
@@ -260,38 +306,21 @@ export default function DeviceForm() {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid>
-                  <FormControl variant="filled" sx={style}>
-                    <InputLabel id="demo-simple-select-standard-label">
-                      numberOfPorts
-                    </InputLabel>
-                    <Select
-                      id={idPrefix + "numberOfPorts"}
-                      labelId="demo-simple-select-standard-label"
-                      value={
-                        numberOfPorts ??
-                        selectedDevices?.[0]?.numberOfPorts?.toString()
-                      }
-                      onChange={handleChangethat}
-                      label="numberOfPorts"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {selectMultiport.map((nPSe, index) => (
-                        <MenuItem key={index} value={nPSe}>
-                          {nPSe.toString()}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Grid>
               </Grid>
             </Box>
           </Item>
         </Box>
+        <DevicesPart
+          setSensorInput={setSensors}
+          sensorsInput={sensors}
+          type={deviceType ?? ""}
+          port={Number(numberOfPorts)}
+        />
         <Box sx={{ p: 1 }}>
           <Item>
+            <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+              {t("info")}
+            </h2>
             <Box sx={{ p: 1, flexGrow: 1 }}>
               <Grid container spacing={2}>
                 <Grid>
@@ -301,6 +330,21 @@ export default function DeviceForm() {
                     variant="filled"
                     sx={{
                       ...style,
+                      ".MuiInputBase-input": {
+                        color: "var(--text-color)",
+                        userSelect: "none",
+                      },
+                      ".MuiFilledInput-input": {
+                        textDecorationColor: "var(--text-color)",
+                        "::Mui-disabled": {
+                          userSelect: "none",
+                          textDecorationColor: "var(--text-color)",
+                        },
+                      },
+                      ".Mui-disabled": {
+                        userSelect: "none",
+                        textDecorationColor: "var(--text-color)",
+                      },
                       width: 250,
                     }}
                     label={t("db_id")}
@@ -347,6 +391,7 @@ export const selectMultiport: number[] = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
   // '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16',
 ];
+export const selectNumberOfPorts: number[] = [4, 8];
 export const typesOfDevies: string[] = [
   "Sensor Cotroller",
   "Electric panel",
@@ -358,3 +403,242 @@ const selectPort: object[] = [
     value: 4,
   },
 ];
+
+function DeviceShowWhat({ port, type }: { port: number; type: string }) {
+  return (
+    <>
+      <div className="mr-10">
+        {port === 4 && type === "Sensor Cotroller" ? (
+          <div>
+            <Icon fontSize={64} icon={"arcticons:deviceinfohw"}></Icon>
+            <Badge className="flex translate-x-2 -translate-y-4">4</Badge>
+          </div>
+        ) : (
+          <>
+            {port === 8 && type === "Sensor Cotroller" ? (
+              <div>
+                <Icon fontSize={64} icon={"arcticons:deviceinfohw"}></Icon>
+                <Badge className="flex translate-x-6 -translate-y-4">8</Badge>
+              </div>
+            ) : (
+              <div>
+                <Icon fontSize={50} icon={"ic:outline-electric-meter"}></Icon>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
+function DevicesPart({
+  port,
+  type,
+  sensorsInput,
+  setSensors,
+}: {
+  port: number;
+  type: string;
+  sensorsInput: sensor[];
+  setSensors: any;
+}) {
+  const { t } = useTranslation();
+  const [sensorsL, setSensorsL] = useState<{ sensor: number }[]>([]);
+  const [unitstate, setUnitstate] = useState<string>("");
+
+  function makeSensors() {
+    let s: { sensor: number }[] = [];
+    for (let i = 1; i <= port; i++) {
+      s.push({ sensor: i });
+    }
+    setSensorsL(s);
+  }
+  const topUnits = [
+    { title: "temperature Centigrade", unit: "°C" },
+    { title: "temperature Fahrenheit ", unit: "°F" },
+    { title: "temperature Kelvin", unit: "K" },
+    { title: "Humidity percentage", unit: "%" },
+    { title: "Luminous intensity candela", unit: "cd" },
+    { title: "kiloo grams", unit: "kg" },
+    { title: "point per milions", unit: "ppm" },
+    { title: "mm/hg", unit: "mm/hg" },
+  ];
+  const topType = [
+    { title: "Temperature" },
+    { title: "Humidity" },
+    { title: "Luminosity" },
+    { title: "Velucity" },
+    { title: "Density" },
+  ];
+  function MyFormHelperText() {
+    // const { focused } = useFormControl() || {};
+
+    // const helperText = React.useMemo(() => {
+    //   if (focused) {
+    //     return "This field is being focused";
+    //   }
+
+    //   return "Helper text";
+    // }, [focused]);
+
+    return <FormHelperText>{unitstate}</FormHelperText>;
+  }
+  useEffect(() => {
+    makeSensors();
+  }, [port, unitstate]);
+  return (
+    <>
+      {sensorsL?.map((sensorNum, index) => (
+        <>
+          <Box sx={{ p: 1 }}>
+            <Item>
+              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                {t("Sensor - ") + sensorNum.sensor}
+                {sensorsInput?.[index]?.title}
+              </h2>
+              <Box sx={{ p: 1, flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                  <Grid>
+                    <TextField
+                      id={idPrefix + "sensor_" + index + "_title"}
+                      variant="filled"
+                      sx={{
+                        ...style,
+                        width: 180,
+                      }}
+                      label={t("title")}
+                    />
+                  </Grid>
+                  <Grid>
+                    <Autocomplete
+                      id={idPrefix + "sensor_" + index + "_type"}
+                      freeSolo
+                      onInputChange={(
+                        event: React.SyntheticEvent<Element, Event>,
+                        value: string,
+                        reason: AutocompleteInputChangeReason
+                      ) => {}}
+                      options={topType.map((option) => option.title)}
+                      popupIcon={unitstate}
+                      renderInput={(params) => (
+                        <>
+                          <TextField
+                            sx={{
+                              ...style,
+                              width: 220,
+                              ".MuiFormHelperText-root": {
+                                color: "var(--text-color)",
+                              },
+                            }}
+                            variant="filled"
+                            {...params}
+                            label={t("type" ?? "")}
+                          />
+                        </>
+                      )}
+                    />
+                  </Grid>
+                  <Grid>
+                    <Autocomplete
+                      id={idPrefix + "sensor_" + index + "_unit"}
+                      freeSolo
+                      onInputChange={(
+                        event: React.SyntheticEvent<Element, Event>,
+                        value: string,
+                        reason: AutocompleteInputChangeReason
+                      ) => {
+                        setUnitstate(
+                          topUnits?.[
+                            topUnits?.findIndex((it) => it.unit === value)
+                          ]?.title
+                        );
+                      }}
+                      options={topUnits.map((option) => option.unit)}
+                      popupIcon={unitstate}
+                      renderInput={(params) => (
+                        <>
+                          <TextField
+                            sx={{
+                              ...style,
+                              width: 220,
+                              ".MuiFormHelperText-root": {
+                                color: "var(--text-color)",
+                              },
+                            }}
+                            variant="filled"
+                            {...params}
+                            label={t("unit" ?? "")}
+                            helperText={
+                              topUnits?.[
+                                topUnits?.findIndex(
+                                  (it) =>
+                                    it.unit ===
+                                    (
+                                      document?.getElementById(
+                                        idPrefix + "sensor_" + index + "_unit"
+                                      ) as HTMLInputElement
+                                    )?.value
+                                )
+                              ]?.title
+                            }
+                          />
+                        </>
+                      )}
+                    />
+                  </Grid>
+                  <Grid>
+                    <TextField
+                      id={idPrefix + "_sensor_" + index + "_id"}
+                      disabled
+                      variant="filled"
+                      sx={{
+                        ...style,
+                        ".MuiInputBase-input": {
+                          color: "var(--text-color)",
+                          userSelect: "none",
+                        },
+                        ".MuiFilledInput-input": {
+                          textDecorationColor: "var(--text-color)",
+                          "::Mui-disabled": {
+                            userSelect: "none",
+                            textDecorationColor: "var(--text-color)",
+                          },
+                        },
+                        ".Mui-disabled": {
+                          userSelect: "none",
+                          textDecorationColor: "var(--text-color)",
+                        },
+                        width: 250,
+                      }}
+                      label={t("db_id")}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Item>
+          </Box>
+        </>
+      ))}
+    </>
+  );
+}
+
+// deviceId: mongoose.Schema.Types.ObjectId;
+// superMultiport: number;
+// multiport: number;
+
+interface SensorT {
+  port: number;
+  title: string;
+  type: string;
+  unit: string;
+  sensorUniqueName: string;
+  resolution: "second" | "minute" | "hour";
+  // sensorLastSerie: sensorseries;
+  // sensorRealtimeValues: SensorRealtimeValues;
+}
+export interface SensorRealtimeValuesT {
+  value: number;
+  updateTime: Date;
+}

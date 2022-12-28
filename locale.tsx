@@ -10,6 +10,8 @@ i18n
     resources: {
       en: {
         translation: {
+          specifications: "Specifications",
+          configuration: "configuration",
           type: "type",
           deviceName: "Device Name:",
           management: "Management",
@@ -126,6 +128,8 @@ i18n
       },
       fa: {
         translation: {
+          specifications: "مشخصات",
+          configuration: "تنظیمات",
           type: "نوع",
           deviceName: "نام دستگاه :",
           management: "مدیریت",
