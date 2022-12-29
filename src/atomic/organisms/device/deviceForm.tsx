@@ -398,32 +398,41 @@ function DeviceShowWhat({ port, type }: { port?: number; type?: string }) {
 
 function DevicesPart({ port, type }: { port?: number; type?: string }) {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const selectedDevice = useAppSelector(selectSelectedDevice);
   const [sensorsL, setSensorsL] = useState<{ sensor: number }[]>([]);
   const [unitstate, setUnitstate] = useState<string>("");
 
   function makeSensors() {
-    let s: { sensor: number }[] = [];
+    let s: SensorsReceiveTpe[] = [];
     if (port && type) {
-      for (let i = 1; i <= port; i++) {
-        s.push({ sensor: i });
+      for (let i = 0; i <= port - 1; i++) {
+        if (selectedDevice?.sensors?.[i] !== undefined)
+          s.push(selectedDevice.sensors[i]);
+        else s.push({ title: undefined });
       }
-      setSensorsL(s);
+
+      dispatch(setSelectedDevice({ ...selectedDevice, sensors: s }));
     }
+    console.log(s);
+    // setSensorsL(s);
   }
+
   const topUnits = [
     { title: "temperature Centigrade", unit: "°C" },
     { title: "temperature Fahrenheit ", unit: "°F" },
     { title: "temperature Kelvin", unit: "K" },
     { title: "Humidity percentage", unit: "%" },
+    { title: "Pressure Pascal", unit: "pa" },
     { title: "Luminous intensity candela", unit: "cd" },
     { title: "kiloo grams", unit: "kg" },
     { title: "point per milions", unit: "ppm" },
-    { title: "mm/hg", unit: "mm/hg" },
+    { title: "Presure mmHg", unit: "mmHg" },
   ];
   const topType = [
     { title: "Temperature" },
     { title: "Humidity" },
+    { title: "Pressure" },
     { title: "Luminosity" },
     { title: "Velucity" },
     { title: "Density" },
@@ -442,24 +451,40 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
   //   return <FormHelperText>{unitstate}</FormHelperText>;
   // }
   useEffect(() => {
-    if (port && type) makeSensors();
-  }, [port, unitstate]);
+    if (port && type && selectedDevice?.sensors?.length < port) makeSensors();
+  }, [port, unitstate, selectedDevice]);
   return (
     <>
-      {sensorsL?.map((sensorNum, index) => (
+      {selectedDevice?.sensors?.map((sensor, index) => (
         <>
           <Box sx={{ p: 1 }}>
             <Item>
               <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
-                {t("Sensor - ") + sensorNum.sensor}
-                {selectedDevice?.sensors?.[index]?.title}
+                {t("Sensor - ") + index}
+                {sensor.title}
               </h2>
               <Box sx={{ p: 1, flexGrow: 1 }}>
                 <Grid container spacing={2}>
                   <Grid>
                     <TextField
+                      value={sensor.title}
                       id={idPrefix + `sensor?.[${index}]?.title`}
                       variant="filled"
+                      onChange={(e) => {
+                        let seni: SensorsReceiveTpe[] = [
+                          ...(selectedDevice?.sensors ?? []),
+                        ];
+                        seni[index] = {
+                          ...selectedDevice?.sensors?.[index],
+                          title: e.target.value,
+                        };
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            sensors: [...seni],
+                          })
+                        );
+                      }}
                       sx={{
                         ...style,
                         width: 180,
@@ -470,6 +495,7 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                   <Grid>
                     <Autocomplete
                       id={idPrefix + `sensor?.[${index}]?.type`}
+                      value={selectedDevice?.sensors?.[index]?.type}
                       freeSolo
                       onInputChange={(
                         event: React.SyntheticEvent<Element, Event>,

@@ -12,6 +12,7 @@ import {
   GridSelectionModel,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
+import { NodeNextRequest } from "next/dist/server/base-http/node";
 
 export default function ListDataGrid({
   title,
@@ -50,7 +51,14 @@ export default function ListDataGrid({
             columns={columns ?? columnsConst}
             columnBuffer={2}
             columnThreshold={2}
+            // rowsPerPageOptions={}
             sx={{
+              ".MuiTablePagination-selectLabel": {
+                display: "none",
+              },
+              ".MuiDataGrid-selectedRowCount": {
+                display: "none",
+              },
               ".MuiDataGrid-columnHeaderTitle": {
                 fontFamily: ["Source Sans Bold", "sans-serif"].join(","),
                 fontSize: 18,
