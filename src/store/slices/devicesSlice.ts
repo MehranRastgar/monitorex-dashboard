@@ -3,49 +3,37 @@ import type { AppState, AppThunk } from "../store";
 import type { PropertyProperty } from "../../types/types";
 import { SensorsReceiveTpe } from "../../components/pages/sensors/sensorsTable";
 import { fetchSensors } from "../api/sensorsApi";
-import { DevicesReceiveType, fetchDevices } from "../api/devicesApi";
+import {
+  DevicesReceiveType,
+  Factor,
+  getDevices,
+  putDevice,
+} from "../api/devicesApi";
 
 export type ApiFetchStatus = "initial" | "request" | "rejected" | "success";
-export interface factors {
-  factorName: string;
-  factorPosition:
-    | 1
-    | 2
-    | 3
-    | 4
-    | 5
-    | 6
-    | 7
-    | 8
-    | 9
-    | 10
-    | 12
-    | 13
-    | 14
-    | 15
-    | 16;
-  factorValue: number;
-}
+
 export interface deviceAddress {
   multiPort: number;
   sMultiPort: number;
 }
-export interface Device {
-  title: string;
-  address: deviceAddress;
-  type: "Electrical panel" | "Sensor Cotroller";
-  DeviceUniqueName: string;
-  factors: factors[];
-}
+// export interface Device {
+//   title: string;
+//   address: deviceAddress;
+//   type: "Electrical panel" | "Sensor Cotroller";
+//   DeviceUniqueName: string;
+//   factors: Factor[];
+// }
 export interface Devices {
   data: DevicesReceiveType[];
   status: ApiFetchStatus;
   selectedDevice: DevicesReceiveType;
+  putStatus: ApiFetchStatus;
 }
 const initialState: Devices = {
   data: [],
   selectedDevice: {},
   status: "initial",
+  putStatus: "initial",
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -53,10 +41,19 @@ const initialState: Devices = {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
-export const fetchDevicesAsync = createAsyncThunk(
-  "devices/fetchDevices",
+export const getDevicesAsync = createAsyncThunk(
+  "devices/getDevices",
   async () => {
-    const response = await fetchDevices();
+    const response = await getDevices();
+    // The value we return becomes the `fulfilled` action payload
+    return response;
+  }
+);
+export const putDeviceAsync = createAsyncThunk(
+  "devices/putDevice",
+
+  async (body: DevicesReceiveType) => {
+    const response = await putDevice(body, body?._id ?? "");
     // The value we return becomes the `fulfilled` action payload
     return response;
   }
@@ -84,15 +81,27 @@ export const devicesSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      .addCase(fetchDevicesAsync.pending, (state) => {
+      .addCase(putDeviceAsync.pending, (state) => {
         state.status = "request";
       })
-      .addCase(fetchDevicesAsync.fulfilled, (state, action) => {
+      .addCase(putDeviceAsync.fulfilled, (state, action) => {
+        state.status = "success";
+        state.selectedDevice = action.payload;
+        // state.categories = action?.payload?.[index] ?? [];
+      })
+      .addCase(putDeviceAsync.rejected, (state, action) => {
+        state.status = "rejected";
+        state.data = [];
+      })
+      .addCase(getDevicesAsync.pending, (state) => {
+        state.status = "request";
+      })
+      .addCase(getDevicesAsync.fulfilled, (state, action) => {
         state.status = "success";
         state.data = action.payload;
         // state.categories = action?.payload?.[index] ?? [];
       })
-      .addCase(fetchDevicesAsync.rejected, (state, action) => {
+      .addCase(getDevicesAsync.rejected, (state, action) => {
         state.status = "rejected";
         state.data = [];
       });

@@ -1,10 +1,10 @@
+import axios from "axios";
 import { SensorsReceiveTpe } from "../../components/pages/sensors/sensorsTable";
 
-export async function fetchDevices(): Promise<DevicesReceiveType[]> {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/sensors/`,
+export async function getDevices(): Promise<DevicesReceiveType[]> {
+  const response = await axios.get(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices/`,
     {
-      method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": "true",
@@ -12,7 +12,29 @@ export async function fetchDevices(): Promise<DevicesReceiveType[]> {
       },
     }
   );
-  const result = await response.json();
+  const result = await response.data;
+
+  return result;
+}
+
+export async function putDevice(
+  body: DevicesReceiveType,
+  deviceId: string
+): Promise<DevicesReceiveType> {
+  const response = await axios.put(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices/${deviceId}`,
+    {
+      ...body,
+    },
+    {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  const result = await response.data;
 
   return result;
 }
@@ -37,22 +59,23 @@ export interface Address {
 }
 
 export interface Factor {
-  factorName: string;
-  factorPosition:
-    | 1
-    | 2
-    | 3
-    | 4
-    | 5
-    | 6
-    | 7
-    | 8
-    | 9
-    | 10
-    | 12
-    | 13
-    | 14
-    | 15
-    | 16;
+  factorName?: string;
+  factorPosition: number;
   factorValue: number;
 }
+
+// | 1
+// | 2
+// | 3
+// | 4
+// | 5
+// | 6
+// | 7
+// | 8
+// | 9
+// | 10
+// | 12
+// | 13
+// | 14
+// | 15
+// | 16;

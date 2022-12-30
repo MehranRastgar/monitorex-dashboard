@@ -6,7 +6,10 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { useTranslation } from "react-i18next";
 import Item from "../../atoms/Item/Item";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 import {
+  getDevicesAsync,
+  putDeviceAsync,
   selectSelectedDevice,
   setSelectedDevice,
 } from "../../../store/slices/devicesSlice";
@@ -25,7 +28,7 @@ import {
   TextField,
   useFormControl,
 } from "@mui/material";
-import { DevicesReceiveType } from "../../../store/api/devicesApi";
+import { DevicesReceiveType, Factor } from "../../../store/api/devicesApi";
 import { Icon } from "@iconify/react";
 import { prototype } from "chart.js";
 import { sensor } from "../../../interfaces/Sensor";
@@ -271,10 +274,25 @@ export default function DeviceForm() {
             </Box>
           </Item>
         </Box>
-        <DevicesPart
-          type={selectedDevice.type}
-          port={selectedDevice.numberOfPorts}
-        />
+        <Box sx={{ p: 1 }}>
+          <Item>
+            <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+              {t("sensors")}
+            </h2>
+            <DevicesPart
+              type={selectedDevice.type}
+              port={selectedDevice.numberOfPorts}
+            />
+          </Item>
+        </Box>
+        <Box sx={{ p: 1 }}>
+          <Item>
+            <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+              {t("factors")}
+            </h2>
+            <FactorsPart />
+          </Item>
+        </Box>
         <Box sx={{ p: 1 }}>
           <Item>
             <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
@@ -342,7 +360,14 @@ export default function DeviceForm() {
             </Box>
           </Item>
         </Box>
-        <Button onClick={(e) => console.log(selectedDevice)}>
+        <Button
+          onClick={(e) => {
+            dispatch(putDeviceAsync(selectedDevice));
+            dispatch(getDevicesAsync());
+
+            // console.log(selectedDevice);
+          }}
+        >
           Save Changes
         </Button>
       </Box>
@@ -437,6 +462,10 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
     { title: "Velucity" },
     { title: "Density" },
   ];
+  const defaultTypeProps = {
+    options: topType,
+    getOptionLabel: (option: any) => option.title,
+  };
   // function MyFormHelperText() {
   //   // const { focused } = useFormControl() || {};
 
@@ -451,8 +480,16 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
   //   return <FormHelperText>{unitstate}</FormHelperText>;
   // }
   useEffect(() => {
-    if (port && type && selectedDevice?.sensors?.length < port) makeSensors();
+    if (
+      port &&
+      type &&
+      selectedDevice?.sensors !== undefined &&
+      selectedDevice?.sensors?.length < port
+    )
+      makeSensors();
   }, [port, unitstate, selectedDevice]);
+
+  // useEffect(() => {}, [selectedDevice.sensors]);
   return (
     <>
       {selectedDevice?.sensors?.map((sensor, index) => (
@@ -460,8 +497,9 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
           <Box sx={{ p: 1 }}>
             <Item>
               <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
-                {t("Sensor - ") + index}
-                {sensor.title}
+                {t("Sensor - ") +
+                  index +
+                  (sensor?.title ? " (" + sensor?.title + ") " : "")}
               </h2>
               <Box sx={{ p: 1, flexGrow: 1 }}>
                 <Grid container spacing={2}>
@@ -494,19 +532,34 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                   </Grid>
                   <Grid>
                     <Autocomplete
+                      // {...defaultTypeProps}
                       id={idPrefix + `sensor?.[${index}]?.type`}
-                      value={selectedDevice?.sensors?.[index]?.type}
+                      value={sensor.type ?? ""}
                       freeSolo
                       onInputChange={(
                         event: React.SyntheticEvent<Element, Event>,
                         value: string,
                         reason: AutocompleteInputChangeReason
-                      ) => {}}
+                      ) => {
+                        let seni: SensorsReceiveTpe[] = [
+                          ...(selectedDevice?.sensors ?? []),
+                        ];
+                        seni[index] = {
+                          ...selectedDevice?.sensors?.[index],
+                          type: value,
+                        };
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            sensors: [...seni],
+                          })
+                        );
+                      }}
                       options={topType.map((option) => option.title)}
-                      popupIcon={unitstate}
                       renderInput={(params) => (
                         <>
                           <TextField
+                            value={sensor.type}
                             sx={{
                               ...style,
                               width: 220,
@@ -524,6 +577,7 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                   </Grid>
                   <Grid>
                     <Autocomplete
+                      value={sensor.unit ?? ""}
                       id={idPrefix + `sensor?.[${index}]?.unit`}
                       freeSolo
                       onInputChange={(
@@ -531,14 +585,23 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                         value: string,
                         reason: AutocompleteInputChangeReason
                       ) => {
-                        setUnitstate(
-                          topUnits?.[
-                            topUnits?.findIndex((it) => it.unit === value)
-                          ]?.title
+                        let seni: SensorsReceiveTpe[] = [
+                          ...(selectedDevice?.sensors ?? []),
+                        ];
+                        seni[index] = {
+                          ...selectedDevice?.sensors?.[index],
+                          unit: value,
+                        };
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            sensors: [...seni],
+                          })
                         );
                       }}
                       options={topUnits.map((option) => option.unit)}
                       popupIcon={unitstate}
+                      // value={sensor.unit}
                       renderInput={(params) => (
                         <>
                           <TextField
@@ -555,13 +618,7 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                             helperText={
                               topUnits?.[
                                 topUnits?.findIndex(
-                                  (it) =>
-                                    it.unit ===
-                                    (
-                                      document?.getElementById(
-                                        idPrefix + "sensor_" + index + "_unit"
-                                      ) as HTMLInputElement
-                                    )?.value
+                                  (it) => it.unit === sensor.unit
                                 )
                               ]?.title
                             }
@@ -570,7 +627,7 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                       )}
                     />
                   </Grid>
-                  <Grid>
+                  {/* <Grid>
                     <TextField
                       id={idPrefix + `sensor?.[${index}]?._id`}
                       disabled
@@ -596,7 +653,7 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                       }}
                       label={t("db_id")}
                     />
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Box>
             </Item>
@@ -607,6 +664,176 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
   );
 }
 
+function FactorsPart() {
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const selectedDevice = useAppSelector(selectSelectedDevice);
+  const [sensorsL, setSensorsL] = useState<{ sensor: number }[]>([]);
+  const [unitstate, setUnitstate] = useState<string>("");
+
+  function makeFactors() {
+    let f: Factor[] = [];
+    if (selectedDevice?.factors !== undefined) {
+      for (let i = 0; i <= selectedDevice?.factors?.length; i++) {
+        if (selectedDevice?.factors?.[i] !== undefined)
+          f.push(selectedDevice.factors[i]);
+        else f.push({ factorName: "", factorPosition: 4, factorValue: 2.5 });
+      }
+
+      dispatch(setSelectedDevice({ ...selectedDevice, factors: f }));
+    }
+    console.log(f);
+    // setSensorsL(s);
+  }
+
+  useEffect(() => {
+    // if (selectedDevice?.factors !== undefined&& ) makeFactors();
+  }, [selectedDevice]);
+
+  // useEffect(() => {}, [selectedDevice.sensors]);
+  return (
+    <>
+      {selectedDevice?.factors?.map((factor, index) => (
+        <>
+          <Box sx={{ p: 1 }}>
+            <Item>
+              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                {t("Factor - ") +
+                  index +
+                  (factor?.factorName ? " (" + factor?.factorName + ") " : "")}
+              </h2>
+              <Box sx={{ p: 1, flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                  <Grid>
+                    <TextField
+                      value={factor.factorName}
+                      // id={idPrefix + `sensor?.[${index}]?.name`}
+                      variant="filled"
+                      onChange={(e) => {
+                        let fac: Factor[] = [
+                          ...(selectedDevice?.factors ?? []),
+                        ];
+                        if (fac?.[index] !== undefined) {
+                          fac[index] = {
+                            ...factor,
+                            factorName: e.target.value,
+                          };
+                        }
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            factors: [...fac],
+                          })
+                        );
+                      }}
+                      sx={{
+                        ...style,
+                        width: 180,
+                      }}
+                      label={t("name")}
+                    />
+                  </Grid>
+                  <Grid>
+                    <TextField
+                      value={factor.factorPosition}
+                      // id={idPrefix + `sensor?.[${index}]?.name`}
+                      variant="filled"
+                      onChange={(e) => {
+                        let fac: Factor[] = [
+                          ...(selectedDevice?.factors ?? []),
+                        ];
+                        if (fac?.[index] !== undefined) {
+                          fac[index] = {
+                            ...factor,
+                            factorPosition: Number(e.target.value),
+                          };
+                        }
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            factors: [...fac],
+                          })
+                        );
+                      }}
+                      sx={{
+                        ...style,
+                        width: 180,
+                      }}
+                      label={t("factorPosition")}
+                    />
+                  </Grid>
+                  <Grid>
+                    <TextField
+                      value={factor.factorValue}
+                      // id={idPrefix + `sensor?.[${index}]?.name`}
+                      variant="filled"
+                      onChange={(e) => {
+                        let fac: Factor[] = [
+                          ...(selectedDevice?.factors ?? []),
+                        ];
+                        if (fac?.[index] !== undefined) {
+                          fac[index] = {
+                            ...factor,
+                            factorValue: Number(e.target.value),
+                          };
+                        }
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            factors: [...fac],
+                          })
+                        );
+                      }}
+                      sx={{
+                        ...style,
+                        width: 180,
+                      }}
+                      label={t("factorValue")}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Item>
+          </Box>
+        </>
+      ))}
+      <Box>
+        <Button
+          onClick={() => {
+            let fac: Factor[] = [...(selectedDevice?.factors ?? [])];
+            fac.push({
+              factorName: "",
+              factorPosition: 4,
+              factorValue: 2.5,
+            });
+            dispatch(
+              setSelectedDevice({
+                ...selectedDevice,
+                factors: [...fac],
+              })
+            );
+          }}
+        >
+          add Factor
+        </Button>
+        <Button
+          onClick={() => {
+            let fac: Factor[] = [...(selectedDevice?.factors ?? [])];
+            fac.pop();
+            dispatch(
+              setSelectedDevice({
+                ...selectedDevice,
+                factors: [...fac],
+              })
+            );
+          }}
+        >
+          clear Factor
+        </Button>
+      </Box>
+    </>
+  );
+}
 // deviceId: mongoose.Schema.Types.ObjectId;
 // superMultiport: number;
 // multiport: number;
