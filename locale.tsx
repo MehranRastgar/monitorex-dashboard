@@ -10,6 +10,7 @@ i18n
     resources: {
       en: {
         translation: {
+          numberOfPorts: "number of ports",
           specifications: "Specifications",
           configuration: "configuration",
           type: "type",
@@ -128,6 +129,7 @@ i18n
       },
       fa: {
         translation: {
+          numberOfPorts: "تعداد پورتها",
           specifications: "مشخصات",
           configuration: "تنظیمات",
           type: "نوع",

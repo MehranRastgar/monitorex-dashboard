@@ -656,6 +656,9 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                   </Grid> */}
                 </Grid>
               </Box>
+              <div className="flex w-full justify-start">
+                <h2 className="text-[12px] opacity-75">{sensor?._id}</h2>
+              </div>
             </Item>
           </Box>
         </>

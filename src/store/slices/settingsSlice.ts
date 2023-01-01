@@ -4,7 +4,6 @@ import type { PropertyProperty } from "../../types/types";
 import { fetchSettings } from "../api/settingsApi";
 
 export type ApiFetchStatus = "initial" | "request" | "rejected" | "success";
-export interface Sensor {}
 export type deviceTypes = "Sensors Module" | "Electrical panel";
 export interface Device {
   id: string;
@@ -17,7 +16,6 @@ export interface Devices {
   status: ApiFetchStatus;
 }
 export interface Sensors {
-  data?: Sensor[];
   status: ApiFetchStatus;
 }
 export interface Theme {

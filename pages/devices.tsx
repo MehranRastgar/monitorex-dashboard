@@ -16,20 +16,35 @@ import {
 import { Button, PaginationItem } from "@mui/material";
 import SensorsTable from "../src/components/pages/sensors/sensorsTable";
 import ChartSensor from "../src/components/pages/sensors/SensorChart";
-import { useAppSelector } from "../src/store/hooks";
+import { useAppDispatch, useAppSelector } from "../src/store/hooks";
 import { selectSelectedSensors } from "../src/store/slices/sensorsSlice";
 import Template from "../src/components/canvas/views/Template";
 import DeviceList from "../src/atomic/organisms/device/DeviceList";
+import {
+  selectSelectedDevice,
+  setDevicesData,
+  setDevicesStatus,
+} from "../src/store/slices/devicesSlice";
+import { GetDevices } from "../src/api/devices";
 export default function Devices() {
   const { t } = useTranslation();
-  const selectedsensors = useAppSelector(selectSelectedSensors);
+  const selectedDevice = useAppSelector(selectSelectedDevice);
   const [elem, setElem] = useState(false);
 
-  useEffect(() => {}, []);
+  const dispatch = useAppDispatch();
+  const queryDevices = useQuery("devices", GetDevices);
+
+  useEffect(() => {
+    if (queryDevices.status === "success") {
+      dispatch(setDevicesData(queryDevices.data));
+      dispatch(setDevicesStatus("success"));
+    }
+  }, [queryDevices.isFetching, queryDevices.isSuccess]);
   return (
     <Layout>
       <section>
-        <DeviceList />
+        <DeviceList moreItems={true} />
+        {selectedDevice?.title}
       </section>
     </Layout>
   );

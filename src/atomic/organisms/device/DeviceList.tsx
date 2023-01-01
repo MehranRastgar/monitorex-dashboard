@@ -7,7 +7,11 @@ import { useTranslation } from "react-i18next";
 import DeviceForm from "./deviceForm";
 import ListDataGrid from "../../molecules/device/ListDataGrid";
 import Item from "../../atoms/Item/Item";
-import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
+import {
+  GridColDef,
+  GridSelectionModel,
+  GridValueGetterParams,
+} from "@mui/x-data-grid";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   selectDevicesData,
@@ -24,9 +28,8 @@ import {
 } from "react-query";
 import { GetDevices } from "../../../api/devices";
 import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
-import { DevicesReceiveType } from "../../../store/api/devicesApi";
 
-export default function DeviceList() {
+export default function DeviceList({ moreItems }: { moreItems?: boolean }) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [selectionModel, setSelectionModel] =
@@ -49,6 +52,46 @@ export default function DeviceList() {
       width: 150,
     },
   ];
+  const columnsMore: GridColDef[] = [
+    {
+      field: "_id",
+      headerName: "id",
+      width: 50,
+    },
+    {
+      field: "title",
+      headerName: t("title") ?? "title",
+      width: 150,
+    },
+    {
+      field: "type",
+      headerName: t("type") ?? "type",
+      width: 150,
+    },
+    {
+      field: "sensors",
+      headerName: t("sensors") ?? "type",
+      width: 150,
+      valueGetter: (params: GridValueGetterParams) =>
+        params.row?.sensors?.map((sensor: SensorsReceiveTpe, index: number) => {
+          return sensor?.title;
+        }),
+    },
+    {
+      field: "unit",
+      headerName: t("unit") ?? "unit",
+      width: 150,
+      valueGetter: (params: GridValueGetterParams) =>
+        params.row?.sensors?.map((sensor: SensorsReceiveTpe, index: number) => {
+          return sensor?.unit;
+        }),
+    },
+    {
+      field: "numberOfPorts",
+      headerName: t("numberOfPorts") ?? "numberOfPorts",
+      width: 150,
+    },
+  ];
   React.useEffect(() => {
     const indexindata = devices.findIndex((it) => it._id === selectionModel[0]);
     dispatch(setSelectedDevice(devices?.[indexindata]));
@@ -66,7 +109,7 @@ export default function DeviceList() {
           {/* {selectionModel?.[0]} */}
           <ListDataGrid
             RowsData={devices ?? []}
-            columns={columns}
+            columns={moreItems ? columnsMore : columns}
             title={"devices"}
             selectionModel={selectionModel}
             setSelectionModel={setSelectionModel}

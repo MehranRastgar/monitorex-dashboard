@@ -17,8 +17,8 @@ function Settings() {
         <BasicTabs value={value} setValue={setValue} />
         <Box sx={{ p: 3 }}>
           {value === 0 ? <DeviceManagement /> : <></>}
-          {/* {value === 1 ? <SensorList props={{ title: "sensors" }} /> : <></>} */}
-          {value === 2 ? <DeviceList props={{ title: "devices" }} /> : <></>}
+          {value === 1 ? <SensorList props={{ title: "sensors" }} /> : <></>}
+          {value === 2 ? <DeviceList /> : <></>}
         </Box>
       </section>
     </Layout>
@@ -36,6 +36,7 @@ import SettingsSensors from "../src/components/pages/settings/sensors";
 import SettingsDevices from "../src/components/pages/settings/device/devices";
 import DeviceList from "../src/atomic/organisms/device/DeviceList";
 import DeviceManagement from "../src/atomic/templates/DeviceManagement";
+import SensorList from "../src/atomic/organisms/sensor/SensorList";
 
 interface TabPanelProps {
   children?: React.ReactNode;
