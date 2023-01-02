@@ -26,6 +26,7 @@ import {
   setDevicesStatus,
 } from "../src/store/slices/devicesSlice";
 import { GetDevices } from "../src/api/devices";
+import DeviceSummary from "../src/atomic/organisms/device/deviceSummary";
 export default function Devices() {
   const { t } = useTranslation();
   const selectedDevice = useAppSelector(selectSelectedDevice);
@@ -44,7 +45,7 @@ export default function Devices() {
     <Layout>
       <section>
         <DeviceList moreItems={true} />
-        {selectedDevice?.title}
+        <DeviceSummary />
       </section>
     </Layout>
   );

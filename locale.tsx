@@ -10,6 +10,7 @@ i18n
     resources: {
       en: {
         translation: {
+          sensorDisconnected: "sensor disconnected",
           numberOfPorts: "number of ports",
           specifications: "Specifications",
           configuration: "configuration",
@@ -129,6 +130,7 @@ i18n
       },
       fa: {
         translation: {
+          sensorDisconnected: "سنسور فطع",
           numberOfPorts: "تعداد پورتها",
           specifications: "مشخصات",
           configuration: "تنظیمات",
