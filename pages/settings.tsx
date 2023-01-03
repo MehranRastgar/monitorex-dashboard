@@ -99,7 +99,7 @@ function BasicTabs() {
       </Box>
       <TabPanel value={value} index={0}>
         {/* <SettingsDevices /> */}
-        <DeviceList props={{ title: "devices" }} />
+        <DeviceList />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <SettingsDevices />

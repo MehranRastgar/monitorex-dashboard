@@ -10,6 +10,11 @@ import {
   selectSensorsHasWork,
   selectSensorsLength,
 } from "../../store/slices/sensorsSlice";
+import {
+  selectAmountOfConnectSensors,
+  selectAmountOfDisconnectSensors,
+  selectDevicesAlarms,
+} from "../../store/slices/devicesSlice";
 
 var summaryData: IsummData[] = [
   {
@@ -34,12 +39,17 @@ var summaryData: IsummData[] = [
 
 function Summary() {
   const { t } = useTranslation();
-  const selectAmountSensors = useAppSelector(selectSensorsHasWork);
-  const selectAmountSensorHasnotWork = useAppSelector(selectSensorsHasNotWork);
+  const selectAmountSensorHasnotWork = useAppSelector(
+    selectAmountOfDisconnectSensors
+  );
+  const selectAmountSensors = useAppSelector(selectAmountOfConnectSensors);
+  const selectAlarms = useAppSelector(selectDevicesAlarms);
+
   summaryData[0].amount = String(selectAmountSensors?.toLocaleString());
   summaryData[1].amount = String(
     selectAmountSensorHasnotWork?.toLocaleString()
   );
+  summaryData[2].amount = String(selectAlarms?.length?.toLocaleString());
   return (
     <section className={classes.summary}>
       <p className="subTitle">{t("summary")}</p>

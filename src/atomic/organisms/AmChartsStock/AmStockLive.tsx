@@ -74,7 +74,7 @@ export default function AmStockLive({
     );
 
     let series = chart.series.push(
-      am5xy.LineSeries.new(root, {
+      am5xy.SmoothedXYLineSeries.new(root, {
         name: "Series",
         xAxis: xAxis,
         yAxis: yAxis,
@@ -97,7 +97,7 @@ export default function AmStockLive({
     arr[arr.length - 1] = { ...arr[arr.length - 1], bullet: true };
     setData(arr);
     series.data.setAll(arr);
-    series.bullets.push(function (root, series, dataItem) {
+    series.bullets.push(function (root: any, series: any, dataItem: any) {
       // only create sprite if bullet == true in data context
       if (dataItem?.dataContext?.bullet) {
         let container = am5.Container.new(root, {});
@@ -135,6 +135,7 @@ export default function AmStockLive({
           sprite: container,
         });
       }
+      return undefined;
     });
     // const intervalId = setInterval(function () {
     //   addData(series);
@@ -159,58 +160,20 @@ export default function AmStockLive({
   useEffect(() => {
     if (seriss !== undefined) addData(seriss);
   }, [dataReal]);
+
   function addData(series: any) {
     let arr: { date: number; value: number; bullet?: boolean }[] = [
       ...dataReal,
     ];
     arr[arr.length - 1] = { ...arr[arr.length - 1], bullet: true };
-    setData(arr);
+    // setData(arr);
     series.data.setAll(arr);
-    series.bullets.push(function (root, series, dataItem) {
-      // only create sprite if bullet == true in data context
-      if (dataItem?.dataContext?.bullet) {
-        let container = am5.Container.new(root, {});
-        let circle0 = container.children.push(
-          am5.Circle.new(root, {
-            radius: 5,
-            fill: am5.color(0xff0000),
-          })
-        );
-        let circle1 = container.children.push(
-          am5.Circle.new(root, {
-            radius: 5,
-            fill: am5.color(0xff0000),
-          })
-        );
-
-        circle1.animate({
-          key: "radius",
-          to: 20,
-          duration: 1000,
-          easing: am5.ease.out(am5.ease.cubic),
-          loops: Infinity,
-        });
-        circle1.animate({
-          key: "opacity",
-          to: 0,
-          from: 1,
-          duration: 1000,
-          easing: am5.ease.out(am5.ease.cubic),
-          loops: Infinity,
-        });
-
-        return am5.Bullet.new(root, {
-          locationX: undefined,
-          sprite: container,
-        });
-      }
-    });
   }
 
   return (
     <div
       id={"chartdiv" + "-" + id}
-      style={{ width: "1200px", height: "300px" }}
+      style={{ width: "500px", height: "160px" }}
     ></div>
   );
 }

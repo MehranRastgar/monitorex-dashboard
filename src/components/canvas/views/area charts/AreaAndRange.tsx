@@ -37,9 +37,10 @@ export default function AreaAndRange({
       y?: number;
     }[] = [];
     // console.log(query.data);
-    const minRange = new Date(query?.data?.[0]?.data?.[0]?.x);
+    const minRange = new Date(query?.data?.[0]?.data?.[0]?.x ?? 0);
     const MaxRange = new Date(
-      query?.data?.[0]?.data?.[Number(query?.data?.[0]?.data?.length - 1)]?.x
+      query?.data?.[0]?.data?.[Number(query?.data?.[0]?.data?.length ?? 0 - 1)]
+        ?.x ?? 0
     );
     max.push(
       { x: minRange, y: itemSelected.sensorLastSerie?.metaField?.max },
@@ -71,7 +72,7 @@ export default function AreaAndRange({
           query.data?.[0]?.data[index - 1].y === undefined
         ) {
           if (query.data?.[0]?.data[index].y !== undefined)
-            lastValidY = query?.data?.[0]?.data[index - 2]?.y;
+            lastValidY = Number(query?.data?.[0]?.data[index - 2]?.y);
           tempdata.push({
             y: undefined,
             x: datess,

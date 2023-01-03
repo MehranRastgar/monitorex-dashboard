@@ -4,8 +4,11 @@ import { IsummData as Props } from "../../interfaces/IsummData";
 import { Icon } from "@iconify/react";
 import Card from "../UI/card/Card";
 import classes from "./SummaryBox.module.scss";
+import { selectDevicesAlarms } from "../../store/slices/devicesSlice";
+import { useAppSelector } from "../../store/hooks";
 const SummaryBox: React.FC<{ item: Props }> = (props) => {
   const { t } = useTranslation();
+
   return (
     <div className={classes.summary__box}>
       <Card>

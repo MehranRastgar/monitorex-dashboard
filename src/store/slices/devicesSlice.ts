@@ -28,6 +28,17 @@ export interface Devices {
   status: ApiFetchStatus;
   selectedDevice: DevicesReceiveType;
   putStatus: ApiFetchStatus;
+  alarms?: alarmsType[];
+  amountOfSensors?: number;
+  amountOfConnectSensors?: number;
+  amountOfDisconnectSensors?: number;
+}
+export interface alarmsType {
+  message: string;
+  value: number;
+  sensorId: string;
+  sensorTitle: string;
+  counter?: number;
 }
 const initialState: Devices = {
   data: [],
@@ -66,6 +77,22 @@ export const devicesSlice = createSlice({
   reducers: {
     setDevicesData: (state, action: PayloadAction<DevicesReceiveType[]>) => {
       state.data = action.payload;
+      let amount = 0;
+      let number = 0;
+      state.data.map((device) => {
+        amount += device?.sensors?.length ?? 0;
+        device?.sensors?.map((item) => {
+          if (item?.sensorLastSerie?.timestamp !== undefined) {
+            const timedate = new Date(item?.sensorLastSerie?.timestamp);
+            const now = new Date();
+            const dif = now.getTime() - timedate.getTime();
+            if (dif / 1000 / 60 < 15) number++;
+          }
+        });
+      });
+      state.amountOfSensors = amount;
+      state.amountOfConnectSensors = number;
+      state.amountOfDisconnectSensors = amount - number;
     },
     setDevicesStatus: (state, action: PayloadAction<ApiFetchStatus>) => {
       state.status = action.payload;
@@ -73,6 +100,25 @@ export const devicesSlice = createSlice({
 
     setSelectedDevice: (state, action: PayloadAction<DevicesReceiveType>) => {
       state.selectedDevice = action.payload;
+    },
+    setDevicesAlarms: (state, action: PayloadAction<alarmsType[]>) => {
+      state.alarms = action.payload;
+    },
+    setDevicesAlarmsHandler: (state, action: PayloadAction<alarmsType>) => {
+      let arr: alarmsType[] = [...(state.alarms ?? [])];
+      const ind = arr.findIndex(
+        (item) => item.sensorId === action.payload.sensorId
+      );
+      if (ind >= 0 && arr?.[ind]?.message === action?.payload?.message) {
+        arr[ind] = {
+          ...arr[ind],
+          value: action?.payload?.value,
+          counter: (arr?.[ind]?.counter ?? 0) + 1,
+        };
+      } else {
+        arr.push(action.payload);
+      }
+      state.alarms = arr;
     },
   },
 
@@ -108,8 +154,13 @@ export const devicesSlice = createSlice({
   },
 });
 
-export const { setDevicesData, setSelectedDevice, setDevicesStatus } =
-  devicesSlice.actions;
+export const {
+  setDevicesAlarmsHandler,
+  setDevicesData,
+  setSelectedDevice,
+  setDevicesStatus,
+  setDevicesAlarms,
+} = devicesSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -120,6 +171,14 @@ export const selectSelectedDevice = (state: AppState) =>
   state.devices.selectedDevice;
 export const selectDevicesLength = (state: AppState) =>
   state.devices.data?.length;
+export const selectDevicesAlarms = (state: AppState) => state.devices.alarms;
+export const selectAmountOfSensors = (state: AppState) =>
+  state.devices.amountOfSensors;
+export const selectAmountOfConnectSensors = (state: AppState) =>
+  state.devices.amountOfConnectSensors;
+export const selectAmountOfDisconnectSensors = (state: AppState) =>
+  state.devices.amountOfDisconnectSensors;
+
 // export const selectSensorsHasWork = (state: AppState) =>
 //   state.devices.sensorHasWork;
 

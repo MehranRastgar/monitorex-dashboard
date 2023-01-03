@@ -21,6 +21,9 @@ import classes from "./MainLayout.module.scss";
 import SidebarContext, {
   SidebarContextProvider,
 } from "../../store/sidebarContext";
+import { io, Socket } from "socket.io-client";
+
+const socket = io("http://localhost:3051");
 
 const fetcher = (URL: string) => axios.get(URL).then((res) => res.data);
 const config: SWRConfiguration = {
@@ -36,10 +39,24 @@ import Sidebar from "../sidebar/Sidebar";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { GetSensors } from "../../api/sensors";
 import {
-  selectSensorsStatus,
-  setSensorsData,
-  setSensorsStatus,
-} from "../../store/slices/sensorsSlice";
+  Alert,
+  Button,
+  Fade,
+  Slide,
+  SlideProps,
+  Snackbar,
+} from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import {
+  alarmsType,
+  selectDevicesAlarms,
+  selectDevicesStatus,
+  setDevicesAlarms,
+  setDevicesAlarmsHandler,
+  setDevicesData,
+  setDevicesStatus,
+} from "../../store/slices/devicesSlice";
+import { GetDevices } from "../../api/devices";
 
 var changeRoute: boolean = false;
 
@@ -81,6 +98,7 @@ function Layout({ children }: { children: any }) {
   const [config, setConfig] = useState<boolean>(false);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const selectAlarms = useAppSelector(selectDevicesAlarms);
   //================================================
   function configPage() {
     dispatch(fetchSettingsAsync());
@@ -169,8 +187,9 @@ function Layout({ children }: { children: any }) {
   }
   const sidebarCtx = useContext(SidebarContext);
   const queryClient = useQueryClient();
-  const querySensors = useQuery("sensors", GetSensors);
-  const selectsensorsstatus = useAppSelector(selectSensorsStatus);
+  const queryDevices = useQuery("devices", GetDevices);
+  const selectsensorsstatus = useAppSelector(selectDevicesStatus);
+
   // const mutation = useMutation(postTodo, {
   //   onSuccess: () => {
   //     // Invalidate and refetch
@@ -189,26 +208,70 @@ function Layout({ children }: { children: any }) {
   useEffect(() => {
     let timer1 = setTimeout(() => mutation.mutate(), 30000);
     // console.log(query);
-    if (querySensors.isFetching === true) {
-      dispatch(setSensorsStatus("request"));
+    if (queryDevices.isFetching === true) {
+      dispatch(setDevicesStatus("request"));
       console.log("sensor query is updated");
     }
     if (
-      querySensors.status === "success" &&
+      queryDevices.status === "success" &&
       selectsensorsstatus !== "success"
     ) {
-      dispatch(setSensorsData(querySensors.data));
-      dispatch(setSensorsStatus("success"));
-      console.log(querySensors.dataUpdatedAt);
-      console.log(new Date().getTime() - querySensors.dataUpdatedAt);
+      dispatch(setDevicesData(queryDevices.data));
+      dispatch(setDevicesStatus("success"));
+      console.log(queryDevices.dataUpdatedAt);
+      console.log(new Date().getTime() - queryDevices.dataUpdatedAt);
     }
+
     return () => {
       clearTimeout(timer1);
     };
-  }, [querySensors.isFetching, querySensors.isSuccess]);
+  }, [queryDevices.isFetching, queryDevices.isSuccess]);
 
+  useEffect(() => {
+    socket.on("alarms", (data: alarmsType) => {
+      let pastAlLen = selectAlarms?.length;
+      dispatch(setDevicesAlarmsHandler(data));
+      console.log("alarms:", data);
+      if (
+        pastAlLen !== undefined &&
+        selectAlarms !== undefined &&
+        selectAlarms?.length > pastAlLen
+      ) {
+        setAllert(
+          " alarm: " +
+            data?.message +
+            "-" +
+            data?.value +
+            "-" +
+            data.sensorTitle +
+            "-" +
+            data.sensorId
+        );
+        setOpen(true);
+      }
+    });
+    return () => {
+      socket.off("alarms");
+    };
+  }, []);
+
+  function SlideTransition(props: SlideProps) {
+    return <Slide {...props} direction="up" />;
+  }
+  const [allert, setAllert] = useState<string>("");
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <>
+      <Snackbar open={open} autoHideDuration={16000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="warning" sx={{ width: "100%" }}>
+          {allert}
+        </Alert>
+      </Snackbar>
+
       {isLoading ? (
         <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-transparent top-0 left-0 h-[100%] w-[100%]">
           <div className="flex flex-wrap h-fit">
@@ -249,5 +312,4 @@ function Layout({ children }: { children: any }) {
     </>
   );
 }
-
 export default Layout;

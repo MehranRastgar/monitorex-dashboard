@@ -162,7 +162,7 @@ export default function DeviceForm() {
                 <Grid>
                   <FormControl variant="filled" sx={{ ...style, width: 150 }}>
                     <InputLabel id="demo-simple-select-standard-label">
-                      numberOfPorts
+                      {t("numberOfPorts")}
                     </InputLabel>
                     <Select
                       // id={idPrefix + "numberOfPorts"}
@@ -279,7 +279,7 @@ export default function DeviceForm() {
             <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
               {t("sensors")}
             </h2>
-            <DevicesPart
+            <SensorsPart
               type={selectedDevice.type}
               port={selectedDevice.numberOfPorts}
             />
@@ -379,7 +379,10 @@ export const selectMultiport: number[] = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
   // '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16',
 ];
-export const selectNumberOfPorts: number[] = [4, 8];
+export const selectNumberOfPorts: number[] = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
+];
 export const typesOfDevies: string[] = [
   "Sensor Cotroller",
   "Electric panel",
@@ -397,31 +400,22 @@ function DeviceShowWhat({ port, type }: { port?: number; type?: string }) {
   return (
     <>
       <div className="mr-10">
-        {port === 4 && type === "Sensor Cotroller" ? (
+        {type === "Sensor Cotroller" ? (
           <div>
             <Icon fontSize={64} icon={"arcticons:deviceinfohw"}></Icon>
-            <Badge className="flex translate-x-2 -translate-y-4">4</Badge>
+            <Badge className="flex translate-x-2 -translate-y-4">{port}</Badge>
           </div>
         ) : (
-          <>
-            {port === 8 && type === "Sensor Cotroller" ? (
-              <div>
-                <Icon fontSize={64} icon={"arcticons:deviceinfohw"}></Icon>
-                <Badge className="flex translate-x-6 -translate-y-4">8</Badge>
-              </div>
-            ) : (
-              <div>
-                <Icon fontSize={50} icon={"ic:outline-electric-meter"}></Icon>
-              </div>
-            )}
-          </>
+          <div>
+            <Icon fontSize={50} icon={"ic:outline-electric-meter"}></Icon>
+          </div>
         )}
       </div>
     </>
   );
 }
 
-function DevicesPart({ port, type }: { port?: number; type?: string }) {
+function SensorsPart({ port, type }: { port?: number; type?: string }) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const selectedDevice = useAppSelector(selectSelectedDevice);
@@ -436,7 +430,6 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
           s.push(selectedDevice.sensors[i]);
         else s.push({ title: undefined });
       }
-
       dispatch(setSelectedDevice({ ...selectedDevice, sensors: s }));
     }
     console.log(s);
@@ -484,7 +477,7 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
       port &&
       type &&
       selectedDevice?.sensors !== undefined &&
-      selectedDevice?.sensors?.length < port
+      selectedDevice?.sensors?.length !== port
     )
       makeSensors();
   }, [port, unitstate, selectedDevice]);
@@ -494,7 +487,7 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
     <>
       {selectedDevice?.sensors?.map((sensor, index) => (
         <>
-          <Box sx={{ p: 1 }}>
+          <Box key={index + (sensor?._id ?? "sensor")} sx={{ p: 1 }}>
             <Item>
               <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
                 {t("Sensor - ") +
@@ -577,7 +570,7 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                   </Grid>
                   <Grid>
                     <Autocomplete
-                      value={sensor.unit ?? ""}
+                      value={sensor.unit}
                       id={idPrefix + `sensor?.[${index}]?.unit`}
                       freeSolo
                       onInputChange={(
@@ -627,10 +620,24 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                       )}
                     />
                   </Grid>
-                  {/* <Grid>
+                  <Grid>
                     <TextField
-                      id={idPrefix + `sensor?.[${index}]?._id`}
-                      disabled
+                      value={sensor?.maxAlarm ?? undefined}
+                      onChange={(e) => {
+                        let seni: SensorsReceiveTpe[] = [
+                          ...(selectedDevice?.sensors ?? []),
+                        ];
+                        seni[index] = {
+                          ...selectedDevice?.sensors?.[index],
+                          maxAlarm: Number(e.target.value),
+                        };
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            sensors: [...seni],
+                          })
+                        );
+                      }}
                       variant="filled"
                       sx={{
                         ...style,
@@ -649,11 +656,52 @@ function DevicesPart({ port, type }: { port?: number; type?: string }) {
                           userSelect: "none",
                           textDecorationColor: "var(--text-color)",
                         },
-                        width: 250,
+                        width: 100,
                       }}
-                      label={t("db_id")}
+                      label={t("max")}
                     />
-                  </Grid> */}
+                  </Grid>
+                  <Grid>
+                    <TextField
+                      value={sensor?.minAlarm ?? undefined}
+                      onChange={(e) => {
+                        let seni: SensorsReceiveTpe[] = [
+                          ...(selectedDevice?.sensors ?? []),
+                        ];
+                        seni[index] = {
+                          ...selectedDevice?.sensors?.[index],
+                          minAlarm: Number(e.target.value),
+                        };
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            sensors: [...seni],
+                          })
+                        );
+                      }}
+                      variant="filled"
+                      sx={{
+                        ...style,
+                        ".MuiInputBase-input": {
+                          color: "var(--text-color)",
+                          userSelect: "none",
+                        },
+                        ".MuiFilledInput-input": {
+                          textDecorationColor: "var(--text-color)",
+                          "::Mui-disabled": {
+                            userSelect: "none",
+                            textDecorationColor: "var(--text-color)",
+                          },
+                        },
+                        ".Mui-disabled": {
+                          userSelect: "none",
+                          textDecorationColor: "var(--text-color)",
+                        },
+                        width: 100,
+                      }}
+                      label={t("min")}
+                    />
+                  </Grid>
                 </Grid>
               </Box>
               <div className="flex w-full justify-start">
@@ -696,9 +744,9 @@ function FactorsPart() {
   // useEffect(() => {}, [selectedDevice.sensors]);
   return (
     <>
-      {selectedDevice?.factors?.map((factor, index) => (
+      {selectedDevice?.factors?.map((factor: any, index) => (
         <>
-          <Box sx={{ p: 1 }}>
+          <Box key={index + (factor?._id ?? "sensor")} sx={{ p: 1 }}>
             <Item>
               <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
                 {t("Factor - ") +

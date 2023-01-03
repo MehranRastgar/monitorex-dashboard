@@ -63,6 +63,8 @@ export interface SensorsReceiveTpe {
   port?: number;
   metaField?: string;
   updatedAt?: Date;
+  maxAlarm?: number;
+  minAlarm?: number;
   sensorLastSerie?: SensorLastSerie;
   sensorRealtimeValues?: SensorRealtimeValues;
 }

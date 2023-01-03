@@ -8,25 +8,31 @@ import Item from "../../atoms/Item/Item";
 import { io, Socket } from "socket.io-client";
 import { t } from "i18next";
 import SensorAmChartLive from "../sensor/SensorAmChartLive";
+import { useQuery } from "react-query";
+import { GetSensorsSeriesDateVaLue } from "../../../api/sensors";
 const socket = io("http://localhost:3051");
 
 export function SensorChartWebsocket({ idSubScribe }: { idSubScribe: string }) {
+  // const query = useQuery("sensorseries" + idSubScribe, () =>
+  //   GetSensorsSeriesDateVaLue(String(idSubScribe))
+  // );
+  // const queryClient = useQueryClient();
   const [value, setValue] = useState<{ value: number } | undefined>(undefined);
   const [addedValue, setAddedValue] = useState<
     { value: number; date: number }[]
   >([]);
   useEffect(() => {
     // setValue(undefined  );
-    socket.on("connect", () => {
-      console.log("connected");
-    });
+    // socket.on("connect", () => {
+    //   console.log("connected");
+    // });
     socket.on(idSubScribe, (data) => {
       setValue(data);
 
       console.log("data:", data);
     });
     return () => {
-      socket.off("connect");
+      // socket.off("connect");
       socket.off(idSubScribe);
     };
   }, []);
@@ -46,14 +52,20 @@ export function SensorChartWebsocket({ idSubScribe }: { idSubScribe: string }) {
 
   return (
     <>
-      <div key={idSubScribe}>
+      <div className="flex w-full" key={idSubScribe}>
         {value?.value !== undefined ? (
           <>
             {value?.value !== 200000 ? (
-              <div style={{ height: 400, width: "100%" }}>
+              <div style={{ height: 200, width: "100%" }}>
                 {value?.value}
                 <div className="flex h-[10px] w-[10px]  rounded-full bg-green-600"></div>
-                <SensorAmChartLive data={addedValue} id={idSubScribe} />
+                <SensorAmChartLive
+                  // lastData={
+                  //   query.status === "success" ? [...(query?.data ?? [])] : []
+                  // }
+                  data={addedValue}
+                  id={idSubScribe}
+                />
               </div>
             ) : (
               <div>
@@ -63,7 +75,7 @@ export function SensorChartWebsocket({ idSubScribe }: { idSubScribe: string }) {
             )}
           </>
         ) : (
-          <div>loading</div>
+          <div>wait for sample</div>
         )}
       </div>
     </>
