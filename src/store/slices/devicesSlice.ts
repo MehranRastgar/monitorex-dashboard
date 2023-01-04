@@ -64,7 +64,7 @@ export const putDeviceAsync = createAsyncThunk(
   "devices/putDevice",
 
   async (body: DevicesReceiveType) => {
-    const response = await putDevice(body, body?._id ?? "");
+    const response = await putDevice(body, body?._id ?? undefined);
     // The value we return becomes the `fulfilled` action payload
     return response;
   }
