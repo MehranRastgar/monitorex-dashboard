@@ -10,7 +10,10 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import {
   getDevicesAsync,
   putDeviceAsync,
+  selectDevicesStatus,
+  selectErrorMessage,
   selectSelectedDevice,
+  setErrorMessage,
   setSelectedDevice,
 } from "../../../store/slices/devicesSlice";
 import {
@@ -88,10 +91,17 @@ export default function DeviceForm() {
   const { t } = useTranslation();
   //itemShouldRender
   const selectedDevice = useAppSelector(selectSelectedDevice);
+  const selectStatus = useAppSelector(selectDevicesStatus);
+  const selectEM = useAppSelector(selectErrorMessage);
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    if (selectStatus === "success" && selectEM === "success") {
+      dispatch(setErrorMessage("idle"));
+      dispatch(getDevicesAsync());
+    }
+  }, [selectEM]);
   useEffect(() => {}, [selectedDevice]);
-
   if (selectedDevice !== undefined)
     return (
       <form key={selectedDevice?._id ?? "newid"}>
@@ -357,7 +367,7 @@ export default function DeviceForm() {
           <Button
             onClick={(e) => {
               dispatch(putDeviceAsync(selectedDevice));
-              dispatch(getDevicesAsync());
+              // dispatch(getDevicesAsync());
 
               // console.log(selectedDevice);
             }}
@@ -365,6 +375,8 @@ export default function DeviceForm() {
             Save Changes
           </Button>
         </Box>
+        <div>{selectEM}</div>
+        <div>{selectStatus}</div>
       </form>
     );
   else return <></>;

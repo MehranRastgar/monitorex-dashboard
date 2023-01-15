@@ -76,7 +76,7 @@ function LayoutLogin({ children }: { children: any }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   //================================================
   function configPage() {
-    dispatch(fetchSettingsAsync());
+    // dispatch(fetchSettingsAsync());
     console.log("justOne time");
     dispatch(signInCheck());
   }

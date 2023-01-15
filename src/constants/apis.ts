@@ -8,3 +8,4 @@ export const getSensorSeriesFilled =
 export const getSensorSeriesFilledDateValue =
   process.env.NEXT_PUBLIC_BASE_API_URL + "/sensors/sensor/valuedate/";
 export const getDevices = process.env.NEXT_PUBLIC_BASE_API_URL + "/devices";
+export const getUsers = process.env.NEXT_PUBLIC_BASE_API_URL + "/users";

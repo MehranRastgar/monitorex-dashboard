@@ -333,8 +333,8 @@ export interface SignInResponse {
   accessToken: string;
 }
 export interface SignInRequest {
-  usernamebyphone: number;
-  code: number;
+  userName: string;
+  password: string;
 }
 export interface SignInCheck {
   usernamebyphone: number;
@@ -359,7 +359,7 @@ export interface Client {
   addresses?: Address[];
   cart?: Cart[];
   PrimaryAddressNumber?: number;
-  accessToken?: string;
+  access_token?: string;
 }
 
 export interface ID {

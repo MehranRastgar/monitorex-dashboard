@@ -19,6 +19,10 @@ import ChartSensor from "../src/components/pages/sensors/SensorChart";
 import { useAppSelector } from "../src/store/hooks";
 import { selectSelectedSensors } from "../src/store/slices/sensorsSlice";
 import Template from "../src/components/canvas/views/Template";
+const DemoTinyLine = dynamic(
+  () => import("../src/atomic/molecules/AntChart/LineChartAnt"),
+  { ssr: false }
+);
 function Sensors() {
   const { t } = useTranslation();
   const selectedsensors = useAppSelector(selectSelectedSensors);
@@ -32,8 +36,10 @@ function Sensors() {
       <section>
         <h2 className="title">{t("sensors")}</h2>
         <Summary />
+        {/* <DemoTinyLine /> */}
 
-        <SensorsTable />
+        {/* <SensorsTable /> */}
+
         <div className="flex flex-wrap my-10">
           <h2 className="title">{t("sensorsSelected")}</h2>
           <div className="flex w-full">

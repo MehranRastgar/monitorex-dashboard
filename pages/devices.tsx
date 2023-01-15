@@ -36,6 +36,7 @@ export default function Devices() {
   const queryDevices = useQuery("devices", GetDevices);
 
   useEffect(() => {
+    console.log(queryDevices);
     if (queryDevices.status === "success") {
       dispatch(setDevicesData(queryDevices.data));
       dispatch(setDevicesStatus("success"));

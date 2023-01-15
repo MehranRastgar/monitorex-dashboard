@@ -1,14 +1,16 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import { useEffect } from "react";
 import { SensorsReceiveTpe } from "../components/pages/sensors/sensorsTable";
 import {
   getDevices,
   getSensors,
   getSensorSeries,
   getSensorSeriesFilled,
+  getUsers,
 } from "../constants/apis";
-import { DevicesReceiveType } from "../store/api/devicesApi";
+import { Client, ClientType } from "../types/types";
 
-export async function GetDevices(): Promise<DevicesReceiveType[]> {
+export async function GetUsers(): Promise<Client[]> {
   const accessToken: string | null = localStorage.getItem("access_token");
   const getConfig = {
     headers: {
@@ -21,14 +23,8 @@ export async function GetDevices(): Promise<DevicesReceiveType[]> {
     },
   };
   //   return await fetch(getSensors);
-  try {
-    const { data: data } = await axios.get(getDevices, getConfig);
+  const { data: data, status } = await axios.get(getUsers, getConfig);
 
-    const datares: DevicesReceiveType[] = [...data];
-    return datares;
-  } catch (err: any | AxiosError) {
-    {
-      return [];
-    }
-  }
+  const datares: Client[] = [...data];
+  return datares;
 }

@@ -13,7 +13,7 @@ function Settings() {
     <Layout>
       <section>
         <h2 className="title">{t("settings")}</h2>
-        <BasicTabs />
+        {/* <BasicTabs /> */}
 
         {/* <DeviceList /> */}
       </section>

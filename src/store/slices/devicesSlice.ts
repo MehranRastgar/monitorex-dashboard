@@ -9,8 +9,14 @@ import {
   getDevices,
   putDevice,
 } from "../api/devicesApi";
+import { AxiosError, AxiosResponse } from "axios";
 
-export type ApiFetchStatus = "initial" | "request" | "rejected" | "success";
+export type ApiFetchStatus =
+  | "initial"
+  | "request"
+  | "rejected"
+  | "success"
+  | "faild";
 
 export interface deviceAddress {
   multiPort: number;
@@ -32,6 +38,7 @@ export interface Devices {
   amountOfSensors?: number;
   amountOfConnectSensors?: number;
   amountOfDisconnectSensors?: number;
+  errorMessage?: string;
 }
 export interface alarmsType {
   message: string;
@@ -46,7 +53,10 @@ const initialState: Devices = {
   status: "initial",
   putStatus: "initial",
 };
-
+interface ValidationErrors {
+  errorMessage: string;
+  field_errors: Record<string, string>;
+}
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
@@ -62,10 +72,11 @@ export const getDevicesAsync = createAsyncThunk(
 );
 export const putDeviceAsync = createAsyncThunk(
   "devices/putDevice",
-
-  async (body: DevicesReceiveType) => {
+  async (
+    body: DevicesReceiveType,
+    { rejectWithValue }
+  ): Promise<AxiosResponse | AxiosError> => {
     const response = await putDevice(body, body?._id ?? undefined);
-    // The value we return becomes the `fulfilled` action payload
     return response;
   }
 );
@@ -81,9 +92,9 @@ export const devicesSlice = createSlice({
       let number = 0;
       state.data.map((device) => {
         amount += device?.sensors?.length ?? 0;
-        device?.sensors?.map((item) => {
-          if (item?.sensorLastSerie?.timestamp !== undefined) {
-            const timedate = new Date(item?.sensorLastSerie?.timestamp);
+        device?.sensorLastSerie?.map((item) => {
+          if (item?.timestamp !== undefined) {
+            const timedate = new Date(item?.timestamp);
             const now = new Date();
             const dif = now.getTime() - timedate.getTime();
             if (dif / 1000 / 60 < 15) number++;
@@ -97,7 +108,6 @@ export const devicesSlice = createSlice({
     setDevicesStatus: (state, action: PayloadAction<ApiFetchStatus>) => {
       state.status = action.payload;
     },
-
     setSelectedDevice: (state, action: PayloadAction<DevicesReceiveType>) => {
       state.selectedDevice = action.payload;
     },
@@ -120,6 +130,9 @@ export const devicesSlice = createSlice({
       }
       state.alarms = arr;
     },
+    setErrorMessage: (state, action: PayloadAction<string>) => {
+      state.errorMessage = action.payload;
+    },
   },
 
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -130,14 +143,29 @@ export const devicesSlice = createSlice({
       .addCase(putDeviceAsync.pending, (state) => {
         state.status = "request";
       })
-      .addCase(putDeviceAsync.fulfilled, (state, action) => {
-        state.status = "success";
-        state.selectedDevice = action.payload;
-        // state.categories = action?.payload?.[index] ?? [];
-      })
-      .addCase(putDeviceAsync.rejected, (state, action) => {
+      .addCase(
+        putDeviceAsync.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          if (action.payload.status < 400) {
+            state.status = "success";
+            state.selectedDevice = action.payload.data as DevicesReceiveType;
+            state.errorMessage = "success";
+          } else {
+            state.status = "faild";
+            state.errorMessage = action.payload?.message;
+          }
+
+          // state.categories = action?.payload?.[index] ?? [];
+        }
+      )
+      .addCase(putDeviceAsync.rejected, (state, action: PayloadAction<any>) => {
         state.status = "rejected";
-        state.data = [];
+        state.errorMessage = "action.payload?.message";
+        // state.errorMessage = "error rejected ";
+
+        // console.log(action.payload);
+
+        // state.data = [];
       })
       .addCase(getDevicesAsync.pending, (state) => {
         state.status = "request";
@@ -147,7 +175,7 @@ export const devicesSlice = createSlice({
         state.data = action.payload;
         // state.categories = action?.payload?.[index] ?? [];
       })
-      .addCase(getDevicesAsync.rejected, (state, action) => {
+      .addCase(getDevicesAsync.rejected, (state) => {
         state.status = "rejected";
         state.data = [];
       });
@@ -160,6 +188,7 @@ export const {
   setSelectedDevice,
   setDevicesStatus,
   setDevicesAlarms,
+  setErrorMessage,
 } = devicesSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
@@ -178,7 +207,8 @@ export const selectAmountOfConnectSensors = (state: AppState) =>
   state.devices.amountOfConnectSensors;
 export const selectAmountOfDisconnectSensors = (state: AppState) =>
   state.devices.amountOfDisconnectSensors;
-
+export const selectErrorMessage = (state: AppState) =>
+  state.devices.errorMessage;
 // export const selectSensorsHasWork = (state: AppState) =>
 //   state.devices.sensorHasWork;
 

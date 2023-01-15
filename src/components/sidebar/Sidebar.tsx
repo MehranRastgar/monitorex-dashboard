@@ -34,6 +34,7 @@ function Sidebar() {
   }
 
   function logoutHandler() {
+    localStorage.removeItem("access_token");
     openSidebarHandler();
     // loginCtx.toggleLogin();
   }

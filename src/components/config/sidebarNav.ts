@@ -18,12 +18,6 @@ const sidebarNav = [
     icon: "material-symbols:motion-sensor-active-rounded",
     text: "sensors",
   },
-  {
-    link: "/users",
-    section: "users",
-    icon: "ph:users-bold",
-    text: "users",
-  },
 
   {
     link: "/analytics",
@@ -42,6 +36,12 @@ const sidebarNav = [
     section: "settings",
     icon: "material-symbols:settings-account-box",
     text: "settings",
+  },
+  {
+    link: "/users",
+    section: "users",
+    icon: "ph:users-bold",
+    text: "users",
   },
   {
     link: "/systemlogs",

@@ -15,7 +15,7 @@ import { fetchSettingsAsync } from "../../store/slices/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import imageLoader from "../../imageLoader";
 // import FooterMain from "./footers/footer";
-import { signInCheck } from "../../store/slices/clientSlice";
+import { selectSignInFlag, signInCheck } from "../../store/slices/clientSlice";
 import { BsHeadset } from "react-icons/bs";
 import classes from "./MainLayout.module.scss";
 import SidebarContext, {
@@ -99,9 +99,11 @@ function Layout({ children }: { children: any }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const selectAlarms = useAppSelector(selectDevicesAlarms);
+  const selectsigninflag = useAppSelector(selectSignInFlag);
+
   //================================================
   function configPage() {
-    dispatch(fetchSettingsAsync());
+    // dispatch(fetchSettingsAsync());
     console.log("justOne time");
     dispatch(signInCheck());
   }
@@ -254,6 +256,14 @@ function Layout({ children }: { children: any }) {
       socket.off("alarms");
     };
   }, []);
+
+  useEffect(() => {
+    if (selectsigninflag === "faild") {
+      console.log("sign out sensed");
+      router.push("/login");
+    }
+    console.log("sign selectSignInFlag", selectSignInFlag);
+  }, [selectsigninflag]);
 
   function SlideTransition(props: SlideProps) {
     return <Slide {...props} direction="up" />;

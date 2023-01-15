@@ -37,12 +37,8 @@ export default function SensorAmChartLive({
 
   return (
     <>
-      Am chartsss
       <AmStockLive dataReal={[...(value ?? []), ...data]} id={id} />
       {/* <AreaAndRange id={id} /> */}
-      {data.length}
-      {","}
-      {lastData?.length ?? 0}
     </>
   );
 }

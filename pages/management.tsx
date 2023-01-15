@@ -4,6 +4,7 @@ import Summary from "../src/components/summary/Summary";
 import SaleChart from "../src/components/chart/Chart";
 import DashboardTables from "../src/components/tables/DashboardTables";
 import Layout from "../src/components/layout/Layout";
+import UserManagement from "../src/atomic/templates/UserManagement";
 
 function Settings() {
   const [value, setValue] = useState(0);
@@ -17,8 +18,8 @@ function Settings() {
         <BasicTabs value={value} setValue={setValue} />
         <Box sx={{ p: 3 }}>
           {value === 0 ? <DeviceManagement /> : <></>}
-          {value === 1 ? <SensorList props={{ title: "sensors" }} /> : <></>}
-          {value === 2 ? <DeviceList /> : <></>}
+          {/* {value === 1 ? <SensorList props={{ title: "sensors" }} /> : <></>} */}
+          {value === 1 ? <UserManagement /> : <></>}
         </Box>
       </section>
     </Layout>
@@ -74,7 +75,33 @@ function a11yProps(index: number) {
     "aria-controls": `simple-tabpanel-${index}`,
   };
 }
+// const TagA = ({ num, m }: { num: number; m: number }) => {
+//   const [tagArr, setTagArr] = useState<{ tag: number; state: boolean }[]>([]);
+//   function makeArr() {
+//     const arr: { tag: number; state: boolean }[] = [];
+//     for (let i = 0; i < num; i++) {
+//       const tag = {
+//         tag: i,
+//         state: i < m ? true : false,
+//       };
+//       arr.push(tag);
+//     }
+//     setTagArr(arr);
+//   }
+//   useEffect(() => {
+//     makeArr();
+//   }, [num, m]);
 
+//   return (
+//     <>
+//       {tagArr?.map((item, index) => (
+//         <div className={`${item ? "style1" : "style2"}`} key={index}>
+//           {item.tag}
+//         </div>
+//       ))}
+//     </>
+//   );
+// };
 function BasicTabs({ setValue, value }: { setValue: any; value: number }) {
   const { t } = useTranslation();
 
@@ -83,24 +110,27 @@ function BasicTabs({ setValue, value }: { setValue: any; value: number }) {
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-          variant="fullWidth"
-          textColor="inherit"
-          TabIndicatorProps={{
-            children: <span className="MuiTabs-indicatorSpan" />,
-          }}
-        >
-          <StyledTab label={t("devices")} {...a11yProps(0)} />
-          <StyledTab label={t("sensors")} {...a11yProps(1)} />
-          <StyledTab label={t("users")} {...a11yProps(2)} />
-        </Tabs>
+    <>
+      {/* <TagA num={10} m={5}></TagA> */}
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            variant="fullWidth"
+            textColor="inherit"
+            TabIndicatorProps={{
+              children: <span className="MuiTabs-indicatorSpan" />,
+            }}
+          >
+            <StyledTab label={t("devices")} {...a11yProps(0)} />
+            {/* <StyledTab label={t("sensors")} {...a11yProps(1)} /> */}
+            <StyledTab label={t("users")} {...a11yProps(1)} />
+          </Tabs>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }
 

@@ -28,7 +28,34 @@ export async function fetchClient(
     }
   }
 }
-
+export async function fetchAllUsers(
+  accessToken: string
+): Promise<Client | { error: { errorCode: any } }> {
+  // let clientid = localStorage.getItem("clientId");
+  // console.log(clientid);
+  try {
+    const getConfig = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Credentials": "true",
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json;charset=UTF-8",
+        Accept: "*/*",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/users`,
+      getConfig
+    );
+    const result: Client = response.data;
+    return result;
+  } catch (err: any | AxiosError) {
+    {
+      return { error: { errorCode: err } };
+    }
+  }
+}
 export async function requestSms(
   phoneNumber: number
 ): Promise<any | { error: { errorCode: any } }> {
@@ -64,14 +91,14 @@ export async function requestSms(
   }
 }
 export async function signIn(
-  phoneNumber: number,
-  code: number
+  userName: string,
+  password: string
 ): Promise<any | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
   // console.log(clientid);
   // state.signInFlag = "request";
 
-  const getConfig = {
+  const postConfig = {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Credentials": "true",
@@ -80,10 +107,13 @@ export async function signIn(
       Accept: "*/*",
     },
   };
-  const uri: string =
-    "/api/signin?" + `PhoneNumber=${phoneNumber}&code=${code}`;
+  const body = {
+    username: userName,
+    password: password,
+  };
+  const uri: string = `${process.env.NEXT_PUBLIC_BASE_API_URL}/users/login/`;
   try {
-    const { data, status } = await axios.get(uri, getConfig);
+    const { data, status } = await axios.post(uri, body, postConfig);
     // .then((Response: AxiosResponse) => {
     //   console.log("sms sended:", Response.data);
     //   if (Response.status < 300) state.signInFlag = "smsWaiting";
@@ -100,7 +130,6 @@ export async function signIn(
   }
 }
 export async function checkSignIn(
-  id: string,
   accessToken: string
 ): Promise<any | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
@@ -114,11 +143,11 @@ export async function checkSignIn(
       "Cache-Control": "no-cache",
       "Content-Type": "application/json;charset=UTF-8",
       Accept: "*/*",
-      token: accessToken,
+      Authorization: `Bearer ${accessToken}`,
     },
   };
-  const uri: string =
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/client/islogin/` + `${id}`;
+
+  const uri: string = `${process.env.NEXT_PUBLIC_BASE_API_URL}/users/login/islogin`;
   try {
     const { data, status } = await axios.get(uri, getConfig);
     // .then((Response: AxiosResponse) => {
@@ -240,7 +269,7 @@ export async function PutUserApi(
     //   state.signInFlag = "smsProviderError";
     // });
     const result: Client = data;
-    result.accessToken = token;
+    result.access_token = token;
     return result;
   } catch (err: any | AxiosError) {
     {

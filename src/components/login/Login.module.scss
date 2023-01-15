@@ -72,7 +72,7 @@
   .langbox {
     display: flex;
     width: 100%;
-    justify-content: start;
+    justify-content: flex-start;
   }
   .checkbox {
     @include flex(center, flex-start);

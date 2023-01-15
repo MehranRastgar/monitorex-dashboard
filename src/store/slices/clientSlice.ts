@@ -31,6 +31,8 @@ export interface ProductId {
 }
 export interface ClientState {
   value: Client;
+  data: Client[];
+  selectedUser?: Client;
   status: "logedIn" | "loading" | "403" | "401" | "unknownError" | "logout";
   token: "loading" | string;
   updateFlag:
@@ -58,13 +60,23 @@ export interface ClientState {
 
 const initialState: ClientState = {
   value: {},
+  data: [],
   updateFlag: "idle",
   status: "loading",
   token: "loading",
   signInFlag: "idle",
   cartFlag: "idle",
 };
-
+export type signInFlagsType =
+  | "idle"
+  | "request"
+  | "loading"
+  | "smsWaiting"
+  | "smsCodeError"
+  | "smsProviderError"
+  | "smsNotSend"
+  | "success"
+  | "faild";
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
@@ -79,7 +91,7 @@ export const signInAction = createAsyncThunk(
           error: {
             errorCode: any;
           };
-        } = await signIn(signInReq.usernamebyphone, signInReq.code);
+        } = await signIn(signInReq.userName, signInReq.password);
     console.log("response thunk signInsignInsignIn", response);
 
     // The value we return becomes the `fulfilled` action payload
@@ -110,10 +122,7 @@ export const signInCheck = createAsyncThunk("client/checkSignIn", async () => {
         error: {
           errorCode: any;
         };
-      } = await checkSignIn(
-    String(localStorage?.getItem("user-id")),
-    String(localStorage?.getItem("accessToken"))
-  );
+      } = await checkSignIn(String(localStorage?.getItem("access_token")));
   console.log("response thunk", response);
   return response;
 });
@@ -128,7 +137,7 @@ export const updateUserData = createAsyncThunk(
             errorCode: any;
           };
         } = await PutUserApi(
-      String(localStorage?.getItem("accessToken")),
+      String(localStorage?.getItem("access_token")),
       userInfo
     );
     // console.log("response thunk", response);
@@ -147,7 +156,7 @@ export const updateVariantsCart = createAsyncThunk(
             errorCode: any;
           };
         } = await updateCartVariants(
-      String(localStorage?.getItem("accessToken")),
+      String(localStorage?.getItem("access_token")),
       String(localStorage?.getItem("user-id"))
     );
     return response;
@@ -207,10 +216,13 @@ export const clientSlice = createSlice({
       //   state.signInFlag = "smsProviderError";
       // });
     },
+    setSignInFlag: (state, action: PayloadAction<signInFlagsType>) => {
+      state.signInFlag = action.payload;
+    },
     removeProfile: (state) => {
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem("access_token");
       state.value = {
-        accessToken: undefined,
+        access_token: undefined,
         cart: [],
         firstname: undefined,
         usernamebyphone: undefined,
@@ -228,7 +240,12 @@ export const clientSlice = createSlice({
       // immutable state based off those changes
       state.value.usernamebyphone = action.payload;
     },
-
+    setUsersData: (state, action: PayloadAction<Client[]>) => {
+      state.data = action.payload;
+    },
+    setSelectedUser: (state, action: PayloadAction<Client>) => {
+      state.selectedUser = action.payload;
+    },
     // addToCart: (state, action: PayloadAction<ProductId>) => {
     //   const data: Cart[] | undefined = state?.value?.cart;
     //   console.log(action.payload.value);
@@ -253,34 +270,37 @@ export const clientSlice = createSlice({
         state.signInFlag = "request";
       })
       .addCase(signInRequestAsync.rejected, (state, action) => {
-        state.signInFlag = "smsProviderError";
+        state.signInFlag = "faild";
       })
       .addCase(signInAction.pending, (state) => {
-        state.signInFlag = "smsWaiting";
+        state.signInFlag = "loading";
       })
       .addCase(
         signInAction.fulfilled,
         (state, action: PayloadAction<Client | any>) => {
           state.value = action.payload;
-          if (state?.value?.accessToken !== undefined)
-            localStorage.setItem("accessToken", state?.value?.accessToken);
-          if (state?.value?.usernamebyphone !== undefined)
-            localStorage.setItem(
-              "usernamebyphone",
-              String(state?.value?.usernamebyphone)
-            );
-          if (state?.value?._id !== undefined)
-            localStorage.setItem("user-id", String(state?.value?._id));
-          state.signInFlag = "success";
+          if (state?.value?.access_token !== undefined) {
+            localStorage.setItem("access_token", state?.value?.access_token);
+            state.signInFlag = "success";
+          } else {
+            state.signInFlag = "faild";
+          }
+          // if (state?.value?.usernamebyphone !== undefined)
+          //   localStorage.setItem(
+          //     "usernamebyphone",
+          //     String(state?.value?.usernamebyphone)
+          //   );
+          // if (state?.value?._id !== undefined)
+          //   localStorage.setItem("user-id", String(state?.value?._id));
         }
       )
       .addCase(signInAction.rejected, (state, action) => {
-        state.signInFlag = "smsCodeError";
+        state.signInFlag = "faild";
       })
       .addCase(
         signInCheck.fulfilled,
         (state, action: PayloadAction<Client | any>) => {
-          if (action?.payload?.usernamebyphone !== undefined) {
+          if (action?.payload?.access_token !== undefined) {
             state.value = action.payload;
             state.signInFlag = "success";
           } else {
@@ -377,8 +397,14 @@ export const clientSlice = createSlice({
   },
 });
 
-export const { signInRequest, setMobileNumber, removeProfile } =
-  clientSlice.actions;
+export const {
+  signInRequest,
+  setMobileNumber,
+  removeProfile,
+  setSelectedUser,
+  setUsersData,
+  setSignInFlag,
+} = clientSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
@@ -390,6 +416,9 @@ export const selectToken = (state: AppState) => state.client.token;
 export const selectUserInfoStatus = (state: AppState) => state.client.status;
 export const selectSignInFlag = (state: AppState) => state.client.signInFlag;
 export const selectCartFlag = (state: AppState) => state.client.cartFlag;
+export const selectUsersData = (state: AppState) => state.client.data;
+export const selectSelectedUser = (state: AppState) =>
+  state.client.selectedUser;
 export const selectUserUpdateFlag = (state: AppState) =>
   state.client.updateFlag;
 

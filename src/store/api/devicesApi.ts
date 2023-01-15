@@ -1,7 +1,11 @@
-import axios, { AxiosResponse } from "axios";
-import { SensorsReceiveTpe } from "../../components/pages/sensors/sensorsTable";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import {
+  SensorLastSerie,
+  SensorsReceiveTpe,
+} from "../../components/pages/sensors/sensorsTable";
 
 export async function getDevices(): Promise<DevicesReceiveType[]> {
+  const accessToken: string | null = localStorage.getItem("access_token");
   const response = await axios.get(
     `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices/`,
     {
@@ -9,51 +13,63 @@ export async function getDevices(): Promise<DevicesReceiveType[]> {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Credentials": "true",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken ?? 0}`,
       },
     }
   );
   const result = await response.data;
 
+  // if (response.status >= 400) {
+  //   console.log("access token removes");
+  //   localStorage.removeItem("access_token");
+  // }
   return result;
 }
 
 export async function putDevice(
   body: DevicesReceiveType,
   deviceId?: string
-): Promise<DevicesReceiveType> {
+): Promise<AxiosResponse | AxiosError> {
   let response: AxiosResponse;
-  if (deviceId === undefined) {
-    response = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices`,
-      {
-        ...body,
-      },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
-          "Content-Type": "application/json",
+  const accessToken: string | null = localStorage.getItem("access_token");
+  try {
+    if (deviceId === undefined) {
+      response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices`,
+        {
+          ...body,
         },
-      }
-    );
-  } else {
-    response = await axios.put(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices/${deviceId}`,
-      {
-        ...body,
-      },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": "true",
-          "Content-Type": "application/json",
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": "true",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken ?? 0}`,
+          },
+        }
+      );
+    } else {
+      response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices/${deviceId}`,
+        {
+          ...body,
         },
-      }
-    );
-  }
-  const result = await response.data;
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Credentials": "true",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken ?? 0}`,
+          },
+        }
+      );
+    }
+    // const result = await response;
 
-  return result;
+    return response;
+  } catch (err: any) {
+    return err;
+  }
 }
 
 export interface DevicesReceiveType {
@@ -65,6 +81,7 @@ export interface DevicesReceiveType {
   numberOfPorts?: number;
   factors?: Factor[];
   sensors?: SensorsReceiveTpe[];
+  sensorLastSerie?: SensorLastSerie[];
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;

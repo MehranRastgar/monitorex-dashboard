@@ -2,8 +2,11 @@ $ NODE_ENV='production' next build
 info  - Loaded env from G:\gh\scada\adminpanel\monitorex-dashboard\.env.local
 info  - Linting and checking validity of types...
 
+./pages/analytics.tsx
+29:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'queryDevices'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
 ./pages/devices.tsx
-43:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+44:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'queryDevices'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/molecules/device/SensorChartWebsocket.tsx
 38:6  Warning: React Hook useEffect has a missing dependency: 'idSubScribe'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
@@ -14,7 +17,7 @@ info  - Linting and checking validity of types...
 162:6  Warning: React Hook useEffect has missing dependencies: 'addData' and 'seriss'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/organisms/device/deviceForm.tsx
-483:6  Warning: React Hook useEffect has missing dependencies: 'makeSensors' and 'type'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+478:6  Warning: React Hook useEffect has missing dependencies: 'makeSensors' and 'type'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/organisms/device/DeviceList.tsx
 98:6  Warning: React Hook React.useEffect has missing dependencies: 'devices' and 'dispatch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -22,8 +25,14 @@ info  - Linting and checking validity of types...
 ./src/atomic/organisms/sensor/SensorList.tsx
 53:6  Warning: React Hook React.useEffect has missing dependencies: 'devices' and 'dispatch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
+./src/atomic/organisms/user/UserList.tsx
+101:6  Warning: React Hook React.useEffect has missing dependencies: 'dispatch' and 'users'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
 ./src/atomic/templates/DeviceManagement.tsx
-25:6  Warning: React Hook React.useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+71:6  Warning: React Hook React.useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/templates/UserManagement.tsx
+80:6  Warning: React Hook React.useEffect has missing dependencies: 'dispatch', 'queryUsers.data', and 'queryUsers.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/canvas/views/area charts/AreaAndRange.tsx
 255:6  Warning: React Hook useEffect has a missing dependency: 'createData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
@@ -32,11 +41,12 @@ info  - Linting and checking validity of types...
 78:6  Warning: React Hook useEffect has a missing dependency: 'createData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/layout/Layout.tsx
-113:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-160:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
-181:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-228:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'mutation', 'queryDevices.data', 'queryDevices.dataUpdatedAt', 'queryDevices.status', and 'selectsensorsstatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-256:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'selectAlarms'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+115:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+162:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+183:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+230:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'mutation', 'queryDevices.data', 'queryDevices.dataUpdatedAt', 'queryDevices.status', and 'selectsensorsstatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+258:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'selectAlarms'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+265:6  Warning: React Hook useEffect has a missing dependency: 'router'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/layout/LayoutLogin.tsx
 88:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -44,7 +54,8 @@ info  - Linting and checking validity of types...
 156:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/login/Login.tsx
-55:11  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+89:6  Warning: React Hook useEffect has a missing dependency: 'router'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+98:11  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
 
 ./src/components/pages/sensors/Chart.tsx
 48:6  Warning: React Hook useEffect has a missing dependency: 'createData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
@@ -68,50 +79,36 @@ SyntaxError: Unexpected end of JSON input
     at JSON.parse (<anonymous>)
     at Object.patchIncorrectLockfile (G:\gh\scada\adminpanel\monitorex-dashboard\node_modules\next\dist\lib\patch-incorrect-lockfile.js:100:33)
 Warning: A null PostCSS plugin was provided. This entry will be ignored.
-<w> [webpack.cache.PackFileCacheStrategy] Skipped not serializable cache item 'Compilation/modules|G:\gh\scada\adminpanel\monitorex-dashboard\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[3].oneOf[5].use[0]!G:\gh\scada\adminpanel\monitorex-dashboard\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[3].oneOf[5].use[1]!G:\gh\scada\adminpanel\monitorex-dashboard\node_modules\next\dist\build\webpack\loaders\resolve-url-loader\index.js??ruleSet[1].rules[3].oneOf[5].use[2]!G:\gh\scada\adminpanel\monitorex-dashboard\node_modules\next\dist\compiled\sass-loader\cjs.js??ruleSet[1].rules[3].oneOf[5].use[3]!G:\gh\scada\adminpanel\monitorex-dashboard\src\components\login\Login.module.scss': No serializer registered for Warning
-<w> while serializing webpack/lib/cache/PackFileCacheStrategy.PackContentItems -> webpack/lib/NormalModule -> Array { 1 items } -> webpack/lib/ModuleWarning -> Warning
-warn  - Compiled with warnings
-
-./src/components/login/Login.module.scss
+info  - Compiled successfully
 info  - Collecting page data...
-Warning
-
-(1:1062) autoprefixer: start value has mixed support, consider using flex-start instead
-
-Import trace for requested module:
-./src/components/login/Login.module.scss
-./src/components/login/Login.tsx
-
-info  - Generating static pages (0/10)
-info  - Generating static pages (2/10)
-info  - Generating static pages (4/10)
-info  - Generating static pages (7/10)
-info  - Generating static pages (10/10)
+info  - Generating static pages (0/11)
+info  - Generating static pages (2/11)
+info  - Generating static pages (5/11)
+info  - Generating static pages (8/11)
+info  - Generating static pages (11/11)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
 ┌ ○ /                                      1.01 kB         207 kB
-├   └ css/957d06dd14b2132e.css             2.18 kB
 ├   /_app                                  0 B             137 kB
 ├ ○ /404                                   415 B           207 kB
+├ ○ /analytics                             518 B           334 kB
 ├ λ /api/sendotp                           0 B             137 kB
 ├ λ /api/signin                            0 B             137 kB
-├ ○ /devices                               2.83 kB         335 kB
-├ ○ /login                                 2.84 kB         160 kB
-├   └ css/00bc3dc5ad4eafdd.css             1.21 kB
-├ ○ /management                            3.96 kB         342 kB
-├ ○ /routes                                2.25 kB         208 kB
+├ ○ /devices                               514 B           334 kB
+├ ○ /login                                 2.86 kB         160 kB
+├   └ css/49198f5546d43ea1.css             1.21 kB
+├ ○ /management                            7.39 kB         341 kB
+├ ○ /routes                                2.25 kB         209 kB
 ├   └ css/680770b402348ad2.css             3.2 kB
-├ ○ /sensors                               99.9 kB         429 kB
-├   └ css/c23d357d76236b2d.css             2.89 kB
-├ ○ /settings                              3.13 kB         337 kB
-├   └ css/d92d8b651b600b6b.css             2.52 kB
-└ ○ /users                                 310 B           206 kB
+├ ○ /sensors                               2.78 kB         209 kB
+├ ○ /settings                              2.16 kB         335 kB
+└ ○ /users                                 310 B           207 kB
 + First Load JS shared by all              144 kB
   ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
   ├ chunks/main-06861021d5663598.js        26.7 kB
-  ├ chunks/pages/_app-d79e08fef5bbb84e.js  62.6 kB
-  ├ chunks/webpack-06b4be34489a5efc.js     2.37 kB
+  ├ chunks/pages/_app-79c0dfbaf50a2069.js  62.7 kB
+  ├ chunks/webpack-63404b66aff612e3.js     2.38 kB
   └ css/7188b8cec89b6345.css               6.47 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)

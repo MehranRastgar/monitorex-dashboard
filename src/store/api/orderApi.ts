@@ -142,7 +142,7 @@ export async function updateCartVariants(
       axiosConf
     );
     const result: Client = response.data;
-    result.accessToken = token;
+    result.access_token = token;
     return result;
   } catch (err: any | AxiosError) {
     {
