@@ -10,6 +10,8 @@ i18n
     resources: {
       en: {
         translation: {
+          startDate: "start date",
+          endDate: "end date",
           sensorDisconnected: "sensor disconnected",
           numberOfPorts: "number of ports",
           specifications: "Specifications",
@@ -130,6 +132,8 @@ i18n
       },
       fa: {
         translation: {
+          startDate: "تاریخ شروع",
+          endDate: "تاریخ پایان",
           sensorDisconnected: "سنسور فطع",
           numberOfPorts: "تعداد پورتها",
           specifications: "مشخصات",
@@ -181,7 +185,6 @@ i18n
           numberOfAvailableSensors: "تعداد سنسورهای فعال",
           thisMonthRevenue: "هشدار های سیستم",
           numberOfAlarms: "هشدار های سیستم",
-
           quickAnalysis: "بررسی سریع",
           topCustomers: "مشتریان برتر",
           latestTransaction: "آخرین تراکنشات",

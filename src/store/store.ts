@@ -7,6 +7,7 @@ import settingsReducer from "./slices/settingsSlice";
 import orderReducer from "./slices/orderSlice";
 import sensorsReducer from "./slices/sensorsSlice";
 import devicesReducer from "./slices/devicesSlice";
+import analizeReducer from "./slices/analizeSlice";
 
 export function makeStore() {
   return configureStore({
@@ -18,6 +19,7 @@ export function makeStore() {
       settings: settingsReducer,
       order: orderReducer,
       devices: devicesReducer,
+      analize: analizeReducer,
     },
   });
 }

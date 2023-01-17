@@ -4,26 +4,30 @@ import {
   SensorsReceiveTpe,
 } from "../../components/pages/sensors/sensorsTable";
 
-export async function getDevices(): Promise<DevicesReceiveType[]> {
+export async function getDevices(): Promise<AxiosResponse | AxiosError> {
   const accessToken: string | null = localStorage.getItem("access_token");
-  const response = await axios.get(
-    `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices/`,
-    {
-      headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Credentials": "true",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken ?? 0}`,
-      },
-    }
-  );
-  const result = await response.data;
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices/`,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken ?? 0}`,
+        },
+      }
+    );
+    // const result = await response.data;
 
-  // if (response.status >= 400) {
-  //   console.log("access token removes");
-  //   localStorage.removeItem("access_token");
-  // }
-  return result;
+    // if (response.status >= 400) {
+    //   console.log("access token removes");
+    //   localStorage.removeItem("access_token");
+    // }
+    return response;
+  } catch (err: any) {
+    return err;
+  }
 }
 
 export async function putDevice(

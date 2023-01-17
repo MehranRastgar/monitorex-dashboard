@@ -51,6 +51,7 @@ import {
   alarmsType,
   selectDevicesAlarms,
   selectDevicesStatus,
+  selectErrorMessage,
   setDevicesAlarms,
   setDevicesAlarmsHandler,
   setDevicesData,
@@ -100,6 +101,7 @@ function Layout({ children }: { children: any }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const selectAlarms = useAppSelector(selectDevicesAlarms);
   const selectsigninflag = useAppSelector(selectSignInFlag);
+  const selectEM = useAppSelector(selectErrorMessage);
 
   //================================================
   function configPage() {
@@ -264,6 +266,12 @@ function Layout({ children }: { children: any }) {
     }
     console.log("sign selectSignInFlag", selectSignInFlag);
   }, [selectsigninflag]);
+  useEffect(() => {
+    if (selectEM === "unauthorize") {
+      router.push("/login");
+    }
+    console.log("selectsensorsstatus", selectsensorsstatus);
+  }, [selectEM]);
 
   function SlideTransition(props: SlideProps) {
     return <Slide {...props} direction="up" />;

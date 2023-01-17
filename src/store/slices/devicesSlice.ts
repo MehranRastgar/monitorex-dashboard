@@ -9,14 +9,17 @@ import {
   getDevices,
   putDevice,
 } from "../api/devicesApi";
-import { AxiosError, AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { setSignInFlag } from "./clientSlice";
+import { useAppDispatch } from "../hooks";
 
 export type ApiFetchStatus =
   | "initial"
   | "request"
   | "rejected"
   | "success"
-  | "faild";
+  | "faild"
+  | "unauthorize";
 
 export interface deviceAddress {
   multiPort: number;
@@ -64,9 +67,11 @@ interface ValidationErrors {
 // typically used to make async requests.
 export const getDevicesAsync = createAsyncThunk(
   "devices/getDevices",
-  async () => {
-    const response = await getDevices();
+
+  async (): Promise<AxiosResponse | AxiosError> => {
     // The value we return becomes the `fulfilled` action payload
+
+    const response = await getDevices();
     return response;
   }
 );
@@ -170,15 +175,26 @@ export const devicesSlice = createSlice({
       .addCase(getDevicesAsync.pending, (state) => {
         state.status = "request";
       })
-      .addCase(getDevicesAsync.fulfilled, (state, action) => {
-        state.status = "success";
-        state.data = action.payload;
-        // state.categories = action?.payload?.[index] ?? [];
-      })
-      .addCase(getDevicesAsync.rejected, (state) => {
-        state.status = "rejected";
-        state.data = [];
-      });
+      .addCase(
+        getDevicesAsync.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          if (action?.payload?.status < 400) {
+            state.status = "success";
+            state.selectedDevice = action.payload.data as DevicesReceiveType;
+            state.errorMessage = "success";
+          } else {
+            state.errorMessage = "unauthorize";
+          }
+        }
+      )
+      .addCase(
+        getDevicesAsync.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.status = "unauthorize";
+
+          state.data = [];
+        }
+      );
   },
 });
 

@@ -697,6 +697,9 @@ a:link {
   background: "var(--pending-bgc)";
 }
 
+.MuiPickersArrowSwitcher-root {
+  direction: ltr;
+}
 /* .MuiButton-root {
   text-decoration-color: #ff0000;
 } */
