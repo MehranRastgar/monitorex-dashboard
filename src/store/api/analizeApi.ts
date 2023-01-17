@@ -5,14 +5,23 @@ import {
 } from "../../components/pages/sensors/sensorsTable";
 
 export async function reportSensors(report: {
-  sensorsIds: string[];
+  sensors: string[];
   start: string;
   end: string;
 }): Promise<AxiosResponse | AxiosError> {
   const accessToken: string | null = localStorage.getItem("access_token");
+
+  const postConfig: {
+    sensors: string[];
+    start: string;
+    end: string;
+  } = {
+    ...report,
+  };
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices/`,
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/sensors/report`,
+      postConfig,
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
