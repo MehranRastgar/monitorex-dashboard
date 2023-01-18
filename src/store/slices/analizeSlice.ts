@@ -23,7 +23,7 @@ export interface SensorsReportType {
 }
 
 export interface Datum {
-  x?: Date;
+  x?: string;
   y?: number;
 }
 
@@ -35,8 +35,8 @@ export interface SensorInReport {
   minAlarm?: number;
   resolution?: string;
   _id?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 type statusApiType = "idle" | "loading" | "success" | "failed" | "unauthorize";
@@ -54,9 +54,9 @@ export const reportSensorsAsync = createAsyncThunk(
   "analize/reportSensors",
 
   async (report: { sensors: string[]; start: string; end: string }) => {
-    const response = await reportSensors(report);
+    const data = await reportSensors(report);
     // The value we return becomes the `fulfilled` action payload
-    return response;
+    return data;
   }
 );
 
@@ -111,13 +111,15 @@ export const analizeSlice = createSlice({
       })
       .addCase(
         reportSensorsAsync.fulfilled,
-        (state, action: PayloadAction<any>) => {
-          if (action?.payload?.status < 400) {
-            state.statusReportApi = "success";
-            state.sensorsReport = action.payload.data as SensorsReportType[];
-          } else {
-            state.statusReportApi = "failed";
-          }
+        (state, action: PayloadAction<SensorsReportType[]>) => {
+          state.sensorsReport = action.payload;
+          state.statusReportApi = "success";
+          // if (action?.payload?.status < 400) {
+          //   state.statusReportApi = "success";
+          //   state.sensorsReport = action.payload.data as SensorsReportType[];
+          // } else {
+          //   state.statusReportApi = "failed";
+          // }
         }
       )
       .addCase(
@@ -150,6 +152,9 @@ export const selectAnalizeApiStatus = (state: AppState) =>
   state.analize.statusApi;
 export const selectSelectedSensorsAnalize = (state: AppState) =>
   state.analize.selectedSensors;
+export const selectSensorReposts = (state: AppState) =>
+  state.analize.sensorsReport;
+
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 // export const incrementIfOdd =

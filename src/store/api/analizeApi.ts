@@ -3,12 +3,13 @@ import {
   SensorLastSerie,
   SensorsReceiveTpe,
 } from "../../components/pages/sensors/sensorsTable";
+import { SensorsReportType } from "../slices/analizeSlice";
 
 export async function reportSensors(report: {
   sensors: string[];
   start: string;
   end: string;
-}): Promise<AxiosResponse | AxiosError> {
+}): Promise<SensorsReportType[]> {
   const accessToken: string | null = localStorage.getItem("access_token");
 
   const postConfig: {
@@ -37,8 +38,8 @@ export async function reportSensors(report: {
     //   console.log("access token removes");
     //   localStorage.removeItem("access_token");
     // }
-    return response;
+    return response.data;
   } catch (err: any) {
-    return err;
+    return [];
   }
 }

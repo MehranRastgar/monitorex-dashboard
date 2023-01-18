@@ -5,13 +5,16 @@ import { useQuery } from "react-query";
 import { GetDevices } from "../src/api/devices";
 import Item from "../src/atomic/atoms/Item/Item";
 import DateTimeAnalytic from "../src/atomic/organisms/analytics/DateTimeAnalytic";
+import MultiReportChartContainer from "../src/atomic/organisms/analytics/MultiReportChartContainer";
 import DeviceList from "../src/atomic/organisms/device/DeviceList";
 import DeviceSummary from "../src/atomic/organisms/device/deviceSummary";
 import Layout from "../src/components/layout/Layout";
 import { useAppDispatch, useAppSelector } from "../src/store/hooks";
 import {
   reportSensorsAsync,
+  selectEndDate,
   selectSelectedSensorsAnalize,
+  selectStartDate,
 } from "../src/store/slices/analizeSlice";
 import {
   selectSelectedDevice,
@@ -24,6 +27,8 @@ export default function Analytics() {
   const selectedDevice = useAppSelector(selectSelectedDevice);
   const [elem, setElem] = useState(false);
   const selectedSensorsSlice = useAppSelector(selectSelectedSensorsAnalize);
+  const startDate = useAppSelector(selectEndDate);
+  const endDate = useAppSelector(selectStartDate);
 
   const dispatch = useAppDispatch();
   const queryDevices = useQuery("devices", GetDevices);
@@ -47,7 +52,17 @@ export default function Analytics() {
                 if (sensor._id !== undefined) arr.push(sensor?._id);
               });
               dispatch(
-                reportSensorsAsync({ sensors: arr, start: "", end: "" })
+                reportSensorsAsync({
+                  sensors: arr,
+                  start:
+                    startDate !== undefined
+                      ? new Date(startDate).toISOString()
+                      : "",
+                  end:
+                    endDate !== undefined
+                      ? new Date(endDate).toISOString()
+                      : "",
+                })
               );
             }}
           >
@@ -56,6 +71,10 @@ export default function Analytics() {
         </Item>
         {/* <DeviceList moreItems={true} /> */}
         {/* <DeviceSummary /> */}
+      </section>
+      <section>
+        <div>what about report</div>
+        <MultiReportChartContainer />
       </section>
     </Layout>
   );
