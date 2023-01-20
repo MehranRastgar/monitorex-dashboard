@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import SummaryBox from "./SummaryBox";
 import { useTranslation } from "react-i18next";
@@ -15,6 +15,7 @@ import {
   selectAmountOfDisconnectSensors,
   selectDevicesAlarms,
 } from "../../store/slices/devicesSlice";
+import { Button } from "@mui/material";
 
 var summaryData: IsummData[] = [
   {
@@ -38,7 +39,9 @@ var summaryData: IsummData[] = [
 ];
 
 function Summary() {
+  const [isOpen, setIsOpen] = useState(false);
   const { t } = useTranslation();
+
   const selectAmountSensorHasnotWork = useAppSelector(
     selectAmountOfDisconnectSensors
   );
@@ -52,10 +55,17 @@ function Summary() {
   summaryData[2].amount = String(selectAlarms?.length?.toLocaleString());
   return (
     <section className={classes.summary}>
+      <Button
+        onClick={() => {
+          setIsOpen((val) => !val);
+        }}
+      >
+        +
+      </Button>
       <p className="subTitle">{t("summary")}</p>
       <div className={classes.summary__box}>
         {summaryData.map((item) => (
-          <SummaryBox key={item.text} item={item} />
+          <SummaryBox open={isOpen} key={item.text} item={item} />
         ))}
       </div>
     </section>

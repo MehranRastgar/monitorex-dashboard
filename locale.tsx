@@ -10,6 +10,7 @@ i18n
     resources: {
       en: {
         translation: {
+          calendar: "calendar",
           startDate: "start date",
           endDate: "end date",
           sensorDisconnected: "sensor disconnected",
@@ -132,6 +133,10 @@ i18n
       },
       fa: {
         translation: {
+          hour: "ساعت",
+          day: "روز",
+          month: "ماه",
+          calendar: "تقویم",
           startDate: "تاریخ شروع",
           endDate: "تاریخ پایان",
           sensorDisconnected: "سنسور فطع",

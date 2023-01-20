@@ -5,7 +5,7 @@ export default function MultiReportChartContainer() {
   return (
     <>
       <Item>
-        <MultiLineChart id={"chartjs-1"} />
+        <MultiLineChart id={"multilineChart-1"} />
       </Item>
     </>
   );

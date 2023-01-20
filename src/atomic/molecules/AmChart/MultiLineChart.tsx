@@ -8,98 +8,94 @@ import {
   SensorsReportType,
 } from "../../../store/slices/analizeSlice";
 import { useAppSelector } from "../../../store/hooks";
-
 if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
 
-//input data
-//multi  ===>
-//theme
-//zoom
-//legend
-//export
-const theme = {
-  colors: [
-    "#058DC7",
-    "#50B432",
-    "#ED561B",
-    "#DDDF00",
-    "#24CBE5",
-    "#64E572",
-    "#FF9655",
-    "#FFF263",
-    "#6AF9C4",
-  ],
-  chart: {
-    backgroundColor: {
-      linearGradient: [0, 0, 500, 500],
-      stops: [
-        [0, "rgb(255, 255, 255)"],
-        [1, "rgb(240, 240, 255)"],
-      ],
-    },
-  },
-  title: {
-    style: {
-      color: "#000",
-      font: 'bold 16px "Trebuchet MS", Verdana, sans-serif',
-    },
-  },
-  subtitle: {
-    style: {
-      color: "#666666",
-      font: 'bold 12px "Trebuchet MS", Verdana, sans-serif',
-    },
-  },
-};
 // Apply the theme
 
 export default function MultiLineChart({ id }: { id: string }) {
   const selectDataOFChart = useAppSelector(selectSensorReposts);
   // const [hoverData, setddata] = useState()
   // const selectSensorsData =
-  const [state, setState] = useState({});
+  const [state, setState] = useState<any>();
   const [continus, setContinus] = useState(false);
   const [justPoint, setJustPoint] = useState(false);
+  const [theme, setTheme] = useState(0);
+  const [chartMode, setChartMode] = useState<"line" | "spline" | "column">(
+    "line"
+  );
+
+  function makeData(data: Datum[]) {
+    const arr: any[] = [];
+    data.map((item, index) => {
+      if (item?.x !== undefined)
+        if (item?.y !== undefined || continus)
+          arr.push([new Date(item?.x), item?.y ?? null]);
+    });
+    return arr;
+  }
 
   function sumOfdata(data: SensorsReportType[]) {
     const arrSeries: { name: string; data: any[] }[] = [];
     data?.map((sens, index) => {
       if (sens?.data !== undefined) {
-        arrSeries.push({
-          lineWidth: justPoint ? 0 : 1,
-          marker: {
-            enabled: justPoint,
-            radius: 2,
-          },
-          name: "sensor-" + sens.sensor?.title,
-          data: [...makeData(sens?.data)],
-        });
+        arrSeries.push(
+          {
+            lineWidth: justPoint ? 0 : 1,
+            marker: {
+              enabled: justPoint,
+              radius: 2,
+            },
+            id: sens.sensor?._id,
+            type: chartMode,
+            name: "sensor-" + sens.sensor?.title,
+            // pointInterval: 6e4, // one hour
+            // relativeXValue: true,
+            data: [...makeData(sens?.data)],
+          }
+          // {
+          //   type: "column",
+          //   id: sens.sensor?._id,
+          //   name: "sensor-" + sens.sensor?.title,
+          //   data: [...makeData(sens?.data)],
+          //   yAxis: 1,
+          // }
+        );
       }
     });
     console.log(arrSeries);
     if (arrSeries.length > 0) {
       setState({
-        theme: { ...theme },
         chartOptions: {
+          colors: ["#ff0000", "blue", "gray", "cyan"],
+          chart: {
+            alignTicks: true,
+            backgroundColor: `${
+              theme === 0
+                ? "var(--bgc)"
+                : `${
+                    theme === 1
+                      ? "var(--pending-bgc)"
+                      : `${theme === 2 ? "var(--approved-bgc)" : "white"}`
+                  }`
+            }`,
+          },
           legend: {
             enabled: true,
+            align: "left",
+            alignColumns: true,
+            backgroundColor: "gray",
+            floating: false,
           },
-          // accessibility: {
-          //   series: {
-          //     descriptionFormat: "{seriesDescription}.",
-          //   },
-          //   description:
-          //     "Use the dropdown menus above to display different indicator series on the chart.",
-          //   screenReaderSection: {
-          //     beforeChartFormat:
-          //       "<{headingTagName}>{chartTitle}</{headingTagName}><div>{typeDescription}</div><div>{chartSubtitle}</div><div>{chartLongdesc}</div>",
-          //   },
+          // tooltip: {
+          //   shared: true,
           // },
-
           tooltip: {
-            shared: true,
+            pointFormat:
+              '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+            valueDecimals: 2,
+            split: true,
           },
           plotOptions: {
             series: {
@@ -154,11 +150,11 @@ export default function MultiLineChart({ id }: { id: string }) {
             selected: 7,
           },
 
-          chart: {
-            zoomType: "y",
-          },
+          // chart: {
+          //   zoomType: "y",
+          // },
           title: {
-            text: "Example with **bold** text",
+            text: "Report Sensors",
             floating: true,
             align: "center",
             x: -30,
@@ -177,71 +173,92 @@ export default function MultiLineChart({ id }: { id: string }) {
             trackBorderColor: "#CCC",
           },
           series: [...arrSeries],
-          // yAxis: [
-          //   {
-          //     height: "30%",
-          //   },
-          //   {
-          //     top: "20%",
-          //     height: "20%",
-          //   },
-          //   {
-          //     top: "80%",
-          //     height: "20%",
-          //   },
-          // ],
         },
       });
     }
   }
 
-  function makeData(data: Datum[]) {
-    const arr: any[] = [];
-    data.map((item, index) => {
-      if (item?.x !== undefined)
-        if (item?.y !== undefined || continus)
-          arr.push([new Date(item?.x), item?.y ?? null]);
-    });
-    console.log(state);
-    return arr;
-  }
-
-  const { chartOptions, hoverData } = state;
   useEffect(() => {
     if (selectDataOFChart !== undefined && selectDataOFChart?.length > 0) {
       sumOfdata(selectDataOFChart);
     }
-  }, [selectDataOFChart, continus, justPoint]);
+  }, [selectDataOFChart, continus, justPoint, chartMode, theme]);
 
   return (
-    <div>
-      <button
-        className={
-          "flex border m-2 p-2 " + `${continus ? "bg-red-400" : "bg-green-400"}`
-        }
-        onClick={(e) => {
-          setContinus((val) => !val);
-        }}
-      >
-        continus
-      </button>
-      <button
-        className={
-          "flex border m-2 p-2 " +
-          `${!justPoint ? "bg-red-400" : "bg-green-400"}`
-        }
-        onClick={(e) => {
-          setJustPoint((val) => !val);
-        }}
-      >
-        just points
-      </button>
-      {chartOptions !== undefined ? (
+    <div className="h-[600px]">
+      <div className="flex ">
+        <button
+          className={
+            "flex border m-2 p-2 " +
+            `${continus ? "bg-red-400" : "bg-green-400"}`
+          }
+          onClick={(e) => {
+            setContinus((val) => !val);
+          }}
+        >
+          continus
+        </button>
+        <button
+          className={
+            "flex border m-2 p-2 " +
+            `${!justPoint ? "bg-red-400" : "bg-green-400"}`
+          }
+          onClick={(e) => {
+            setJustPoint((val) => !val);
+          }}
+        >
+          just points
+        </button>
+        <button
+          className={
+            "flex border m-2 p-2 " +
+            `${
+              chartMode === "line"
+                ? "bg-pink-600"
+                : `${chartMode === "spline" ? "bg-cyan-400" : "bg-gray-400"}`
+            }`
+          }
+          onClick={(e) => {
+            if (chartMode === "line") {
+              setChartMode("column");
+              return;
+            }
+            if (chartMode === "column") {
+              setChartMode("spline");
+              return;
+            }
+            if (chartMode === "spline") {
+              setChartMode("line");
+              return;
+            }
+          }}
+        >
+          chart mode: {chartMode}
+        </button>
+        <button
+          className={
+            "flex border m-2 p-2 " +
+            `${
+              chartMode === "line"
+                ? "bg-pink-600"
+                : `${chartMode === "spline" ? "bg-cyan-400" : "bg-gray-400"}`
+            }`
+          }
+          onClick={(e) => {
+            if (theme < 3) setTheme(theme + 1);
+            else setTheme(0);
+          }}
+        >
+          theme: {theme}
+        </button>
+      </div>
+
+      {state?.chartOptions !== undefined ? (
         <HighchartsReact
           id={id}
           constructorType={"stockChart"}
           highcharts={Highcharts}
-          options={chartOptions}
+          options={state.chartOptions}
         />
       ) : (
         <></>

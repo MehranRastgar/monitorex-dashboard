@@ -6,7 +6,7 @@ import Card from "../UI/card/Card";
 import classes from "./SummaryBox.module.scss";
 import { selectDevicesAlarms } from "../../store/slices/devicesSlice";
 import { useAppSelector } from "../../store/hooks";
-const SummaryBox: React.FC<{ item: Props }> = (props) => {
+const SummaryBox: React.FC<{ item: Props; open?: boolean }> = (props) => {
   const { t } = useTranslation();
 
   return (
@@ -24,6 +24,7 @@ const SummaryBox: React.FC<{ item: Props }> = (props) => {
             </div>
           </div>
         </div>
+        {props?.open === true ? <div className="flex h-[500px]"></div> : <></>}
       </Card>
     </div>
   );

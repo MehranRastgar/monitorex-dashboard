@@ -8,8 +8,6 @@ export default function SelectDevicesForAnlize() {
 
   return (
     <>
-      {/* {selectSD?.length} */}
-
       <SelectDeviceFromSelector />
     </>
   );

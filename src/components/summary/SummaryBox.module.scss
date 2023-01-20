@@ -5,7 +5,8 @@
 
   &__wrapper {
     @include flex();
-    margin: 1rem 0;
+    height: 80px;
+
     flex: 1;
     flex-wrap: wrap;
   }

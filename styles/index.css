@@ -294,15 +294,12 @@ a:link {
   -webkit-overflow-scrolling: touch;
   display: flex;
   overflow-y: hidden;
-
-  /* touch-action: pan-y; */
-  width: 85%;
-  height: auto;
-  min-height: 250px;
-  max-height: 350px;
+  width: 100%;
+  min-height: 150px;
+  max-height: 200px;
   /* background-color: #949494; */
   padding: 8px;
-  border-radius: 15px;
+  border-radius: 5px;
   user-select: none;
 }
 .product-slider-one-items {
@@ -705,7 +702,7 @@ a:link {
 } */
 
 /* .MuiButton-text {
-  text-decoration-color: #ff0000;
+  text-decoration-color: #ff0000; 
 }
 .MuiButton-textPrimary {
   text-decoration-color: #ff0000;
@@ -728,3 +725,13 @@ a:link {
 .MuiTable-root {
   background-color: aqua;
 } */
+.highcharts-contextbutton {
+  translate: 5px;
+}
+.highcharts-input-group {
+  translate: -50px;
+}
+.highcharts-legend-box {
+  background-color: #002bff;
+  color: red;
+}

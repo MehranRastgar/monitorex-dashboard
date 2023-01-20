@@ -85,12 +85,19 @@ export interface DevicesReceiveType {
   numberOfPorts?: number;
   factors?: Factor[];
   sensors?: SensorsReceiveTpe[];
+  electricals?: ElectricalPanelType[];
+  electricalLastSeries?: ElectricalLastSeriesType[];
   sensorLastSerie?: SensorLastSerie[];
   createdAt?: Date;
   updatedAt?: Date;
   __v?: number;
 }
-
+export interface ElectricalPanelType {
+  _id?: string;
+  deviceName: string;
+  deviceRelationId?: string;
+  lastStatus?: boolean;
+}
 export interface Address {
   _id?: string;
   multiPort?: number;
@@ -119,3 +126,11 @@ export interface Factor {
 // | 14
 // | 15
 // | 16;
+export interface ElectricalLastSeriesType {
+  value?: number;
+  _id?: string;
+  timestamp?: Date;
+  deviceId?: string;
+  date?: Date;
+  __v?: number;
+}

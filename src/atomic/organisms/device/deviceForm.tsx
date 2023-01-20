@@ -279,25 +279,33 @@ export default function DeviceForm() {
               </Box>
             </Item>
           </Box>
-          <Box sx={{ p: 1 }}>
-            <Item>
-              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
-                {t("sensors")}
-              </h2>
-              <SensorsPart
-                type={selectedDevice.type}
-                port={selectedDevice.numberOfPorts}
-              />
-            </Item>
-          </Box>
-          <Box sx={{ p: 1 }}>
-            <Item>
-              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
-                {t("factors")}
-              </h2>
-              <FactorsPart />
-            </Item>
-          </Box>
+          {selectedDevice.type === "Sensor Cotroller" ? (
+            <Box sx={{ p: 1 }}>
+              <Item>
+                <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                  {t("sensors")}
+                </h2>
+                <SensorsPart
+                  type={selectedDevice.type}
+                  port={selectedDevice.numberOfPorts}
+                />
+              </Item>
+            </Box>
+          ) : (
+            <></>
+          )}
+          {selectedDevice.type === "Sensor Cotroller" ? (
+            <Box sx={{ p: 1 }}>
+              <Item>
+                <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                  {t("factors")}
+                </h2>
+                <FactorsPart />
+              </Item>
+            </Box>
+          ) : (
+            <></>
+          )}
           <Box sx={{ p: 1 }}>
             <Item>
               <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
@@ -725,7 +733,176 @@ function SensorsPart({ port, type }: { port?: number; type?: string }) {
     </>
   );
 }
+function ElectricalPorts() {
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const selectedDevice = useAppSelector(selectSelectedDevice);
+  const [sensorsL, setSensorsL] = useState<{ sensor: number }[]>([]);
+  const [unitstate, setUnitstate] = useState<string>("");
 
+  function makeFactors() {
+    let f: Factor[] = [];
+    if (selectedDevice?.factors !== undefined) {
+      for (let i = 0; i <= selectedDevice?.factors?.length; i++) {
+        if (selectedDevice?.factors?.[i] !== undefined)
+          f.push(selectedDevice.factors[i]);
+        else f.push({ factorName: "", factorPosition: 4, factorValue: 2.5 });
+      }
+
+      dispatch(setSelectedDevice({ ...selectedDevice, factors: f }));
+    }
+    console.log(f);
+    // setSensorsL(s);
+  }
+
+  useEffect(() => {
+    // if (selectedDevice?.factors !== undefined&& ) makeFactors();
+  }, [selectedDevice]);
+
+  // useEffect(() => {}, [selectedDevice.sensors]);
+  return (
+    <>
+      {selectedDevice?.electricals?.map((factor: any, index) => (
+        <>
+          <Box key={index + (factor?._id ?? "sensor")} sx={{ p: 1 }}>
+            <Item>
+              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                {t("Factor - ") +
+                  index +
+                  (factor?.factorName ? " (" + factor?.factorName + ") " : "")}
+              </h2>
+              <Box sx={{ p: 1, flexGrow: 1 }}>
+                <Grid container spacing={2}>
+                  <Grid>
+                    <TextField
+                      value={factor.factorName}
+                      // id={idPrefix + `sensor?.[${index}]?.name`}
+                      variant="filled"
+                      onChange={(e) => {
+                        let fac: Factor[] = [
+                          ...(selectedDevice?.factors ?? []),
+                        ];
+                        if (fac?.[index] !== undefined) {
+                          fac[index] = {
+                            ...factor,
+                            factorName: e.target.value,
+                          };
+                        }
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            factors: [...fac],
+                          })
+                        );
+                      }}
+                      sx={{
+                        ...style,
+                        width: 180,
+                      }}
+                      label={t("name")}
+                    />
+                  </Grid>
+                  <Grid>
+                    <TextField
+                      value={factor.factorPosition}
+                      // id={idPrefix + `sensor?.[${index}]?.name`}
+                      variant="filled"
+                      onChange={(e) => {
+                        let fac: Factor[] = [
+                          ...(selectedDevice?.factors ?? []),
+                        ];
+                        if (fac?.[index] !== undefined) {
+                          fac[index] = {
+                            ...factor,
+                            factorPosition: Number(e.target.value),
+                          };
+                        }
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            factors: [...fac],
+                          })
+                        );
+                      }}
+                      sx={{
+                        ...style,
+                        width: 180,
+                      }}
+                      label={t("factorPosition")}
+                    />
+                  </Grid>
+                  <Grid>
+                    <TextField
+                      value={factor.factorValue}
+                      // id={idPrefix + `sensor?.[${index}]?.name`}
+                      variant="filled"
+                      onChange={(e) => {
+                        let fac: Factor[] = [
+                          ...(selectedDevice?.factors ?? []),
+                        ];
+                        if (fac?.[index] !== undefined) {
+                          fac[index] = {
+                            ...factor,
+                            factorValue: Number(e.target.value),
+                          };
+                        }
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            factors: [...fac],
+                          })
+                        );
+                      }}
+                      sx={{
+                        ...style,
+                        width: 180,
+                      }}
+                      label={t("factorValue")}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Item>
+          </Box>
+        </>
+      ))}
+      <Box>
+        <Button
+          onClick={() => {
+            let fac: Factor[] = [...(selectedDevice?.factors ?? [])];
+            fac.push({
+              factorName: "",
+              factorPosition: 4,
+              factorValue: 2.5,
+            });
+            dispatch(
+              setSelectedDevice({
+                ...selectedDevice,
+                factors: [...fac],
+              })
+            );
+          }}
+        >
+          add Factor
+        </Button>
+        <Button
+          onClick={() => {
+            let fac: Factor[] = [...(selectedDevice?.factors ?? [])];
+            fac.pop();
+            dispatch(
+              setSelectedDevice({
+                ...selectedDevice,
+                factors: [...fac],
+              })
+            );
+          }}
+        >
+          clear Factor
+        </Button>
+      </Box>
+    </>
+  );
+}
 function FactorsPart() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
