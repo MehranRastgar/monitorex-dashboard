@@ -13,13 +13,15 @@ if (typeof Highcharts === "object") {
 }
 
 // Apply the theme
+export const Granolarity: number[] = [1, 2, 5, 10];
 
 export default function MultiLineChart({ id }: { id: string }) {
   const selectDataOFChart = useAppSelector(selectSensorReposts);
   // const [hoverData, setddata] = useState()
   // const selectSensorsData =
   const [state, setState] = useState<any>();
-  const [continus, setContinus] = useState(false);
+  const [divideBy, setDivideBy] = useState<number>(0);
+  const [continues, setcontinues] = useState(false);
   const [justPoint, setJustPoint] = useState(false);
   const [theme, setTheme] = useState(0);
   const [chartMode, setChartMode] = useState<"line" | "spline" | "column">(
@@ -29,12 +31,14 @@ export default function MultiLineChart({ id }: { id: string }) {
   function makeData(data: Datum[]) {
     const arr: any[] = [];
     data.map((item, index) => {
-      if (item?.x !== undefined)
-        if (item?.y !== undefined || continus)
+      if (item?.x !== undefined && index % Granolarity[divideBy] === 0)
+        if (item?.y !== undefined || continues)
           arr.push([new Date(item?.x), item?.y ?? null]);
     });
+    console.log("len of array", arr.length);
     return arr;
   }
+  //make a function to get date and time
 
   function sumOfdata(data: SensorsReportType[]) {
     const arrSeries: { name: string; data: any[] }[] = [];
@@ -68,7 +72,14 @@ export default function MultiLineChart({ id }: { id: string }) {
     if (arrSeries.length > 0) {
       setState({
         chartOptions: {
-          colors: ["#ff0000", "blue", "gray", "cyan"],
+          colors: [
+            "red",
+            "blue",
+            "var(--text-color)",
+            "cyan",
+            "yellow",
+            "green",
+          ],
           chart: {
             alignTicks: true,
             backgroundColor: `${
@@ -93,7 +104,7 @@ export default function MultiLineChart({ id }: { id: string }) {
           // },
           tooltip: {
             pointFormat:
-              '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+              '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/>',
             valueDecimals: 2,
             split: true,
           },
@@ -105,6 +116,7 @@ export default function MultiLineChart({ id }: { id: string }) {
               },
             },
           },
+
           rangeSelector: {
             buttons: [
               {
@@ -155,7 +167,7 @@ export default function MultiLineChart({ id }: { id: string }) {
           // },
           title: {
             text: "Report Sensors",
-            floating: true,
+            floating: false,
             align: "center",
             x: -30,
             y: 30,
@@ -173,6 +185,59 @@ export default function MultiLineChart({ id }: { id: string }) {
             trackBorderColor: "#CCC",
           },
           series: [...arrSeries],
+          exporting: {
+            boost: {
+              useGPUTranslations: false,
+            },
+            menuItemDefinitions: {
+              // Custom definition
+              //   label: {
+              //     onclick: function () {
+              //       this.renderer
+              //         .label("You just clicked a custom menu item", 100, 100)
+              //         .attr({
+              //           fill: "#a4edba",
+              //           r: 5,
+              //           padding: 10,
+              //           zIndex: 10,
+              //         })
+              //         .css({
+              //           fontSize: "1.5em",
+              //         })
+              //         .add();
+              //     },
+              //     text: "Show label",
+              //   },
+              // },
+              // buttons: {
+              //   contextButton: {
+              //     menuItems: [
+              //       "downloadPNG",
+              //       "downloadSVG",
+              //       "downloadPDF",
+              //       "downloadXLX",
+              //       "separator",
+              //       "label",
+              //     ],
+              //   },
+            },
+            enabled: true,
+            csv: {
+              annotations: {
+                itemDelimiter: "; ",
+                join: false,
+              },
+              columnHeaderFormatter: null,
+              dateFormat: "%Y-%m-%d %H:%M:%S",
+              decimalPoint: null,
+              itemDelimiter: null,
+              lineDelimiter: " ",
+            },
+            allowHTML: true,
+            scale: 1,
+            printMaxWidth: 1920,
+            showTable: true,
+          },
         },
       });
     }
@@ -182,21 +247,21 @@ export default function MultiLineChart({ id }: { id: string }) {
     if (selectDataOFChart !== undefined && selectDataOFChart?.length > 0) {
       sumOfdata(selectDataOFChart);
     }
-  }, [selectDataOFChart, continus, justPoint, chartMode, theme]);
+  }, [selectDataOFChart, continues, justPoint, chartMode, theme, divideBy]);
 
   return (
-    <div className="h-[600px]">
+    <div className="h-[450px]">
       <div className="flex ">
         <button
           className={
             "flex border m-2 p-2 " +
-            `${continus ? "bg-red-400" : "bg-green-400"}`
+            `${continues ? "bg-red-400" : "bg-green-400"}`
           }
           onClick={(e) => {
-            setContinus((val) => !val);
+            setcontinues((val) => !val);
           }}
         >
-          continus
+          continues
         </button>
         <button
           className={
@@ -250,6 +315,38 @@ export default function MultiLineChart({ id }: { id: string }) {
           }}
         >
           theme: {theme}
+        </button>
+
+        <button
+          className={
+            "flex border m-2 p-2 " +
+            `${
+              chartMode === "line"
+                ? "bg-pink-600"
+                : `${chartMode === "spline" ? "bg-cyan-400" : "bg-gray-400"}`
+            }`
+          }
+          onClick={(e) => {
+            if (divideBy < 3) setDivideBy((val) => val + 1);
+          }}
+        >
+          Up
+        </button>
+        <div>gran {divideBy}</div>
+        <button
+          className={
+            "flex border m-2 p-2 " +
+            `${
+              chartMode === "line"
+                ? "bg-pink-600"
+                : `${chartMode === "spline" ? "bg-cyan-400" : "bg-gray-400"}`
+            }`
+          }
+          onClick={(e) => {
+            if (divideBy > 0) setDivideBy((val) => val - 1);
+          }}
+        >
+          Down
         </button>
       </div>
 

@@ -1,12 +1,49 @@
+import { useRef } from "react";
 import Item from "../../atoms/Item/Item";
 import MultiLineChart from "../../molecules/AmChart/MultiLineChart";
+// import {
+//   exportComponentAsJPEG,
+//   exportComponentAsPDF,
+//   exportComponentAsPNG,
+// } from "react-component-export-image";
+import html2canvas from "html2canvas";
+import DataGridReports from "../../molecules/DataGrid/DataGridReports";
+import DataOfReport from "./DataOfReport";
+import FullPageModal from "../../molecules/modal/FullPage";
 
 export default function MultiReportChartContainer() {
+  const componentRef = useRef<HTMLInputElement | null>(null);
+  const handleDownloadImage = async () => {
+    const element = componentRef.current;
+    const canvas = await html2canvas(element as HTMLElement);
+    const data = canvas.toDataURL("image/jpg");
+    const link = document.createElement("a");
+    if (typeof link.download === "string") {
+      link.href = data;
+      link.download = "image.jpg";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(data);
+    }
+  };
+
   return (
     <>
-      <Item>
-        <MultiLineChart id={"multilineChart-1"} />
-      </Item>
+      <div ref={componentRef}>
+        <button onClick={() => handleDownloadImage()}>
+          export canvas mode
+        </button>
+
+        <Item>
+          <MultiLineChart id={"multilineChart-1"} />
+          <DataOfReport />
+          <FullPageModal>
+            <DataOfReport />
+          </FullPageModal>
+        </Item>
+      </div>
     </>
   );
 }

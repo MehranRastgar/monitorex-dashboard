@@ -735,3 +735,6 @@ a:link {
   background-color: #002bff;
   color: red;
 }
+.highcharts-credits {
+  display: none;
+}

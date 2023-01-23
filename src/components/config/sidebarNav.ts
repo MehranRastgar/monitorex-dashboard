@@ -13,10 +13,10 @@ const sidebarNav = [
     text: "devices",
   },
   {
-    link: "/sensors",
-    section: "sensors",
-    icon: "material-symbols:motion-sensor-active-rounded",
-    text: "sensors",
+    link: "/electricalboard",
+    section: "electricalboard",
+    icon: "ic:outline-electric-meter",
+    text: "electricalboard",
   },
 
   {

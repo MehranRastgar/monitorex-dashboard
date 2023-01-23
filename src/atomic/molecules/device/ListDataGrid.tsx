@@ -20,12 +20,16 @@ export default function ListDataGrid({
   RowsData,
   setSelectionModel,
   selectionModel,
+  width,
+  height,
 }: {
   columns: GridColDef[];
   RowsData?: any[];
   title?: string;
   setSelectionModel: React.Dispatch<React.SetStateAction<GridSelectionModel>>;
   selectionModel: GridSelectionModel;
+  width?: number | string;
+  height?: number | string;
 }) {
   const { t } = useTranslation();
   const data = useData(100, 1000);
@@ -39,7 +43,7 @@ export default function ListDataGrid({
   return (
     <>
       <Item>
-        <div style={{ height: 400, width: "100%" }}>
+        <div style={{ height: height ?? 400, width: width ?? "100%" }}>
           <DataGrid
             onSelectionModelChange={(newSelectionModel) => {
               setSelectionModel(newSelectionModel);
