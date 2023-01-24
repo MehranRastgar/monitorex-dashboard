@@ -17,7 +17,7 @@ import {
   setEndDate,
   setStartDate,
 } from "../../../store/slices/analizeSlice";
-import SelectDevicesForAnlize from "../SelectDevicesForAnlize";
+import SelectDevicesForAnalize from "../SelectDevicesForAnalize";
 import { useTranslation } from "react-i18next";
 
 const dateTimeStartProps = {
@@ -52,11 +52,10 @@ export default function DateTimeAnalytic() {
   }, [value2]);
   return (
     <>
-      <Item>
-        {/* {selectSD !== undefined && selectED !== undefined
+      {/* {selectSD !== undefined && selectED !== undefined
           ? new Date(selectSD).getDate() - new Date(selectED).getDate() + " D"
           : ""} */}
-        {/* <div
+      {/* <div
           style={{ direction: "ltr" }}
           className="flex justify-end border border-white/50 rounded-md w-fit m-3 p-2 items-center hover:bg-white/10 backdrop-blur-lg text-lg mb-8"
         >
@@ -87,57 +86,56 @@ export default function DateTimeAnalytic() {
           </ToggleButtonGroup>
           <h3 className="flex p-2">{t("calendar")}</h3>
         </div> */}
-        <Box className="flex m-4 ">
-          <Grid container spacing={2}>
-            <Grid>
-              <DateTimePickerComponent
-                {...dateTimeEndProps}
-                locale={locale}
-                value={value2}
-                setValue={setValue2}
-              />
-            </Grid>
-            <Grid className="flex">
-              <HowMuchBefor
-                setValue={setValue}
-                str={["hour", "24"]}
-                hourValue={24}
-              />
-              <HowMuchBefor
-                setValue={setValue}
-                str={["day", "7"]}
-                hourValue={24 * 7}
-              />
-              <HowMuchBefor
-                setValue={setValue}
-                str={["day", "15"]}
-                hourValue={15 * 24}
-              />
-              <HowMuchBefor
-                setValue={setValue}
-                str={["month", "1"]}
-                hourValue={30 * 24}
-              />
-              <HowMuchBefor
-                setValue={setValue}
-                str={["month", "3"]}
-                hourValue={3 * 30 * 24}
-              />
-            </Grid>
-            <Grid>
-              <DateTimePickerComponent
-                {...dateTimeStartProps}
-                locale={locale}
-                value={value}
-                setValue={setValue}
-              />
-            </Grid>
-            {/* <Grid>
+      <Box className="flex m-4">
+        <Grid container spacing={2}>
+          <Grid>
+            <DateTimePickerComponent
+              {...dateTimeEndProps}
+              locale={locale}
+              value={value2}
+              setValue={setValue2}
+            />
+          </Grid>
+          <Grid className="flex">
+            <HowMuchBefor
+              setValue={setValue}
+              str={["hour", "24"]}
+              hourValue={24}
+            />
+            <HowMuchBefor
+              setValue={setValue}
+              str={["day", "7"]}
+              hourValue={24 * 7}
+            />
+            <HowMuchBefor
+              setValue={setValue}
+              str={["day", "15"]}
+              hourValue={15 * 24}
+            />
+            <HowMuchBefor
+              setValue={setValue}
+              str={["month", "1"]}
+              hourValue={30 * 24}
+            />
+            <HowMuchBefor
+              setValue={setValue}
+              str={["month", "3"]}
+              hourValue={3 * 30 * 24}
+            />
+          </Grid>
+          <Grid>
+            <DateTimePickerComponent
+              {...dateTimeStartProps}
+              locale={locale}
+              value={value}
+              setValue={setValue}
+            />
+          </Grid>
+          {/* <Grid>
               <HowManyDays SD={selectSD} ED={selectED} />
             </Grid> */}
-          </Grid>
-        </Box>
-      </Item>
+        </Grid>
+      </Box>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Item from "../../atoms/Item/Item";
 import MultiLineChart from "../../molecules/AmChart/MultiLineChart";
 // import {
@@ -8,8 +8,9 @@ import MultiLineChart from "../../molecules/AmChart/MultiLineChart";
 // } from "react-component-export-image";
 import html2canvas from "html2canvas";
 import DataGridReports from "../../molecules/DataGrid/DataGridReports";
-import DataOfReport from "./DataOfReport";
+import DataOfReport, { DataOfReportPrintMode } from "./DataOfReport";
 import FullPageModal from "../../molecules/modal/FullPage";
+import { PrintPreview } from "../Print/PrintPreview";
 
 export default function MultiReportChartContainer() {
   const componentRef = useRef<HTMLInputElement | null>(null);
@@ -32,16 +33,10 @@ export default function MultiReportChartContainer() {
   return (
     <>
       <div ref={componentRef}>
-        <button onClick={() => handleDownloadImage()}>
-          export canvas mode
-        </button>
-
         <Item>
           <MultiLineChart id={"multilineChart-1"} />
           <DataOfReport />
-          <FullPageModal>
-            <DataOfReport />
-          </FullPageModal>
+          <PrintPreview />
         </Item>
       </div>
     </>

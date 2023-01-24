@@ -1,8 +1,10 @@
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectDevicesData } from "../../store/slices/devicesSlice";
-import SelectDeviceFromSelector from "../molecules/SelectDevice/SelectDevice";
+import SelectDeviceFromSelector, {
+  SensorSelectedForReport,
+} from "../molecules/SelectDevice/SelectDevice";
 
-export default function SelectDevicesForAnlize() {
+export default function SelectDevicesForAnalize() {
   const dispatch = useAppDispatch();
   const selectSD = useAppSelector(selectDevicesData);
 

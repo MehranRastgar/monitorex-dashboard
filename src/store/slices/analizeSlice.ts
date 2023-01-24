@@ -152,7 +152,7 @@ export const selectAnalizeApiStatus = (state: AppState) =>
   state.analize.statusApi;
 export const selectSelectedSensorsAnalize = (state: AppState) =>
   state.analize.selectedSensors;
-export const selectSensorReposts = (state: AppState) =>
+export const selectSensorReports = (state: AppState) =>
   state.analize.sensorsReport;
 
 // We can also write thunks by hand, which may contain both sync and async logic.

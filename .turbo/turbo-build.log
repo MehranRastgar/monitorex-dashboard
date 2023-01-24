@@ -3,21 +3,35 @@ info  - Loaded env from G:\gh\scada\adminpanel\monitorex-dashboard\.env.local
 info  - Linting and checking validity of types...
 
 ./pages/analytics.tsx
-29:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'queryDevices'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+58:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'queryDevices'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/devices.tsx
 44:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'queryDevices'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/electricalboard.tsx
+44:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/AmChart/MultiLineChart.tsx
+255:6  Warning: React Hook useEffect has a missing dependency: 'sumOfdata'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/molecules/device/SensorChartWebsocket.tsx
 38:6  Warning: React Hook useEffect has a missing dependency: 'idSubScribe'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 51:6  Warning: React Hook useEffect has a missing dependency: 'addedValue'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
+./src/atomic/molecules/SelectDevice/SelectDevice.tsx
+143:6  Warning: React Hook React.useEffect has a missing dependency: 'item._id'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
 ./src/atomic/organisms/AmChartsStock/AmStockLive.tsx
 159:6  Warning: React Hook useEffect has missing dependencies: 'dataReal' and 'id'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 162:6  Warning: React Hook useEffect has missing dependencies: 'addData' and 'seriss'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
+./src/atomic/organisms/analytics/DateTimeAnalytic.tsx
+44:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+52:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
 ./src/atomic/organisms/device/deviceForm.tsx
-478:6  Warning: React Hook useEffect has missing dependencies: 'makeSensors' and 'type'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+103:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'selectStatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+498:6  Warning: React Hook useEffect has missing dependencies: 'makeSensors' and 'type'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/organisms/device/DeviceList.tsx
 98:6  Warning: React Hook React.useEffect has missing dependencies: 'devices' and 'dispatch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -41,12 +55,13 @@ info  - Linting and checking validity of types...
 78:6  Warning: React Hook useEffect has a missing dependency: 'createData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/layout/Layout.tsx
-115:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-162:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
-183:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-230:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'mutation', 'queryDevices.data', 'queryDevices.dataUpdatedAt', 'queryDevices.status', and 'selectsensorsstatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-258:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'selectAlarms'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-265:6  Warning: React Hook useEffect has a missing dependency: 'router'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+117:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+164:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+185:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+232:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'mutation', 'queryDevices.data', 'queryDevices.dataUpdatedAt', 'queryDevices.status', and 'selectsensorsstatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+260:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'selectAlarms'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+268:6  Warning: React Hook useEffect has a missing dependency: 'router'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+274:6  Warning: React Hook useEffect has missing dependencies: 'router' and 'selectsensorsstatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/layout/LayoutLogin.tsx
 88:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -74,43 +89,13 @@ info  - Linting and checking validity of types...
 14:9  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
 
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
-info  - Creating an optimized production build...
-SyntaxError: Unexpected end of JSON input
-    at JSON.parse (<anonymous>)
-    at Object.patchIncorrectLockfile (G:\gh\scada\adminpanel\monitorex-dashboard\node_modules\next\dist\lib\patch-incorrect-lockfile.js:100:33)
-Warning: A null PostCSS plugin was provided. This entry will be ignored.
-info  - Compiled successfully
-info  - Collecting page data...
-info  - Generating static pages (0/11)
-info  - Generating static pages (2/11)
-info  - Generating static pages (5/11)
-info  - Generating static pages (8/11)
-info  - Generating static pages (11/11)
-info  - Finalizing page optimization...
+Failed to compile.
 
-Route (pages)                              Size     First Load JS
-┌ ○ /                                      1.01 kB         207 kB
-├   /_app                                  0 B             137 kB
-├ ○ /404                                   415 B           207 kB
-├ ○ /analytics                             518 B           334 kB
-├ λ /api/sendotp                           0 B             137 kB
-├ λ /api/signin                            0 B             137 kB
-├ ○ /devices                               514 B           334 kB
-├ ○ /login                                 2.86 kB         160 kB
-├   └ css/49198f5546d43ea1.css             1.21 kB
-├ ○ /management                            7.39 kB         341 kB
-├ ○ /routes                                2.25 kB         209 kB
-├   └ css/680770b402348ad2.css             3.2 kB
-├ ○ /sensors                               2.78 kB         209 kB
-├ ○ /settings                              2.16 kB         335 kB
-└ ○ /users                                 310 B           207 kB
-+ First Load JS shared by all              144 kB
-  ├ chunks/framework-3b5a00d5d7e8d93b.js   45.4 kB
-  ├ chunks/main-06861021d5663598.js        26.7 kB
-  ├ chunks/pages/_app-79c0dfbaf50a2069.js  62.7 kB
-  ├ chunks/webpack-63404b66aff612e3.js     2.38 kB
-  └ css/7188b8cec89b6345.css               6.47 kB
+./src/atomic/molecules/Report/HeaderReport.tsx:1:1
+Type error: 'HeaderReport.tsx' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.
 
-λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
-○  (Static)  automatically rendered as static HTML (uses no initial props)
-
+[0m[31m[1m>[22m[39m[90m 1 | [39m[0m
+[0m [90m   | [39m[31m[1m^[22m[39m[0m
+Note: This command was run via npm module 'win-node-env'
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

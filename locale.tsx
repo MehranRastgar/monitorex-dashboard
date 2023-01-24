@@ -10,6 +10,11 @@ i18n
     resources: {
       en: {
         translation: {
+          deviceNotExist: "there is not device",
+          chooseDevice: "choose device",
+          addToReports: "add to reports",
+          takeReport: "take report",
+          printPreview: "print preview",
           calendar: "calendar",
           startDate: "start date",
           endDate: "end date",
@@ -133,6 +138,11 @@ i18n
       },
       fa: {
         translation: {
+          deviceNotExist: "دستگاهی وجود ندار",
+          chooseDevice: "انتخاب دستگاه",
+          addToReports: "افزودن به لیست",
+          takeReport: "رپورت بگیر",
+          printPreview: "پیشنمایش پرینت",
           hour: "ساعت",
           day: "روز",
           month: "ماه",

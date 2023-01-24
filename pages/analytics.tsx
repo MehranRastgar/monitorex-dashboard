@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { GetDevices } from "../src/api/devices";
+import ButtonRegular from "../src/atomic/atoms/ButtonA/ButtonRegular";
 import Item from "../src/atomic/atoms/Item/Item";
+import { SensorSelectedForReport } from "../src/atomic/molecules/SelectDevice/SelectDevice";
 import DateTimeAnalytic from "../src/atomic/organisms/analytics/DateTimeAnalytic";
 import MultiReportChartContainer from "../src/atomic/organisms/analytics/MultiReportChartContainer";
 import DeviceList from "../src/atomic/organisms/device/DeviceList";
 import DeviceSummary from "../src/atomic/organisms/device/deviceSummary";
-import SelectDevicesForAnlize from "../src/atomic/organisms/SelectDevicesForAnlize";
+import SelectDevicesForAnalize from "../src/atomic/organisms/SelectDevicesForAnalize";
 import Layout from "../src/components/layout/Layout";
 import { useAppDispatch, useAppSelector } from "../src/store/hooks";
 import {
@@ -34,6 +36,19 @@ export default function Analytics() {
   const dispatch = useAppDispatch();
   const queryDevices = useQuery("devices", GetDevices);
 
+  const handleReport = () => {
+    const arr: string[] = [];
+    selectedSensorsSlice?.map((sensor) => {
+      if (sensor._id !== undefined) arr.push(sensor?._id);
+    });
+    dispatch(
+      reportSensorsAsync({
+        sensors: arr,
+        start: startDate !== undefined ? new Date(startDate).toISOString() : "",
+        end: endDate !== undefined ? new Date(endDate).toISOString() : "",
+      })
+    );
+  };
   useEffect(() => {
     console.log(queryDevices);
     if (queryDevices.status === "success") {
@@ -45,40 +60,25 @@ export default function Analytics() {
     <Layout>
       <section>
         <Box sx={{ py: 1 }}>
-          <Item>
-            <div className="font-Vazir-Medium text-[20px]">
-              {t("analytics")}
-            </div>
-          </Item>
+          <div className="font-Vazir-Medium text-[20px]">{t("analytics")}</div>
         </Box>
-        <DateTimeAnalytic />
         <Box sx={{ py: 1 }}>
-          <SelectDevicesForAnlize />
+          <SelectDevicesForAnalize />
         </Box>
-        <div className="flex"></div>
-        <Button
-          className="my-10"
-          variant={"contained"}
-          onClick={() => {
-            const arr: string[] = [];
-            selectedSensorsSlice?.map((sensor) => {
-              if (sensor._id !== undefined) arr.push(sensor?._id);
-            });
-            dispatch(
-              reportSensorsAsync({
-                sensors: arr,
-                start:
-                  startDate !== undefined
-                    ? new Date(startDate).toISOString()
-                    : "",
-                end:
-                  endDate !== undefined ? new Date(endDate).toISOString() : "",
-              })
-            );
-          }}
-        >
-          get report
-        </Button>
+        <Item className="flex justify-center flex-wrap w-full ">
+          <Box className="m-4 flex flex-wrap w-[85%] border border-dashed rounded-lg p-4">
+            <SensorSelectedForReport />
+          </Box>
+
+          <Box className="flex flex-wrap justify-center">
+            <DateTimeAnalytic />
+            <Box className="flex w-full justify-center">
+              <ButtonRegular onClick={handleReport}>
+                {t("takeReport")}
+              </ButtonRegular>
+            </Box>
+          </Box>
+        </Item>
       </section>
       <section className="my-10">
         <MultiReportChartContainer />

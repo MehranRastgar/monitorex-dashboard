@@ -5,7 +5,7 @@ import Select from "@mui/material/Select";
 import { selectDevicesData } from "../../../store/slices/devicesSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { DevicesReceiveType } from "../../../store/api/devicesApi";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
 import { Box } from "@mui/system";
 import SensorObject from "../sensor/SensorObject";
@@ -50,6 +50,9 @@ export default function SelectDeviceFromSelector() {
     <>
       <Box className="flex flex-wrap justify-start w-full mt-1">
         <Item className="flex flex-wrap w-full max-w-full ">
+          <div className="font-Vazir-Medium text-[20px]">
+            {t("chooseDevice")}
+          </div>
           <div className="my-2  product-slider-one-container items-center ">
             <ScrollContainer
               vertical={false}
@@ -82,7 +85,6 @@ export default function SelectDeviceFromSelector() {
           </div>
         </Item>
       </Box>
-      <SensorSelectedForReport />
     </>
   );
 }
@@ -125,7 +127,20 @@ export function DeviceObject({
 
 export function SensorObjectSelector({ item }: { item: SensorsReceiveTpe }) {
   const { t } = useTranslation();
+  const selectedsensor = useAppSelector(selectSelectedSensorsAnalize);
   const dispatch = useAppDispatch();
+  const [isExistInList, setIsExistInList] = React.useState(true);
+
+  React.useEffect(() => {
+    if (
+      selectedsensor !== undefined &&
+      selectedsensor?.findIndex((sen) => sen._id === item._id) > -1
+    ) {
+      setIsExistInList(false);
+    } else {
+      setIsExistInList(true);
+    }
+  }, [selectedsensor]);
   return (
     <>
       <div
@@ -135,16 +150,22 @@ export function SensorObjectSelector({ item }: { item: SensorsReceiveTpe }) {
         <div className="w-full text-[10px]">{item.title}</div>
         <div className="w-full text-[10px]">{item?.type}</div>
         <div className="w-full text-[10px]">{item?.unit}</div>
-        <Button
-          variant="contained"
-          size="small"
-          className="border bg-[var(--approved-bgc)] "
-          onClick={(e) => {
-            dispatch(addSelectedSensors(item));
-          }}
-        >
-          <div className="text-[8px]">addToReportList</div>
-        </Button>
+        {isExistInList ? (
+          <Button
+            variant="contained"
+            size="small"
+            className="border bg-[var(--approved-bgc)] h-[40px]"
+            onClick={(e) => {
+              dispatch(addSelectedSensors(item));
+            }}
+          >
+            <div className="text-[12px] font-Vazir-Medium">
+              {t("addToReports")}
+            </div>
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );
@@ -152,17 +173,32 @@ export function SensorObjectSelector({ item }: { item: SensorsReceiveTpe }) {
 
 export function SensorSelectedForReport() {
   const selectedSensorsSlice = useAppSelector(selectSelectedSensorsAnalize);
+  const { t } = useTranslation();
 
   return (
-    <Box className="flex flex-wrap justify-start w-full mt-10">
-      <Grid container spacing={2}>
-        {selectedSensorsSlice?.map((sensor, index) => (
+    <Box className="flex flex-wrap justify-center w-full mt-5">
+      <Grid
+        container
+        spacing={2}
+        className="flex flex-wrap justify-center w-full "
+      >
+        {selectedSensorsSlice?.length ? (
+          selectedSensorsSlice?.map((sensor, index) => (
+            <>
+              <Grid>
+                <SensorObject sensor={sensor} key={index} />
+              </Grid>
+            </>
+          ))
+        ) : (
           <>
-            <Grid>
-              <SensorObject sensor={sensor} key={index} />
-            </Grid>
+            <Box sx={{ p: 8 }}>
+              <Typography className="font-Vazir-Medium">
+                {t("deviceNotExist")}
+              </Typography>
+            </Box>
           </>
-        ))}
+        )}
       </Grid>
     </Box>
   );

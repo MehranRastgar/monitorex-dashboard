@@ -13,6 +13,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import { useReactToPrint } from "react-to-print";
+import { useTranslation } from "react-i18next";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -22,8 +23,31 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Item from "../../atoms/Item/Item";
 
-export default function FullPageModal({ children }: { children: any }) {
+const theme = createTheme({
+  typography: {
+    h2: {
+      fontSize: "1rem",
+      fontWeight: 700,
+      borderBottom: "2px solid black",
+      "@media print": {
+        fontSize: "2rem",
+        borderBottom: "14px solid red",
+        color: "gray",
+      },
+    },
+  },
+});
+export default function FullPageModal({
+  children,
+  setOptions,
+}: {
+  children: any;
+  setOptions: any;
+}) {
+  const { t } = useTranslation();
   const [open, setOpen] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -42,16 +66,22 @@ export default function FullPageModal({ children }: { children: any }) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open full-screen dialog
+      <Button
+        variant="contained"
+        color={"success"}
+        className="bg-green-600 font-Vazir-Medium"
+        onClick={handleClickOpen}
+      >
+        {t("printPreview")}
       </Button>
+
       <Dialog
         fullScreen
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar ref={inputRef} sx={{ position: "relative" }}>
+        <AppBar sx={{ position: "relative" }}>
           <Toolbar>
             <IconButton
               edge="start"
@@ -62,14 +92,20 @@ export default function FullPageModal({ children }: { children: any }) {
               <CloseIcon />
               close
             </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+            {/* <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               close
-            </Typography>
+            </Typography> */}
             <Button autoFocus color="inherit" onClick={handlePrint}>
               print
             </Button>
           </Toolbar>
-          {children}
+          <Item ref={inputRef}>
+            {" "}
+            <ThemeProvider theme={theme}>
+              <Typography variant="h2">Report</Typography>
+              {children}
+            </ThemeProvider>
+          </Item>
         </AppBar>
       </Dialog>
     </div>
