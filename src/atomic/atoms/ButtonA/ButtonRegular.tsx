@@ -13,7 +13,8 @@ interface Props {
 const ButtonRegular: React.FC<Props> = (props) => {
   return (
     <Button
-      className={`my-10 font-Vazir-Medium ${
+      size={"small"}
+      className={`my-1 font-Vazir-Medium text-xs ${
         props?.disabled === true ? "bg-gray-600" : "bg-blue-600"
       }`}
       variant={"contained"}

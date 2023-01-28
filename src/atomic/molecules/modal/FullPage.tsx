@@ -76,7 +76,8 @@ export default function FullPageModal({
       </Button>
 
       <Dialog
-        fullScreen
+        fullWidth={true}
+        maxWidth={"lg"}
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
@@ -101,10 +102,7 @@ export default function FullPageModal({
           </Toolbar>
           <Item ref={inputRef}>
             {" "}
-            <ThemeProvider theme={theme}>
-              <Typography variant="h2">Report</Typography>
-              {children}
-            </ThemeProvider>
+            <ThemeProvider theme={theme}>{children}</ThemeProvider>
           </Item>
         </AppBar>
       </Dialog>

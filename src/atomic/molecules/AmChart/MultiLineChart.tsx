@@ -104,7 +104,7 @@ export default function MultiLineChart({ id }: { id: string }) {
             },
             id: sens.sensor?._id,
             type: chartMode,
-            name: "sensor-" + sens.sensor?.title,
+            name: sens?.device?.title + ":" + sens?.sensor?.title,
             // pointInterval: 6e4, // one hour
             // relativeXValue: true,
             data: [...makeData(sens?.data)],
@@ -324,13 +324,13 @@ export default function MultiLineChart({ id }: { id: string }) {
             // chart: {
             //   zoomType: "y",
             // },
-            title: {
-              text: "Report Sensors",
-              floating: false,
-              align: "center",
-              x: -30,
-              y: 30,
-            },
+            // title: {
+            //   text: "Report Sensors",
+            //   floating: false,
+            //   align: "center",
+            //   x: -30,
+            //   y: 30,
+            // },
             scrollbar: {
               barBackgroundColor: "gray",
               barBorderRadius: 7,
@@ -372,8 +372,8 @@ export default function MultiLineChart({ id }: { id: string }) {
   ]);
 
   return (
-    <div className="h-[450px]">
-      <Box className="flex items-center">
+    <div className="w-full h-[450px]">
+      <Box className="flex items-center ">
         <ButtonRegular
           disabled={continues}
           onClick={(e) => {

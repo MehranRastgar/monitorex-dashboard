@@ -282,6 +282,8 @@ export const clientSlice = createSlice({
           if (state?.value?.access_token !== undefined) {
             localStorage.setItem("access_token", state?.value?.access_token);
             state.signInFlag = "success";
+            state.value = state?.value;
+            localStorage.setItem("user", JSON.stringify(state?.value));
           } else {
             state.signInFlag = "faild";
           }

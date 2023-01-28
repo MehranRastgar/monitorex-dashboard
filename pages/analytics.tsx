@@ -1,10 +1,11 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { GetDevices } from "../src/api/devices";
 import ButtonRegular from "../src/atomic/atoms/ButtonA/ButtonRegular";
 import Item from "../src/atomic/atoms/Item/Item";
+import GaugeDevice from "../src/atomic/molecules/AmChart/GaugeDevice";
 import { SensorSelectedForReport } from "../src/atomic/molecules/SelectDevice/SelectDevice";
 import DateTimeAnalytic from "../src/atomic/organisms/analytics/DateTimeAnalytic";
 import MultiReportChartContainer from "../src/atomic/organisms/analytics/MultiReportChartContainer";
@@ -59,28 +60,29 @@ export default function Analytics() {
   return (
     <Layout>
       <section>
-        <Box sx={{ py: 1 }}>
-          <div className="font-Vazir-Medium text-[20px]">{t("analytics")}</div>
+        <Box sx={{ py: 0 }}>
+          <div className="font-Vazir-Medium text-[16px]">{t("analytics")}</div>
         </Box>
         <Box sx={{ py: 1 }}>
           <SelectDevicesForAnalize />
         </Box>
-        <Item className="flex justify-center flex-wrap w-full ">
-          <Box className="m-4 flex flex-wrap w-[85%] border border-dashed rounded-lg p-4">
+        <Item className="flex justify-start flex-wrap w-full ">
+          <Box className="flex justify-start flex-wrap w-[95%] rounded-lg p-2 m-2">
             <SensorSelectedForReport />
           </Box>
-
-          <Box className="flex flex-wrap justify-center">
+          <Box className="flex flex-wrap justify-start">
             <DateTimeAnalytic />
-            <Box className="flex w-full justify-center">
+            <div className="flex h-fit w-full justify-start mx-4">
               <ButtonRegular onClick={handleReport}>
-                {t("takeReport")}
+                <Typography className="text-lg font-Vazir-Bold">
+                  {t("takeReport")}
+                </Typography>
               </ButtonRegular>
-            </Box>
+            </div>
           </Box>
         </Item>
       </section>
-      <section className="my-10">
+      <section className="my-2">
         <MultiReportChartContainer />
       </section>
     </Layout>

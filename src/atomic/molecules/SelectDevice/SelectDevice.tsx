@@ -11,6 +11,7 @@ import { Box } from "@mui/system";
 import SensorObject from "../sensor/SensorObject";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { selectSelectedSensors } from "../../../store/slices/sensorsSlice";
+import { Icon } from "@iconify/react";
 import {
   addSelectedSensors,
   removeSelectedSensors,
@@ -45,23 +46,45 @@ export default function SelectDeviceFromSelector() {
   >([]);
   const [selectedDevice, setSelectedDevice] =
     React.useState<DevicesReceiveType>();
+  const [moreIsTrue, setMoreIsTrue] = React.useState<boolean>(false);
 
   return (
     <>
       <Box className="flex flex-wrap justify-start w-full mt-1">
         <Item className="flex flex-wrap w-full max-w-full ">
-          <div className="font-Vazir-Medium text-[20px]">
+          <div className="font-Vazir-Medium text-[15px] w-full">
             {t("chooseDevice")}
           </div>
-          <div className="my-2  product-slider-one-container items-center ">
+          <button
+            className=""
+            onClick={() => {
+              setMoreIsTrue((val) => !val);
+            }}
+          >
+            {moreIsTrue ? (
+              <Icon
+                className="mx-1"
+                fontSize={25}
+                icon={"mdi:collapse-horizontal"}
+              ></Icon>
+            ) : (
+              <Icon
+                className="mx-1"
+                fontSize={25}
+                icon={"bi:arrows-expand"}
+              ></Icon>
+            )}
+          </button>
+          <div className="my-0  product-slider-one-container items-center ">
             <ScrollContainer
               vertical={false}
               hideScrollbars={false}
               className="scroll-container h-fit product-slider-one-items overflow-y-hidden "
             >
               {selectDevices.map((item, index) => (
-                <div key={index}>
+                <div className="h-fit" key={index}>
                   <DeviceObject
+                    more={moreIsTrue}
                     item={item}
                     setdeviceItem={setdeviceItem}
                     deviceItem={deviceItem}
@@ -93,10 +116,12 @@ export function DeviceObject({
   item,
   setdeviceItem,
   deviceItem,
+  more,
 }: {
   item: DevicesReceiveType;
   setdeviceItem: any;
   deviceItem: DevicesReceiveType;
+  more?: boolean;
 }) {
   const { t } = useTranslation();
   return (
@@ -105,21 +130,27 @@ export function DeviceObject({
         onClick={() => {
           setdeviceItem(item);
         }}
-        className={`mx-2 p-2 flex flex-wrap w-[150px] h-[140px] rounded-lg border  ${
+        className={`mx-2 p-1 flex justify-start flex-wrap w-[120px] h-fit rounded-lg border  ${
           deviceItem._id === item._id
             ? "bg-[var(--approved-bgc)]"
             : "bg-[var(--pending-bgc)]"
         }`}
       >
-        <h1 className="w-full p-1">{item.title}</h1>
-        <h2 className="w-full p-1">
-          {t("numberOfPorts")}
-          <span className="mx-2">{item.sensors?.length}</span>
-        </h2>
-        <h3 className="w-full p-1">
-          {t("type")}
-          <span className="mx-2">{item.type}</span>
-        </h3>
+        <h1 className="w-full p-0">{item.title}</h1>
+        {more ? (
+          <>
+            <h2 className="w-full p-0">
+              {t("numberOfPorts")}
+              <span className="mx-2">{item.sensors?.length}</span>
+            </h2>
+            <h3 className="w-full p-1">
+              {t("type")}
+              <span className="mx-2">{item.type}</span>
+            </h3>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );
@@ -143,30 +174,54 @@ export function SensorObjectSelector({ item }: { item: SensorsReceiveTpe }) {
   }, [selectedsensor]);
   return (
     <>
-      <div
-        onClick={() => {}}
-        className={`mx-2 p-2 flex flex-wrap w-[100px] h-[100px] rounded-lg border bg-gray-400/30 `}
-      >
-        <div className="w-full text-[10px]">{item.title}</div>
-        <div className="w-full text-[10px]">{item?.type}</div>
-        <div className="w-full text-[10px]">{item?.unit}</div>
-        {isExistInList ? (
-          <Button
-            variant="contained"
-            size="small"
-            className="border bg-[var(--approved-bgc)] h-[40px]"
-            onClick={(e) => {
-              dispatch(addSelectedSensors(item));
-            }}
-          >
-            <div className="text-[12px] font-Vazir-Medium">
-              {t("addToReports")}
-            </div>
-          </Button>
-        ) : (
-          <></>
-        )}
-      </div>
+      <section className="flex">
+        <div
+          onClick={() => {}}
+          className={`mx-2 p-1 flex w-fit h-fit rounded-lg border bg-gray-400/30 `}
+        >
+          <div className="flex flex-wrap">
+            <div className="w-full text-[10px]">{item.title}</div>
+            <div className="w-full text-[10px]">{item?.type}</div>
+            <div className="w-full text-[10px]">{item?.unit}</div>
+          </div>
+          {isExistInList ? (
+            <button
+              className="p-2 flex rounded-lg opacity-75 h-fit w-fit"
+              onClick={(e) => {
+                dispatch(addSelectedSensors(item));
+              }}
+            >
+              <Icon
+                className="mx-1"
+                fontSize={25}
+                icon={"material-symbols:add-comment-rounded"}
+              ></Icon>{" "}
+            </button>
+          ) : (
+            <>
+              <button
+                className="p-2 flex rounded-lg opacity-75 h-fit w-fit"
+                onClick={(e) => {
+                  {
+                    item?._id !== undefined ? (
+                      dispatch(removeSelectedSensors(item?._id))
+                    ) : (
+                      <></>
+                    );
+                  }
+                }}
+              >
+                <Icon
+                  color="red"
+                  className="mx-1"
+                  fontSize={25}
+                  icon={"material-symbols:bookmark-remove-sharp"}
+                ></Icon>
+              </button>
+            </>
+          )}
+        </div>
+      </section>
     </>
   );
 }
@@ -176,11 +231,11 @@ export function SensorSelectedForReport() {
   const { t } = useTranslation();
 
   return (
-    <Box className="flex flex-wrap justify-center w-full mt-5">
+    <Box className="flex flex-wrap justify-start w-full mt-1">
       <Grid
         container
-        spacing={2}
-        className="flex flex-wrap justify-center w-full "
+        spacing={1}
+        className="flex flex-wrap justify-start w-full "
       >
         {selectedSensorsSlice?.length ? (
           selectedSensorsSlice?.map((sensor, index) => (
@@ -192,7 +247,7 @@ export function SensorSelectedForReport() {
           ))
         ) : (
           <>
-            <Box sx={{ p: 8 }}>
+            <Box sx={{ p: 1 }}>
               <Typography className="font-Vazir-Medium">
                 {t("deviceNotExist")}
               </Typography>
@@ -203,134 +258,3 @@ export function SensorSelectedForReport() {
     </Box>
   );
 }
-
-{
-  /* <FormControl
-        color={"secondary"}
-        sx={{
-          ".MuiFormControl-root": {
-            borderSize: "5px",
-          },
-          m: 4,
-          minWidth: 120,
-          maxWidth: 300,
-        }}
-      >
-        <InputLabel
-          sx={{ color: "var(--text-color)" }}
-          shrink
-          htmlFor="select-multiple-native"
-        >
-          {t("devices")}
-        </InputLabel>
-        <Select
-          sx={{ color: "var(--text-color)" }}
-          multiple
-          native
-          value={deviceName}
-          // @ts-ignore Typings are not considering `native`
-          onChange={handleChangeMultiple}
-          label="Native"
-          inputProps={{
-            id: "select-multiple-native",
-          }}
-        >
-          {selectDevices.map((item, index) => (
-            <option key={index} value={item._id}>
-              {item.title}
-            </option>
-          ))}
-        </Select>
-      </FormControl> */
-}
-{
-  /* <FormControl sx={{ m: 4, minWidth: 120, maxWidth: 300 }}>
-        <InputLabel
-          sx={{ color: "var(--text-color)" }}
-          shrink
-          htmlFor="select-multiple-native"
-        >
-          {t("sensors")}
-        </InputLabel>
-        <Select
-          sx={{ color: "var(--text-color)" }}
-          multiple
-          native
-          value={sensorName}
-          // @ts-ignore Typings are not considering `native`
-          onChange={handleChangeSelectSensor}
-          label="Native"
-          inputProps={{
-            id: "select-multiple-native",
-          }}
-        >
-          {selectedDevice?.sensors?.map((item, index) => (
-            <option key={index} value={item._id}>
-              {item.title}
-            </option>
-          ))}
-        </Select>
-      </FormControl> */
-}
-{
-  /* <Button
-        onClick={(e) => {
-          OnClickSelectSensor();
-        }}
-      >
-        +add to analize
-      </Button> */
-}
-
-// const OnClickSelectSensor = () => {
-//   console.log(deviceName);
-//   console.log(sensorName);
-//   const ind1 = selectDevices.findIndex(
-//     (item) => item._id === deviceName?.[0]
-//   );
-//   const ind2 = selectDevices?.[ind1]?.sensors?.findIndex(
-//     (item) => item._id === sensorName?.[0]
-//   );
-//   const arr: SensorsReceiveTpe[] = [...selectedSensors];
-//   if (
-//     ind2 !== undefined &&
-//     selectDevices?.[ind1]?.sensors?.[ind2] !== undefined
-//   ) {
-//     arr.push(selectDevices?.[ind1]?.sensors?.[ind2] as SensorsReceiveTpe);
-//     dispatch(
-//       addSelectedSensors(
-//         selectDevices?.[ind1]?.sensors?.[ind2] as SensorsReceiveTpe
-//       )
-//     );
-//   }
-//   setSelectedSensors(arr);
-//   console.log("selectedSensorsSlice", selectedSensorsSlice);
-// };
-
-// const handleChangeMultiple = (
-//   event: React.ChangeEvent<HTMLSelectElement>
-// ) => {
-//   const { options } = event.target;
-//   const value: string[] = [];
-//   for (let i = 0, l = options.length; i < l; i += 1) {
-//     if (options[i].selected) {
-//       value.push(options[i].value);
-//     }
-//   }
-//   setdeviceName(value);
-//   const ind = selectDevices.findIndex((item) => item._id === value?.[0]);
-//   if (ind >= 0) setSelectedDevice(selectDevices[ind]);
-//   console.log("selectDevices", value);
-// };
-// const handleChangeSelectSensor = (
-//   event: React.ChangeEvent<HTMLSelectElement>
-// ) => {
-//   const { options } = event.target;
-//   const value: string[] = [];
-//   for (let i = 0, l = options.length; i < l; i += 1) {
-//     if (options[i].selected) {
-//       value.push(options[i].value);
-//     }
-//   }
-//   setSensorName(value);
-// };

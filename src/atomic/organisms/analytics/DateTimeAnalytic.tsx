@@ -86,7 +86,7 @@ export default function DateTimeAnalytic() {
           </ToggleButtonGroup>
           <h3 className="flex p-2">{t("calendar")}</h3>
         </div> */}
-      <Box className="flex m-4">
+      <Box className="flex m-2">
         <Grid container spacing={2}>
           <Grid>
             <DateTimePickerComponent

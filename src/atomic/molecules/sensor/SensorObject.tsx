@@ -6,6 +6,7 @@ import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTabl
 import { useAppDispatch } from "../../../store/hooks";
 import { removeSelectedSensors } from "../../../store/slices/analizeSlice";
 import Item from "../../atoms/Item/Item";
+import GaugeDevice from "../AmChart/GaugeDevice";
 
 export default function SensorObject({
   sensor,
@@ -16,34 +17,25 @@ export default function SensorObject({
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          "& > :not(style)": {
-            m: 1,
-            width: 128,
-            height: 140,
-          },
-        }}
-      >
+      <div className="flex mx-2">
         <Paper
           sx={{
             background: "rgb(67 56 202 )",
+            display: "flex",
           }}
           elevation={3}
         >
           {" "}
-          <aside className="flex items-center text-wipro-cream ">
+          <aside className="flex items-center text-wipro-cream p-2 ">
             <Icon
-              className="mx-2 "
-              fontSize={60}
+              className="mx-1"
+              fontSize={30}
               icon={"material-symbols:motion-sensor-active-rounded"}
             ></Icon>
-            <h1 className="flex w-full">sensor</h1>{" "}
+            <h1 className="flex w-full">sensor</h1>
+            <h1 className="w-full text-wipro-cream mx-1">{sensor?.title}</h1>
           </aside>
-          <h1 className="w-full text-wipro-cream m-2">{sensor?.title}</h1>
-          <button
+          {/* <button
             // variant="contained"
             // size="small"
             type="button"
@@ -59,9 +51,21 @@ export default function SensorObject({
                 icon={"material-symbols:delete-outline-sharp"}
               ></Icon>
             </div>
+          </button> */}
+          <button
+            className="text-[8px] hover:text-red-800  text-red-600"
+            onClick={(e) => {
+              dispatch(removeSelectedSensors(sensor._id ?? ""));
+            }}
+          >
+            <Icon
+              className=" "
+              fontSize={20}
+              icon={"material-symbols:delete-outline-sharp"}
+            ></Icon>
           </button>
         </Paper>
-      </Box>
+      </div>
     </>
   );
 }

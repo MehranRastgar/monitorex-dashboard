@@ -11,6 +11,8 @@ import DataGridReports from "../../molecules/DataGrid/DataGridReports";
 import DataOfReport, { DataOfReportPrintMode } from "./DataOfReport";
 import FullPageModal from "../../molecules/modal/FullPage";
 import { PrintPreview } from "../Print/PrintPreview";
+import DateTimeReport from "../../molecules/Report/DateTime";
+import ReportHeader from "./ReportHeader";
 
 export default function MultiReportChartContainer() {
   const componentRef = useRef<HTMLInputElement | null>(null);
@@ -33,7 +35,8 @@ export default function MultiReportChartContainer() {
   return (
     <>
       <div ref={componentRef}>
-        <Item>
+        <Item className="p-14">
+          {/* <ReportHeader /> */}
           <MultiLineChart id={"multilineChart-1"} />
           <DataOfReport />
           <PrintPreview />

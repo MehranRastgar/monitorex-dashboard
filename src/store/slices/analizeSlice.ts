@@ -20,6 +20,7 @@ export interface SensorsReportType {
   _id?: string;
   data?: Datum[];
   sensor?: SensorInReport;
+  device: DevicesReceiveType;
 }
 
 export interface Datum {

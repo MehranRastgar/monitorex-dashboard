@@ -338,7 +338,7 @@ export function DataOfReportPrintMode() {
 
   return (
     <>
-      <section className="flex flex-wrap">
+      <section className="flex flex-wrap mt-20 ">
         {tableData?.length > 0 && colu?.length > 0 ? (
           <DataGridReportsPrintMode
             reportData={{

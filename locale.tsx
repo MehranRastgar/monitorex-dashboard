@@ -138,6 +138,12 @@ i18n
       },
       fa: {
         translation: {
+          reportDate: "تاریخ گزارش گیری",
+          report: "گزارش",
+          Temperature: "دما",
+          Humidity: "رطوبت",
+          numberOfPoints: "تعداد نقاط",
+          slectedSensorNumber: "سنسور انتخابی شماره",
           deviceNotExist: "دستگاهی وجود ندار",
           chooseDevice: "انتخاب دستگاه",
           addToReports: "افزودن به لیست",

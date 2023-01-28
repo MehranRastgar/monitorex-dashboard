@@ -10,6 +10,7 @@ import { t } from "i18next";
 import SensorAmChartLive from "../sensor/SensorAmChartLive";
 import { useQuery } from "react-query";
 import { GetSensorsSeriesDateVaLue } from "../../../api/sensors";
+import GaugeDevice from "../AmChart/GaugeDevice";
 const socket = io("http://localhost:3051");
 
 export function SensorChartWebsocket({ idSubScribe }: { idSubScribe: string }) {
@@ -17,7 +18,9 @@ export function SensorChartWebsocket({ idSubScribe }: { idSubScribe: string }) {
   //   GetSensorsSeriesDateVaLue(String(idSubScribe))
   // );
   // const queryClient = useQueryClient();
-  const [value, setValue] = useState<{ value: number } | undefined>(undefined);
+  const [value, setValue] = useState<
+    { value: number; max?: number; min?: number } | undefined
+  >(undefined);
   const [addedValue, setAddedValue] = useState<
     { value: number; date: number }[]
   >([]);
@@ -56,7 +59,13 @@ export function SensorChartWebsocket({ idSubScribe }: { idSubScribe: string }) {
         {value?.value !== undefined ? (
           <>
             {value?.value !== 200000 ? (
-              <div style={{ height: 200, width: "100%" }}>
+              <div className="flex" style={{ height: 200, width: "100%" }}>
+                <GaugeDevice
+                  id={idSubScribe + "-sensor-gauge" ?? "sensor"}
+                  minmax={{ min: value?.min ?? 0, max: value?.max ?? 100 }}
+                  val={value?.value}
+                  // unit={"sensor"}
+                />
                 {value?.value}
                 <div className="flex h-[10px] w-[10px]  rounded-full bg-green-600"></div>
                 <SensorAmChartLive
