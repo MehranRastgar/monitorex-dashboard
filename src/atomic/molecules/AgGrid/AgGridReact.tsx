@@ -17,7 +17,7 @@ interface Props {
 
 const AgGrid: React.FC<Props> = (props) => {
   const gridRef = useRef<any>(); // Optional - for accessing Grid's API
-  const [rowData, setRowData] = useState(); // Set rowData to Array of Objects, one Object per Row
+  const [rowData, setRowData] = useState<any[]>(); // Set rowData to Array of Objects, one Object per Row
 
   // Each Column Definition results in one Column.
   const [columnDefs, setColumnDefs] = useState(props.column);
