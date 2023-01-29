@@ -33,6 +33,15 @@ export default function MultiLineChart({ id }: { id: string }) {
   const [chartMode, setChartMode] = useState<"line" | "spline" | "column">(
     "line"
   );
+  const [lineAccesible, setLineAccesible] = useState(true);
+  const [lineColors, setLineColors] = useState([
+    "red",
+    "blue",
+    "green",
+    "cyan",
+    "yellow",
+    "var(--text-color)",
+  ]);
 
   function makeData(data: Datum[]) {
     const arr: any[] = [];
@@ -58,7 +67,7 @@ export default function MultiLineChart({ id }: { id: string }) {
         if (multiAxis === true) {
           arrSeries.push(
             {
-              lineWidth: justPoint ? 0 : 1,
+              lineWidth: justPoint ? 0 : 2,
               marker: {
                 enabled: justPoint,
                 radius: 2,
@@ -67,6 +76,7 @@ export default function MultiLineChart({ id }: { id: string }) {
               type: chartMode,
               yAxis: index,
               name: "sensor-" + sens.sensor?.title,
+              dashStyle: lineAccesible ? "dot" : "line",
               // pointInterval: 6e4, // one hour
               // relativeXValue: true,
               data: [...makeData(sens?.data)],
@@ -105,6 +115,8 @@ export default function MultiLineChart({ id }: { id: string }) {
             id: sens.sensor?._id,
             type: chartMode,
             name: sens?.device?.title + ":" + sens?.sensor?.title,
+            dashStyle: lineAccesible ? "dot" : "line",
+
             // pointInterval: 6e4, // one hour
             // relativeXValue: true,
             data: [...makeData(sens?.data)],
@@ -120,10 +132,10 @@ export default function MultiLineChart({ id }: { id: string }) {
             colors: [
               "red",
               "blue",
-              "var(--text-color)",
+              "green",
               "cyan",
               "yellow",
-              "green",
+              "var(--text-color)",
             ],
             chart: {
               alignTicks: true,
@@ -236,10 +248,10 @@ export default function MultiLineChart({ id }: { id: string }) {
             colors: [
               "red",
               "blue",
-              "var(--text-color)",
+              "green",
               "cyan",
               "yellow",
-              "green",
+              "var(--text-color)",
             ],
             chart: {
               alignTicks: true,
@@ -369,6 +381,7 @@ export default function MultiLineChart({ id }: { id: string }) {
     theme,
     divideBy,
     multiAxis,
+    lineAccesible,
   ]);
 
   return (
@@ -390,6 +403,15 @@ export default function MultiLineChart({ id }: { id: string }) {
           }}
         >
           {t("justPoint")}
+        </ButtonRegular>
+        <div className="flex h-[10px] border w-fit mx-2"></div>
+        <ButtonRegular
+          disabled={!lineAccesible}
+          onClick={(e) => {
+            setLineAccesible((val) => !val);
+          }}
+        >
+          {t("Line style")}
         </ButtonRegular>
         <div className="flex h-[10px] border w-fit mx-2 text-blue-200"></div>
         <ButtonRegular

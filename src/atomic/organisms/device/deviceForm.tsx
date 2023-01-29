@@ -112,185 +112,168 @@ export default function DeviceForm() {
                 {t("deviceName")} {selectedDevice?.title ?? ""}
               </div>
             </Item>
-          </Box>
-          <Box sx={{ p: 1 }}>
             <Item>
-              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
-                {t("specifications")}
-              </h2>
-              <Box sx={{ p: 1, flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                  <Grid>
-                    <TextField
-                      // ref={refTitle}
-                      // id={idPrefix + "title"}
-                      value={selectedDevice.title}
+              <div className="flex w-full p-2 border-b font-Vazir-Medium"></div>
+              <Grid container spacing={2}>
+                <Grid>
+                  <TextField
+                    // ref={refTitle}
+                    // id={idPrefix + "title"}
+                    value={selectedDevice.title}
+                    onChange={(e) => {
+                      dispatch(
+                        setSelectedDevice({
+                          ...selectedDevice,
+                          title: e.target.value,
+                        })
+                      );
+                    }}
+                    variant="filled"
+                    sx={style}
+                    label={t("title")}
+                  />
+                </Grid>
+                <Grid>
+                  <FormControl variant="filled" sx={style}>
+                    <InputLabel id="type">type</InputLabel>
+                    <Select
+                      // id={idPrefix + "type"}
+                      labelId="type"
+                      value={selectedDevice?.type?.toString()}
                       onChange={(e) => {
                         dispatch(
                           setSelectedDevice({
                             ...selectedDevice,
-                            title: e.target.value,
+                            type: e.target.value,
                           })
                         );
                       }}
-                      variant="filled"
-                      sx={style}
-                      label={t("title")}
-                    />
-                  </Grid>
-                  <Grid>
-                    <FormControl variant="filled" sx={style}>
-                      <InputLabel id="type">type</InputLabel>
-                      <Select
-                        // id={idPrefix + "type"}
-                        labelId="type"
-                        value={selectedDevice?.type?.toString()}
-                        onChange={(e) => {
-                          dispatch(
-                            setSelectedDevice({
-                              ...selectedDevice,
-                              type: e.target.value,
-                            })
-                          );
-                        }}
-                        label="type"
-                      >
-                        <MenuItem value=""></MenuItem>
-                        {typesOfDevies.map((nPSe, index) => (
-                          <MenuItem key={index} value={nPSe}>
-                            {nPSe.toString()}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid>
-                    <FormControl variant="filled" sx={{ ...style, width: 150 }}>
-                      <InputLabel id="demo-simple-select-standard-label">
-                        {t("numberOfPorts")}
-                      </InputLabel>
-                      <Select
-                        // id={idPrefix + "numberOfPorts"}
-                        labelId="demo-simple-select-standard-label"
-                        value={selectedDevice?.numberOfPorts?.toString()}
-                        onChange={(e) => {
-                          dispatch(
-                            setSelectedDevice({
-                              ...selectedDevice,
-                              numberOfPorts: Number(e.target.value),
-                            })
-                          );
-                        }}
-                        label="numberOfPorts"
-                      >
-                        <MenuItem value=""></MenuItem>
-                        {selectNumberOfPorts.map((nPSe, index) => (
-                          <MenuItem key={index} value={nPSe}>
-                            {nPSe.toString()}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid>
-                    <DeviceShowWhat
-                      type={selectedDevice.type}
-                      port={selectedDevice.numberOfPorts}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            </Item>
-          </Box>
-          <Box sx={{ p: 1 }}>
-            <Item>
-              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
-                {t("configuration")}
-              </h2>
-              <Box sx={{ p: 1, flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                  <Grid>
-                    <FormControl variant="filled" sx={{ ...style, width: 150 }}>
-                      <InputLabel id="demo-simple-select-standard-label">
-                        Super multiPort
-                      </InputLabel>
-                      <Select
-                        id={idPrefix + "address.sMultiPort"}
-                        labelId="demo-simple-select-standard-label"
-                        value={selectedDevice?.address?.sMultiPort?.toString()}
-                        onChange={(e) => {
-                          dispatch(
-                            setSelectedDevice({
-                              ...selectedDevice,
-                              address: {
-                                ...selectedDevice.address,
-                                sMultiPort: Number(e.target.value),
-                              },
-                            })
-                          );
-                        }}
-                        label="Super MultiPort"
-                      >
-                        <MenuItem value="">
-                          <em>None</em>
+                      label="type"
+                    >
+                      <MenuItem value=""></MenuItem>
+                      {typesOfDevies.map((nPSe, index) => (
+                        <MenuItem key={index} value={nPSe}>
+                          {nPSe.toString()}
                         </MenuItem>
-                        {selectMultiport.map((nPSe, index) => (
-                          <MenuItem key={index} value={nPSe}>
-                            {nPSe.toString()}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid>
-                    <FormControl variant="filled" sx={{ ...style, width: 150 }}>
-                      <InputLabel id="demo-simple-select-standard-label">
-                        multiPort
-                      </InputLabel>
-                      <Select
-                        id={idPrefix + "address.multiPort"}
-                        labelId="demo-simple-select-standard-label"
-                        value={selectedDevice?.address?.multiPort?.toString()}
-                        onChange={(e) => {
-                          dispatch(
-                            setSelectedDevice({
-                              ...selectedDevice,
-                              address: {
-                                ...selectedDevice.address,
-                                multiPort: Number(e.target.value),
-                              },
-                            })
-                          );
-                        }}
-                        label="multiPort"
-                      >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        {selectMultiport.map((nPSe, index) => (
-                          <MenuItem key={index} value={nPSe}>
-                            {nPSe.toString()}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </Grid>
+                      ))}
+                    </Select>
+                  </FormControl>
                 </Grid>
-              </Box>
+                <Grid>
+                  <FormControl variant="filled" sx={{ ...style, width: 150 }}>
+                    <InputLabel id="demo-simple-select-standard-label">
+                      {t("numberOfPorts")}
+                    </InputLabel>
+                    <Select
+                      // id={idPrefix + "numberOfPorts"}
+                      labelId="demo-simple-select-standard-label"
+                      value={selectedDevice?.numberOfPorts?.toString()}
+                      onChange={(e) => {
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            numberOfPorts: Number(e.target.value),
+                          })
+                        );
+                      }}
+                      label="numberOfPorts"
+                    >
+                      <MenuItem value=""></MenuItem>
+                      {selectNumberOfPorts.map((nPSe, index) => (
+                        <MenuItem key={index} value={nPSe}>
+                          {nPSe.toString()}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid>
+                  <DeviceShowWhat
+                    type={selectedDevice.type}
+                    port={selectedDevice.numberOfPorts}
+                  />
+                </Grid>
+              </Grid>
+              <Grid container spacing={2}>
+                <Grid>
+                  <FormControl variant="filled" sx={{ ...style, width: 150 }}>
+                    <InputLabel id="demo-simple-select-standard-label">
+                      Super multiPort
+                    </InputLabel>
+                    <Select
+                      id={idPrefix + "address.sMultiPort"}
+                      labelId="demo-simple-select-standard-label"
+                      value={selectedDevice?.address?.sMultiPort?.toString()}
+                      onChange={(e) => {
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            address: {
+                              ...selectedDevice.address,
+                              sMultiPort: Number(e.target.value),
+                            },
+                          })
+                        );
+                      }}
+                      label="Super MultiPort"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {selectMultiport.map((nPSe, index) => (
+                        <MenuItem key={index} value={nPSe}>
+                          {nPSe.toString()}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid>
+                  <FormControl variant="filled" sx={{ ...style, width: 150 }}>
+                    <InputLabel id="demo-simple-select-standard-label">
+                      multiPort
+                    </InputLabel>
+                    <Select
+                      id={idPrefix + "address.multiPort"}
+                      labelId="demo-simple-select-standard-label"
+                      value={selectedDevice?.address?.multiPort?.toString()}
+                      onChange={(e) => {
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            address: {
+                              ...selectedDevice.address,
+                              multiPort: Number(e.target.value),
+                            },
+                          })
+                        );
+                      }}
+                      label="multiPort"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {selectMultiport.map((nPSe, index) => (
+                        <MenuItem key={index} value={nPSe}>
+                          {nPSe.toString()}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Grid>
+              </Grid>
             </Item>
           </Box>
           {selectedDevice.type === "Sensor Cotroller" ? (
-            <Box sx={{ p: 1 }}>
-              <Item>
-                <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
-                  {t("sensors")}
-                </h2>
-                <SensorsPart
-                  type={selectedDevice.type}
-                  port={selectedDevice.numberOfPorts}
-                />
-              </Item>
-            </Box>
+            <Item sx={{ margin: 1 }}>
+              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                {t("sensors")}
+              </h2>
+              <SensorsPart
+                type={selectedDevice.type}
+                port={selectedDevice.numberOfPorts}
+              />
+            </Item>
           ) : (
             <></>
           )}
@@ -503,227 +486,225 @@ function SensorsPart({ port, type }: { port?: number; type?: string }) {
       {selectedDevice?.sensors !== undefined ? (
         selectedDevice?.sensors?.map((sensor, index) => (
           <>
-            <Box key={index + (sensor?._id ?? "sensor")} sx={{ p: 1 }}>
-              <Item>
-                <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
-                  {t("Sensor - ") +
-                    index +
-                    (sensor?.title ? " (" + sensor?.title + ") " : "")}
-                </h2>
-                <Box sx={{ p: 1, flexGrow: 1 }}>
-                  <Grid container spacing={2}>
-                    <Grid>
-                      <TextField
-                        value={sensor.title}
-                        id={idPrefix + `sensor?.[${index}]?.title`}
-                        variant="filled"
-                        onChange={(e) => {
-                          let seni: SensorsReceiveTpe[] = [
-                            ...(selectedDevice?.sensors ?? []),
-                          ];
-                          seni[index] = {
-                            ...selectedDevice?.sensors?.[index],
-                            title: e.target.value,
-                          };
-                          dispatch(
-                            setSelectedDevice({
-                              ...selectedDevice,
-                              sensors: [...seni],
-                            })
-                          );
-                        }}
-                        sx={{
-                          ...style,
-                          width: 180,
-                        }}
-                        label={t("title")}
-                      />
-                    </Grid>
-                    <Grid>
-                      <Autocomplete
-                        // {...defaultTypeProps}
-                        id={idPrefix + `sensor?.[${index}]?.type`}
-                        value={sensor.type ?? ""}
-                        freeSolo
-                        onInputChange={(
-                          event: React.SyntheticEvent<Element, Event>,
-                          value: string,
-                          reason: AutocompleteInputChangeReason
-                        ) => {
-                          let seni: SensorsReceiveTpe[] = [
-                            ...(selectedDevice?.sensors ?? []),
-                          ];
-                          seni[index] = {
-                            ...selectedDevice?.sensors?.[index],
-                            type: value,
-                          };
-                          dispatch(
-                            setSelectedDevice({
-                              ...selectedDevice,
-                              sensors: [...seni],
-                            })
-                          );
-                        }}
-                        options={topType.map((option) => option.title)}
-                        renderInput={(params) => (
-                          <>
-                            <TextField
-                              value={sensor.type}
-                              sx={{
-                                ...style,
-                                width: 220,
-                                ".MuiFormHelperText-root": {
-                                  color: "var(--text-color)",
-                                },
-                              }}
-                              variant="filled"
-                              {...params}
-                              label={t("type" ?? "")}
-                            />
-                          </>
-                        )}
-                      />
-                    </Grid>
-                    <Grid>
-                      <Autocomplete
-                        value={sensor.unit}
-                        id={idPrefix + `sensor?.[${index}]?.unit`}
-                        freeSolo
-                        onInputChange={(
-                          event: React.SyntheticEvent<Element, Event>,
-                          value: string,
-                          reason: AutocompleteInputChangeReason
-                        ) => {
-                          let seni: SensorsReceiveTpe[] = [
-                            ...(selectedDevice?.sensors ?? []),
-                          ];
-                          seni[index] = {
-                            ...selectedDevice?.sensors?.[index],
-                            unit: value,
-                          };
-                          dispatch(
-                            setSelectedDevice({
-                              ...selectedDevice,
-                              sensors: [...seni],
-                            })
-                          );
-                        }}
-                        options={topUnits.map((option) => option.unit)}
-                        popupIcon={unitstate}
-                        // value={sensor.unit}
-                        renderInput={(params) => (
-                          <>
-                            <TextField
-                              sx={{
-                                ...style,
-                                width: 220,
-                                ".MuiFormHelperText-root": {
-                                  color: "var(--text-color)",
-                                },
-                              }}
-                              variant="filled"
-                              {...params}
-                              label={t("unit" ?? "")}
-                              helperText={
-                                topUnits?.[
-                                  topUnits?.findIndex(
-                                    (it) => it.unit === sensor.unit
-                                  )
-                                ]?.title
-                              }
-                            />
-                          </>
-                        )}
-                      />
-                    </Grid>
-                    <Grid>
-                      <TextField
-                        value={sensor?.maxAlarm ?? undefined}
-                        onChange={(e) => {
-                          let seni: SensorsReceiveTpe[] = [
-                            ...(selectedDevice?.sensors ?? []),
-                          ];
-                          seni[index] = {
-                            ...selectedDevice?.sensors?.[index],
-                            maxAlarm: Number(e.target.value),
-                          };
-                          dispatch(
-                            setSelectedDevice({
-                              ...selectedDevice,
-                              sensors: [...seni],
-                            })
-                          );
-                        }}
-                        variant="filled"
-                        sx={{
-                          ...style,
-                          ".MuiInputBase-input": {
-                            color: "var(--text-color)",
-                            userSelect: "none",
-                          },
-                          ".MuiFilledInput-input": {
-                            textDecorationColor: "var(--text-color)",
-                            "::Mui-disabled": {
-                              userSelect: "none",
-                              textDecorationColor: "var(--text-color)",
-                            },
-                          },
-                          ".Mui-disabled": {
-                            userSelect: "none",
-                            textDecorationColor: "var(--text-color)",
-                          },
-                          width: 100,
-                        }}
-                        label={t("max")}
-                      />
-                    </Grid>
-                    <Grid>
-                      <TextField
-                        value={sensor?.minAlarm ?? undefined}
-                        onChange={(e) => {
-                          let seni: SensorsReceiveTpe[] = [
-                            ...(selectedDevice?.sensors ?? []),
-                          ];
-                          seni[index] = {
-                            ...selectedDevice?.sensors?.[index],
-                            minAlarm: Number(e.target.value),
-                          };
-                          dispatch(
-                            setSelectedDevice({
-                              ...selectedDevice,
-                              sensors: [...seni],
-                            })
-                          );
-                        }}
-                        variant="filled"
-                        sx={{
-                          ...style,
-                          ".MuiInputBase-input": {
-                            color: "var(--text-color)",
-                            userSelect: "none",
-                          },
-                          ".MuiFilledInput-input": {
-                            textDecorationColor: "var(--text-color)",
-                            "::Mui-disabled": {
-                              userSelect: "none",
-                              textDecorationColor: "var(--text-color)",
-                            },
-                          },
-                          ".Mui-disabled": {
-                            userSelect: "none",
-                            textDecorationColor: "var(--text-color)",
-                          },
-                          width: 100,
-                        }}
-                        label={t("min")}
-                      />
-                    </Grid>
+            <Box key={index + (sensor?._id ?? "sensor")} sx={{ p: 0 }}>
+              <h2 className="flex w-full p-2 text-xs font-Vazir-Medium">
+                {t("Sensor - ") +
+                  index +
+                  (sensor?.title ? " (" + sensor?.title + ") " : "")}
+              </h2>
+              <Box sx={{ p: 0, flexGrow: 1 }}>
+                <Grid container spacing={1}>
+                  <Grid>
+                    <TextField
+                      value={sensor.title}
+                      id={idPrefix + `sensor?.[${index}]?.title`}
+                      variant="filled"
+                      onChange={(e) => {
+                        let seni: SensorsReceiveTpe[] = [
+                          ...(selectedDevice?.sensors ?? []),
+                        ];
+                        seni[index] = {
+                          ...selectedDevice?.sensors?.[index],
+                          title: e.target.value,
+                        };
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            sensors: [...seni],
+                          })
+                        );
+                      }}
+                      sx={{
+                        ...style,
+                        width: 180,
+                      }}
+                      label={t("title")}
+                    />
                   </Grid>
-                </Box>
-                <div className="flex w-full justify-start">
-                  <h2 className="text-[12px] opacity-75">{sensor?._id}</h2>
-                </div>
-              </Item>
+                  <Grid>
+                    <Autocomplete
+                      // {...defaultTypeProps}
+                      id={idPrefix + `sensor?.[${index}]?.type`}
+                      value={sensor.type ?? ""}
+                      freeSolo
+                      onInputChange={(
+                        event: React.SyntheticEvent<Element, Event>,
+                        value: string,
+                        reason: AutocompleteInputChangeReason
+                      ) => {
+                        let seni: SensorsReceiveTpe[] = [
+                          ...(selectedDevice?.sensors ?? []),
+                        ];
+                        seni[index] = {
+                          ...selectedDevice?.sensors?.[index],
+                          type: value,
+                        };
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            sensors: [...seni],
+                          })
+                        );
+                      }}
+                      options={topType.map((option) => option.title)}
+                      renderInput={(params) => (
+                        <>
+                          <TextField
+                            value={sensor.type}
+                            sx={{
+                              ...style,
+                              width: 220,
+                              ".MuiFormHelperText-root": {
+                                color: "var(--text-color)",
+                              },
+                            }}
+                            variant="filled"
+                            {...params}
+                            label={t("type" ?? "")}
+                          />
+                        </>
+                      )}
+                    />
+                  </Grid>
+                  <Grid>
+                    <Autocomplete
+                      value={sensor.unit}
+                      id={idPrefix + `sensor?.[${index}]?.unit`}
+                      freeSolo
+                      onInputChange={(
+                        event: React.SyntheticEvent<Element, Event>,
+                        value: string,
+                        reason: AutocompleteInputChangeReason
+                      ) => {
+                        let seni: SensorsReceiveTpe[] = [
+                          ...(selectedDevice?.sensors ?? []),
+                        ];
+                        seni[index] = {
+                          ...selectedDevice?.sensors?.[index],
+                          unit: value,
+                        };
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            sensors: [...seni],
+                          })
+                        );
+                      }}
+                      options={topUnits.map((option) => option.unit)}
+                      popupIcon={unitstate}
+                      // value={sensor.unit}
+                      renderInput={(params) => (
+                        <>
+                          <TextField
+                            sx={{
+                              ...style,
+                              width: 220,
+                              ".MuiFormHelperText-root": {
+                                color: "var(--text-color)",
+                              },
+                            }}
+                            variant="filled"
+                            {...params}
+                            label={t("unit" ?? "")}
+                            helperText={
+                              topUnits?.[
+                                topUnits?.findIndex(
+                                  (it) => it.unit === sensor.unit
+                                )
+                              ]?.title
+                            }
+                          />
+                        </>
+                      )}
+                    />
+                  </Grid>
+                  <Grid>
+                    <TextField
+                      value={sensor?.maxAlarm ?? undefined}
+                      onChange={(e) => {
+                        let seni: SensorsReceiveTpe[] = [
+                          ...(selectedDevice?.sensors ?? []),
+                        ];
+                        seni[index] = {
+                          ...selectedDevice?.sensors?.[index],
+                          maxAlarm: Number(e.target.value),
+                        };
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            sensors: [...seni],
+                          })
+                        );
+                      }}
+                      variant="filled"
+                      sx={{
+                        ...style,
+                        ".MuiInputBase-input": {
+                          color: "var(--text-color)",
+                          userSelect: "none",
+                        },
+                        ".MuiFilledInput-input": {
+                          textDecorationColor: "var(--text-color)",
+                          "::Mui-disabled": {
+                            userSelect: "none",
+                            textDecorationColor: "var(--text-color)",
+                          },
+                        },
+                        ".Mui-disabled": {
+                          userSelect: "none",
+                          textDecorationColor: "var(--text-color)",
+                        },
+                        width: 100,
+                      }}
+                      label={t("max")}
+                    />
+                  </Grid>
+                  <Grid>
+                    <TextField
+                      value={sensor?.minAlarm ?? undefined}
+                      onChange={(e) => {
+                        let seni: SensorsReceiveTpe[] = [
+                          ...(selectedDevice?.sensors ?? []),
+                        ];
+                        seni[index] = {
+                          ...selectedDevice?.sensors?.[index],
+                          minAlarm: Number(e.target.value),
+                        };
+                        dispatch(
+                          setSelectedDevice({
+                            ...selectedDevice,
+                            sensors: [...seni],
+                          })
+                        );
+                      }}
+                      variant="filled"
+                      sx={{
+                        ...style,
+                        ".MuiInputBase-input": {
+                          color: "var(--text-color)",
+                          userSelect: "none",
+                        },
+                        ".MuiFilledInput-input": {
+                          textDecorationColor: "var(--text-color)",
+                          "::Mui-disabled": {
+                            userSelect: "none",
+                            textDecorationColor: "var(--text-color)",
+                          },
+                        },
+                        ".Mui-disabled": {
+                          userSelect: "none",
+                          textDecorationColor: "var(--text-color)",
+                        },
+                        width: 100,
+                      }}
+                      label={t("min")}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+              <div className="flex w-full justify-start">
+                <h2 className="text-[8px] opacity-75">{sensor?._id}</h2>
+              </div>
             </Box>
           </>
         ))

@@ -13,7 +13,15 @@ import FullPageModal from "../../molecules/modal/FullPage";
 import { PrintPreview } from "../Print/PrintPreview";
 import DateTimeReport from "../../molecules/Report/DateTime";
 import ReportHeader from "./ReportHeader";
-
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  PDFViewer,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
 export default function MultiReportChartContainer() {
   const componentRef = useRef<HTMLInputElement | null>(null);
   const handleDownloadImage = async () => {

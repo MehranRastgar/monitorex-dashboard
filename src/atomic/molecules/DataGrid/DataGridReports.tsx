@@ -97,5 +97,56 @@ export function DataGridReportsPrintMode({ reportData }: { reportData: any }) {
   React.useEffect(() => {
     console.log("reportDatareportDatareportDatareportData::::", reportData);
   }, [reportData]);
-  return <></>;
+  return (
+    <>
+      <div ref={inputRef} style={{ height: "800px", width: "100%" }}>
+        <DataGrid
+          {...reportData}
+          getRowId={(row: any) => row.index}
+          // loading={loading}
+          components={{ Toolbar: GridToolbar }}
+          sx={{
+            ".MuiTablePagination-selectLabel": {
+              display: "none",
+            },
+            ".MuiDataGrid-selectedRowCount": {
+              display: "none",
+            },
+            ".MuiDataGrid-columnHeaderTitle": {
+              fontFamily: ["Source Sans Bold", "sans-serif"].join(","),
+              fontSize: 18,
+              color: "var(--header-text-color)",
+            },
+            ".MuiDataGrid-cellContent": {
+              fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+              fontSize: 14,
+              fontWeight: 400,
+              display: "-ms-inline-grid",
+              textAlign: "center",
+              color: "var(--header-text-color)",
+            },
+            ".MuiTablePagination-toolbar": {
+              fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+              fontSize: 14,
+              fontWeight: 400,
+              display: "-ms-inline-grid",
+              textAlign: "center",
+              color: "var(--header-text-color)",
+            },
+            "	.MuiDataGrid-cellCheckbox": {},
+            boxShadow: 2,
+            bgcolor: "var(--bgc)",
+            border: 0.5,
+            borderRadius: "5px",
+            padding: 2,
+            borderColor: "var(--sidebar)",
+            ".MuiDataGrid-cell:hover": {
+              color: "primary.main",
+              textAlign: "center",
+            },
+          }}
+        />
+      </div>
+    </>
+  );
 }

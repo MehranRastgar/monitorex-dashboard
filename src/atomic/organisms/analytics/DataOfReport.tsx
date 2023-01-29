@@ -124,15 +124,6 @@ export default function DataOfReport() {
         arr.push(obj);
       }
     });
-    dataR?.map((item, index) => {
-      if (item?.data !== undefined && item?.data?.length > 0) {
-        columnsMakes.push({
-          field: item?.sensor?.title?.toString() ?? "noname",
-          headerName: item?.sensor?.title?.toString(),
-          width: 150,
-        });
-      }
-    });
     columnsMakes.push({
       field: "date",
       headerName: "date",
@@ -143,6 +134,16 @@ export default function DataOfReport() {
       headerName: "time",
       width: 150,
     });
+    dataR?.map((item, index) => {
+      if (item?.data !== undefined && item?.data?.length > 0) {
+        columnsMakes.push({
+          field: item?.sensor?.title?.toString() ?? "noname",
+          headerName: item?.sensor?.title?.toString(),
+          width: 150,
+        });
+      }
+    });
+
     setTableData(arr);
     setCulu(columnsMakes);
   }
@@ -192,6 +193,7 @@ export default function DataOfReport() {
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
+import AgGrid from "../../molecules/AgGrid/AgGridReact";
 
 const theme = createTheme({
   typography: {
@@ -308,15 +310,6 @@ export function DataOfReportPrintMode() {
         arr.push(obj);
       }
     });
-    console.log(arr);
-
-    dataR?.map((item, index) => {
-      columnsMakes.push({
-        field: item?.sensor?.title?.toString() ?? "noname",
-        headerName: item?.sensor?.title?.toString(),
-        width: 150,
-      });
-    });
     columnsMakes.push({
       field: "date",
       headerName: "date",
@@ -327,7 +320,14 @@ export function DataOfReportPrintMode() {
       headerName: "time",
       width: 150,
     });
-    console.table(arr);
+    dataR?.map((item, index) => {
+      columnsMakes.push({
+        field: item?.sensor?.title?.toString() ?? "noname",
+        headerName: item?.sensor?.title?.toString(),
+        width: 150,
+      });
+    });
+
     setTableData(arr);
     setCulu(columnsMakes);
   }
@@ -340,13 +340,14 @@ export function DataOfReportPrintMode() {
     <>
       <section className="flex flex-wrap mt-20 ">
         {tableData?.length > 0 && colu?.length > 0 ? (
-          <DataGridReportsPrintMode
-            reportData={{
-              columns: [...colu],
-              rows: [...tableData],
-            }}
-          />
+          <AgGrid column={[...colu]} rowdata={[...tableData]} />
         ) : (
+          // <DataGridReportsPrintMode
+          //   reportData={{
+          //     columns: [...colu],
+          //     rows: [...tableData],
+          //   }}
+          // />
           <></>
         )}
         {/* <Box className={"w-full select-none"}>
