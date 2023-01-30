@@ -21,11 +21,8 @@ const AgGrid: React.FC<Props> = (props) => {
 
   // Each Column Definition results in one Column.
   const [columnDefs, setColumnDefs] = useState(props.column);
-
   // DefaultColDef sets props common to all Columns
-  const defaultColDef = useMemo(() => ({
-    sortable: true,
-  }));
+  const defaultColDef = useMemo(() => ({ sortable: true }), []);
 
   // Example of consuming Grid Event
   const cellClickedListener = useCallback((event: any) => {
