@@ -9,14 +9,17 @@ interface Props {
   outline?: boolean;
   children: any;
   disabled?: boolean;
+  className?: string;
 }
 const ButtonRegular: React.FC<Props> = (props) => {
   return (
     <Button
       size={"small"}
-      className={`my-1 font-Vazir-Medium text-xs ${
-        props?.disabled === true ? "bg-gray-600" : "bg-blue-600"
-      }`}
+      className={
+        `flex w-fit text-justify my-1 max-h-[20px] font-Vazir-Medium text-xs ${
+          props?.disabled === true ? "bg-gray-600" : "bg-blue-600"
+        } ` + props.className
+      }
       variant={"contained"}
       onClick={props.onClick}
     >

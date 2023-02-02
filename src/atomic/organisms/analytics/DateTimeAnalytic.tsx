@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   selectEndDate,
   selectStartDate,
+  selectStartDayjs,
   setEndDate,
   setStartDate,
 } from "../../../store/slices/analizeSlice";
@@ -159,7 +160,7 @@ function HowMuchBefor({
 }) {
   const dispatch = useAppDispatch();
   const selectED = useAppSelector(selectEndDate);
-
+  const selectSDJS = useAppSelector(selectStartDayjs);
   const { t } = useTranslation();
   function handleClick() {
     if (selectED !== undefined) {
@@ -167,6 +168,12 @@ function HowMuchBefor({
     }
     // dispatch(setStartDate(new Date().toString()));
   }
+  useEffect(() => {
+    if (selectSDJS !== undefined) {
+      setValue(dayjs(selectSDJS));
+    }
+  }, [selectSDJS]);
+
   return (
     <>
       <Box sx={{ p: 1, flexGrow: 1 }}>

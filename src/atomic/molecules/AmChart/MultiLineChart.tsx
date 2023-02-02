@@ -26,7 +26,7 @@ export default function MultiLineChart({ id }: { id: string }) {
   // const selectSensorsData =
   const [state, setState] = useState<any>();
   const [divideBy, setDivideBy] = useState<number>(0);
-  const [continues, setcontinues] = useState(false);
+  const [continues, setcontinues] = useState(true);
   const [justPoint, setJustPoint] = useState(false);
   const [multiAxis, setIsMultiAxis] = useState(false);
   const [theme, setTheme] = useState(0);
@@ -76,7 +76,7 @@ export default function MultiLineChart({ id }: { id: string }) {
               type: chartMode,
               yAxis: index,
               name: "sensor-" + sens.sensor?.title,
-              dashStyle: lineAccesible ? "dot" : "line",
+              dashStyle: lineAccesible ? "dashDot" : "line",
               // pointInterval: 6e4, // one hour
               // relativeXValue: true,
               data: [...makeData(sens?.data)],
@@ -115,7 +115,7 @@ export default function MultiLineChart({ id }: { id: string }) {
             id: sens.sensor?._id,
             type: chartMode,
             name: sens?.device?.title + ":" + sens?.sensor?.title,
-            dashStyle: lineAccesible ? "dot" : "line",
+            dashStyle: lineAccesible ? "dashDot" : "line",
 
             // pointInterval: 6e4, // one hour
             // relativeXValue: true,
@@ -129,6 +129,10 @@ export default function MultiLineChart({ id }: { id: string }) {
       if (multiAxis === true) {
         setState({
           chartOptions: {
+            exporting: {
+              enabled: false,
+            },
+
             colors: [
               "red",
               "blue",
@@ -176,6 +180,8 @@ export default function MultiLineChart({ id }: { id: string }) {
               },
             },
             rangeSelector: {
+              enabled: false,
+
               buttons: [
                 {
                   type: "hour",
@@ -237,6 +243,7 @@ export default function MultiLineChart({ id }: { id: string }) {
               trackBorderWidth: 1,
               trackBorderRadius: 8,
               trackBorderColor: "#CCC",
+              enabled: false,
             },
             series: [...arrSeries],
             yAxis: [...arrAxisY],
@@ -245,6 +252,9 @@ export default function MultiLineChart({ id }: { id: string }) {
       } else {
         setState({
           chartOptions: {
+            exporting: {
+              enabled: false,
+            },
             colors: [
               "red",
               "blue",
@@ -344,6 +354,7 @@ export default function MultiLineChart({ id }: { id: string }) {
             //   y: 30,
             // },
             scrollbar: {
+              enabled: false,
               barBackgroundColor: "gray",
               barBorderRadius: 7,
               barBorderWidth: 0,
@@ -385,7 +396,7 @@ export default function MultiLineChart({ id }: { id: string }) {
   ]);
 
   return (
-    <div className="w-full h-[450px]">
+    <div className="w-full h-[450px] rounded-lg border p-2">
       <Box className="flex items-center ">
         <ButtonRegular
           disabled={continues}
@@ -491,6 +502,446 @@ export default function MultiLineChart({ id }: { id: string }) {
   );
 }
 
+export function MultiLineChartPrintMode({ id }: { id: string }) {
+  const { t } = useTranslation();
+  const selectDataOFChart = useAppSelector(selectSensorReports);
+  // const [hoverData, setddata] = useState()
+  // const selectSensorsData =
+  const [state, setState] = useState<any>();
+  const [divideBy, setDivideBy] = useState<number>(0);
+  const [continues, setcontinues] = useState(true);
+  const [justPoint, setJustPoint] = useState(false);
+  const [multiAxis, setIsMultiAxis] = useState(false);
+  const [theme, setTheme] = useState(0);
+  const [chartMode, setChartMode] = useState<"line" | "spline" | "column">(
+    "line"
+  );
+  const [lineAccesible, setLineAccesible] = useState(true);
+  const [lineColors, setLineColors] = useState([
+    "red",
+    "blue",
+    "green",
+    "cyan",
+    "yellow",
+    "var(--text-color)",
+  ]);
+
+  function makeData(data: Datum[]) {
+    const arr: any[] = [];
+    data.map((item, index) => {
+      if (item?.x !== undefined && index % Granolarity[divideBy] === 0)
+        if (item?.y !== undefined || continues)
+          arr.push([new Date(item?.x), item?.y ?? null]);
+    });
+    return arr;
+  }
+  function makeMultiAxis() {
+    const arr: any[] = [];
+  }
+  //make a function to get date and time
+
+  function sumOfdata(data: SensorsReportType[]) {
+    const arrSeries: any[] = [];
+    const arrAxisY: any[] = [];
+    data?.map((sens, index) => {
+      if (sens?.data !== undefined) {
+        if (multiAxis === true) {
+          arrSeries.push(
+            {
+              lineWidth: justPoint ? 0 : 2,
+              marker: {
+                enabled: justPoint,
+                radius: 2,
+              },
+              id: sens.sensor?._id,
+              type: chartMode,
+              yAxis: index,
+              name: "sensor-" + sens.sensor?.title,
+              dashStyle: lineAccesible ? "dashDot" : "line",
+              // pointInterval: 6e4, // one hour
+              // relativeXValue: true,
+              data: [...makeData(sens?.data)],
+            }
+            // {
+            //   type: "column",
+            //   id: sens.sensor?._id,
+            //   name: "sensor-" + sens.sensor?.title,
+            //   data: [...makeData(sens?.data)],
+            //   yAxis: 1,
+            // }
+          );
+          arrAxisY.push({
+            // Primary yAxis
+            labels: {
+              format: "{value}" + sens.sensor?.unit,
+              // style: {
+              //   color: `{series.color}`,
+              // },
+            },
+            title: {
+              text: "sensor-" + sens.sensor?.title,
+              // style: {
+              //   color: `{series.color}`,
+              // },
+            },
+            opposite: false,
+          });
+        } else {
+          arrSeries.push({
+            lineWidth: justPoint ? 0 : 2,
+            marker: {
+              enabled: justPoint,
+              radius: 2,
+            },
+            id: sens.sensor?._id,
+            type: chartMode,
+            name: sens?.device?.title + ":" + sens?.sensor?.title,
+            dashStyle: lineAccesible ? "line" : "line",
+
+            // pointInterval: 6e4, // one hour
+            // relativeXValue: true,
+            data: [...makeData(sens?.data)],
+          });
+        }
+      }
+    });
+    // console.log(arrSeries);
+    if (arrSeries.length > 0) {
+      if (multiAxis === true) {
+        setState({
+          chartOptions: {
+            exporting: {
+              enabled: false,
+            },
+            chart: {
+              alignTicks: true,
+            },
+            legend: {
+              enabled: true,
+              align: "left",
+              alignColumns: true,
+              backgroundColor: "white",
+              floating: false,
+            },
+            // tooltip: {
+            //   shared: true,
+            // },
+            tooltip: {
+              // snap: 1 / 24,
+              // stickOnContact: true,
+              pointFormat:
+                '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/>',
+              valueDecimals: 1,
+              split: true,
+            },
+            plotOptions: {
+              series: {
+                showInLegend: true,
+                accessibility: {
+                  exposeAsGroupOnly: true,
+                },
+              },
+            },
+            rangeSelector: {
+              enabled: false,
+
+              buttons: [
+                {
+                  type: "hour",
+                  count: 6,
+                  text: "6h",
+                },
+                {
+                  type: "hour",
+                  count: 12,
+                  text: "12h",
+                },
+                {
+                  type: "day",
+                  count: 1,
+                  text: "1d",
+                },
+                {
+                  type: "day",
+                  count: 7,
+                  text: "7d",
+                },
+                {
+                  type: "day",
+                  count: 14,
+                  text: "14d",
+                },
+                {
+                  type: "month",
+                  count: 1,
+                  text: "1m",
+                },
+                {
+                  type: "month",
+                  count: 3,
+                  text: "3m",
+                },
+                {
+                  type: "all",
+                  text: "All",
+                },
+              ],
+              selected: 7,
+            },
+            title: {
+              text: "Report Sensors",
+              floating: false,
+              align: "center",
+              x: -30,
+              y: 30,
+            },
+            scrollbar: {
+              enabled: false,
+            },
+            series: [...arrSeries],
+            yAxis: [...arrAxisY],
+          },
+        });
+      } else {
+        setState({
+          chartOptions: {
+            exporting: {
+              enabled: false,
+            },
+            chart: {
+              alignTicks: true,
+            },
+            legend: {
+              enabled: true,
+              align: "left",
+              alignColumns: true,
+              backgroundColor: "white",
+              floating: false,
+            },
+            // tooltip: {
+            //   shared: true,
+            // },
+            tooltip: {
+              pointFormat:
+                '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/>',
+              valueDecimals: 2,
+              split: true,
+            },
+            plotOptions: {
+              series: {
+                showInLegend: true,
+                accessibility: {
+                  exposeAsGroupOnly: true,
+                },
+              },
+            },
+            rangeSelector: {
+              enabled: false,
+
+              buttons: [
+                {
+                  type: "hour",
+                  count: 6,
+                  text: "6h",
+                },
+                {
+                  type: "hour",
+                  count: 12,
+                  text: "12h",
+                },
+                {
+                  type: "day",
+                  count: 1,
+                  text: "1d",
+                },
+                {
+                  type: "day",
+                  count: 7,
+                  text: "7d",
+                },
+                {
+                  type: "day",
+                  count: 14,
+                  text: "14d",
+                },
+                {
+                  type: "month",
+                  count: 1,
+                  text: "1m",
+                },
+                {
+                  type: "month",
+                  count: 3,
+                  text: "3m",
+                },
+                {
+                  type: "all",
+                  text: "All",
+                },
+              ],
+              selected: 7,
+            },
+            // chart: {
+            //   zoomType: "y",
+            // },
+            // title: {
+            //   text: "Report Sensors",
+            //   floating: false,
+            //   align: "center",
+            //   x: -30,
+            //   y: 30,
+            // },
+            scrollbar: {
+              enabled: false,
+
+              barBackgroundColor: "gray",
+              barBorderRadius: 7,
+              barBorderWidth: 0,
+              buttonBackgroundColor: "gray",
+              buttonBorderWidth: 0,
+              buttonBorderRadius: 7,
+              trackBackgroundColor: "none",
+              trackBorderWidth: 1,
+              trackBorderRadius: 8,
+              trackBorderColor: "#CCC",
+            },
+            series: [...arrSeries],
+          },
+        });
+      }
+    }
+  }
+
+  useEffect(() => {
+    setState(undefined);
+    const tim = setTimeout(() => {
+      if (selectDataOFChart !== undefined && selectDataOFChart?.length > 0) {
+        sumOfdata(selectDataOFChart);
+      }
+    }, 100);
+
+    return () => {
+      clearTimeout(tim);
+    };
+  }, [
+    selectDataOFChart,
+    continues,
+    justPoint,
+    chartMode,
+    theme,
+    divideBy,
+    multiAxis,
+    lineAccesible,
+  ]);
+
+  return (
+    <div className="w-full h-[450px] bg-white">
+      <Box className="flex items-center bg-white overflow-auto">
+        <ButtonRegular
+          disabled={continues}
+          onClick={(e) => {
+            setcontinues((val) => !val);
+          }}
+        >
+          {t("dataPasteTogegher")}
+        </ButtonRegular>
+        <div className="flex h-[10px] border w-fit mx-2"></div>
+        <ButtonRegular
+          disabled={!justPoint}
+          onClick={(e) => {
+            setJustPoint((val) => !val);
+          }}
+        >
+          {t("justPoint")}
+        </ButtonRegular>
+        <div className="flex h-[10px] border  "></div>
+        <ButtonRegular
+          className="flex border w-[150px] mx-2"
+          disabled={!lineAccesible}
+          onClick={(e) => {
+            setLineAccesible((val) => !val);
+          }}
+        >
+          {t("Line style")}
+        </ButtonRegular>
+        <div className="flex h-[10px] border w-fit mx-2 text-blue-200"></div>
+        <ButtonRegular
+          className="flex border w-[200px] "
+          onClick={(e) => {
+            if (chartMode === "line") {
+              setChartMode("column");
+              return;
+            }
+            if (chartMode === "column") {
+              setChartMode("spline");
+              return;
+            }
+            if (chartMode === "spline") {
+              setChartMode("line");
+              return;
+            }
+          }}
+        >
+          chart mode: {chartMode}
+        </ButtonRegular>
+        <div className="flex h-[10px] border w-fit mx-2"></div>
+        {/* <ButtonRegular
+          onClick={(e) => {
+            if (theme < 3) setTheme(theme + 1);
+            else setTheme(0);
+          }}
+        >
+          theme: {theme + 1}
+        </ButtonRegular> */}
+        <div className="flex h-[10px] border w-fit mx-2"></div>
+        <ButtonRegular
+          disabled={multiAxis}
+          onClick={() => {
+            setIsMultiAxis((value) => !value);
+          }}
+        >
+          {t("MultiAxis")}
+        </ButtonRegular>
+        <div className="flex h-[10px] border w-fit mx-2"></div>
+        <button
+          className="flex w-fit mx-2 text-blue-600"
+          onClick={(e) => {
+            if (divideBy < 5) setDivideBy((val) => val + 1);
+          }}
+        >
+          <Icon
+            width="20"
+            height="20"
+            icon="material-symbols:arrow-circle-up-outline"
+          />
+        </button>
+        <div className="text-black"> {divideBy}</div>
+        <button
+          className="flex w-fit mx-2 text-blue-600"
+          onClick={(e) => {
+            if (divideBy > 0) setDivideBy((val) => val - 1);
+          }}
+        >
+          <Icon
+            width="20"
+            height="20"
+            icon="material-symbols:arrow-circle-down-outline"
+          />
+        </button>
+      </Box>
+      {state?.chartOptions !== undefined ? (
+        <HighchartsReact
+          id={id}
+          constructorType={"stockChart"}
+          highcharts={Highcharts}
+          options={state.chartOptions}
+        />
+      ) : (
+        <></>
+      )}
+    </div>
+  );
+}
 // menuItemDefinitions: {
 //   // Custom definition
 //   //   label: {

@@ -28,31 +28,39 @@ export default function DateTimeReport() {
   return (
     <>
       <Box>
-        <TitleDesc
-          ct={"flex w-[350px]"}
-          cx="flex mx-2 font-Vazir justify-start"
-          title={t("reportDate")}
-          desc={dayjs()
-            .calendar("jalali")
-            .locale("fa")
-            .format("DD MMMM YYYY - hh:mm")}
-        />
-        <TitleDesc
-          title={t("endDate")}
-          cx="flex mx-2 font-Vazir justify-start"
-          desc={dayjs(selectST)
-            .calendar("jalali")
-            .locale("fa")
-            .format("DD MMMM YYYY - hh:mm")}
-        />
-        <TitleDesc
-          cx="flex mx-2 font-Vazir justify-start"
-          title={t("startDate")}
-          desc={dayjs(selectET)
-            .calendar("jalali")
-            .locale("fa")
-            .format("DD MMMM YYYY - hh:mm")}
-        />
+        <ul className="flex flex-wrap">
+          <li className="flex w-1/3">
+            <TitleDesc
+              ct={"flex w-[350px]"}
+              cx="flex mx-1 font-Vazir justify-start  text-[14px]"
+              title={t("reportDate")}
+              desc={dayjs()
+                .calendar("jalali")
+                .locale("fa")
+                .format("DD MMMM YYYY - hh:mm")}
+            />
+          </li>
+          <li className="flex w-1/3  border-r">
+            <TitleDesc
+              title={t("endDate")}
+              cx="flex mx-1 font-Vazir justify-start  text-[14px]"
+              desc={dayjs(selectST)
+                .calendar("jalali")
+                .locale("fa")
+                .format("DD MMMM YYYY - hh:mm")}
+            />
+          </li>
+          <li className="flex w-1/3  border-r">
+            <TitleDesc
+              cx="flex mx-1 font-Vazir justify-start  text-[14px]"
+              title={t("startDate")}
+              desc={dayjs(selectET)
+                .calendar("jalali")
+                .locale("fa")
+                .format("DD MMMM YYYY - hh:mm")}
+            />
+          </li>
+        </ul>
       </Box>
     </>
   );

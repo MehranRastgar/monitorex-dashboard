@@ -4,7 +4,13 @@ import { DataGrid, GridToolbar, GridToolbarExport } from "@mui/x-data-grid";
 import { GridPrintExportOptions } from "@mui/x-data-grid";
 import { useReactToPrint } from "react-to-print";
 
-export default function DataGridReports({ reportData }: { reportData: any }) {
+export default function DataGridReports({
+  reportData,
+  toolbar,
+}: {
+  reportData: any;
+  toolbar?: boolean;
+}) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
   const handlePrint = useReactToPrint({
@@ -27,7 +33,7 @@ export default function DataGridReports({ reportData }: { reportData: any }) {
           {...reportData}
           getRowId={(row: any) => row.index}
           // loading={loading}
-          components={{ Toolbar: GridToolbar }}
+          components={`${toolbar !== false ? { Toolbar: GridToolbar } : {}}`}
           sx={{
             ".MuiTablePagination-selectLabel": {
               display: "none",

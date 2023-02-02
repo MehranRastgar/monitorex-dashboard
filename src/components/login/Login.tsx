@@ -12,11 +12,7 @@ import { useRouter } from "next/router";
 import { Icon } from "@iconify/react";
 import LangBox from "../topnav/rightBox/langBox/LangBox";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import {
-  selectSignInFlag,
-  signInAction,
-  signInRequest,
-} from "../../store/slices/clientSlice";
+import { selectSignInFlag, signInAction } from "../../store/slices/userSlice";
 import { SignInRequest } from "../../types/types";
 // import { Link, useNavigate } from "react-router-dom";
 

@@ -56,3 +56,54 @@ export default function ReportHeader() {
     </>
   );
 }
+
+export function ReportHeaderPrintMode() {
+  const [options, setOptions] = useState<{
+    printHasChart: boolean;
+    printHasDataGrid: boolean;
+    printHasHeader: boolean;
+  }>({
+    printHasChart: true,
+    printHasDataGrid: true,
+    printHasHeader: true,
+  });
+  const componentRef = useRef<HTMLInputElement | null>(null);
+  const { t } = useTranslation();
+  const selectuserinfo = useAppSelector(selectUserInfo);
+  const [userInfo, setUserInfo] = useState<any>();
+  useEffect(() => {
+    if (window !== undefined) {
+      const ui = localStorage?.getItem("user");
+      if (ui !== null) setUserInfo(JSON?.parse(ui).user);
+    }
+  }, []);
+
+  return (
+    <>
+      <section className="border rounded-lg p-2 bg-white">
+        <li>
+          <ul>
+            <Typography className="mb-6 font-Vazir-Bold text-2xl bg-white text-black">
+              {t("report")}
+            </Typography>
+          </ul>
+          <ul className="border">
+            <TitleDesc
+              ct="flex w-full justify-start font-Vazir-Bold text-black"
+              cx="flex mx-2 font-Vazir-Medium"
+              title={t("userName")}
+              desc={userInfo?.username}
+            />
+          </ul>
+          <ul className="border">
+            <div className="flex flex-wrap bg-white text-black">
+              <DateTimeReport />
+              <div className=" flex w-full border-b text-black"></div>
+              <ModulesReports />
+            </div>
+          </ul>
+        </li>
+      </section>
+    </>
+  );
+}

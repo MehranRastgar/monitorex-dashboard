@@ -158,9 +158,10 @@ export default function DataOfReport() {
 
   return (
     <>
-      <section className="flex flex-wrap mt-20">
+      <section className="flex flex-wrap mt-5">
         {true ? (
           <DataGridReports
+            toolbar={false}
             reportData={{
               columns: [...colu],
               rows: [...tableData],
@@ -195,20 +196,20 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import AgGrid from "../../molecules/AgGrid/AgGridReact";
 
-const theme = createTheme({
-  typography: {
-    h2: {
-      fontSize: "2rem",
-      fontWeight: 700,
-      borderBottom: "2px solid black",
-      "@media print": {
-        fontSize: "8rem",
-        borderBottom: "20px solid red",
-        color: "blue",
-      },
-    },
-  },
-});
+// const theme = createTheme({
+//   typography: {
+//     h2: {
+//       fontSize: "2rem",
+//       fontWeight: 700,
+//       borderBottom: "2px solid black",
+//       "@media print": {
+//         fontSize: "8rem",
+//         borderBottom: "20px solid red",
+//         color: "blue",
+//       },
+//     },
+//   },
+// });
 
 export function DataOfReportPrintMode() {
   const { t } = useTranslation();
@@ -338,7 +339,7 @@ export function DataOfReportPrintMode() {
 
   return (
     <>
-      <section className="flex flex-wrap mt-20 ">
+      <section className="flex flex-wrap mt-0">
         {tableData?.length > 0 && colu?.length > 0 ? (
           <AgGrid column={[...colu]} rowdata={[...tableData]} />
         ) : (

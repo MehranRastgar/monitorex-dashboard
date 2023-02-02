@@ -9,6 +9,7 @@ import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
 
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
+import { useTranslation } from "react-i18next";
 
 interface Props {
   column: { field: string; filter?: boolean }[];
@@ -18,7 +19,7 @@ interface Props {
 const AgGrid: React.FC<Props> = (props) => {
   const gridRef = useRef<any>(); // Optional - for accessing Grid's API
   const [rowData, setRowData] = useState<any[]>(); // Set rowData to Array of Objects, one Object per Row
-
+  const { t } = useTranslation();
   // Each Column Definition results in one Column.
   const [columnDefs, setColumnDefs] = useState(props.column);
   // DefaultColDef sets props common to all Columns
@@ -77,26 +78,28 @@ const AgGrid: React.FC<Props> = (props) => {
   }, [rowData]);
 
   return (
-    <div>
-      <button
-        className="flex border p-2 rounded-lg bg-slate-600"
-        onClick={onBtPrinterFriendly}
-      >
-        Use for print
-      </button>
-      <button
-        className="flex border p-2 rounded-lg bg-slate-600"
-        onClick={onBtNormal}
-      >
-        Normal
-      </button>
+    <div className="flex flex-wrap w-full justify-center">
+      <div className="flex w-full justify-center">
+        <button
+          className="flex border p-2 rounded-lg bg-white-600 m-2 text-black font-Vazir-Medium"
+          onClick={onBtPrinterFriendly}
+        >
+          {t("sensorsPointsData")}
+        </button>
+        {/* <button
+          className="flex border p-2 rounded-lg bg-slate-600"
+          onClick={onBtNormal}
+        >
+          Normal
+        </button> */}
+      </div>
       {/* Example using Grid's API */}
 
       {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
       <div
         id="myGrid"
         className="ag-theme-alpine"
-        style={{ width: 500, height: 500 }}
+        style={{ width: 0, height: 0 }}
       >
         <AgGridReact
           ref={gridRef} // Ref for accessing Grid's API

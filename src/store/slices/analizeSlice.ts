@@ -3,6 +3,7 @@ import { AxiosResponse } from "axios";
 import { SensorsReceiveTpe } from "../../components/pages/sensors/sensorsTable";
 import { reportSensors } from "../api/analizeApi";
 import { DevicesReceiveType } from "../api/devicesApi";
+import dayjs, { Dayjs } from "dayjs";
 
 import type { AppState } from "../store";
 // import { fetchCount } from './../counterAPI'
@@ -10,6 +11,8 @@ import type { AppState } from "../store";
 export interface AnalizeState {
   startDate?: string;
   endDate?: string;
+  startDayjs?: string;
+  endDayjs?: string;
   selectedDevices?: DevicesReceiveType[];
   statusApi: statusApiType;
   selectedSensors?: SensorsReceiveTpe[];
@@ -69,6 +72,12 @@ export const analizeSlice = createSlice({
   reducers: {
     setStartDate: (state, action: PayloadAction<string>) => {
       state.startDate = action.payload;
+    },
+    setStartDayjs: (state, action: PayloadAction<string>) => {
+      state.startDayjs = action.payload;
+    },
+    setEndDayjs: (state, action: PayloadAction<string>) => {
+      state.endDayjs = action.payload;
     },
     setEndDate: (state, action: PayloadAction<string>) => {
       state.endDate = action.payload;
@@ -134,6 +143,8 @@ export const analizeSlice = createSlice({
 });
 
 export const {
+  setStartDayjs,
+  setEndDayjs,
   setStartDate,
   setEndDate,
   setSelectedDevicesAnalize,
@@ -155,7 +166,8 @@ export const selectSelectedSensorsAnalize = (state: AppState) =>
   state.analize.selectedSensors;
 export const selectSensorReports = (state: AppState) =>
   state.analize.sensorsReport;
-
+export const selectStartDayjs = (state: AppState) => state.analize.startDayjs;
+export const selectEndDayjs = (state: AppState) => state.analize.endDayjs;
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 // export const incrementIfOdd =

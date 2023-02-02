@@ -1,8 +1,10 @@
 import { useState } from "react";
-import MultiLineChart from "../../molecules/AmChart/MultiLineChart";
+import MultiLineChart, {
+  MultiLineChartPrintMode,
+} from "../../molecules/AmChart/MultiLineChart";
 import FullPageModal from "../../molecules/modal/FullPage";
 import { DataOfReportPrintMode } from "../analytics/DataOfReport";
-import ReportHeader from "../analytics/ReportHeader";
+import ReportHeader, { ReportHeaderPrintMode } from "../analytics/ReportHeader";
 import {
   Page,
   Text,
@@ -38,16 +40,14 @@ export function PrintPreview() {
   });
   return (
     <>
-      <section className="flex justify-center">
+      <section className="flex justify-center ">
         <FullPageModal setOptions={setOptions}>
-          <div className="">
+          <div className="bg-white border rounded-lg p-2">
             {/* {options.printHasHeader ? <ReportHeaderPrintMode /> : <></>} */}
-            <ReportHeader />
-
+            <ReportHeaderPrintMode />
             {options.printHasChart ? (
               <>
-                {" "}
-                <MultiLineChart id={"multilineChart-1"} />
+                <MultiLineChartPrintMode id={"multilineChart-2"} />
               </>
             ) : (
               <></>

@@ -15,7 +15,7 @@ import { fetchSettingsAsync } from "../../store/slices/settingsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import imageLoader from "../../imageLoader";
 // import FooterMain from "./footers/footer";
-import { selectSignInFlag, signInCheck } from "../../store/slices/clientSlice";
+import { selectSignInFlag, signInCheck } from "../../store/slices/userSlice";
 import { BsHeadset } from "react-icons/bs";
 import classes from "./MainLayout.module.scss";
 import SidebarContext, {

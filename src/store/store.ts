@@ -8,12 +8,14 @@ import orderReducer from "./slices/orderSlice";
 import sensorsReducer from "./slices/sensorsSlice";
 import devicesReducer from "./slices/devicesSlice";
 import analizeReducer from "./slices/analizeSlice";
+import userSlice from "./slices/userSlice";
 
 export function makeStore() {
   return configureStore({
     reducer: {
       sensors: sensorsReducer,
       counter: counterReducer,
+      user: userSlice,
       client: clientReducer,
       theme: themeReducer,
       settings: settingsReducer,
@@ -21,13 +23,19 @@ export function makeStore() {
       devices: devicesReducer,
       analize: analizeReducer,
     },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        thunk: {
+          extraArgument: sensorsReducer,
+        },
+        serializableCheck: false,
+      }),
   });
 }
 
 const store = makeStore();
 
 export type AppState = ReturnType<typeof store.getState>;
-
 export type AppDispatch = typeof store.dispatch;
 
 export type AppThunk<ReturnType = void> = ThunkAction<

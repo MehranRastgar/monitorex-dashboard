@@ -82,28 +82,42 @@ export default function FullPageModal({
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative" }}>
+        <AppBar
+          sx={{
+            position: "relative",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
+            <Button
+              variant="contained"
+              color={"success"}
+              className="bg-red-600 font-Vazir-Medium"
               onClick={handleClose}
-              aria-label="close"
             >
               <CloseIcon />
-              close
-            </IconButton>
+            </Button>
             {/* <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               close
             </Typography> */}
-            <Button autoFocus color="inherit" onClick={handlePrint}>
+            <Button
+              variant="contained"
+              color={"success"}
+              className="bg-green-600 font-Vazir-Medium mx-4"
+              onClick={handlePrint}
+            >
               print
             </Button>
           </Toolbar>
-          <Item ref={inputRef}>
-            {" "}
-            <ThemeProvider theme={theme}>{children}</ThemeProvider>
-          </Item>
+          <div className="w-full flex justify-center">
+            <Item
+              ref={inputRef}
+              className="bg-white print-mode max-w-[1200px] "
+            >
+              <ThemeProvider theme={theme}>{children}</ThemeProvider>
+            </Item>
+          </div>
         </AppBar>
       </Dialog>
     </div>

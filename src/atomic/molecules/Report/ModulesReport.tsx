@@ -12,8 +12,8 @@ export default function ModulesReports() {
       {selectedsensors?.map((item, index) => (
         <>
           <TitleDesc
-            ct="flex w-full justify-start font-Vazir-Bold my-2"
-            cx="flex mx-2 font-Vazir-Medium"
+            ct="flex w-full justify-start font-Vazir-Bold border"
+            cx="flex mx-1 font-Vazir-Medium text-[14px]"
             title={t("slectedSensorNumber") + " " + (Number(index) + 1)}
             desc={
               item?.sensor?.title +

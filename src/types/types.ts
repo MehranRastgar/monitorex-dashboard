@@ -1,3 +1,6 @@
+import mongoose from "mongoose";
+import { SensorsReceiveTpe } from "../components/pages/sensors/sensorsTable";
+
 export interface GetProductsArray {
   info: Info | null | undefined;
   results: Product[];
@@ -344,6 +347,48 @@ export interface SignInCheck {
 export interface ClientType {
   info: Client;
   status: "loading" | "success" | "403" | "401" | "unknownError";
+}
+
+export interface UserType {
+  _id?: string;
+  uesrname?: string;
+  password?: string;
+  name?: string;
+  family?: string;
+  nationalId?: string;
+  personalId?: string;
+  theme?: "dark" | "light";
+  // chart: {};
+  groups?: GroupItemType[];
+  accessControll?: {
+    devices: abilityActionsType;
+    users: abilityActionsType;
+    profile: abilityActionsType;
+    reports: abilityActionsType;
+  };
+  isAdmin?: isAdminType;
+  access_token?: string;
+}
+
+export interface GroupItemType {
+  groupTitle: string;
+  sensors: SensorsReceiveTpe[];
+  timeRange: number;
+}
+
+export type isAdminType = boolean;
+export type abilityActionsType =
+  | "manage"
+  | "create"
+  | "read"
+  | "update"
+  | "delete";
+export enum AbilityAction {
+  Manage = "manage",
+  Create = "create",
+  Read = "read",
+  Update = "update",
+  Delete = "delete",
 }
 
 export interface Client {

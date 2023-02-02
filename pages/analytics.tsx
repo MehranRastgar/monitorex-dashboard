@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
@@ -12,6 +12,9 @@ import MultiReportChartContainer from "../src/atomic/organisms/analytics/MultiRe
 import DeviceList from "../src/atomic/organisms/device/DeviceList";
 import DeviceSummary from "../src/atomic/organisms/device/deviceSummary";
 import SelectDevicesForAnalize from "../src/atomic/organisms/SelectDevicesForAnalize";
+import UserGroupsContainer, {
+  UserGroupsSaveContainer,
+} from "../src/atomic/organisms/UserGroups/UserGroupsContainer";
 import Layout from "../src/components/layout/Layout";
 import { useAppDispatch, useAppSelector } from "../src/store/hooks";
 import {
@@ -25,17 +28,51 @@ import {
   setDevicesData,
   setDevicesStatus,
 } from "../src/store/slices/devicesSlice";
+import { selectOwnUser, updateUserData } from "../src/store/slices/userSlice";
+import { GroupItemType, UserType } from "../src/types/types";
 
 export default function Analytics() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const { t } = useTranslation();
   const selectedDevice = useAppSelector(selectSelectedDevice);
   const [elem, setElem] = useState(false);
+  const [nameofGp, setNameofGp] = useState("unname");
   const selectedSensorsSlice = useAppSelector(selectSelectedSensorsAnalize);
   const startDate = useAppSelector(selectStartDate);
   const endDate = useAppSelector(selectEndDate);
+  const userData = useAppSelector(selectOwnUser);
 
   const dispatch = useAppDispatch();
   const queryDevices = useQuery("devices", GetDevices);
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "var(--bgc)",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+  const handleSaveToGroup = async () => {
+    const start = startDate !== undefined ? new Date(startDate).getTime() : 0;
+    const end = endDate !== undefined ? new Date(endDate).getTime() : 0;
+    const time = end - start;
+    const userD = await JSON.parse(localStorage.getItem("user") ?? "");
+    const arr: GroupItemType[] = userD?.groups ?? [];
+    if (selectedSensorsSlice !== undefined)
+      arr.push({
+        groupTitle: nameofGp ?? "unnamed",
+        sensors: [...selectedSensorsSlice],
+        timeRange: time,
+      });
+    const user: UserType = { ...userD, groups: [...arr] };
+    console.log(userD);
+    dispatch(updateUserData(user));
+  };
 
   const handleReport = () => {
     const arr: string[] = [];
@@ -64,6 +101,9 @@ export default function Analytics() {
           <div className="font-Vazir-Medium text-[16px]">{t("analytics")}</div>
         </Box>
         <Box sx={{ py: 1 }}>
+          <UserGroupsContainer />
+        </Box>
+        <Box sx={{ py: 1 }}>
           <SelectDevicesForAnalize />
         </Box>
         <Item className="flex justify-start flex-wrap w-full ">
@@ -72,12 +112,46 @@ export default function Analytics() {
           </Box>
           <Box className="flex flex-wrap justify-start">
             <DateTimeAnalytic />
-            <div className="flex h-fit w-full justify-start mx-4">
-              <ButtonRegular onClick={handleReport}>
+            <div className="flex h-fit w-1/3 justify-start mx-4">
+              <ButtonRegular className="p-5" onClick={handleReport}>
                 <Typography className="text-lg font-Vazir-Bold">
                   {t("takeReport")}
                 </Typography>
               </ButtonRegular>
+            </div>
+            <div className="flex h-fit w-1/3 justify-start">
+              <ButtonRegular className="p-5  mx-2" onClick={handleOpen}>
+                <Typography className="text-lg font-Vazir-Bold ">
+                  {t("saveToThisGroup")}
+                </Typography>
+              </ButtonRegular>
+              <ButtonRegular className="p-5 mx-2" onClick={handleOpen}>
+                <Typography className="text-lg font-Vazir-Bold ">
+                  {t("saveAsNewGroup")}
+                </Typography>
+              </ButtonRegular>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box sx={style}>
+                  <Typography
+                    id="modal-modal-title"
+                    variant="h6"
+                    component="h2"
+                  >
+                    {t("saveToGroups")}
+                  </Typography>
+                  <UserGroupsSaveContainer />
+                </Box>
+              </Modal>
+              {/* <ButtonRegular className="p-5" onClick={handleSaveToGroup}>
+                <Typography className="text-lg font-Vazir-Bold">
+                  {t("saveToGroup")}
+                </Typography>
+              </ButtonRegular> */}
             </div>
           </Box>
         </Item>

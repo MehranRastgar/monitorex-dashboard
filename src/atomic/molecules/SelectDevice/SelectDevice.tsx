@@ -240,8 +240,8 @@ export function SensorSelectedForReport() {
         {selectedSensorsSlice?.length ? (
           selectedSensorsSlice?.map((sensor, index) => (
             <>
-              <Grid>
-                <SensorObject sensor={sensor} key={index} />
+              <Grid key={index}>
+                <SensorObject sensor={sensor} />
               </Grid>
             </>
           ))

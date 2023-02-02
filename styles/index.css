@@ -799,3 +799,7 @@ a:link {
     margin: 0 auto;
   }
 } */
+
+.print-mode {
+  direction: rtl;
+}

@@ -10,6 +10,9 @@ i18n
     resources: {
       en: {
         translation: {
+          saveAsNewGroup: "save as new group",
+          saveToThisGroup: "save in this group",
+          sensorsPointsData: "sensors points data",
           deviceNotExist: "there is not device",
           chooseDevice: "choose device",
           addToReports: "add to reports",
@@ -138,6 +141,9 @@ i18n
       },
       fa: {
         translation: {
+          saveAsNewGroup: "در گروه جدید ذخیره کن",
+          saveToThisGroup: "در همین گروه ذخیره کن",
+          sensorsPointsData: "اطلاعات نقطه ای سنسورها",
           reportDate: "تاریخ گزارش گیری",
           report: "گزارش",
           Temperature: "دما",
