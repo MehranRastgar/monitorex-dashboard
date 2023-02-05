@@ -97,10 +97,10 @@ export default function Analytics() {
   return (
     <Layout>
       <section>
-        <Box sx={{ py: 0 }}>
+        {/* <Box sx={{ py: 0 }}>
           <div className="font-Vazir-Medium text-[16px]">{t("analytics")}</div>
-        </Box>
-        <Box sx={{ py: 1 }}>
+        </Box> */}
+        <Box sx={{ py: 0 }}>
           <UserGroupsContainer />
         </Box>
         <Box sx={{ py: 1 }}>

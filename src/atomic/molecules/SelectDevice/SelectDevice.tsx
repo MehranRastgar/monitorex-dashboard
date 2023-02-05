@@ -19,6 +19,7 @@ import {
 } from "../../../store/slices/analizeSlice";
 import { useTranslation } from "react-i18next";
 import Item from "../../atoms/Item/Item";
+import ThingDevice, { DeviceThingProps } from "../Thing/Device";
 
 const names = [
   "Oliver Hansen",
@@ -50,12 +51,12 @@ export default function SelectDeviceFromSelector() {
 
   return (
     <>
-      <Box className="flex flex-wrap justify-start w-full mt-1">
-        <Item className="flex flex-wrap w-full max-w-full ">
+      <Box className="flex lg:flex-nowrap flex-wrap justify-start w-full mt-1 font-Vazir-Medium">
+        <Item className="flex flex-wrap lg:w-1/2 lg:max-w-1/2 w-full">
           <div className="font-Vazir-Medium text-[15px] w-full">
             {t("chooseDevice")}
           </div>
-          <button
+          {/* <button
             className=""
             onClick={() => {
               setMoreIsTrue((val) => !val);
@@ -63,26 +64,26 @@ export default function SelectDeviceFromSelector() {
           >
             {moreIsTrue ? (
               <Icon
-                className="mx-1"
+                className="m-2"
                 fontSize={25}
                 icon={"mdi:collapse-horizontal"}
               ></Icon>
             ) : (
               <Icon
-                className="mx-1"
-                fontSize={25}
+                className="m-2"
+                fontSize={15}
                 icon={"bi:arrows-expand"}
               ></Icon>
             )}
-          </button>
+          </button> */}
           <div className="my-0  product-slider-one-container items-center ">
             <ScrollContainer
               vertical={false}
               hideScrollbars={false}
-              className="scroll-container h-fit product-slider-one-items overflow-y-hidden "
+              className="scroll-container px-2 product-slider-one-items overflow-y-hidden "
             >
               {selectDevices.map((item, index) => (
-                <div className="h-fit" key={index}>
+                <div className="flex h-[100px] items-center" key={index}>
                   <DeviceObject
                     more={moreIsTrue}
                     item={item}
@@ -93,7 +94,12 @@ export default function SelectDeviceFromSelector() {
               ))}
             </ScrollContainer>
           </div>
-          <div className="my-2 bg-black/30 product-slider-one-container items-center">
+        </Item>
+        <Item className="flex flex-wrap overflow-hidden min-w-1/2 w-auto max-w-1/2 mr-1">
+          <div className="font-Vazir-Medium text-[15px] w-full">
+            {t("chooseSensor")}
+          </div>
+          <div className="my-2  product-slider-one-container items-center w-full">
             <ScrollContainer
               vertical={false}
               hideScrollbars={false}
@@ -124,9 +130,29 @@ export function DeviceObject({
   more?: boolean;
 }) {
   const { t } = useTranslation();
+
+  const thingOption: DeviceThingProps = {
+    mode: deviceItem._id === item._id ? "selected" : "diselected",
+    arrOfAttributes: [t("port") + " " + item.sensors?.length.toString()],
+    width: 130,
+    height: 60,
+    title: item?.title ?? "noname",
+    // badge: item.sensors?.length.toString() ?? undefined,
+    icon: "tabler:cell",
+    iconSize: 60,
+  };
+
   return (
     <>
       <div
+        onClick={() => {
+          setdeviceItem(item);
+        }}
+      >
+        <ThingDevice {...thingOption} />
+      </div>
+
+      {/* <div
         onClick={() => {
           setdeviceItem(item);
         }}
@@ -151,7 +177,7 @@ export function DeviceObject({
         ) : (
           <></>
         )}
-      </div>
+      </div> */}
     </>
   );
 }
@@ -171,57 +197,60 @@ export function SensorObjectSelector({ item }: { item: SensorsReceiveTpe }) {
     } else {
       setIsExistInList(true);
     }
-  }, [selectedsensor]);
+  }, [selectedsensor, item]);
+
+  const thingOption: DeviceThingProps = {
+    mode: isExistInList ? "disable" : "selected",
+    arrOfAttributes: [`${item?.type}`, item?.unit ?? ""],
+    width: 100,
+    height: 80,
+    title: item?.title ?? "noname",
+    icon: "material-symbols:motion-sensor-active-rounded",
+    iconSize: 30,
+  };
+
   return (
     <>
-      <section className="flex">
+      <div
+        className="flex"
+        onClick={() => {
+          if (isExistInList === true) dispatch(addSelectedSensors(item));
+          else {
+            if (item?._id !== undefined)
+              dispatch(removeSelectedSensors(item?._id));
+          }
+        }}
+      >
+        <ThingDevice {...thingOption} />
+      </div>
+      {/* 
+      <section
+        onClick={(e) => {
+          if (isExistInList === true) dispatch(addSelectedSensors(item));
+          else {
+            if (item?._id !== undefined)
+              dispatch(removeSelectedSensors(item?._id));
+          }
+        }}
+        className="flex"
+      >
         <div
           onClick={() => {}}
-          className={`mx-2 p-1 flex w-fit h-fit rounded-lg border bg-gray-400/30 `}
+          className={`mx-2 p-1 flex w-fit h-fit rounded-lg  ${
+            isExistInList
+              ? "bg-[var(--rejected-bgc)]"
+              : "bg-[var(--approved-bgc)]"
+          } `}
         >
           <div className="flex flex-wrap">
-            <div className="w-full text-[10px]">{item.title}</div>
-            <div className="w-full text-[10px]">{item?.type}</div>
-            <div className="w-full text-[10px]">{item?.unit}</div>
+            <div className="w-full text-[10px]">
+              {item.title ?? "no name sensor"}
+            </div>
+            <div className="w-full text-[10px]">{item?.type ?? "no type"}</div>
+            <div className="w-full text-[10px]">{item?.unit ?? "no unit"}</div>
           </div>
-          {isExistInList ? (
-            <button
-              className="p-2 flex rounded-lg opacity-75 h-fit w-fit"
-              onClick={(e) => {
-                dispatch(addSelectedSensors(item));
-              }}
-            >
-              <Icon
-                className="mx-1"
-                fontSize={25}
-                icon={"material-symbols:add-comment-rounded"}
-              ></Icon>{" "}
-            </button>
-          ) : (
-            <>
-              <button
-                className="p-2 flex rounded-lg opacity-75 h-fit w-fit"
-                onClick={(e) => {
-                  {
-                    item?._id !== undefined ? (
-                      dispatch(removeSelectedSensors(item?._id))
-                    ) : (
-                      <></>
-                    );
-                  }
-                }}
-              >
-                <Icon
-                  color="red"
-                  className="mx-1"
-                  fontSize={25}
-                  icon={"material-symbols:bookmark-remove-sharp"}
-                ></Icon>
-              </button>
-            </>
-          )}
         </div>
-      </section>
+      </section> */}
     </>
   );
 }

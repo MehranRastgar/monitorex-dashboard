@@ -12,12 +12,28 @@ import {
 } from "../../../store/slices/analizeSlice";
 import { GroupItemType } from "../../../types/types";
 import dayjs, { Dayjs } from "dayjs";
-import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import {
+  BottomNavigationAction,
+  Fab,
+  FormControl,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import {
   selectGroupNumber,
   selectOwnUser,
   setSelectedGroupNumber,
 } from "../../../store/slices/userSlice";
+import Item from "../../atoms/Item/Item";
+import { Icon } from "@iconify/react";
+import ThingDevice, {
+  devicethingmodes,
+  DeviceThingProps,
+} from "../Thing/Device";
+import { useTranslation } from "react-i18next";
 
 export interface UserGroupItemProps {
   gpitem?: GroupItemType;
@@ -25,15 +41,18 @@ export interface UserGroupItemProps {
 }
 
 const UserGroupItem: React.FC<UserGroupItemProps> = (props) => {
+  const { t } = useTranslation();
   const [date, setDate] = useState<Date | undefined>(undefined);
   const selectED = useAppSelector(selectEndDate);
   const selectSD = useAppSelector(selectStartDate);
   const selectedSensors = useAppSelector(selectSelectedSensorsAnalize);
   const selectGpNum = useAppSelector(selectGroupNumber);
   const dispatch = useAppDispatch();
+  const [mode, setMode] = useState<devicethingmodes>("diselected");
   const handleClick = () => {
     if (props?.gpitem?.sensors !== undefined) {
-      dispatch(setSelectedGroupNumber(props.index));
+      if (props?.index !== undefined)
+        dispatch(setSelectedGroupNumber(props?.index));
       let publishDate = new Date(1000 * dayjs(dayjs()).unix());
       console.log(publishDate.toJSON());
       // dispatch(setStartDate(publishDate.toJSON()));
@@ -50,7 +69,11 @@ const UserGroupItem: React.FC<UserGroupItemProps> = (props) => {
       dispatch(
         reportSensorsAsync({
           sensors: arr,
-          start: selectSD ?? "",
+          start:
+            dayjs(
+              new Date(selectED ?? 0).getTime() -
+                (props?.gpitem?.timeRange ?? 0)
+            ).toJSON() ?? "",
           end: selectED ?? "",
         })
       );
@@ -62,21 +85,30 @@ const UserGroupItem: React.FC<UserGroupItemProps> = (props) => {
     setDate(dates);
   }, []);
 
+  const thingOption: DeviceThingProps = {
+    mode: selectGpNum === props.index ? "selected" : "diselected",
+    arrOfAttributes: [
+      `${(props?.gpitem?.timeRange ?? 0) / 1000 / 60 / 24 / 60} روز`,
+    ],
+    width: 130,
+    height: 70,
+    title: props?.gpitem?.groupTitle ?? "noname",
+    badge: t("group") ?? undefined,
+    icon: "mdi:select-group",
+    iconSize: 40,
+  };
   return (
     <>
-      <section
-        onClick={() => {
-          handleClick();
-        }}
-        className={
-          "flex m-2 w-fit h-fit p-3 border rounded-md cursor-pointer " +
-          `${selectGpNum === props.index ? "bg-green-200 text-black" : ""}`
-        }
-      >
-        <h1>{props?.gpitem?.groupTitle}</h1>
-        <div>-</div>
-        <h2>{(props?.gpitem?.timeRange ?? 0) / 1000 / 60 / 24 / 60} روز</h2>
-      </section>
+      <div onClick={handleClick} className="flex m-2 w-fit">
+        <ThingDevice {...thingOption} />
+      </div>
+      {/* <Typography className="flex border-b items-center w-full">
+          <Icon className="m-1" fontSize={25} icon={"mdi:select-group"}></Icon>
+          {props?.gpitem?.groupTitle}
+        </Typography>
+        <h2 className="flex m-1 border-b justify-start w-fit">
+          {(props?.gpitem?.timeRange ?? 0) / 1000 / 60 / 24 / 60} روز
+        </h2> */}
     </>
   );
 };

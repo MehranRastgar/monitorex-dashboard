@@ -12,10 +12,12 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
   return (
     <>
       <Item>
-        <section className="flex flex-wrap w-full h-[100px]  rounded-[5px]">
-          <h1 className="flex w-full justify-center">{t("groups")}</h1>
+        <section className="flex flex-wrap w-full h-auto min-h-[100px] font-Vazir-Medium rounded-[5px]">
+          <h1 className="flex w-full justify-center text-xl">{t("groups")}</h1>
           {selectUserGr?.map((gpitem, index) => (
-            <UserGroupItem key={index} index={index} gpitem={gpitem} />
+            <>
+              <UserGroupItem key={index} index={index} gpitem={gpitem} />
+            </>
           ))}
         </section>
       </Item>

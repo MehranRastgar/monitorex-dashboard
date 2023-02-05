@@ -1,0 +1,100 @@
+@use "../../../scss/abstracts/" as *;
+.form__control {
+  position: relative;
+  margin-bottom: 2rem;
+  // border: 1px solid red;
+  label {
+    position: absolute;
+    top: -30%;
+    left: 10px;
+    background-color: var(--bgc);
+    padding: 0.3rem;
+    white-space: nowrap;
+  }
+
+  input {
+    padding: 1rem 1.5rem;
+    border: 1px solid gainsboro;
+    outline: gray;
+    background-color: var(--bgc);
+    border-radius: $smallBorderRadius;
+    min-width: 300px;
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.05);
+    @media screen and (max-width: 300px) {
+      min-width: auto;
+    }
+  }
+}
+
+.dev_box {
+  transform-style: preserve-3d;
+}
+
+.dev_body {
+  background: var(--dev-bgc);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  backdrop-filter: blur(1px);
+  // background-color: var(--bgc);
+  // width: auto;
+  display: flex;
+  flex-wrap: wrap;
+  position: inherit;
+  margin: 0.25rem;
+  padding: 0.5rem;
+
+  // transform: translateZ(-150px) rotateY(10deg);
+}
+.dev_body_disable {
+  background: var(--dev-bgc-disable);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(1px);
+  // background-color: var(--bgc);
+  // width: auto;
+  color: white;
+
+  display: flex;
+  border-radius: 10px;
+
+  flex-wrap: wrap;
+  position: inherit;
+  margin: 0.25rem;
+  padding: 0.5rem;
+}
+.dev_body_selected {
+  background: var(--dev-bgc-selected);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  color: white;
+  backdrop-filter: blur(1px);
+  // background-color: var(--bgc);
+  // width: auto;
+  display: flex;
+  border-radius: 10px;
+
+  flex-wrap: wrap;
+  position: inherit;
+  margin: 0.25rem;
+  padding: 0.5rem;
+}
+
+.box {
+  cursor: pointer;
+  margin: 0.1rem;
+  position: inherit;
+  width: auto;
+  height: auto;
+  background: var(--dev-bgc);
+  box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+.box:hover {
+  background: var(--dev-bgc);
+}
+// html[dir="rtl"] {
+//   .form__control {
+//     label {
+//       left: auto;
+//       right: 10px;
+//     }
+//   }
+// }

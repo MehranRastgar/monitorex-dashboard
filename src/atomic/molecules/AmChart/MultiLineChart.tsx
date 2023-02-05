@@ -134,7 +134,9 @@ export default function MultiLineChart({ id }: { id: string }) {
             },
 
             colors: [
-              "red",
+              "var(--chart-color-1)",
+              "var(--chart-color-2)",
+              "var(--chart-color-3)",
               "blue",
               "green",
               "cyan",
@@ -145,7 +147,7 @@ export default function MultiLineChart({ id }: { id: string }) {
               alignTicks: true,
               backgroundColor: `${
                 theme === 0
-                  ? "var(--bgc)"
+                  ? "var(--chart-bgc)"
                   : `${
                       theme === 1
                         ? "var(--pending-bgc)"
@@ -157,7 +159,7 @@ export default function MultiLineChart({ id }: { id: string }) {
               enabled: true,
               align: "left",
               alignColumns: true,
-              backgroundColor: "gray",
+              backgroundColor: "var(--chart-bgc)",
               floating: false,
             },
             // tooltip: {
@@ -256,6 +258,9 @@ export default function MultiLineChart({ id }: { id: string }) {
               enabled: false,
             },
             colors: [
+              "var(--chart-color-1)",
+              "var(--chart-color-2)",
+              "var(--chart-color-3)",
               "red",
               "blue",
               "green",
@@ -267,7 +272,7 @@ export default function MultiLineChart({ id }: { id: string }) {
               alignTicks: true,
               backgroundColor: `${
                 theme === 0
-                  ? "var(--bgc)"
+                  ? "var(--chart-bgc)"
                   : `${
                       theme === 1
                         ? "var(--pending-bgc)"
@@ -300,6 +305,9 @@ export default function MultiLineChart({ id }: { id: string }) {
               },
             },
             rangeSelector: {
+              style: {
+                color: "var(--text-color)",
+              },
               buttons: [
                 {
                   type: "hour",
