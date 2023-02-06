@@ -1,4 +1,5 @@
-import { Box, Button, Modal, Typography } from "@mui/material";
+import { Icon } from "@iconify/react";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
@@ -57,6 +58,20 @@ export default function Analytics() {
     boxShadow: 24,
     p: 4,
   };
+
+  const handleReport = () => {
+    const arr: string[] = [];
+    selectedSensorsSlice?.map((sensor) => {
+      if (sensor._id !== undefined) arr.push(sensor?._id);
+    });
+    dispatch(
+      reportSensorsAsync({
+        sensors: arr,
+        start: startDate !== undefined ? new Date(startDate).toISOString() : "",
+        end: endDate !== undefined ? new Date(endDate).toISOString() : "",
+      })
+    );
+  };
   const handleSaveToGroup = async () => {
     const start = startDate !== undefined ? new Date(startDate).getTime() : 0;
     const end = endDate !== undefined ? new Date(endDate).getTime() : 0;
@@ -74,19 +89,6 @@ export default function Analytics() {
     dispatch(updateUserData(user));
   };
 
-  const handleReport = () => {
-    const arr: string[] = [];
-    selectedSensorsSlice?.map((sensor) => {
-      if (sensor._id !== undefined) arr.push(sensor?._id);
-    });
-    dispatch(
-      reportSensorsAsync({
-        sensors: arr,
-        start: startDate !== undefined ? new Date(startDate).toISOString() : "",
-        end: endDate !== undefined ? new Date(endDate).toISOString() : "",
-      })
-    );
-  };
   useEffect(() => {
     console.log(queryDevices);
     if (queryDevices.status === "success") {
@@ -106,20 +108,14 @@ export default function Analytics() {
         <Box sx={{ py: 1 }}>
           <SelectDevicesForAnalize />
         </Box>
+        <Box className="flex justify-start flex-wrap w-[95%] rounded-lg p-2 m-2">
+          <SensorSelectedForReport />
+        </Box>
         <Item className="flex justify-start flex-wrap w-full ">
-          <Box className="flex justify-start flex-wrap w-[95%] rounded-lg p-2 m-2">
-            <SensorSelectedForReport />
-          </Box>
-          <Box className="flex flex-wrap justify-start">
+          <Box className="flex w-full mt-4 flex-wrap justify-center">
             <DateTimeAnalytic />
-            <div className="flex h-fit w-1/3 justify-start mx-4">
-              <ButtonRegular className="p-5" onClick={handleReport}>
-                <Typography className="text-lg font-Vazir-Bold">
-                  {t("takeReport")}
-                </Typography>
-              </ButtonRegular>
-            </div>
-            <div className="flex h-fit w-1/3 justify-start">
+
+            {/* <div className="flex h-fit w-1/3 justify-start">
               <ButtonRegular className="p-5  mx-2" onClick={handleOpen}>
                 <Typography className="text-lg font-Vazir-Bold ">
                   {t("saveToThisGroup")}
@@ -147,14 +143,83 @@ export default function Analytics() {
                   <UserGroupsSaveContainer />
                 </Box>
               </Modal>
-              {/* <ButtonRegular className="p-5" onClick={handleSaveToGroup}>
-                <Typography className="text-lg font-Vazir-Bold">
-                  {t("saveToGroup")}
-                </Typography>
-              </ButtonRegular> */}
-            </div>
+            </div> */}
           </Box>
         </Item>
+        {selectedSensorsSlice !== undefined &&
+        selectedSensorsSlice?.length > 0 &&
+        startDate !== undefined ? (
+          <>
+            <div className="flex justify-center w-full">
+              <div className="flex h-fit  justify-center mx-4 my-2">
+                <Button
+                  variant="contained"
+                  type="button"
+                  className="p-x-2 w-auto border-2 rounded-lg flex justify-center flex-wrap backdrop-blur-sm text-[var(--text-color)] bg-white/30 hover:bg-white/60  items-end"
+                  onClick={handleReport}
+                >
+                  <Icon
+                    fontSize={30}
+                    className={
+                      "text-green-500 hover:text-green-700 transition-all duration-300"
+                    }
+                    icon={"line-md:document-report"}
+                  ></Icon>
+                  <Typography className="text-md font-Vazir-Bold   w-auto">
+                    {t("takeReport")}
+                  </Typography>
+                </Button>
+              </div>
+              <div className="flex h-fit  justify-center mx-4 my-2">
+                <Button
+                  variant="contained"
+                  type="button"
+                  className="p-x-2 w-auto border-2 rounded-lg flex justify-center flex-wrap backdrop-blur-sm text-[var(--text-color)] bg-white/30 hover:bg-white/60  items-end"
+                  onClick={() => setOpen(true)}
+                >
+                  <Icon
+                    fontSize={30}
+                    className={
+                      "text-green-500 hover:text-green-700 transition-all duration-300"
+                    }
+                    icon={"ion:save"}
+                  ></Icon>
+                  <Typography className="text-md font-Vazir-Bold  mx-2 w-auto">
+                    {t("saveToGroups")}
+                  </Typography>
+                </Button>
+              </div>
+            </div>
+            <Modal
+              open={open}
+              onClose={() => setOpen(false)}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
+            >
+              <Box sx={style}>
+                <Typography className="text-lg font-Vazir-Bold">
+                  {t("take_a_name_for_this_group")}
+                </Typography>
+                <TextField
+                  onChange={(e) => {
+                    setNameofGp(e.target.value);
+                  }}
+                  variant="filled"
+                  sx={style}
+                  label={t("title")}
+                />
+                <Button className="p-5" onClick={handleSaveToGroup}>
+                  <Typography className="text-lg font-Vazir-Bold">
+                    {t("saveToGroup")}
+                  </Typography>
+                </Button>
+                <UserGroupsSaveContainer />
+              </Box>
+            </Modal>
+          </>
+        ) : (
+          <></>
+        )}
       </section>
       <section className="my-2">
         <MultiReportChartContainer />
@@ -168,4 +233,11 @@ export default function Analytics() {
 }
 {
   /* <DeviceSummary /> */
+}
+{
+  /* <ButtonRegular className="p-5" onClick={handleSaveToGroup}>
+                <Typography className="text-lg font-Vazir-Bold">
+                  {t("saveToGroup")}
+                </Typography>
+              </ButtonRegular> */
 }

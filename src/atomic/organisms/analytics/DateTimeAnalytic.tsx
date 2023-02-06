@@ -87,7 +87,7 @@ export default function DateTimeAnalytic() {
           </ToggleButtonGroup>
           <h3 className="flex p-2">{t("calendar")}</h3>
         </div> */}
-      <Box className="flex m-2">
+      <Box className="flex m-2 justify-center">
         <Grid container spacing={2}>
           <Grid>
             <DateTimePickerComponent
@@ -183,7 +183,7 @@ function HowMuchBefor({
           }}
           variant="contained"
           type="button"
-          className="border bg-[var(--primaryColor)] py-4"
+          className="border py-4 bg-black/30 text-white"
         >
           <div className="mx-2">{t(str?.[0])}</div>{" "}
           <div className="mx-2">{t(str?.[1])}</div>

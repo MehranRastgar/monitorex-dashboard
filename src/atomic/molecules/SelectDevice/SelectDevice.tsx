@@ -5,13 +5,14 @@ import Select from "@mui/material/Select";
 import { selectDevicesData } from "../../../store/slices/devicesSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { DevicesReceiveType } from "../../../store/api/devicesApi";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Slide, Typography } from "@mui/material";
+import Grow from "@mui/material/Grow";
 import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
 import { Box } from "@mui/system";
 import SensorObject from "../sensor/SensorObject";
 import ScrollContainer from "react-indiana-drag-scroll";
 import { selectSelectedSensors } from "../../../store/slices/sensorsSlice";
-import { Icon } from "@iconify/react";
+import { Icon, InlineIcon } from "@iconify/react";
 import {
   addSelectedSensors,
   removeSelectedSensors,
@@ -107,7 +108,9 @@ export default function SelectDeviceFromSelector() {
             >
               {deviceItem?.sensors?.map((item, index) => (
                 <div key={index}>
-                  <SensorObjectSelector item={item} />
+                  <SensorObjectSelector
+                    item={{ ...item, sensorUniqueName: deviceItem.title }}
+                  />
                 </div>
               ))}
             </ScrollContainer>
@@ -257,8 +260,18 @@ export function SensorObjectSelector({ item }: { item: SensorsReceiveTpe }) {
 
 export function SensorSelectedForReport() {
   const selectedSensorsSlice = useAppSelector(selectSelectedSensorsAnalize);
-  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
+  const { t } = useTranslation();
+  const thingOption: DeviceThingProps = {
+    mode: "diselected",
+    // arrOfAttributes: [`${item?.type}`, item?.unit ?? ""],
+    width: 100,
+    height: 80,
+    // title: item?.title ?? "noname",
+    icon: "material-symbols:motion-sensor-active-rounded",
+    iconSize: 30,
+  };
   return (
     <Box className="flex flex-wrap justify-start w-full mt-1">
       <Grid
@@ -269,9 +282,36 @@ export function SensorSelectedForReport() {
         {selectedSensorsSlice?.length ? (
           selectedSensorsSlice?.map((sensor, index) => (
             <>
-              <Grid key={index}>
-                <SensorObject sensor={sensor} />
-              </Grid>
+              <Slide direction="up" in={true} mountOnEnter unmountOnExit>
+                <Grid key={index}>
+                  <>
+                    <ThingDevice
+                      {...thingOption}
+                      title={sensor.title}
+                      arrOfAttributes={[
+                        "cell:" + sensor.sensorUniqueName,
+                        sensor?.type ?? "",
+                        sensor?.unit ?? "",
+                      ]}
+                    />
+                    <div className="flex w-full justify-end">
+                      <button
+                        onClick={() => {
+                          if (sensor?._id !== undefined)
+                            dispatch(removeSelectedSensors(sensor?._id));
+                        }}
+                        className="flex -translate-y-8 translate-x-2 z-[3]"
+                      >
+                        <Icon
+                          icon={"ic:outline-remove-circle"}
+                          color={"red"}
+                          fontSize={25}
+                        ></Icon>
+                      </button>
+                    </div>
+                  </>
+                </Grid>
+              </Slide>
             </>
           ))
         ) : (

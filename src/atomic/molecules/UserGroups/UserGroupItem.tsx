@@ -88,7 +88,9 @@ const UserGroupItem: React.FC<UserGroupItemProps> = (props) => {
   const thingOption: DeviceThingProps = {
     mode: selectGpNum === props.index ? "selected" : "diselected",
     arrOfAttributes: [
-      `${(props?.gpitem?.timeRange ?? 0) / 1000 / 60 / 24 / 60} روز`,
+      `${((props?.gpitem?.timeRange ?? 0) / 1000 / 60 / 24 / 60).toFixed(
+        0
+      )} روز`,
     ],
     width: 130,
     height: 70,

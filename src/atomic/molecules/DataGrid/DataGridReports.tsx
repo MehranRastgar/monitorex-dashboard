@@ -28,7 +28,7 @@ export default function DataGridReports({
   }, [reportData]);
   return (
     <>
-      <div ref={inputRef} style={{ height: "800px", width: "100%" }}>
+      <div ref={inputRef} style={{ height: "400px", width: "100%" }}>
         <DataGrid
           {...reportData}
           getRowId={(row: any) => row.index}
@@ -64,7 +64,7 @@ export default function DataGridReports({
             },
             "	.MuiDataGrid-cellCheckbox": {},
             boxShadow: 2,
-            bgcolor: "var(--bgc)",
+            bgcolor: "var(--blur-bg)",
             border: 0.5,
             borderRadius: "5px",
             padding: 2,

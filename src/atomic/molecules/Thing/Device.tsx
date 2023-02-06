@@ -40,6 +40,7 @@ const ThingDevice: React.FC<DeviceThingProps> = (props) => {
               <div className="absolute filter w-full saturate-50 opacity-75 z-[1] ">
                 <div className="flex w-full justify-end p-2">
                   <Icon
+                    color={"black"}
                     fontSize={props.iconSize ?? 50}
                     icon={props.icon}
                   ></Icon>
