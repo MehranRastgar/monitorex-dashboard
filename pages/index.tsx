@@ -7,6 +7,9 @@ import Layout from "../src/components/layout/Layout";
 import ThingDevice, {
   DeviceThingProps,
 } from "../src/atomic/molecules/Thing/Device";
+import ObjectElectrical from "../src/atomic/molecules/electrical/ObjectElectrical";
+import ArrayOfElectrical from "../src/atomic/organisms/electrical/ArrayOfElectrical";
+import OneEPanel from "../src/atomic/organisms/electrical/OneEPanel";
 
 function Dashboard() {
   const { t } = useTranslation();
@@ -23,11 +26,12 @@ function Dashboard() {
     <Layout>
       <section>
         <h2 className="title">{t("dashboard")}</h2>
-        <Summary />
+        {/* <Summary /> */}
         {/* <SaleChart /> */}
         {/* <DashboardTables /> */}
         <div className="flex justify-center w-full">
-          <ThingDevice {...thingOption} />
+          <OneEPanel />
+          {/* <ThingDevice {...thingOption} /> */}
         </div>
       </section>
     </Layout>

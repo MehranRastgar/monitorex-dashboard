@@ -8,20 +8,22 @@ import orderReducer from "./slices/orderSlice";
 import sensorsReducer from "./slices/sensorsSlice";
 import devicesReducer from "./slices/devicesSlice";
 import analizeReducer from "./slices/analizeSlice";
-import userSlice from "./slices/userSlice";
+import userReducer from "./slices/userSlice";
+import chartReducer from "./slices/chartSlice";
 
 export function makeStore() {
   return configureStore({
     reducer: {
       sensors: sensorsReducer,
       counter: counterReducer,
-      user: userSlice,
+      user: userReducer,
       client: clientReducer,
       theme: themeReducer,
       settings: settingsReducer,
       order: orderReducer,
       devices: devicesReducer,
       analize: analizeReducer,
+      chart: chartReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

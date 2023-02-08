@@ -18,6 +18,7 @@ export interface AnalizeState {
   selectedSensors?: SensorsReceiveTpe[];
   sensorsReport?: SensorsReportType[];
   statusReportApi: statusApiType;
+  selectedGroup?: number; ///////
 }
 export interface SensorsReportType {
   _id?: string;
@@ -70,6 +71,9 @@ export const analizeSlice = createSlice({
 
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
+    setSelectedGroupNumber: (state, action: PayloadAction<number>) => {
+      state.selectedGroup = action.payload;
+    },
     setStartDate: (state, action: PayloadAction<string>) => {
       state.startDate = action.payload;
     },
@@ -100,6 +104,7 @@ export const analizeSlice = createSlice({
         arr.push(action.payload);
       }
       state.selectedSensors = [...arr];
+      state.selectedGroup = undefined;
     },
     removeSelectedSensors: (state, action: PayloadAction<string>) => {
       const arr: SensorsReceiveTpe[] = [];
@@ -109,6 +114,7 @@ export const analizeSlice = createSlice({
         }
       });
       state.selectedSensors = [...arr];
+      state.selectedGroup = undefined;
     },
   },
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -143,6 +149,7 @@ export const analizeSlice = createSlice({
 });
 
 export const {
+  setSelectedGroupNumber,
   setStartDayjs,
   setEndDayjs,
   setStartDate,
@@ -168,6 +175,9 @@ export const selectSensorReports = (state: AppState) =>
   state.analize.sensorsReport;
 export const selectStartDayjs = (state: AppState) => state.analize.startDayjs;
 export const selectEndDayjs = (state: AppState) => state.analize.endDayjs;
+export const selectGroupNumber = (state: AppState) =>
+  state.analize.selectedGroup;
+
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 // export const incrementIfOdd =

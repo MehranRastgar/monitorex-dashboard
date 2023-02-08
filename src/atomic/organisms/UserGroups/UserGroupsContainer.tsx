@@ -27,7 +27,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
   const dispatch = useAppDispatch();
   const [nameofGp, setNameOfGp] = useState();
   const { t } = useTranslation();
-  const [indexOfItem, setIndexOfItem] = useState<number>(undefined);
+  const [indexOfItem, setIndexOfItem] = useState<number | undefined>(undefined);
 
   const handleRemoveFromGroups = async (index: number) => {
     const start = startDate !== undefined ? new Date(startDate).getTime() : 0;
@@ -38,8 +38,14 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
     );
     const arr: GroupItemType[] = [];
     if (selectedSensorsSlice !== undefined)
-      for (let i = 0; i < userD?.groups?.length; i++) {
-        if (index !== i) arr.push({ ...userD?.groups?.[i] });
+      for (
+        let i = 0;
+        userD?.groups?.length !== undefined &&
+        i < userD?.groups?.length !== undefined;
+        i++
+      ) {
+        if (index !== i && userD?.groups?.[i] !== undefined)
+          arr.push({ ...userD?.groups?.[i] });
       }
     const user: UserType = { ...userD, groups: [...arr] };
     console.log(userD);

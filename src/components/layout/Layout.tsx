@@ -21,9 +21,6 @@ import classes from "./MainLayout.module.scss";
 import SidebarContext, {
   SidebarContextProvider,
 } from "../../store/sidebarContext";
-import { io, Socket } from "socket.io-client";
-
-const socket = io("http://localhost:3051");
 
 const fetcher = (URL: string) => axios.get(URL).then((res) => res.data);
 const config: SWRConfiguration = {
@@ -58,6 +55,7 @@ import {
   setDevicesStatus,
 } from "../../store/slices/devicesSlice";
 import { GetDevices } from "../../api/devices";
+import { socket } from "../socketio";
 
 var changeRoute: boolean = false;
 
@@ -255,6 +253,7 @@ function Layout({ children }: { children: any }) {
       }
     });
     return () => {
+      // socket.off("alarms");
       socket.off("alarms");
     };
   }, []);

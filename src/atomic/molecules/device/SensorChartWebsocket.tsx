@@ -5,13 +5,12 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import { useTranslation } from "react-i18next";
 import Item from "../../atoms/Item/Item";
-import { io, Socket } from "socket.io-client";
 import { t } from "i18next";
 import SensorAmChartLive from "../sensor/SensorAmChartLive";
 import { useQuery } from "react-query";
 import { GetSensorsSeriesDateVaLue } from "../../../api/sensors";
 import GaugeDevice from "../AmChart/GaugeDevice";
-const socket = io("http://localhost:3051");
+import { socket } from "../../../components/socketio";
 
 export function SensorChartWebsocket({ idSubScribe }: { idSubScribe: string }) {
   // const query = useQuery("sensorseries" + idSubScribe, () =>

@@ -1,0 +1,19 @@
+@use "../../../scss/abstracts/" as *;
+
+.container {
+  margin: auto;
+  padding: 2px;
+  // border: 2px solid #000;
+}
+.badge {
+  color: var(--text-color);
+  translate: -8px;
+}
+html[dir="rtl"] {
+  .form__control {
+    label {
+      left: auto;
+      right: 10px;
+    }
+  }
+}

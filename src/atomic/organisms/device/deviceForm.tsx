@@ -106,12 +106,14 @@ export default function DeviceForm() {
     return (
       <form key={selectedDevice?._id ?? "newid"}>
         <Box className={"select-none"} sx={{ flexGrow: 1 }}>
-          <Box sx={{ p: 1 }}>
+          <Box sx={{ flexGrow: 1, padding: 1 }}>
             <Item>
               <div className="font-Vazir-Medium text-[20px]">
                 {t("deviceName")} {selectedDevice?.title ?? ""}
               </div>
             </Item>
+          </Box>
+          <Box sx={{ p: 1 }}>
             <Item>
               <div className="flex w-full p-2 border-b font-Vazir-Medium"></div>
               <Grid container spacing={2}>

@@ -121,9 +121,6 @@ export const userSlice = createSlice({
     setUsersData: (state, action: PayloadAction<UserType>) => {
       state.ownUser = action.payload;
     },
-    setSelectedGroupNumber: (state, action: PayloadAction<number>) => {
-      state.selectedGroup = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder
@@ -177,9 +174,9 @@ export const userSlice = createSlice({
         updateUserData.fulfilled,
         (state, action: PayloadAction<UserType | any>) => {
           state.ownUser = action.payload.user;
-          state.token = action.payload.access_token;
+          // state.token = action.payload.access_token;
           if (state?.token !== undefined) {
-            localStorage.setItem("access_token", state?.token);
+            // localStorage.setItem("access_token", state?.token);
             state.signInFlag = "success";
             state.updateFlag = "success";
             localStorage.setItem("user", JSON.stringify(state?.ownUser));
@@ -191,11 +188,9 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUsersData, setSignInFlag, setSelectedGroupNumber } =
-  userSlice.actions;
+export const { setUsersData, setSignInFlag } = userSlice.actions;
 export const selectOwnUser = (state: AppState) => state.user.ownUser;
 export const selectSignInFlag = (state: AppState) => state.user.signInFlag;
-export const selectGroupNumber = (state: AppState) => state.user.selectedGroup;
 export const selectUserGroups = (state: AppState) =>
   state.user?.ownUser?.groups;
 export default userSlice.reducer;

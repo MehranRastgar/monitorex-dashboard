@@ -1,0 +1,63 @@
+@use "../../../scss/abstracts/" as *;
+.bulb_container {
+  position: relative;
+  width: 28px;
+  height: 40px;
+  margin: 4px;
+  border: 2px solid #000;
+  background: rgba(65, 58, 58, 0.62);
+  border-radius: 15px;
+}
+
+.bulb_on {
+  position: absolute;
+  top: 26px;
+  right: 4.5px;
+  background-color: green;
+  translate: 0px -20px;
+  width: 16px;
+  height: 16px;
+  border-radius: 10px;
+  transition: all 0.5s ease-out;
+}
+.blure_circle_on {
+  position: absolute;
+  top: 5px;
+  right: 4.5px;
+  background: #38f509;
+  filter: blur(5px);
+  width: 16px;
+  height: 16px;
+  transition: all 0.5s ease-out;
+}
+
+.bulb_off {
+  position: absolute;
+  top: 34px;
+  right: 4.5px;
+  background-color: red;
+  translate: 0px -20px;
+  width: 16px;
+  height: 16px;
+  border-radius: 10px;
+  transition: all 0.5s ease-out;
+}
+.blure_circle_off {
+  position: absolute;
+  top: 13px;
+  right: 3.5px;
+  background: red;
+  filter: blur(6px);
+  width: 18px;
+  height: 18px;
+  transition: all 0.5s ease-out;
+}
+
+html[dir="rtl"] {
+  .form__control {
+    label {
+      left: auto;
+      right: 10px;
+    }
+  }
+}

@@ -3,9 +3,11 @@ import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   reportSensorsAsync,
   selectEndDate,
+  selectGroupNumber,
   selectSelectedSensorsAnalize,
   selectStartDate,
   setEndDate,
+  setSelectedGroupNumber,
   setSelectedSensors,
   setStartDate,
   setStartDayjs,
@@ -22,11 +24,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import {
-  selectGroupNumber,
-  selectOwnUser,
-  setSelectedGroupNumber,
-} from "../../../store/slices/userSlice";
+import { selectOwnUser } from "../../../store/slices/userSlice";
 import Item from "../../atoms/Item/Item";
 import { Icon } from "@iconify/react";
 import ThingDevice, {
