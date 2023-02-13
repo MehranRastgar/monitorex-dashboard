@@ -27,37 +27,37 @@ export const useForm =
   };
 
 // https://overreacted.io/making-setinterval-declarative-with-react-hooks/
-export const useInterval = (callback: Function, delay: number) => {
-  const savedCallback = useRef<Function>();
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-  useEffect(() => {
-    const handler = (...args: any) => savedCallback.current?.(...args);
+// export const useInterval = (callback: Function, delay: number) => {
+//   const savedCallback = useRef<Function>();
+//   useEffect(() => {
+//     savedCallback.current = callback;
+//   }, [callback]);
+//   useEffect(() => {
+//     const handler = (...args: any) => savedCallback.current?.(...args);
 
-    if (delay !== null) {
-      const id = setInterval(handler, delay);
-      return () => clearInterval(id);
-    }
-    return {};
-  }, [delay]);
-};
+//     if (delay !== null) {
+//       const id = setInterval(handler, delay);
+//       return () => clearInterval(id);
+//     }
+//     return {};
+//   }, [delay]);
+// };
 
-export const useUserData = (callback: Function, delay: number) => {
-  const savedCallback = useRef<Function>();
+// export const useUserData = (callback: Function, delay: number) => {
+//   const savedCallback = useRef<Function>();
 
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
-  useEffect(() => {
-    const handler = (...args: any) => savedCallback.current?.(...args);
-    if (delay !== null) {
-      const id = setInterval(handler, delay);
-      return () => clearInterval(id);
-    }
-    return {};
-  }, [delay]);
-};
+//   useEffect(() => {
+//     savedCallback.current = callback;
+//   }, [callback]);
+//   useEffect(() => {
+//     const handler = (...args: any) => savedCallback.current?.(...args);
+//     if (delay !== null) {
+//       const id = setInterval(handler, delay);
+//       return () => clearInterval(id);
+//     }
+//     return {};
+//   }, [delay]);
+// };
 
 // Use throughout your app instead of plain `useDispatch` and `useSelector`
 export const useAppDispatch = () => useDispatch<AppDispatch>();

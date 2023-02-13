@@ -13,10 +13,10 @@ const SummaryBox: React.FC<{ item: Props; open?: boolean }> = (props) => {
     <div className={classes.summary__box}>
       <Card>
         <div className={classes.summary__box__wrapper}>
-          <div className={classes.summary__box__icon}>
-            <Icon icon={props.item.icon} width="56" />
-          </div>
           <div className={classes.summary__box__info}>
+            <div className={classes.summary__box__icon}>
+              <Icon icon={props.item.icon} width="22" />
+            </div>
             <p>{t(props.item.text)}</p>
             <div className={classes.summary__box__info__amount}>
               <h4>{t(props.item.amount)}</h4>

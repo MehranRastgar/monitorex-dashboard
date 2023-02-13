@@ -6,18 +6,18 @@ import ArrayOfElectrical from "./ArrayOfElectrical";
 
 interface Props {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
-  idOfSub: number;
+  idOfSub: string;
 }
 const OneEPanel: React.FC<Props> = (props) => {
   const [value, setValue] = useState<any | undefined>(undefined);
   const { t } = useTranslation();
 
   useEffect(() => {
-    socket.on("63b5f8b29d6c56acddc8b55a", (data: any) => {
+    socket.on(props.idOfSub, (data: any) => {
       setValue(data);
     });
     return () => {
-      socket.off("63b5f8b29d6c56acddc8b55a");
+      socket.off(props.idOfSub);
     };
   }, []);
 
@@ -25,7 +25,7 @@ const OneEPanel: React.FC<Props> = (props) => {
     mode: "diselected",
     arrOfAttributes: [t("port") + " " + "21"],
     width: 130,
-    height: 100,
+    height: 60,
     title: props?.idOfSub?.toString() ?? "electrical",
     // badge: item.sensors?.length.toString() ?? undefined,
     icon: "ic:outline-electric-meter",
@@ -33,21 +33,17 @@ const OneEPanel: React.FC<Props> = (props) => {
   };
   return (
     <>
-      <div className="flex">
-        <ThingDevice {...thingOption} />
+      <div className="flex items-end">
         <div>
-          {"byte1:"}
-          {value?.metaField?.byte1}
+          <ThingDevice {...thingOption} />
+        </div>
+        <div>
           <ArrayOfElectrical offset={0} byte={value?.metaField?.byte1} />
         </div>
         <div>
-          {"byte2:"}
-          {value?.metaField?.byte2}
           <ArrayOfElectrical offset={1} byte={value?.metaField?.byte2} />
         </div>
         <div>
-          {"byte3:"}
-          {value?.metaField?.byte3}
           <ArrayOfElectrical offset={2} byte={value?.metaField?.byte3} />
         </div>
       </div>

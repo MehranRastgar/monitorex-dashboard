@@ -22,8 +22,8 @@ info  - Linting and checking validity of types...
 834:6  Warning: React Hook useEffect has a missing dependency: 'sumOfdata'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/molecules/device/SensorChartWebsocket.tsx
-41:6  Warning: React Hook useEffect has a missing dependency: 'idSubScribe'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-54:6  Warning: React Hook useEffect has a missing dependency: 'addedValue'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+40:6  Warning: React Hook useEffect has a missing dependency: 'idSubScribe'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+53:6  Warning: React Hook useEffect has a missing dependency: 'addedValue'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/organisms/AmChartsStock/AmStockLive.tsx
 159:6  Warning: React Hook useEffect has missing dependencies: 'dataReal' and 'id'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -40,6 +40,12 @@ info  - Linting and checking validity of types...
 
 ./src/atomic/organisms/device/DeviceList.tsx
 98:6  Warning: React Hook React.useEffect has missing dependencies: 'devices' and 'dispatch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/electrical/ArrayOfElectrical.tsx
+36:6  Warning: React Hook useEffect has a missing dependency: 'HandleArr'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/electrical/OneEPanel.tsx
+22:6  Warning: React Hook useEffect has a missing dependency: 'props.idOfSub'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/organisms/sensor/SensorList.tsx
 53:6  Warning: React Hook React.useEffect has missing dependencies: 'devices' and 'dispatch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -60,13 +66,13 @@ info  - Linting and checking validity of types...
 78:6  Warning: React Hook useEffect has a missing dependency: 'createData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/layout/Layout.tsx
-117:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-164:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
-185:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-232:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'mutation', 'queryDevices.data', 'queryDevices.dataUpdatedAt', 'queryDevices.status', and 'selectsensorsstatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-260:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'selectAlarms'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-268:6  Warning: React Hook useEffect has a missing dependency: 'router'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-274:6  Warning: React Hook useEffect has missing dependencies: 'router' and 'selectsensorsstatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+115:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+162:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+183:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+230:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'mutation', 'queryDevices.data', 'queryDevices.dataUpdatedAt', 'queryDevices.status', and 'selectsensorsstatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+259:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'selectAlarms'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+267:6  Warning: React Hook useEffect has a missing dependency: 'router'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+273:6  Warning: React Hook useEffect has missing dependencies: 'router' and 'selectsensorsstatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/components/layout/LayoutLogin.tsx
 88:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -94,19 +100,50 @@ info  - Linting and checking validity of types...
 14:9  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
 
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
-Failed to compile.
+info  - Creating an optimized production build...
+SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at Object.patchIncorrectLockfile (G:\gh\scada\adminpanel\monitorex-dashboard\node_modules\next\dist\lib\patch-incorrect-lockfile.js:100:33)
+Warning: A null PostCSS plugin was provided. This entry will be ignored.
+(node:19152) [DEP_WEBPACK_MODULE_UPDATE_HASH] DeprecationWarning: Module.updateHash: Use new ChunkGraph API
+(Use `node --trace-deprecation ...` to show where the warning was created)
+info  - Compiled successfully
+info  - Collecting page data...
+info  - Generating static pages (0/12)
+info  - Generating static pages (3/12)
+info  - Generating static pages (6/12)
+info  - Generating static pages (9/12)
+info  - Generating static pages (12/12)
+info  - Finalizing page optimization...
 
-./src/store/hooks.ts:35:13
-Type error: Argument of type '() => {}' is not assignable to parameter of type 'EffectCallback'.
-  Type '{}' is not assignable to type 'void | Destructor'.
+Route (pages)                              Size     First Load JS
+┌ ○ /                                      1.91 kB         237 kB
+├   └ css/81a132f9fca0d129.css             2.55 kB
+├   /_app                                  0 B             161 kB
+├ ○ /404                                   421 B           231 kB
+├ ○ /analytics                             813 kB         1.41 MB
+├   ├ css/102f11e9d3e2f7be.css             21.8 kB
+├   └ css/9cfcf324fafa06f6.css             9.92 kB
+├ λ /api/sendotp                           0 B             161 kB
+├ λ /api/signin                            0 B             161 kB
+├ ○ /devices                               38.9 kB         632 kB
+├ ○ /electricalboard                       833 B           231 kB
+├ ○ /login                                 2.89 kB         184 kB
+├   └ css/49198f5546d43ea1.css             1.21 kB
+├ ○ /management                            7.56 kB         369 kB
+├ ○ /routes                                2.26 kB         233 kB
+├   └ css/1f47ae77c99864f0.css             3.27 kB
+├ ○ /sensors                               2.88 kB         233 kB
+├   └ css/f3fa0bf9f354687a.css             2.25 kB
+├ ○ /settings                              2.22 kB         363 kB
+└ ○ /users                                 318 B           231 kB
++ First Load JS shared by all              169 kB
+  ├ chunks/framework-b3e87112e04ff518.js   67 kB
+  ├ chunks/main-1c8ee1adb5e9916b.js        26.9 kB
+  ├ chunks/pages/_app-6823d3410dda402c.js  64.5 kB
+  ├ chunks/webpack-e4c6f709205f0d9b.js     2.44 kB
+  └ css/aaa3e24f105243d1.css               7.87 kB
 
-[0m [90m 33 | [39m    savedCallback[33m.[39mcurrent [33m=[39m callback[33m;[39m[0m
-[0m [90m 34 | [39m  }[33m,[39m [callback])[33m;[39m[0m
-[0m[31m[1m>[22m[39m[90m 35 | [39m  useEffect(() [33m=>[39m {[0m
-[0m [90m    | [39m            [31m[1m^[22m[39m[0m
-[0m [90m 36 | [39m    [36mconst[39m handler [33m=[39m ([33m...[39margs[33m:[39m any) [33m=>[39m savedCallback[33m.[39mcurrent[33m?[39m[33m.[39m([33m...[39margs)[33m;[39m[0m
-[0m [90m 37 | [39m[0m
-[0m [90m 38 | [39m    [36mif[39m (delay [33m!==[39m [36mnull[39m) {[0m
-Note: This command was run via npm module 'win-node-env'
-error Command failed with exit code 1.
-info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+

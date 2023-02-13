@@ -173,7 +173,7 @@ export default function AmStockLive({
   return (
     <div
       id={"chartdiv" + "-" + id}
-      style={{ width: "500px", height: "160px" }}
+      style={{ width: "1000px", height: "400px" }}
     ></div>
   );
 }

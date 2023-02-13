@@ -55,14 +55,14 @@ function Summary() {
   summaryData[2].amount = String(selectAlarms?.length?.toLocaleString());
   return (
     <section className={classes.summary}>
-      <Button
+      {/* <Button
         onClick={() => {
           setIsOpen((val) => !val);
         }}
       >
         +
-      </Button>
-      <p className="subTitle">{t("summary")}</p>
+      </Button> */}
+      {/* <p className="subTitle">{t("summary")}</p> */}
       <div className={classes.summary__box}>
         {summaryData.map((item) => (
           <SummaryBox open={isOpen} key={item.text} item={item} />

@@ -10,7 +10,7 @@ const numberOfElectricalDevices = 7;
 
 interface Props {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
-  byte: number;
+  byte?: number;
   offset?: number;
 }
 const ArrayOfElectrical: React.FC<Props> = (props) => {
@@ -54,9 +54,11 @@ const ArrayOfElectrical: React.FC<Props> = (props) => {
                 key={index}
                 number={index + 1 + (props?.offset ?? 0) * 7}
                 OnOrOff={
-                  (props?.byte & (0x00000001 << (5 - index))) === 0
-                    ? false
-                    : true
+                  props?.byte !== undefined
+                    ? (props?.byte & (0x00000001 << (6 - index))) === 0
+                      ? false
+                      : true
+                    : undefined
                 }
               />
             </div>
