@@ -32,36 +32,6 @@ export async function GetSensors(): Promise<SensorsReceiveTpe[]> {
   }
 }
 
-export interface SensorDateValueFilled {
-  _id?: string;
-  sensorId?: string;
-  timestamp: Date;
-  metaField?: MetaFieldType;
-  __v?: number;
-}
-export interface FetchSensorXYFilled {
-  _id: string;
-  data: SensorXYFilled[];
-}
-export interface SensorXYFilled {
-  x: Date;
-  y?: string;
-}
-export interface FetchSensorXY {
-  metaField?: MetaField;
-  _id?: string;
-  timestamp?: Date;
-}
-export interface MetaField {
-  value?: number;
-}
-export interface MetaFieldType {
-  incremental: number;
-  value: number;
-  max: number;
-  min: number;
-  average: number;
-}
 export async function GetSensorsSeries(id: string): Promise<FetchSensorXY[]> {
   const accessToken: string | null = localStorage.getItem("access_token");
   const getConfig = {
@@ -130,4 +100,62 @@ export async function GetSensorsSeriesDateVaLue(
   const datares: SensorDateValueFilled[] = [...data];
 
   return datares;
+}
+
+export async function GetSensorsXY(
+  ids: string[],
+  end: string,
+  start: string
+): Promise<SensorDateValueFilled[]> {
+  const accessToken: string | null = localStorage.getItem("access_token");
+  const getConfig = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json;charset=UTF-8",
+      Accept: "*/*",
+      Authorization: `Bearer ${accessToken ?? 0}`,
+    },
+  };
+  //   return await fetch(getSensors);
+  const { data: data, status } = await axios.get(
+    getSensorSeriesFilledDateValue + ids,
+    getConfig
+  );
+
+  const datares: SensorDateValueFilled[] = [...data];
+
+  return datares;
+}
+
+export interface SensorDateValueFilled {
+  _id?: string;
+  sensorId?: string;
+  timestamp: Date;
+  metaField?: MetaFieldType;
+  __v?: number;
+}
+export interface FetchSensorXYFilled {
+  _id: string;
+  data: SensorXYFilled[];
+}
+export interface SensorXYFilled {
+  x: Date;
+  y?: string;
+}
+export interface FetchSensorXY {
+  metaField?: MetaField;
+  _id?: string;
+  timestamp?: Date;
+}
+export interface MetaField {
+  value?: number;
+}
+export interface MetaFieldType {
+  incremental: number;
+  value: number;
+  max: number;
+  min: number;
+  average: number;
 }

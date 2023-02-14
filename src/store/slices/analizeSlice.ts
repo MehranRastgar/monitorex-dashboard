@@ -173,6 +173,8 @@ export const selectSelectedSensorsAnalize = (state: AppState) =>
   state.analize.selectedSensors;
 export const selectSensorReports = (state: AppState) =>
   state.analize.sensorsReport;
+export const selectStatusReportApi = (state: AppState) =>
+  state.analize.statusReportApi;
 export const selectStartDayjs = (state: AppState) => state.analize.startDayjs;
 export const selectEndDayjs = (state: AppState) => state.analize.endDayjs;
 export const selectGroupNumber = (state: AppState) =>
