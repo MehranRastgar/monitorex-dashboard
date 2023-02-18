@@ -48,7 +48,7 @@ export default function MultiLineChart({ id }: { id: string }) {
     data.map((item, index) => {
       if (item?.x !== undefined && index % Granolarity[divideBy] === 0)
         if (item?.y !== undefined || continues)
-          arr.push([new Date(item?.x), item?.y ?? null]);
+          arr.push([new Date(item?.x).getTime(), item?.y ?? null]);
     });
 
     console.log("len of array", arr.length);
@@ -75,7 +75,7 @@ export default function MultiLineChart({ id }: { id: string }) {
               id: sens.sensor?._id,
               type: chartMode,
               yAxis: index,
-              name: "sensor-" + sens.sensor?.title,
+              name: sens.device.title + "-" + sens.sensor?.title,
               dashStyle: lineAccesible ? "dashDot" : "line",
               // pointInterval: 6e4, // one hour
               // relativeXValue: true,
@@ -98,7 +98,7 @@ export default function MultiLineChart({ id }: { id: string }) {
               // },
             },
             title: {
-              text: "sensor-" + sens.sensor?.title,
+              text: sens.device.title + "-" + sens.sensor?.title,
               // style: {
               //   color: `{series.color}`,
               // },
@@ -132,7 +132,6 @@ export default function MultiLineChart({ id }: { id: string }) {
             exporting: {
               enabled: false,
             },
-
             colors: [
               "var(--chart-color-1)",
               "var(--chart-color-2)",
@@ -156,6 +155,9 @@ export default function MultiLineChart({ id }: { id: string }) {
               }`,
             },
             legend: {
+              itemHiddenStyle: { color: "var(--dev-bgc-disable)" },
+              itemHoverStyle: { color: "var(--dev-bgc-selected)" },
+              itemStyle: { color: "var(--text-color)" },
               enabled: true,
               align: "left",
               alignColumns: true,
@@ -281,6 +283,9 @@ export default function MultiLineChart({ id }: { id: string }) {
               }`,
             },
             legend: {
+              itemHiddenStyle: { color: "var(--dev-bgc-disable)" },
+              itemHoverStyle: { color: "var(--dev-bgc-selected)" },
+              itemStyle: { color: "var(--text-color)" },
               enabled: true,
               align: "left",
               alignColumns: true,
@@ -564,7 +569,7 @@ export function MultiLineChartPrintMode({ id }: { id: string }) {
               id: sens.sensor?._id,
               type: chartMode,
               yAxis: index,
-              name: "sensor-" + sens.sensor?.title,
+              name: sens?.device?.title + "-" + sens?.sensor?.title,
               dashStyle: lineAccesible ? "dashDot" : "line",
               // pointInterval: 6e4, // one hour
               // relativeXValue: true,
@@ -625,6 +630,9 @@ export function MultiLineChartPrintMode({ id }: { id: string }) {
               alignTicks: true,
             },
             legend: {
+              itemHiddenStyle: { color: "var(--dev-bgc-disable)" },
+              itemHoverStyle: { color: "var(--dev-bgc-selected)" },
+              itemStyle: { color: "var(--text-color)" },
               enabled: true,
               align: "left",
               alignColumns: true,
@@ -720,6 +728,9 @@ export function MultiLineChartPrintMode({ id }: { id: string }) {
               alignTicks: true,
             },
             legend: {
+              itemHiddenStyle: { color: "var(--dev-bgc-disable)" },
+              itemHoverStyle: { color: "var(--dev-bgc-selected)" },
+              itemStyle: { color: "var(--text-color)" },
               enabled: true,
               align: "left",
               alignColumns: true,

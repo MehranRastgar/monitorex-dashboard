@@ -37,10 +37,10 @@ const GroupListComponent: React.FC<GroupListComponentProps> = (props) => {
   }, []);
   return (
     <>
-      <div className="flex w-full h-[200px] ">
+      <div className="flex w-full h-[300px] ">
         <Item className="w-full m-2 border border-gray-600 overflow-hidden  ">
           <Typography className=" font-Vazir-Medium">{t("Groups")}</Typography>
-          <section className=" h-[130px] overflow-y-scroll">
+          <section className=" h-[230px] overflow-y-scroll">
             {selectUserGr?.map((GpItem, Index) => (
               <>
                 <div

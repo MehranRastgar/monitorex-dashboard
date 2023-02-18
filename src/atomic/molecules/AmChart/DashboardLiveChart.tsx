@@ -21,6 +21,7 @@ import {
   selectSelectedSensorsAnalize,
   selectSensorReports,
   selectStartDate,
+  selectStatusReportApi,
   SensorsReportType,
   setSelectedSensors,
   setStartDayjs,
@@ -29,6 +30,8 @@ import UserGroupsContainer from "../../organisms/UserGroups/UserGroupsContainer"
 import { socket } from "../../../components/socketio";
 import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
 import { selectUserGroups } from "../../../store/slices/userSlice";
+import ProgressAndNoData from "../Progress/ProgressAndNoData";
+import { LiveBlink } from "../../organisms/Charts/LiveChart";
 if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
@@ -41,6 +44,8 @@ export const Granolarity: number[] = [1, 2, 5, 10, 20, 50];
 const DashboardLiveChart: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   const selectDataOFChart = useAppSelector(selectSensorReports);
+  const selectStatusOfApi = useAppSelector(selectStatusReportApi);
+  const [blink, setBlink] = useState(false);
   const selectedSensorsSlice = useAppSelector(selectSelectedSensorsAnalize);
   const startDate = useAppSelector(selectStartDate);
   const endDate = useAppSelector(selectEndDate);
@@ -54,7 +59,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
   const [divideBy, setDivideBy] = useState<number>(0);
   const [continues, setcontinues] = useState(true);
   const [justPoint, setJustPoint] = useState(false);
-  const [multiAxis, setIsMultiAxis] = useState(false);
+  const [multiAxis, setIsMultiAxis] = useState(true);
   const [theme, setTheme] = useState(0);
   const [chartMode, setChartMode] = useState<"line" | "spline" | "column">(
     "spline"
@@ -133,6 +138,29 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
     // }
   }, [dataOfWebsocket]);
 
+  // useEffect(() => {
+  //   const interval = setInterval((GpNumber, selectUserGr) => {
+  //     if (selectStatusOfApi === "idle") {
+  //       handleFetchData(selectUserGr, GpNumber);
+  //       setTimeEnded((val) => !val);
+  //     }
+  //     setTimeEnded((val) => !val);
+  //   }, 2000);
+
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [selectStatusOfApi, setTimeEnded]);
+
+  // useEffect(() => {
+  //   const timo = setInterval(() => {
+  //     setBlink((val) => !val);
+  //   }, 800);
+  //   return () => {
+  //     clearInterval(timo);
+  //   };
+  // }, []);
+
   useEffect(() => {
     if (selectDataOFChart?.[0]?._id !== undefined && state !== undefined)
       selectDataOFChart?.map((item: SensorsReceiveTpe, index) => {
@@ -142,6 +170,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
             if (data.value === 200000) {
               return;
             }
+            setBlink((val) => !val);
             // setDataOfWebsocket(data);
             // console.log(state?.chartOptions?.series);
             const find = selectDataOFChart.findIndex(
@@ -149,7 +178,10 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
             );
 
             let newdata = [...state?.chartOptions?.series];
-            newdata?.[find]?.data.push([new Date(data.createdAt), data.value]);
+            newdata?.[find]?.data.push([
+              new Date(data.createdAt).getTime(),
+              data.value,
+            ]);
 
             let stater = {
               ...state,
@@ -190,7 +222,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
     data?.map((item, index) => {
       if (item?.x !== undefined && index % Granolarity[divideBy] === 0)
         if (item?.y !== undefined || continues)
-          arr.push([new Date(item?.x), item?.y ?? null]);
+          arr.push([new Date(item?.x).getTime(), item?.y ?? null]);
     });
 
     return arr;
@@ -211,7 +243,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
               id: sens.sensor?._id,
               type: chartMode,
               yAxis: index,
-              name: "sensor-" + sens.sensor?.title,
+              name: sens.device.title + "-" + sens.sensor?.title,
               //   dashStyle: lineAccesible ? "dashDot" : "line",
               // pointInterval: 6e4, // one hour
               // relativeXValue: true,
@@ -237,7 +269,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
               },
             },
             title: {
-              text: "sensor-" + sens.sensor?.title,
+              text: sens.device.title + "-" + sens.sensor?.title,
               // style: {
               //   color: `{series.color}`,
               // },
@@ -256,7 +288,8 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
             type: chartMode,
             name: sens?.device?.title + ":" + sens?.sensor?.title,
             dashStyle: lineAccesible ? "line" : "line",
-
+            enablePolling: true,
+            dataRefreshRate: 1,
             // pointInterval: 6e4, // one hour
             // relativeXValue: true,
             data: [...makeData(sens?.data)],
@@ -289,12 +322,16 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
               backgroundColor: "var(--blur-bg)",
             },
             legend: {
+              itemHiddenStyle: { color: "var(--dev-bgc-disable)" },
+              itemHoverStyle: { color: "var(--dev-bgc-selected)" },
+              itemStyle: { color: "var(--text-color)" },
               enabled: true,
               align: "left",
               alignColumns: true,
               backgroundColor: "var(--blur-bg)",
               floating: false,
             },
+
             // tooltip: {
             //   shared: true,
             // },
@@ -394,8 +431,12 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
             chart: {
               alignTicks: true,
               zoomType: "xy",
+              backgroundColor: "var(--blur-bg)",
             },
             legend: {
+              itemHiddenStyle: { color: "var(--dev-bgc-disable)" },
+              itemHoverStyle: { color: "var(--dev-bgc-selected)" },
+              itemStyle: { color: "var(--text-color)" },
               enabled: true,
               align: "left",
               alignColumns: true,
@@ -529,7 +570,99 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
 
   return (
     <>
+      <LiveBlink state={blink} />
       <div className="justify-start  w-full items-start">
+        <Box className="flex items-center ">
+          <ButtonRegular
+            disabled={continues}
+            onClick={(e) => {
+              setcontinues((val) => !val);
+            }}
+          >
+            {t("dataPasteTogegher")}
+          </ButtonRegular>
+          <div className="flex h-[10px] border w-fit mx-2"></div>
+          <ButtonRegular
+            disabled={!justPoint}
+            onClick={(e) => {
+              setJustPoint((val) => !val);
+            }}
+          >
+            {t("justPoint")}
+          </ButtonRegular>
+          <div className="flex h-[10px] border w-fit mx-2"></div>
+          <ButtonRegular
+            disabled={!lineAccesible}
+            onClick={(e) => {
+              setLineAccesible((val) => !val);
+            }}
+          >
+            {t("Line style")}
+          </ButtonRegular>
+          <div className="flex h-[10px] border w-fit mx-2 text-blue-200"></div>
+          <ButtonRegular
+            onClick={(e) => {
+              if (chartMode === "line") {
+                setChartMode("column");
+                return;
+              }
+              if (chartMode === "column") {
+                setChartMode("spline");
+                return;
+              }
+              if (chartMode === "spline") {
+                setChartMode("line");
+                return;
+              }
+            }}
+          >
+            chart mode: {chartMode}
+          </ButtonRegular>
+          <div className="flex h-[10px] border w-fit mx-2"></div>
+          <ButtonRegular
+            onClick={(e) => {
+              if (theme < 3) setTheme(theme + 1);
+              else setTheme(0);
+            }}
+          >
+            theme: {theme + 1}
+          </ButtonRegular>
+          <div className="flex h-[10px] border w-fit mx-2"></div>
+          <ButtonRegular
+            disabled={multiAxis}
+            onClick={() => {
+              setIsMultiAxis((value) => !value);
+            }}
+          >
+            {t("MultiAxis")}
+          </ButtonRegular>
+          <div className="flex h-[10px] border w-fit mx-2"></div>
+          <button
+            className="flex w-fit mx-2 text-blue-600"
+            onClick={(e) => {
+              if (divideBy < 5) setDivideBy((val) => val + 1);
+            }}
+          >
+            <Icon
+              width="40"
+              height="40"
+              icon="material-symbols:arrow-circle-up-outline"
+            />
+          </button>
+          <div> {divideBy}</div>
+          <button
+            className="flex w-fit mx-2 text-blue-600"
+            onClick={(e) => {
+              if (divideBy > 0) setDivideBy((val) => val - 1);
+            }}
+          >
+            <Icon
+              width="40"
+              height="40"
+              icon="material-symbols:arrow-circle-down-outline"
+            />
+          </button>
+        </Box>
         {state?.chartOptions !== undefined ? (
           <HighchartsReact
             id={props?.id}
@@ -538,7 +671,11 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
             constructorType={"stockChart"}
           />
         ) : (
-          <></>
+          <>
+            <ProgressAndNoData
+              isLoading={selectStatusOfApi === "loading" ? true : false}
+            />
+          </>
         )}
       </div>
     </>
