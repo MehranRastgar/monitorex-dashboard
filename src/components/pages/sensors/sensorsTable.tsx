@@ -50,6 +50,14 @@ const rows = [
   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
+export interface SensorWebsocketReaktimeDataType {
+  createdAt: string;
+  deviceId: string;
+  sensorId: string;
+  value: number;
+  sensorTitle: string;
+  _id: string;
+}
 export interface SensorsReceiveTpe {
   resolution?: string;
   _id?: string;

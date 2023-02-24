@@ -8,6 +8,7 @@ import Item from "../atoms/Item/Item";
 import BarchartLive from "../molecules/AmChart/BarchartLive";
 import LiveChart from "../organisms/Charts/LiveChart";
 import OneEPanel from "../organisms/electrical/OneEPanel";
+import LiveDataGrid from "../organisms/LiveDataGrid/LiveDataGrid";
 import GroupListComponent from "../organisms/UserGroups/GroupListComponent";
 import classes from "./../../components/summary/Summary.module.scss";
 
@@ -38,7 +39,11 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               <LiveChart />
             </Item>
           </Grid>
-          <Grid item xs={4}></Grid>
+          <Grid item xs={4}>
+            <Item>
+              <LiveDataGrid />
+            </Item>
+          </Grid>
           <Grid item xs={8}>
             <Item>
               {selectDevices?.map(({ _id, type }) => (
@@ -73,6 +78,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
           </Item>
         </div> */}
       </section>
+      <div className="flex h-[200px] w-full"></div>
     </>
   );
 };

@@ -57,7 +57,7 @@ const BarchartLive: React.FC<Props> = (props) => {
     data.map((item, index) => {
       if (item?.x !== undefined && index % Granolarity[divideBy] === 0)
         if (item?.y !== undefined || continues)
-          arr.push([new Date(item?.x).getTime(), item?.y ?? null]);
+          arr?.push([new Date(item?.x)?.getTime(), item?.y ?? null]);
     });
 
     console.log("len of array", arr.length);
@@ -86,7 +86,7 @@ const BarchartLive: React.FC<Props> = (props) => {
             let stater = {
               ...state,
               chartOptions: {
-                ...state.chartOptions,
+                ...state?.chartOptions,
                 series: [...newdata],
               },
             };
@@ -108,15 +108,15 @@ const BarchartLive: React.FC<Props> = (props) => {
     selectDataOFChart?.map(({ _id, device, data, sensor }, index) => {
       if (data === undefined || data?.[0] === undefined) return;
       const LastData: Datum[] = [];
-      LastData.push(data?.[0]);
-      cat.push(device.title + "-" + sensor?.title);
-      arrSeries.push({
+      LastData?.push(data?.[0]);
+      cat?.push(device?.title ?? "device" + "-" + sensor?.title ?? "title");
+      arrSeries?.push({
         enablePolling: true,
         dataRefreshRate: 1,
         id: sensor?._id,
-        name: device?.title + ":" + sensor?.title,
+        name: device?.title ?? "device" + ":" + sensor?.title ?? "title",
         type: "column",
-        data: [sensor?.title, LastData?.[0].y],
+        data: [sensor?.title ?? "title", LastData?.[0]?.y],
       });
     });
     setState({
@@ -277,11 +277,13 @@ const BarchartLive: React.FC<Props> = (props) => {
     <>
       <div className="flex  justify-end ">
         {state?.chartOptions !== undefined ? (
-          <HighchartsReact
-            id={props.id}
-            highcharts={Highcharts}
-            options={state.chartOptions}
-          />
+          <>
+            <HighchartsReact
+              id={props?.id ?? "54hgh"}
+              highcharts={Highcharts}
+              options={state.chartOptions}
+            />
+          </>
         ) : (
           <>
             <ProgressAndNoData

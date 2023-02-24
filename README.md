@@ -34,3 +34,10 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 sudo pm2 start yarn --name "mo-das" --namespace="mo-das" yarn -- start:prod
+
+pm2 start yarn --name "my-app" -- turbo start
+pm2 start yarn --name "nextjs" --interpreter bash -- start
+pm2 start yarn --name "nextjs" --interpreter bash -- "yarn turbo start"
+pm2 start pm2.config.js
+
+pm2 startOrRestart ecosystem.config.js --env prod

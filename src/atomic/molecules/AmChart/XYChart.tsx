@@ -115,8 +115,13 @@ const XYChart: React.FC<PropsXYChart> = (props) => {
     //     tooltip: am5.Tooltip.new(root, {}),
     //   })
     // );
-    xAxis.get("dateFormats")["second"] = "MM/dd";
-    xAxis.get("periodChangeDateFormats")["second"] = "MMMM";
+    if (
+      xAxis?.get("dateFormats")?.["second"] !== undefined &&
+      xAxis?.get("periodChangeDateFormats")?.["second"] !== undefined
+    ) {
+      // xAxis?.get("dateFormats")["second"] = "MM/dd";
+      // xAxis?.get("periodChangeDateFormats")["second"] = "MMMM";
+    }
     // Generate random data
     var date = new Date();
     date.setHours(0, 0, 0, 0);
@@ -131,7 +136,7 @@ const XYChart: React.FC<PropsXYChart> = (props) => {
       };
     }
     //---------------------------------------------------------------------
-    function generateDatas(count) {
+    function generateDatas(count: any) {
       var data = [];
       for (var i = 0; i < count; ++i) {
         data.push(generateData());
@@ -141,7 +146,7 @@ const XYChart: React.FC<PropsXYChart> = (props) => {
     var data = generateDatas(374);
     var dataPF: [] = [];
     // dataPF = generateD(props?.data?.[0].data);
-    const newDa = generateXYDynamicData(props?.data);
+    const newDa = generateXYDynamicData(props?.data ?? []);
     props?.data?.map((dataitem, index) => {});
     // Create series
 

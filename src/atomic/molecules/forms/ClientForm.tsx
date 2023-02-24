@@ -5,7 +5,7 @@ function CustomerForm() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [nationalId, setNationalId] = useState("");
 
-  function handleSubmit(event) {
+  function handleSubmit(event: any) {
     event.preventDefault();
     // ارسال اطلاعات به سرور
     console.log(name, phoneNumber, nationalId);

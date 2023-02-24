@@ -17,10 +17,10 @@ import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { GroupItemType } from "../../../types/types";
 import XYChartJS from "../ChartJs/XYchartJS";
-import BarchartLive from "../../molecules/AmChart/BarchartLive";
-const XYChart = dynamic(() => import("../../molecules/AmChart/XYChart"), {
-  ssr: false,
-});
+// import BarchartLive from "../../molecules/AmChart/BarchartLive";
+// const XYChart = dynamic(() => import("../../molecules/AmChart/XYChart"), {
+//   ssr: false,
+// });
 interface Props {
   id?: string;
 }

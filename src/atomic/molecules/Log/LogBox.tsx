@@ -12,7 +12,7 @@ const LogBox: React.FC<LogBoxProps> = ({ id, title }) => {
   const [stop, setStop] = useState<boolean>(false);
   const logsRef = useRef<HTMLUListElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [scrollDirection, setScrollDirection] = useState<string>(null);
+  const [scrollDirection, setScrollDirection] = useState<string | null>(null);
 
   function handleScroll(event: any) {
     const currentPosition = event.target.scrollTop;
