@@ -37,7 +37,7 @@ const AgGridLive: React.FC<Props> = (props) => {
   }));
 
   // Example of consuming Grid Event
-  const cellClickedListener = useCallback((event) => {
+  const cellClickedListener = useCallback((event: any) => {
     console.log("cellClicked", event);
   }, []);
 
@@ -67,8 +67,10 @@ const AgGridLive: React.FC<Props> = (props) => {
             // console.log(state?.chartOptions?.series);
 
             const newda: any[] = rowData ?? [];
+            const ind = rowData?.[rowData.length - 1]?.index ?? 0;
+            // console.log(ind);
             const obj = Object.create({
-              index: rowData?.length,
+              index: newda?.length ?? 0,
             });
             //   console.log("newdanewda", newda);
             // const find = columnDefs?.findIndex(
@@ -88,7 +90,8 @@ const AgGridLive: React.FC<Props> = (props) => {
             //   setRowData(newda);
 
             // setRowData([]);
-            setRowData([obj, ...newda]);
+
+            setRowData([obj, ...newda.slice(0, 200)]);
           });
       });
     return () => {

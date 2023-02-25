@@ -86,11 +86,11 @@ const LiveDataGrid: React.FC<Props> = (props) => {
   function makeData(dataR: SensorsReportType[] | undefined) {
     const arr: object[] = [];
     const columnsMakes: GridColDef[] = [
-      {
-        field: "index",
-        headerName: "row",
-        width: 80,
-      },
+      // {
+      //   field: "index",
+      //   headerName: "row",
+      //   width: 80,
+      // },
     ];
     if (dataR === undefined) {
       return;
@@ -114,12 +114,12 @@ const LiveDataGrid: React.FC<Props> = (props) => {
     columnsMakes.push({
       field: "date",
       headerName: "date",
-      width: 80,
+      width: 120,
     });
     columnsMakes.push({
       field: "time",
       headerName: "time",
-      width: 80,
+      width: 130,
     });
     dataR?.map((item, index) => {
       columnsMakes.push({
