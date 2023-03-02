@@ -28,16 +28,16 @@ import {
 import { GetDevices } from "../../../api/devices";
 import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
 import {
-  selectUsersData,
+  selectAllUsersData,
   setSelectedUser,
-} from "../../../store/slices/clientSlice";
+} from "../../../store/slices/userSlice";
 
 export default function UserList({ moreItems }: { moreItems?: boolean }) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [selectionModel, setSelectionModel] =
     React.useState<GridSelectionModel>([]);
-  const users = useAppSelector(selectUsersData);
+  const users = useAppSelector(selectAllUsersData);
   const columns: GridColDef[] = [
     {
       field: "_id",

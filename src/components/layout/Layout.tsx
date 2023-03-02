@@ -212,7 +212,7 @@ function Layout({ children }: { children: any }) {
     // console.log(query);
     if (queryDevices.isFetching === true) {
       dispatch(setDevicesStatus("request"));
-      console.log("sensor query is updated");
+      // console.log("sensor query is updated");
     }
     if (
       queryDevices.status === "success" &&
@@ -220,8 +220,8 @@ function Layout({ children }: { children: any }) {
     ) {
       dispatch(setDevicesData(queryDevices.data));
       dispatch(setDevicesStatus("success"));
-      console.log(queryDevices.dataUpdatedAt);
-      console.log(new Date().getTime() - queryDevices.dataUpdatedAt);
+      // console.log(queryDevices.dataUpdatedAt);
+      // console.log(new Date().getTime() - queryDevices.dataUpdatedAt);
     }
 
     return () => {
@@ -233,7 +233,7 @@ function Layout({ children }: { children: any }) {
     socket.on("alarms", (data: alarmsType) => {
       let pastAlLen = selectAlarms?.length;
       dispatch(setDevicesAlarmsHandler(data));
-      console.log("alarms:", data);
+      // console.log("alarms:", data);
       if (
         pastAlLen !== undefined &&
         selectAlarms !== undefined &&
@@ -260,7 +260,7 @@ function Layout({ children }: { children: any }) {
 
   useEffect(() => {
     if (selectsigninflag === "faild") {
-      console.log("sign out sensed");
+      console.log("sign out");
       router.push("/login");
     }
     console.log("sign selectSignInFlag", selectSignInFlag);
@@ -269,7 +269,7 @@ function Layout({ children }: { children: any }) {
     if (selectEM === "unauthorize") {
       router.push("/login");
     }
-    console.log("selectsensorsstatus", selectsensorsstatus);
+    // console.log("selectsensorsstatus", selectsensorsstatus);
   }, [selectEM]);
 
   function SlideTransition(props: SlideProps) {

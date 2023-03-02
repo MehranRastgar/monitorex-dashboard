@@ -146,6 +146,7 @@ i18n
       },
       fa: {
         translation: {
+          save: "ذخیره",
           saveAsNewGroup: "در گروه جدید ذخیره کن",
           saveToThisGroup: "در همین گروه ذخیره کن",
           sensorsPointsData: "اطلاعات نقطه ای سنسورها",

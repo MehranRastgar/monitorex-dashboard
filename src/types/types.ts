@@ -351,7 +351,7 @@ export interface ClientType {
 
 export interface UserType {
   _id?: string;
-  uesrname?: string;
+  username?: string;
   password?: string;
   name?: string;
   family?: string;

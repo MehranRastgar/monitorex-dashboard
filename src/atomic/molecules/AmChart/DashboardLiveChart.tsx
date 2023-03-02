@@ -78,7 +78,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
     if (
       selectUserGr !== undefined &&
       GpNumber !== undefined &&
-      selectUserGr[GpNumber].sensors !== undefined
+      selectUserGr?.[GpNumber]?.sensors !== undefined
     ) {
       let publishDate = new Date(1000 * dayjs(dayjs()).unix());
       console.log(publishDate.toJSON());
@@ -91,16 +91,18 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
           ).toJSON()
         )
       );
-      dispatch(setSelectedSensors(selectUserGr[GpNumber].sensors));
+      dispatch(setSelectedSensors(selectUserGr?.[GpNumber]?.sensors));
       const arr: string[] = [];
-      selectUserGr[GpNumber].sensors.map((item) => arr.push(item?._id ?? ""));
+      selectUserGr?.[GpNumber]?.sensors.map((item) =>
+        arr.push(item?._id ?? "")
+      );
       dispatch(
         reportSensorsAsync({
           sensors: arr,
           start:
             dayjs(
               new Date(selectED ?? 0).getTime() -
-                (selectUserGr[GpNumber].timeRange ?? 0)
+                (selectUserGr?.[GpNumber]?.timeRange ?? 0)
             ).toJSON() ?? "",
           end: selectED ?? "",
         })

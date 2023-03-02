@@ -31,7 +31,11 @@ import {
   TextField,
   useFormControl,
 } from "@mui/material";
-import { DevicesReceiveType, Factor } from "../../../store/api/devicesApi";
+import {
+  DevicesReceiveType,
+  ElectricalPanelType,
+  Factor,
+} from "../../../store/api/devicesApi";
 import { Icon } from "@iconify/react";
 import { prototype } from "chart.js";
 import { sensor } from "../../../interfaces/Sensor";
@@ -277,7 +281,17 @@ export default function DeviceForm() {
               />
             </Item>
           ) : (
-            <></>
+            <>
+              <Item sx={{ margin: 1 }}>
+                <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                  {t("electrical")}
+                </h2>
+                <ElectricalPorts
+                // type={selectedDevice.type}
+                // port={selectedDevice.numberOfPorts}
+                />
+              </Item>
+            </>
           )}
           {selectedDevice.type === "Sensor Cotroller" ? (
             <Box sx={{ p: 1 }}>
@@ -358,6 +372,7 @@ export default function DeviceForm() {
             </Item>
           </Box>
           <Button
+            className="bg-green-600 hover:bg-green-800 text-white mx-2"
             onClick={(e) => {
               dispatch(putDeviceAsync(selectedDevice));
               // dispatch(getDevicesAsync());
@@ -368,8 +383,8 @@ export default function DeviceForm() {
             Save Changes
           </Button>
         </Box>
-        <div>{selectEM}</div>
-        <div>{selectStatus}</div>
+        {/* <div>{selectEM}</div> */}
+        {/* <div>{selectStatus}</div> */}
       </form>
     );
   else return <></>;
@@ -724,17 +739,17 @@ function ElectricalPorts() {
   const [unitstate, setUnitstate] = useState<string>("");
 
   function makeFactors() {
-    let f: Factor[] = [];
-    if (selectedDevice?.factors !== undefined) {
-      for (let i = 0; i <= selectedDevice?.factors?.length; i++) {
-        if (selectedDevice?.factors?.[i] !== undefined)
-          f.push(selectedDevice.factors[i]);
-        else f.push({ factorName: "", factorPosition: 4, factorValue: 2.5 });
+    let f: ElectricalPanelType[] = [];
+    if (selectedDevice?.electricals !== undefined) {
+      for (let i = 0; i <= selectedDevice?.electricals?.length; i++) {
+        if (selectedDevice?.electricals?.[i] !== undefined)
+          f.push(selectedDevice.electricals[i]);
+        else f.push();
       }
 
-      dispatch(setSelectedDevice({ ...selectedDevice, factors: f }));
+      dispatch(setSelectedDevice({ ...selectedDevice, electricals: f }));
     }
-    console.log(f);
+    // console.log(f);
     // setSensorsL(s);
   }
 
@@ -756,35 +771,7 @@ function ElectricalPorts() {
               </h2>
               <Box sx={{ p: 1, flexGrow: 1 }}>
                 <Grid container spacing={2}>
-                  <Grid>
-                    <TextField
-                      value={factor.factorName}
-                      // id={idPrefix + `sensor?.[${index}]?.name`}
-                      variant="filled"
-                      onChange={(e) => {
-                        let fac: Factor[] = [
-                          ...(selectedDevice?.factors ?? []),
-                        ];
-                        if (fac?.[index] !== undefined) {
-                          fac[index] = {
-                            ...factor,
-                            factorName: e.target.value,
-                          };
-                        }
-                        dispatch(
-                          setSelectedDevice({
-                            ...selectedDevice,
-                            factors: [...fac],
-                          })
-                        );
-                      }}
-                      sx={{
-                        ...style,
-                        width: 180,
-                      }}
-                      label={t("name")}
-                    />
-                  </Grid>
+                  <Grid></Grid>
                   <Grid>
                     <TextField
                       value={factor.factorPosition}
@@ -849,40 +836,6 @@ function ElectricalPorts() {
           </Box>
         </>
       ))}
-      <Box>
-        <Button
-          onClick={() => {
-            let fac: Factor[] = [...(selectedDevice?.factors ?? [])];
-            fac.push({
-              factorName: "",
-              factorPosition: 4,
-              factorValue: 2.5,
-            });
-            dispatch(
-              setSelectedDevice({
-                ...selectedDevice,
-                factors: [...fac],
-              })
-            );
-          }}
-        >
-          add Factor
-        </Button>
-        <Button
-          onClick={() => {
-            let fac: Factor[] = [...(selectedDevice?.factors ?? [])];
-            fac.pop();
-            dispatch(
-              setSelectedDevice({
-                ...selectedDevice,
-                factors: [...fac],
-              })
-            );
-          }}
-        >
-          clear Factor
-        </Button>
-      </Box>
     </>
   );
 }

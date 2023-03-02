@@ -79,15 +79,26 @@ export default function DeviceManagement() {
             <Box sx={{ flexGrow: 1, padding: 1 }}>
               <Item>
                 <Button
+                  className="bg-blue-600 hover:bg-blue-800 text-white mx-2"
                   onClick={() => {
                     newDevice();
                   }}
                 >
                   {t("new device")}
                 </Button>
+                {selectedDevice?._id && (
+                  <Button
+                    className="bg-blue-600 hover:bg-blue-800 text-white mx-2"
+                    onClick={() => {
+                      newFromSelectedDevice();
+                    }}
+                  >
+                    {t("new from this device")}
+                  </Button>
+                )}
               </Item>
             </Box>
-            {selectedDevice?._id !== undefined ? (
+            {/* {selectedDevice?._id !== undefined ? (
               <Box sx={{ flexGrow: 1, padding: 1 }}>
                 <Item>
                   <Button
@@ -101,7 +112,7 @@ export default function DeviceManagement() {
               </Box>
             ) : (
               <></>
-            )}
+            )} */}
           </Grid>
           <Grid xs={8}>
             <DeviceForm />

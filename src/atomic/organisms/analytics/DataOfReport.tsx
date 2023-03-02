@@ -302,10 +302,10 @@ export function DataOfReportPrintMode() {
         });
         dataR?.map((ite, ind) => {
           obj[ite.sensor?.title?.toString() ?? "noname"] =
-            ite.data?.[index]?.y ?? "no data";
+            ite?.data?.[index]?.y ?? "no data";
           const date = new Date(ite?.data?.[index]?.x ?? "");
-          obj["date"] = date.toLocaleDateString();
-          obj["time"] = date.toLocaleTimeString();
+          obj["date"] = date?.toLocaleDateString();
+          obj["time"] = date?.toLocaleTimeString();
         });
 
         arr.push(obj);
@@ -331,6 +331,7 @@ export function DataOfReportPrintMode() {
 
     setTableData(arr);
     setCulu(columnsMakes);
+    console.log("arr", arr);
   }
 
   React.useEffect(() => {

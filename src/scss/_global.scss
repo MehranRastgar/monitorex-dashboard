@@ -14,7 +14,7 @@ html {
   --background-image: url("https://img.freepik.com/free-vector/honeycomb-background-3d-paper-style_23-2148400328.jpg?w=1380&t=st=1675610151~exp=1675610751~hmac=696b5885f5698dba9eeecee6dd41e94cd5d38e897a983102ec76f6bff3ed0d83");
 
   //light theme
-  --blur-bg: rgba(216, 231, 229, 0.493);
+  --blur-bg: rgba(216, 231, 229, 0.8);
   --bgc: #f2f2f2;
   --sidebar: #f2f2f2;
   --card-bgc: #f9f9fa;
@@ -30,9 +30,10 @@ html {
   --dev-bgc: rgba(248, 240, 240, 0.52);
   --dev-bgc-disable: rgba(180, 31, 31, 0.678);
   --dev-bgc-selected: rgba(22, 207, 62, 0.7);
-
+  --text-ultimate-color: rgb(36, 151, 189);
   /* ****Font family**** */
   --fontFamily: "Poppins", "Roboto", sans-serif;
+  --button-primary: rgba(17, 162, 211, 0.801);
 }
 html[theme="dark"] {
   //dark theme
@@ -64,6 +65,8 @@ html[theme="dark"] {
   --dev-bgc: rgba(68, 68, 68, 0.52);
   --dev-bgc-disable: rgba(134, 49, 49, 0.7);
   --dev-bgc-selected: rgba(31, 150, 57, 0.7);
+  --text-ultimate-color: rgb(45, 202, 255);
+  --button-primary: rgb(21, 79, 133);
 }
 
 html[dir="rtl"] {

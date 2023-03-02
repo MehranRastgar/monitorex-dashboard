@@ -23,59 +23,62 @@ import { SensorsReceiveTpe } from "../../components/pages/sensors/sensorsTable";
 import UserList from "../organisms/user/UserList";
 import { GetUsers } from "../../api/users";
 import {
-  selectUserInfoStatus,
-  selectUserUpdateFlag,
+  setAllUsersData,
+  setSelectedUser,
   setSignInFlag,
   setUsersData,
-} from "../../store/slices/clientSlice";
+} from "../../store/slices/userSlice";
 import { setUserAgent } from "react-device-detect";
+import UserAdministrator from "../organisms/user/UserAdministrator";
+import { UserType } from "../../types/types";
 
 export default function UserManagement() {
-  const dispatch = useAppDispatch();
   const queryUsers = useQuery("users", GetUsers);
   const selectedDevice = useAppSelector(selectSelectedDevice);
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
-  function newDevice() {
-    dispatch(setSelectedDevice(newDeviceInitialize));
+  function newUser() {
+    dispatch(setSelectedUser({}));
   }
-  function newFromSelectedDevice() {
-    const sensors: SensorsReceiveTpe[] = [];
-    selectedDevice?.sensors?.map((sensor) => {
-      sensors.push({
-        ...sensor,
-        updatedAt: undefined,
-        __v: undefined,
-        _id: undefined,
-      });
-    });
-    const factors: Factor[] = [];
-    selectedDevice?.factors?.map((factor) => {
-      factors.push({ ...factor, _id: undefined });
-    });
+  // function newFromSelectedDevice() {
+  //   const sensors: SensorsReceiveTpe[] = [];
+  //   selectedDevice?.sensors?.map((sensor) => {
+  //     sensors.push({
+  //       ...sensor,
+  //       updatedAt: undefined,
+  //       __v: undefined,
+  //       _id: undefined,
+  //     });
+  //   });
+  //   const factors: Factor[] = [];
+  //   selectedDevice?.factors?.map((factor) => {
+  //     factors.push({ ...factor, _id: undefined });
+  //   });
 
-    dispatch(
-      setSelectedDevice({
-        ...selectedDevice,
-        _id: undefined,
-        createdAt: undefined,
-        updatedAt: undefined,
-        __v: undefined,
-        title: selectedDevice.title + "dunplicate",
-        sensors: [...sensors],
-        factors: [...factors],
-        address: {
-          ...selectedDevice.address,
-          _id: undefined,
-        },
-      })
-    );
-  }
+  //   dispatch(
+  //     setSelectedDevice({
+  //       ...selectedDevice,
+  //       _id: undefined,
+  //       createdAt: undefined,
+  //       updatedAt: undefined,
+  //       __v: undefined,
+  //       title: selectedDevice.title + "dunplicate",
+  //       sensors: [...sensors],
+  //       factors: [...factors],
+  //       address: {
+  //         ...selectedDevice.address,
+  //         _id: undefined,
+  //       },
+  //     })
+  //   );
+  // }
 
   React.useEffect(() => {
-    if (queryUsers.status === "success") {
-      dispatch(setUsersData(queryUsers.data));
-      dispatch(setSignInFlag("success"));
+    if (queryUsers.status === "success" && queryUsers?.data !== undefined) {
+      const dataUser: UserType[] = queryUsers.data;
+      dispatch(setAllUsersData(dataUser));
+      dispatch(setSignInFlag("initial"));
     }
   }, [queryUsers.isFetching, queryUsers.isSuccess]);
 
@@ -88,8 +91,9 @@ export default function UserManagement() {
             <Box sx={{ flexGrow: 1, padding: 1 }}>
               <Item>
                 <Button
+                  className="bg-green-600 hover:bg-green-800 text-white "
                   onClick={() => {
-                    newDevice();
+                    newUser();
                   }}
                 >
                   {t("new user")}
@@ -97,7 +101,9 @@ export default function UserManagement() {
               </Item>
             </Box>
           </Grid>
-          <Grid xs={8}>{/* <DeviceForm /> */}</Grid>
+          <Grid xs={8}>
+            <UserAdministrator />{" "}
+          </Grid>
         </Grid>
       </Box>
     </>

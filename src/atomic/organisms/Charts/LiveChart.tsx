@@ -136,7 +136,7 @@ const LiveBlink: React.FC<PropsBlink> = (props) => {
       <section className="flex w-full items-start justify-end">
         <div className="flex w-full m-4 font-Vazir-Medium">
           {GpNumber !== undefined && selectUserGr !== undefined
-            ? selectUserGr[GpNumber].groupTitle
+            ? selectUserGr?.[GpNumber]?.groupTitle
             : ""}
         </div>
         <div className="items-center flex m-2">

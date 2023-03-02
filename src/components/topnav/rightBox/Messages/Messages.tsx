@@ -7,7 +7,7 @@ export default function Messages() {
   const dispatch = useAppDispatch();
   const selectAlarms = useAppSelector(selectDevicesAlarms);
   useEffect(() => {
-    console.log(selectAlarms);
+    // console.log(selectAlarms);
   }, [selectAlarms]);
   return (
     <>

@@ -39,7 +39,6 @@ export default function Analytics() {
   const { t } = useTranslation();
   const selectedDevice = useAppSelector(selectSelectedDevice);
   const [elem, setElem] = useState(false);
-  const [nameofGp, setNameofGp] = useState("unname");
   const selectedSensorsSlice = useAppSelector(selectSelectedSensorsAnalize);
   const startDate = useAppSelector(selectStartDate);
   const endDate = useAppSelector(selectEndDate);
@@ -47,6 +46,7 @@ export default function Analytics() {
 
   const dispatch = useAppDispatch();
   const queryDevices = useQuery("devices", GetDevices);
+
   const style = {
     position: "absolute" as "absolute",
     top: "50%",
@@ -72,7 +72,7 @@ export default function Analytics() {
       })
     );
   };
-  const handleSaveToGroup = async () => {
+  const handleSaveToGroup = async (nameofGp: string) => {
     const start = startDate !== undefined ? new Date(startDate).getTime() : 0;
     const end = endDate !== undefined ? new Date(endDate).getTime() : 0;
     const time = end - start;
@@ -87,6 +87,7 @@ export default function Analytics() {
     const user: UserType = { ...userD, groups: [...arr] };
     console.log(userD);
     dispatch(updateUserData(user));
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -196,25 +197,7 @@ export default function Analytics() {
               aria-labelledby="modal-modal-title"
               aria-describedby="modal-modal-description"
             >
-              <Box sx={style}>
-                <Typography className="text-lg font-Vazir-Bold">
-                  {t("take_a_name_for_this_group")}
-                </Typography>
-                <TextField
-                  onChange={(e) => {
-                    setNameofGp(e.target.value);
-                  }}
-                  variant="filled"
-                  sx={style}
-                  label={t("title")}
-                />
-                <Button className="p-5" onClick={handleSaveToGroup}>
-                  <Typography className="text-lg font-Vazir-Bold">
-                    {t("saveToGroup")}
-                  </Typography>
-                </Button>
-                <UserGroupsSaveContainer />
-              </Box>
+              <UserGroupsSaveContainer handleSaveToGroup={handleSaveToGroup} />
             </Modal>
           </>
         ) : (

@@ -123,6 +123,43 @@ export async function PatchUserApi(
   }
 }
 //--------------------------------------------------------------------------------//
+export async function CreateUserApi(
+  token: string,
+  userInfo: UserType
+): Promise<any | { error: { errorCode: any } }> {
+  const getConfig = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Credentials": "true",
+      "Cache-Control": "no-cache",
+      "Content-Type": "application/json;charset=UTF-8",
+      Accept: "*/*",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const body: any = {
+    ...userInfo,
+  };
+  console.log(userInfo);
+  const uri: string = `${process.env.NEXT_PUBLIC_BASE_API_URL}/users`;
+  try {
+    const { data, status } = await axios.post(uri, body, getConfig);
+    // .then((Response: AxiosResponse) => {
+    //   console.log("sms sended:", Response.data);
+    //   if (Response.status < 300) state.signInFlag = "smsWaiting";
+    // })
+    // .catch((err) => {
+    //   state.signInFlag = "smsProviderError";
+    // });
+    const result: any = data;
+    return result;
+  } catch (err: any | AxiosError) {
+    {
+      return { error: { errorCode: JSON.stringify(err) } };
+    }
+  }
+}
+//--------------------------------------------------------------------------------//
 export async function UpdateGroupApi(
   token: string,
   userInfo: UserType

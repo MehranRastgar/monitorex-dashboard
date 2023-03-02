@@ -11,6 +11,8 @@
   padding: 0.3rem;
 }
 .lang_menu {
+  z-index: 150;
+
   width: 100px;
   font-size: 12px;
   background-color: var(--card-bgc);

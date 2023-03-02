@@ -25,16 +25,19 @@ interface Props {
 }
 
 const AgGridLive: React.FC<Props> = (props) => {
-  const gridRef = useRef(); // Optional - for accessing Grid's API
+  const gridRef = useRef<AgGridReact>(null); // Optional - for accessing Grid's API
   const [rowData, setRowData] = useState<any[]>(); // Set rowData to Array of Objects, one Object per Row
 
   // Each Column Definition results in one Column.
   const [columnDefs, setColumnDefs] = useState(props?.column);
   const selectDataOFChart = useAppSelector(selectSensorReports);
   // DefaultColDef sets props common to all Columns
-  const defaultColDef = useMemo(() => ({
-    sortable: true,
-  }));
+  const defaultColDef = useMemo(
+    () => ({
+      sortable: true,
+    }),
+    []
+  );
 
   // Example of consuming Grid Event
   const cellClickedListener = useCallback((event: any) => {
@@ -50,9 +53,9 @@ const AgGridLive: React.FC<Props> = (props) => {
   }, []);
 
   // Example using Grid's API
-  const buttonListener = useCallback((e) => {
-    gridRef?.current?.api?.deselectAll();
-  }, []);
+  // const buttonListener = useCallback((e: any) => {
+  //   gridRef?.current?.api?.deselectAll();
+  // }, []);
 
   useEffect(() => {
     if (selectDataOFChart?.[0]?._id !== undefined)

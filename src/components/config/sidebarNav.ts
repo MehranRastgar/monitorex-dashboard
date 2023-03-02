@@ -6,18 +6,18 @@ const sidebarNav = [
     text: "dashboard",
   },
 
-  {
-    link: "/devices",
-    section: "devices",
-    icon: "material-symbols:route-sharp",
-    text: "devices",
-  },
-  {
-    link: "/electricalboard",
-    section: "electricalboard",
-    icon: "ic:outline-electric-meter",
-    text: "electricalboard",
-  },
+  // {
+  //   link: "/devices",
+  //   section: "devices",
+  //   icon: "material-symbols:route-sharp",
+  //   text: "devices",
+  // },
+  // {
+  //   link: "/electricalboard",
+  //   section: "electricalboard",
+  //   icon: "ic:outline-electric-meter",
+  //   text: "electricalboard",
+  // },
 
   {
     link: "/analytics",
@@ -37,12 +37,13 @@ const sidebarNav = [
     icon: "material-symbols:settings-account-box",
     text: "settings",
   },
-  {
-    link: "/users",
-    section: "users",
-    icon: "ph:users-bold",
-    text: "users",
-  },
+
+  // {
+  //   link: "/profile",
+  //   section: "users",
+  //   icon: "ph:users-bold",
+  //   text: "users",
+  // },
   {
     link: "/systemlogs",
     section: "systemlogs",

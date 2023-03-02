@@ -1,6 +1,11 @@
-import { GridColDef, GridSelectionModel } from "@mui/x-data-grid";
+import {
+  GridColDef,
+  GridSelectionModel,
+  GridValueGetterParams,
+} from "@mui/x-data-grid";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   selectSensorReports,

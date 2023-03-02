@@ -8,7 +8,7 @@ const Item = styled(Paper)(({ theme }) => ({
   "-webkit-backdrop-filter": "blur( 8px )",
   ...theme.typography.body2,
   padding: theme.spacing(1),
-
+  border: "var(--text-color)",
   textAlign: "center",
   color: "var(--primary)",
   boxShadow:

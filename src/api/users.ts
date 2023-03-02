@@ -8,9 +8,9 @@ import {
   getSensorSeriesFilled,
   getUsers,
 } from "../constants/apis";
-import { Client, ClientType } from "../types/types";
+import { Client, ClientType, UserType } from "../types/types";
 
-export async function GetUsers(): Promise<Client[]> {
+export async function GetUsers(): Promise<UserType[]> {
   const accessToken: string | null = localStorage.getItem("access_token");
   const getConfig = {
     headers: {
@@ -25,6 +25,6 @@ export async function GetUsers(): Promise<Client[]> {
   //   return await fetch(getSensors);
   const { data: data, status } = await axios.get(getUsers, getConfig);
 
-  const datares: Client[] = [...data];
+  const datares: UserType[] = [...data];
   return datares;
 }

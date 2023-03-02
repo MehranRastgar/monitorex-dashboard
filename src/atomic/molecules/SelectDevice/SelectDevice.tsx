@@ -96,8 +96,8 @@ export default function SelectDeviceFromSelector() {
             </ScrollContainer>
           </div>
         </Item>
-        <Item className="flex flex-wrap overflow-hidden min-w-1/2 w-auto max-w-1/2 mr-1">
-          <div className="font-Vazir-Medium text-[15px] w-full">
+        <Item className="flex flex-wrap overflow-hidden min-w-1/2 w-full max-w-1/2 mr-1 ">
+          <div className="font-Vazir-Medium text-[15px] w-full ">
             {t("chooseSensor")}
           </div>
           <div className="my-2  product-slider-one-container items-center w-full">

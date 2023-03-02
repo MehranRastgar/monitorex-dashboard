@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { Box, Button, Modal, Typography } from "@mui/material";
+import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -127,7 +127,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
                 </Typography>
               </Button>
             </div>
-            <UserGroupsSaveContainer />
+            {/* <UserGroupsSaveContainer /> */}
           </Box>
         </Modal>
       </Item>
@@ -135,15 +135,72 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
   );
 };
 
-const UserGroupsSaveContainer: React.FC<UserGroupsContainerProps> = (props) => {
+export interface UserGroupsSaveContainerProps {
+  handleSaveToGroup: (gp: string) => Promise<void>;
+}
+
+const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
+  props
+) => {
   const selectUserGr = useAppSelector(selectUserGroups);
   const { t } = useTranslation();
+  const [nameofGp, setNameofGp] = useState("unname");
+
   return (
     <>
-      <section className="flex flex-wrap w-full h-[100px]  rounded-[5px]"></section>
+      <Box sx={style}>
+        <section className="flex flex-wrap w-full h-[200px]  rounded-[5px]">
+          <Typography className="text-lg font-Vazir-Bold">
+            {t("take_a_name_for_this_group")}
+          </Typography>
+          <TextField
+            onChange={(e) => {
+              setNameofGp(e.target.value);
+            }}
+            variant="filled"
+            sx={styleInput}
+            label={t("title")}
+          />
+          <div className="flex h-fit">
+            <Button
+              className=" font-Vazir-Medium bg-green-600 hover:bg-green-800 text-white mx-2"
+              onClick={() => props?.handleSaveToGroup(nameofGp)}
+            >
+              {t("saveToGroups")}
+            </Button>
+          </div>
+        </section>
+      </Box>
     </>
   );
 };
 
+const style = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "var(--bgc)",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+const styleInput = {
+  width: 250,
+  boxShadow: 2,
+  bgcolor: "var(--card-bgc)",
+  ".MuiFormLabel-root": {
+    color: "var(--approved-bgc)",
+  },
+  ".MuiInputBase-input": {
+    color: "var(--text-color)",
+    fontSize: 16,
+  },
+  ".MuiInputLabel-filled": {
+    color: "var(--text-color)",
+    fontSize: 16,
+  },
+};
 export { UserGroupsSaveContainer };
 export default UserGroupsContainer;

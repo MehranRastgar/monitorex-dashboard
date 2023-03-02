@@ -17,11 +17,14 @@ const ButtonRegular: React.FC<Props> = (props) => {
       size={"small"}
       className={
         `flex w-fit text-justify my-1 max-h-[20px] font-Vazir-Medium text-xs ${
-          props?.disabled === true ? "bg-gray-600" : "bg-blue-600"
+          props?.disabled === true
+            ? "bg-gray-600"
+            : "bg-[var(--button-primary)]"
         } ` + props.className
       }
       variant={"contained"}
       onClick={props.onClick}
+      type={props?.type}
     >
       {props.children}
     </Button>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Summary from "../src/components/summary/Summary";
 import SaleChart from "../src/components/chart/Chart";
@@ -7,21 +7,136 @@ import Layout from "../src/components/layout/Layout";
 
 function Settings() {
   const { t } = useTranslation();
-  useEffect(() => {}, [,]);
+  useEffect(() => {}, []);
+  const [state, setState] = useState<any>();
+  const [values, setValues] = useState<string[]>([]);
 
+  useEffect(() => {}, []);
   return (
     <Layout>
       <section>
         <h2 className="title">{t("settings")}</h2>
         {/* <BasicTabs /> */}
-
-        {/* <DeviceList /> */}
+        <div className="flex w-full ">
+          <input
+            type="text"
+            className="flex w-full"
+            onChange={(e) => {
+              setValues(e.target.value.split(" "));
+            }}
+          ></input>
+        </div>
+        <div className="w-full flex-wrap flex items-start justify-center h-screen">
+          {/* <Test /> */}
+        </div>
       </section>
     </Layout>
   );
 }
+const values = ["1", "2", "5", "3", "4", "6", "7", "8", "9", "10"];
 
 export default Settings;
+
+interface DerakhtProps {
+  value?: string;
+  left?: any;
+  right?: any;
+}
+const DerakhtKesh: React.FC<DerakhtProps> = ({ value, left, right }) => {
+  return (
+    <div className="flex flex-wrap w-auto items-start justify-center">
+      <div className="flex items-start justify-center">
+        <div className="w-20 rounded-full border-2 border-gray-400 h-20 flex items-center justify-center m-2">
+          {value}
+        </div>
+      </div>
+      <div className="flex flex-wrap w-full items-start justify-center">
+        <div className="flex flex-wrap w-1/2 items-center justify-center ">
+          {left && <DerakhtKesh {...left} />}
+        </div>
+        <div className="flex flex-wrap w-1/2 items-center justify-center ">
+          {right && <DerakhtKesh {...right} />}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// function BinaryTreeNode(props) {
+//   const { value, left, right, values } = props;
+
+//   return (
+//     <div className="flex flex-wrap w-auto  items-start justify-center">
+//       <div className="flex items-start justify-center">
+//         <div className="w-[60px] rounded-full border-2 border-gray-400 h-[60px] flex items-center justify-center m-2">
+//           {value}
+//         </div>
+//       </div>
+//       <div className="flex flex-wrap w-full items-start justify-center">
+//         <div className="flex flex-wrap w-1/2 items-center justify-center ">
+//           {left && <BinaryTreeNode {...left} />}
+//         </div>
+//         <div className="flex flex-wrap w-1/2 items-center justify-center ">
+//           {right && <BinaryTreeNode {...right} />}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+interface DerakhtKeshContainerProps {
+  values?: string;
+}
+const DerakhtKeshContainer: React.FC<DerakhtKeshContainerProps> = ({
+  values,
+}) => {
+  const obj = buildObject(values, 0);
+
+  return <>{values && <DerakhtKesh {...obj} />}</>;
+};
+
+type Props = {
+  values: string[];
+};
+
+type objType = {
+  value: string;
+  left?: objType;
+  right?: objType;
+};
+const buildObject = (values: string[], index: number): objType | undefined => {
+  if (index >= values.length) {
+    return undefined;
+  }
+  const value = values[index];
+  const node: objType = {
+    value,
+    left: buildObject(values, 2 * index + 1),
+    right: buildObject(values, 2 * index + 2),
+  };
+  return node;
+};
+
+const tree = {
+  value: 1,
+  left: {
+    value: 2,
+    left: {
+      value: 3,
+    },
+    right: {
+      value: 4,
+    },
+  },
+  right: {
+    value: 5,
+    left: {
+      value: 6,
+    },
+    right: {
+      value: 7,
+    },
+  },
+};
 
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -31,6 +146,7 @@ import { styled } from "@mui/material/styles";
 import SettingsSensors from "../src/components/pages/settings/sensors";
 import SettingsDevices from "../src/components/pages/settings/device/devices";
 import DeviceList from "../src/atomic/organisms/device/DeviceList";
+import Test from "../testbahar";
 
 interface TabPanelProps {
   children?: React.ReactNode;
