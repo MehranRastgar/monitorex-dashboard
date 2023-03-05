@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import ScrollContainer from "react-indiana-drag-scroll";
 import { socket } from "../../../components/socketio";
+import { useAppSelector } from "../../../store/hooks";
+import { selectDevicesData } from "../../../store/slices/devicesSlice";
 import ThingDevice, { DeviceThingProps } from "../../molecules/Thing/Device";
 import ArrayOfElectrical from "./ArrayOfElectrical";
 
@@ -11,6 +14,7 @@ interface Props {
 const OneEPanel: React.FC<Props> = (props) => {
   const [value, setValue] = useState<any | undefined>(undefined);
   const { t } = useTranslation();
+  const devices = useAppSelector(selectDevicesData);
 
   useEffect(() => {
     socket.on(props.idOfSub, (data: any) => {
@@ -26,7 +30,9 @@ const OneEPanel: React.FC<Props> = (props) => {
     arrOfAttributes: [t("port") + " " + "21"],
     width: 130,
     height: 60,
-    title: props?.idOfSub?.toString() ?? "electrical",
+    title:
+      devices.filter((de) => de._id === props?.idOfSub)?.[0].title ??
+      "electrical",
     // badge: item.sensors?.length.toString() ?? undefined,
     icon: "ic:outline-electric-meter",
     iconSize: 60,
@@ -34,18 +40,36 @@ const OneEPanel: React.FC<Props> = (props) => {
   return (
     <>
       <div className="flex items-end">
-        <div>
-          <ThingDevice {...thingOption} />
-        </div>
-        <div>
-          <ArrayOfElectrical offset={0} byte={value?.metaField?.byte1} />
-        </div>
-        <div>
-          <ArrayOfElectrical offset={1} byte={value?.metaField?.byte2} />
-        </div>
-        <div>
-          <ArrayOfElectrical offset={2} byte={value?.metaField?.byte3} />
-        </div>
+        <ScrollContainer
+          vertical={false}
+          hideScrollbars={false}
+          className="scroll-container px-2 product-slider-one-items overflow-y-hidden "
+        >
+          <div>
+            <ThingDevice {...thingOption} />
+          </div>
+          <div>
+            <ArrayOfElectrical
+              eb_id={devices.filter((de) => de._id === props?.idOfSub)?.[0]._id}
+              offset={0}
+              byte={value?.metaField?.byte1}
+            />
+          </div>
+          <div>
+            <ArrayOfElectrical
+              eb_id={devices.filter((de) => de._id === props?.idOfSub)?.[0]._id}
+              offset={1}
+              byte={value?.metaField?.byte2}
+            />
+          </div>
+          <div>
+            <ArrayOfElectrical
+              eb_id={devices.filter((de) => de._id === props?.idOfSub)?.[0]._id}
+              offset={2}
+              byte={value?.metaField?.byte3}
+            />
+          </div>
+        </ScrollContainer>
       </div>
     </>
   );

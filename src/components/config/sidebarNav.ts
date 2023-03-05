@@ -44,12 +44,12 @@ const sidebarNav = [
   //   icon: "ph:users-bold",
   //   text: "users",
   // },
-  {
-    link: "/systemlogs",
-    section: "systemlogs",
-    icon: "icon-park-outline:transaction-order",
-    text: "systemlogs",
-  },
+  // {
+  //   link: "/systemlogs",
+  //   section: "systemlogs",
+  //   icon: "icon-park-outline:transaction-order",
+  //   text: "systemlogs",
+  // },
   // {
   //   link: "/discount",
   //   section: "discount",

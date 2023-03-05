@@ -81,7 +81,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
       selectUserGr?.[GpNumber]?.sensors !== undefined
     ) {
       let publishDate = new Date(1000 * dayjs(dayjs()).unix());
-      console.log(publishDate.toJSON());
+      // console.log(publishDate.toJSON());
       // dispatch(setStartDate(publishDate.toJSON()));
       dispatch(
         setStartDayjs(
@@ -166,7 +166,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
   useEffect(() => {
     if (selectDataOFChart?.[0]?._id !== undefined && state !== undefined)
       selectDataOFChart?.map((item: SensorsReceiveTpe, index) => {
-        console.log(item);
+        // console.log(item);
         if (item?._id !== undefined)
           socket.on(item?._id, (data) => {
             if (data.value === 200000) {

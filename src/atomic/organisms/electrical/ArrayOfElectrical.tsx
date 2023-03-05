@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { socket } from "../../../components/socketio";
+import { DevicesReceiveType } from "../../../store/api/devicesApi";
+import { useAppSelector } from "../../../store/hooks";
+import { selectDevicesData } from "../../../store/slices/devicesSlice";
+import Item from "../../atoms/Item/Item";
 import LightBulb from "../../atoms/LightBulb/LightBulb";
 import ObjectElectrical from "../../molecules/electrical/ObjectElectrical";
 import classes from "./ArrayOfElectrical.module.scss";
@@ -12,11 +16,12 @@ interface Props {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   byte?: number;
   offset?: number;
+  eb_id?: string;
 }
 const ArrayOfElectrical: React.FC<Props> = (props) => {
   const [reverse, setReverse] = useState(false);
   const [arrayOfElec, setArrayOfElec] = useState<number[]>([]);
-
+  const devices = useAppSelector(selectDevicesData);
   function waitforme(millisec: number) {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -30,6 +35,7 @@ const ArrayOfElectrical: React.FC<Props> = (props) => {
       setArrayOfElec([...arrayOfElec, i]);
     }
   }
+  const offs = 1 + (props?.offset ?? 0) * 7;
 
   useEffect(() => {
     if (arrayOfElec?.length < numberOfElectricalDevices) HandleArr();
@@ -39,29 +45,42 @@ const ArrayOfElectrical: React.FC<Props> = (props) => {
       <div
         onClick={() => {
           if (arrayOfElec?.length > 0) {
-            setArrayOfElec([]);
+            // setArrayOfElec([]);
           }
         }}
-        className="flex  transition-all duration-700 "
+        className="flex transition-all duration-700 "
       >
         {arrayOfElec?.map((i, index) => (
           <>
-            <div
+            {/* <div
               key={index + "-ii"}
-              className="flex transition-all duration-700 "
+              className="flex rounded-lg p-2 transition-all duration-700 border m-2"
+            > */}
+            <Item
+              key={index + i.toString()}
+              className={`flex w-20 justify-start font-Vazir-Light m-2  ${
+                props?.byte !== undefined
+                  ? (props?.byte & (0x00000001 << (6 - index))) === 0
+                    ? "bg-red-600"
+                    : "bg-green-600"
+                  : undefined
+              }`}
             >
-              <ObjectElectrical
-                key={index}
-                number={index + 1 + (props?.offset ?? 0) * 7}
-                OnOrOff={
-                  props?.byte !== undefined
-                    ? (props?.byte & (0x00000001 << (6 - index))) === 0
-                      ? false
-                      : true
-                    : undefined
-                }
-              />
-            </div>
+              <DeviceName id={props.eb_id} portNumber={offs + index}>
+                <ObjectElectrical
+                  key={index}
+                  number={index + 1 + (props?.offset ?? 0) * 7}
+                  OnOrOff={
+                    props?.byte !== undefined
+                      ? (props?.byte & (0x00000001 << (6 - index))) === 0
+                        ? false
+                        : true
+                      : undefined
+                  }
+                />
+              </DeviceName>
+            </Item>
+            {/* </div> */}
           </>
         ))}
       </div>
@@ -70,3 +89,69 @@ const ArrayOfElectrical: React.FC<Props> = (props) => {
 };
 
 export default ArrayOfElectrical;
+
+interface PropsDev {
+  portNumber?: number;
+  id?: string;
+  children: React.ReactElement;
+}
+const DeviceName: React.FC<PropsDev> = ({ portNumber, id, children }) => {
+  const devices = useAppSelector(selectDevicesData);
+  const [arrDev, setArrDev] = useState<DevicesReceiveType>();
+
+  useEffect(() => {
+    const dev = devices.filter((de) => de.electricalId === id);
+    console.log(dev);
+    const ind = dev?.findIndex((dev) => dev.electricalPort === portNumber);
+    setArrDev(dev[ind]);
+    // console.log("dive filtered", dev);
+  }, [id, portNumber, children]);
+
+  return (
+    <>
+      <div className={classes.tooltip + " text-xs "}>
+        {}
+        {/* {index + offs} */}
+        <div className="flex h-10">{arrDev?.title ?? "not Assigned"}</div>
+
+        {/* <span className={classes.tooltiptext}>
+          <div>
+            {
+              arrDev?.[
+                arrDev?.findIndex((dev) => dev.numberOfPorts === portNumber)
+              ]?.title
+            }
+          </div>
+          <div>
+            {
+              arrDev?.[
+                arrDev?.findIndex((dev) => dev.numberOfPorts === portNumber)
+              ]?._id
+            }
+          </div>
+          <div>
+            {
+              arrDev?.[
+                arrDev?.findIndex((dev) => dev.numberOfPorts === portNumber)
+              ]?.address?.multiPort
+            }
+            ,
+            {
+              arrDev?.[
+                arrDev?.findIndex((dev) => dev.numberOfPorts === portNumber)
+              ]?.address?.sMultiPort
+            }
+          </div>
+          <div>
+            {
+              arrDev?.[
+                arrDev?.findIndex((dev) => dev.numberOfPorts === portNumber)
+              ]?.numberOfPorts
+            }
+          </div>
+        </span> */}
+        {children}
+      </div>
+    </>
+  );
+};

@@ -10,6 +10,7 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import {
   getDevicesAsync,
   putDeviceAsync,
+  selectDevicesData,
   selectDevicesStatus,
   selectErrorMessage,
   selectSelectedDevice,
@@ -97,6 +98,8 @@ export default function DeviceForm() {
   const selectedDevice = useAppSelector(selectSelectedDevice);
   const selectStatus = useAppSelector(selectDevicesStatus);
   const selectEM = useAppSelector(selectErrorMessage);
+  const allDevices = useAppSelector(selectDevicesData);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -267,6 +270,89 @@ export default function DeviceForm() {
                     </Select>
                   </FormControl>
                 </Grid>
+                {selectedDevice?.type !== "Electrical panel" && (
+                  <>
+                    <Grid>
+                      <FormControl
+                        variant="filled"
+                        sx={{ ...style, width: 150 }}
+                      >
+                        <InputLabel id="demo-simple-select-standard-label">
+                          Electrical
+                        </InputLabel>
+                        <Select
+                          id={idPrefix + "address.multiPort"}
+                          // labelId="demo-simple-select-standard-label"
+                          value={
+                            allDevices?.[
+                              allDevices.findIndex(
+                                (dev) =>
+                                  dev._id === selectedDevice?.electricalId
+                              )
+                            ]?._id ?? "none"
+                          }
+                          onChange={(e) => {
+                            // console.log(e.target.value);
+                            dispatch(
+                              setSelectedDevice({
+                                ...selectedDevice,
+                                electricalId: e.target.value,
+                              })
+                            );
+                          }}
+                          label="Electrical"
+                        >
+                          <MenuItem value="none">
+                            <em>none</em>
+                          </MenuItem>
+                          {allDevices
+                            ?.filter((as) => as?.type === "Electrical panel")
+                            .map(({ _id, title, type }, index) => (
+                              <MenuItem key={index} value={_id}>
+                                {title}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+
+                    <Grid>
+                      <FormControl
+                        variant="filled"
+                        sx={{ ...style, width: 150 }}
+                      >
+                        <InputLabel id="demo-simple-select-standard-label">
+                          Electrical Port
+                        </InputLabel>
+                        <Select
+                          id={idPrefix + "address.multiPort"}
+                          labelId="demo-simple-select-standard-label"
+                          value={
+                            selectedDevice?.electricalPort?.toString() ?? "none"
+                          }
+                          onChange={(e) => {
+                            dispatch(
+                              setSelectedDevice({
+                                ...selectedDevice,
+                                electricalPort: Number(e.target.value),
+                              })
+                            );
+                          }}
+                          label="Electrical Port"
+                        >
+                          <MenuItem value={"none"}>
+                            <em>none</em>
+                          </MenuItem>
+                          {selectEBPort?.map((ind, index) => (
+                            <MenuItem key={index} value={ind}>
+                              {ind.toString()}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Grid>
+                  </>
+                )}
               </Grid>
             </Item>
           </Box>
@@ -282,15 +368,12 @@ export default function DeviceForm() {
             </Item>
           ) : (
             <>
-              <Item sx={{ margin: 1 }}>
+              {/* <Item sx={{ margin: 1 }}>
                 <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
                   {t("electrical")}
                 </h2>
-                <ElectricalPorts
-                // type={selectedDevice.type}
-                // port={selectedDevice.numberOfPorts}
-                />
-              </Item>
+                <ElectricalPorts/>
+              </Item> */}
             </>
           )}
           {selectedDevice.type === "Sensor Cotroller" ? (
@@ -389,7 +472,10 @@ export default function DeviceForm() {
     );
   else return <></>;
 }
-
+export const selectEBPort: number[] = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+  // '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16',
+];
 export const selectMultiport: number[] = [
   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
   // '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16',
@@ -501,9 +587,9 @@ function SensorsPart({ port, type }: { port?: number; type?: string }) {
   return (
     <>
       {selectedDevice?.sensors !== undefined ? (
-        selectedDevice?.sensors?.map((sensor, index) => (
+        selectedDevice?.sensors?.map((sensor: SensorsReceiveTpe, index) => (
           <>
-            <Box key={index + (sensor?._id ?? "sensor")} sx={{ p: 0 }}>
+            <Box key={index} sx={{ p: 0 }}>
               <h2 className="flex w-full p-2 text-xs font-Vazir-Medium">
                 {t("Sensor - ") +
                   index +
@@ -567,6 +653,7 @@ function SensorsPart({ port, type }: { port?: number; type?: string }) {
                       renderInput={(params) => (
                         <>
                           <TextField
+                            key={params.id}
                             value={sensor.type}
                             sx={{
                               ...style,
@@ -613,6 +700,7 @@ function SensorsPart({ port, type }: { port?: number; type?: string }) {
                       renderInput={(params) => (
                         <>
                           <TextField
+                            key={params.id}
                             sx={{
                               ...style,
                               width: 220,
@@ -735,107 +823,77 @@ function ElectricalPorts() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const selectedDevice = useAppSelector(selectSelectedDevice);
+  const allDevices = useAppSelector(selectDevicesData);
   const [sensorsL, setSensorsL] = useState<{ sensor: number }[]>([]);
   const [unitstate, setUnitstate] = useState<string>("");
 
-  function makeFactors() {
-    let f: ElectricalPanelType[] = [];
-    if (selectedDevice?.electricals !== undefined) {
-      for (let i = 0; i <= selectedDevice?.electricals?.length; i++) {
-        if (selectedDevice?.electricals?.[i] !== undefined)
-          f.push(selectedDevice.electricals[i]);
-        else f.push();
-      }
-
-      dispatch(setSelectedDevice({ ...selectedDevice, electricals: f }));
+  function makePanel() {
+    if (selectedDevice?.numberOfPorts === undefined) {
+      return;
     }
-    // console.log(f);
-    // setSensorsL(s);
+    const panel: ElectricalPanelType[] = [];
+    for (let i = 0; selectedDevice?.numberOfPorts > i; i++) {
+      if (selectedDevice?.electricals?.[i] !== undefined) {
+        panel.push({ ...selectedDevice.electricals[i] });
+      } else {
+        panel.push({});
+      }
+    }
+    dispatch(setSelectedDevice({ ...selectedDevice, electricals: [...panel] }));
+    console.log(panel);
   }
 
   useEffect(() => {
-    // if (selectedDevice?.factors !== undefined&& ) makeFactors();
-  }, [selectedDevice]);
+    makePanel();
+  }, [selectedDevice?.numberOfPorts, selectedDevice?._id]);
 
   // useEffect(() => {}, [selectedDevice.sensors]);
   return (
     <>
-      {selectedDevice?.electricals?.map((factor: any, index) => (
-        <>
-          <Box key={index + (factor?._id ?? "sensor")} sx={{ p: 1 }}>
-            <Item>
-              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
-                {t("Factor - ") +
-                  index +
-                  (factor?.factorName ? " (" + factor?.factorName + ") " : "")}
+      <section className="flex flex-wrap">
+        {selectedDevice?.electricals?.map(({ _id, deviceName }, index) => (
+          <>
+            <div key={index} className="w-fit m-2">
+              <h2 className="flex w-fit p-2 text-md font-Vazir-Medium">
+                {t("electrical - ") +
+                  (index + 1).toString() +
+                  (deviceName ? " (" + deviceName + ") " : "")}
               </h2>
-              <Box sx={{ p: 1, flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                  <Grid></Grid>
-                  <Grid>
-                    <TextField
-                      value={factor.factorPosition}
-                      // id={idPrefix + `sensor?.[${index}]?.name`}
-                      variant="filled"
-                      onChange={(e) => {
-                        let fac: Factor[] = [
-                          ...(selectedDevice?.factors ?? []),
-                        ];
-                        if (fac?.[index] !== undefined) {
-                          fac[index] = {
-                            ...factor,
-                            factorPosition: Number(e.target.value),
-                          };
-                        }
-                        dispatch(
-                          setSelectedDevice({
-                            ...selectedDevice,
-                            factors: [...fac],
-                          })
-                        );
-                      }}
-                      sx={{
-                        ...style,
-                        width: 180,
-                      }}
-                      label={t("factorPosition")}
-                    />
-                  </Grid>
-                  <Grid>
-                    <TextField
-                      value={factor.factorValue}
-                      // id={idPrefix + `sensor?.[${index}]?.name`}
-                      variant="filled"
-                      onChange={(e) => {
-                        let fac: Factor[] = [
-                          ...(selectedDevice?.factors ?? []),
-                        ];
-                        if (fac?.[index] !== undefined) {
-                          fac[index] = {
-                            ...factor,
-                            factorValue: Number(e.target.value),
-                          };
-                        }
-                        dispatch(
-                          setSelectedDevice({
-                            ...selectedDevice,
-                            factors: [...fac],
-                          })
-                        );
-                      }}
-                      sx={{
-                        ...style,
-                        width: 180,
-                      }}
-                      label={t("factorValue")}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            </Item>
-          </Box>
-        </>
-      ))}
+              <div className="flex w-full flex-wrap ">
+                <FormControl variant="filled" sx={{ ...style, width: 150 }}>
+                  <InputLabel id="demo-simple-select-standard-label">
+                    {t("device")}
+                  </InputLabel>
+                  <Select
+                    // id={idPrefix + "numberOfPorts"}
+                    labelId="demo-simple-select-standard-label"
+                    // value={selectedUser?.accessControll?.[name] ?? ""}
+                    // onChange={(e) => {
+                    //   dispatch(
+                    //     setSelectedUser({
+                    //       ...selectedUser,
+                    //       accessControll: {
+                    //         ...selectedUser?.accessControll,
+                    //         [name]: e?.target?.value?.toString(),
+                    //       },
+                    //     })
+                    //   );
+                    // }}
+                    label={"device"}
+                  >
+                    {/* <MenuItem value=""></MenuItem> */}
+                    {allDevices?.map(({ title, _id }, index) => (
+                      <MenuItem key={index} value={_id}>
+                        {title}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
+          </>
+        ))}
+      </section>
     </>
   );
 }
@@ -870,106 +928,110 @@ function FactorsPart() {
     <>
       {selectedDevice?.factors?.map((factor: any, index) => (
         <>
-          <Box key={index + (factor?._id ?? "sensor")} sx={{ p: 1 }}>
-            <Item>
-              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
-                {t("Factor - ") +
-                  index +
-                  (factor?.factorName ? " (" + factor?.factorName + ") " : "")}
-              </h2>
-              <Box sx={{ p: 1, flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                  <Grid>
-                    <TextField
-                      value={factor.factorName}
-                      // id={idPrefix + `sensor?.[${index}]?.name`}
-                      variant="filled"
-                      onChange={(e) => {
-                        let fac: Factor[] = [
-                          ...(selectedDevice?.factors ?? []),
-                        ];
-                        if (fac?.[index] !== undefined) {
-                          fac[index] = {
-                            ...factor,
-                            factorName: e.target.value,
-                          };
-                        }
-                        dispatch(
-                          setSelectedDevice({
-                            ...selectedDevice,
-                            factors: [...fac],
-                          })
-                        );
-                      }}
-                      sx={{
-                        ...style,
-                        width: 180,
-                      }}
-                      label={t("name")}
-                    />
+          <div key={index}>
+            <Box sx={{ p: 1 }}>
+              <Item>
+                <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                  {t("Factor - ") +
+                    index +
+                    (factor?.factorName
+                      ? " (" + factor?.factorName + ") "
+                      : "")}
+                </h2>
+                <Box sx={{ p: 1, flexGrow: 1 }}>
+                  <Grid container spacing={2}>
+                    <Grid>
+                      <TextField
+                        value={factor.factorName}
+                        // id={idPrefix + `sensor?.[${index}]?.name`}
+                        variant="filled"
+                        onChange={(e) => {
+                          let fac: Factor[] = [
+                            ...(selectedDevice?.factors ?? []),
+                          ];
+                          if (fac?.[index] !== undefined) {
+                            fac[index] = {
+                              ...factor,
+                              factorName: e.target.value,
+                            };
+                          }
+                          dispatch(
+                            setSelectedDevice({
+                              ...selectedDevice,
+                              factors: [...fac],
+                            })
+                          );
+                        }}
+                        sx={{
+                          ...style,
+                          width: 180,
+                        }}
+                        label={t("name")}
+                      />
+                    </Grid>
+                    <Grid>
+                      <TextField
+                        value={factor.factorPosition}
+                        // id={idPrefix + `sensor?.[${index}]?.name`}
+                        variant="filled"
+                        onChange={(e) => {
+                          let fac: Factor[] = [
+                            ...(selectedDevice?.factors ?? []),
+                          ];
+                          if (fac?.[index] !== undefined) {
+                            fac[index] = {
+                              ...factor,
+                              factorPosition: Number(e.target.value),
+                            };
+                          }
+                          dispatch(
+                            setSelectedDevice({
+                              ...selectedDevice,
+                              factors: [...fac],
+                            })
+                          );
+                        }}
+                        sx={{
+                          ...style,
+                          width: 180,
+                        }}
+                        label={t("factorPosition")}
+                      />
+                    </Grid>
+                    <Grid>
+                      <TextField
+                        value={factor.factorValue}
+                        // id={idPrefix + `sensor?.[${index}]?.name`}
+                        variant="filled"
+                        onChange={(e) => {
+                          let fac: Factor[] = [
+                            ...(selectedDevice?.factors ?? []),
+                          ];
+                          if (fac?.[index] !== undefined) {
+                            fac[index] = {
+                              ...factor,
+                              factorValue: Number(e.target.value),
+                            };
+                          }
+                          dispatch(
+                            setSelectedDevice({
+                              ...selectedDevice,
+                              factors: [...fac],
+                            })
+                          );
+                        }}
+                        sx={{
+                          ...style,
+                          width: 180,
+                        }}
+                        label={t("factorValue")}
+                      />
+                    </Grid>
                   </Grid>
-                  <Grid>
-                    <TextField
-                      value={factor.factorPosition}
-                      // id={idPrefix + `sensor?.[${index}]?.name`}
-                      variant="filled"
-                      onChange={(e) => {
-                        let fac: Factor[] = [
-                          ...(selectedDevice?.factors ?? []),
-                        ];
-                        if (fac?.[index] !== undefined) {
-                          fac[index] = {
-                            ...factor,
-                            factorPosition: Number(e.target.value),
-                          };
-                        }
-                        dispatch(
-                          setSelectedDevice({
-                            ...selectedDevice,
-                            factors: [...fac],
-                          })
-                        );
-                      }}
-                      sx={{
-                        ...style,
-                        width: 180,
-                      }}
-                      label={t("factorPosition")}
-                    />
-                  </Grid>
-                  <Grid>
-                    <TextField
-                      value={factor.factorValue}
-                      // id={idPrefix + `sensor?.[${index}]?.name`}
-                      variant="filled"
-                      onChange={(e) => {
-                        let fac: Factor[] = [
-                          ...(selectedDevice?.factors ?? []),
-                        ];
-                        if (fac?.[index] !== undefined) {
-                          fac[index] = {
-                            ...factor,
-                            factorValue: Number(e.target.value),
-                          };
-                        }
-                        dispatch(
-                          setSelectedDevice({
-                            ...selectedDevice,
-                            factors: [...fac],
-                          })
-                        );
-                      }}
-                      sx={{
-                        ...style,
-                        width: 180,
-                      }}
-                      label={t("factorValue")}
-                    />
-                  </Grid>
-                </Grid>
-              </Box>
-            </Item>
-          </Box>
+                </Box>
+              </Item>
+            </Box>
+          </div>
         </>
       ))}
       <Box>

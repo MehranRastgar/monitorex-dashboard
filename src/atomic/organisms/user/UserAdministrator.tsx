@@ -46,13 +46,12 @@ const UserAdministrator: React.FC<Props> = (props) => {
   }, [queryUsers.isFetching, queryUsers.isSuccess]);
 
   useEffect(() => {
-    const loadData = async () => {
-      const response = await fetch("users.json");
-      const data = await response.json();
-      setUsers(data);
-    };
-
-    loadData();
+    // const loadData = async () => {
+    //   const response = await fetch("users.json");
+    //   const data = await response.json();
+    //   setUsers(data);
+    // };
+    // loadData();
   }, []);
 
   const handleUserSelect = (user: UserType) => {
@@ -70,7 +69,6 @@ const UserAdministrator: React.FC<Props> = (props) => {
     if (selectedUser._id !== undefined) {
       dispatch(updateUserData(selectedUser));
     } else {
-      console.log("is new user ");
       const user: UserType = { ...selectedUser, groups: [] };
       dispatch(createUser(user));
     }
@@ -94,14 +92,14 @@ const UserAdministrator: React.FC<Props> = (props) => {
   };
 
   return (
-    <Item className="my-2">
-      <div className="flex text-xl text-[var(--text-ultimate-color)] font-Vazir-Bold  m-2">
+    <Item key={selectedUser?._id} className="my-2">
+      <div className="flex text-xl text-[var(--text-ultimate-color)] font-Vazir-Bold m-2">
         <h1 className="mx-3 ">{t("user")}</h1>:
         <h2 className="mx-3 ">{selectedUser?._id ?? t("new")}</h2>
-        <h2 className="mx-3 flex">
-          {selectedUser?.username && <h2 className="mx-3 ">-</h2>}
+        <h3 className="mx-3 flex">
+          {selectedUser?.username && <span className="mx-3 ">-</span>}
           {selectedUser?.username}
-        </h2>
+        </h3>
       </div>
       {/* <DataGridSimple
         selectedUserId={selectedUser?._id ?? ""}

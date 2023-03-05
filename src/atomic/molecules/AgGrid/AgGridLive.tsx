@@ -60,7 +60,7 @@ const AgGridLive: React.FC<Props> = (props) => {
   useEffect(() => {
     if (selectDataOFChart?.[0]?._id !== undefined)
       selectDataOFChart?.map((item: SensorsReceiveTpe, index) => {
-        console.log(item);
+        // console.log(item);
         if (item?._id !== undefined)
           socket.on(item?._id, (data: SensorWebsocketReaktimeDataType) => {
             if (data.value === 200000) {
@@ -81,7 +81,7 @@ const AgGridLive: React.FC<Props> = (props) => {
             // );
             // console.log("finded series", find, data, newdata);
             // const title = newdata?.[find].data.title;
-            console.log("this is data of websocket", data);
+            // console.log("this is data of websocket", data);
             obj[data?.sensorTitle?.toString() ?? "noname"] =
               data.value ?? "no data";
             const date = new Date(data?.createdAt ?? "");
@@ -105,7 +105,7 @@ const AgGridLive: React.FC<Props> = (props) => {
   }, [selectDataOFChart, rowData]);
 
   useEffect(() => {
-    console.log("this is row data", rowData);
+    // console.log("this is row data", rowData);
   }, [rowData]);
 
   return (

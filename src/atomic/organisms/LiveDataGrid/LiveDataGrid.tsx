@@ -112,7 +112,6 @@ const LiveDataGrid: React.FC<Props> = (props) => {
           obj["date"] = date.toLocaleDateString();
           obj["time"] = date.toLocaleTimeString();
         });
-
         arr.push(obj);
       }
     });

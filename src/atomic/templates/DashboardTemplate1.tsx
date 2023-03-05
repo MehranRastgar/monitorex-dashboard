@@ -46,7 +46,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
           </Grid>
           <Grid item xs={8}>
             <Item>
-              {selectDevices?.map(({ _id, type }) => (
+              {selectDevices?.map(({ _id, title, type }) => (
                 <>
                   {type === "Electrical panel" && _id !== undefined ? (
                     <OneEPanel idOfSub={_id} />

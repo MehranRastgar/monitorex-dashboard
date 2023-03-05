@@ -1,5 +1,6 @@
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Switch } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import Item from "../../atoms/Item/Item";
 import LightBulb from "../../atoms/LightBulb/LightBulb";
 import classes from "./ObjectElectrical.module.scss";
 
@@ -10,7 +11,7 @@ interface Props {
 }
 const ObjectElectrical: React.FC<Props> = (props) => {
   const [reverse, setReverse] = useState(false);
-
+  const label = { inputProps: { "aria-label": "Color switch demo" } };
   return (
     <>
       {props.OnOrOff !== undefined ? (
@@ -21,11 +22,12 @@ const ObjectElectrical: React.FC<Props> = (props) => {
         >
           <div className={classes.container}>
             {props.OnOrOff ? (
-              <div className={classes.badge}>{props?.number} </div>
+              <div className={classes.badge}>{props?.number}</div>
             ) : (
-              <div className={classes.badge}>{props?.number} </div>
+              <div className={classes.badge}>{props?.number}</div>
             )}
-            <LightBulb OnOff={props.OnOrOff} />
+            {/* <LightBulb OnOff={props.OnOrOff} /> */}
+            {/* <Switch {...label} defaultChecked color="secondary" /> */}
           </div>
         </div>
       ) : (

@@ -124,9 +124,9 @@ const UserPermissions: React.FC = () => {
 
   return (
     <>
-      {fields?.map(({ name, label, type, size }) => (
+      {fields?.map(({ name, label, type, size }, index) => (
         <>
-          <div className="m-2">
+          <div key={index} className="m-2">
             {selectedUser && name && (
               <FormControl
                 variant="filled"

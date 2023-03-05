@@ -90,11 +90,13 @@ export interface DevicesReceiveType {
   sensorLastSerie?: SensorLastSerie[];
   createdAt?: Date;
   updatedAt?: Date;
+  electricalId?: string;
+  electricalPort?: number;
   __v?: number;
 }
 export interface ElectricalPanelType {
   _id?: string;
-  deviceName: string;
+  deviceName?: string;
   deviceRelationId?: string;
   lastStatus?: boolean;
 }
