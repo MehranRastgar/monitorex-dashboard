@@ -12,12 +12,12 @@ const sidebarNav = [
   //   icon: "material-symbols:route-sharp",
   //   text: "devices",
   // },
-  // {
-  //   link: "/electricalboard",
-  //   section: "electricalboard",
-  //   icon: "ic:outline-electric-meter",
-  //   text: "electricalboard",
-  // },
+  {
+    link: "/electricalboard",
+    section: "electricalboard",
+    icon: "ic:outline-electric-meter",
+    text: "electricalboard",
+  },
 
   {
     link: "/analytics",

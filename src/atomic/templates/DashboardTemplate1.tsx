@@ -44,7 +44,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               <LiveDataGrid />
             </Item>
           </Grid>
-          <Grid item xs={8}>
+          {/* <Grid item xs={8}>
             <Item>
               {selectDevices?.map(({ _id, title, type }) => (
                 <>
@@ -56,7 +56,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
                 </>
               ))}
             </Item>
-          </Grid>
+          </Grid> */}
         </Grid>
         {/* 
 

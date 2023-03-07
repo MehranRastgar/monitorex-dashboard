@@ -39,7 +39,7 @@ const OneEPanel: React.FC<Props> = (props) => {
   };
   return (
     <>
-      <div className="flex items-end">
+      <div className="flex items-end overflow-y-hidden">
         <ScrollContainer
           vertical={false}
           hideScrollbars={false}

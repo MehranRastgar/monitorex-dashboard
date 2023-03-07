@@ -311,7 +311,7 @@ function Layout({ children }: { children: any }) {
       ) : (
         <></>
       )}
-
+      <div className={classes.background}></div>
       <div className={classes.container}>
         <Sidebar />
         <div className={classes.main}>

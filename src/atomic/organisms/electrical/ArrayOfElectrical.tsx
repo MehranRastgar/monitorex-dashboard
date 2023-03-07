@@ -56,30 +56,25 @@ const ArrayOfElectrical: React.FC<Props> = (props) => {
               key={index + "-ii"}
               className="flex rounded-lg p-2 transition-all duration-700 border m-2"
             > */}
-            <Item
-              key={index + i.toString()}
-              className={`flex w-20 h-20 justify-start font-Vazir-Light m-2  ${
-                props?.byte !== undefined
-                  ? (props?.byte & (0x00000001 << (6 - index))) === 0
-                    ? "bg-red-600"
-                    : "bg-green-600"
-                  : undefined
-              }`}
+
+            <DeviceName
+              index={index}
+              byte={props.byte}
+              id={props.eb_id}
+              portNumber={offs + index}
             >
-              <DeviceName id={props.eb_id} portNumber={offs + index}>
-                <ObjectElectrical
-                  key={index}
-                  number={index + 1 + (props?.offset ?? 0) * 7}
-                  OnOrOff={
-                    props?.byte !== undefined
-                      ? (props?.byte & (0x00000001 << (6 - index))) === 0
-                        ? false
-                        : true
-                      : undefined
-                  }
-                />
-              </DeviceName>
-            </Item>
+              <ObjectElectrical
+                key={index}
+                number={index + 1 + (props?.offset ?? 0) * 7}
+                OnOrOff={
+                  props?.byte !== undefined
+                    ? (props?.byte & (0x00000001 << (6 - index))) === 0
+                      ? false
+                      : true
+                    : undefined
+                }
+              />
+            </DeviceName>
             {/* </div> */}
           </>
         ))}
@@ -94,8 +89,16 @@ interface PropsDev {
   portNumber?: number;
   id?: string;
   children: React.ReactElement;
+  byte?: number;
+  index: number;
 }
-const DeviceName: React.FC<PropsDev> = ({ portNumber, id, children }) => {
+const DeviceName: React.FC<PropsDev> = ({
+  portNumber,
+  id,
+  children,
+  byte,
+  index,
+}) => {
   const devices = useAppSelector(selectDevicesData);
   const [arrDev, setArrDev] = useState<DevicesReceiveType>();
 
@@ -109,11 +112,24 @@ const DeviceName: React.FC<PropsDev> = ({ portNumber, id, children }) => {
 
   return (
     <>
-      <div className=" text-md break-words text-clip text-justify overflow-hidden h-full">
-        {/* {index + offs} */}
-        <div>{arrDev?.title ?? "NA"}</div>
-        {children}
-      </div>
+      {arrDev?.title && (
+        <Item
+          key={index}
+          className={`flex w-20 h-20 justify-start font-Vazir-Light m-2  ${
+            byte !== undefined
+              ? (byte & (0x00000001 << (6 - index))) === 0
+                ? "bg-red-600"
+                : "bg-green-600"
+              : undefined
+          }`}
+        >
+          <div className=" text-md break-words text-clip text-justify overflow-hidden h-full">
+            {/* {index + offs} */}
+            <div>{arrDev?.title ?? "NA"}</div>
+            {children}
+          </div>
+        </Item>
+      )}
     </>
   );
 };

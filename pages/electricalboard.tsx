@@ -46,15 +46,7 @@ export default function Devices() {
     <Layout>
       <section>
         <h1>electrical boards</h1>
-        {queryDevices?.data?.map((device, index) => (
-          <>
-            {device.type === "Electrical panel" ? (
-              <EbDeviceObject device={device} />
-            ) : (
-              <></>
-            )}
-          </>
-        ))}
+        <EbDeviceObject />
       </section>
     </Layout>
   );

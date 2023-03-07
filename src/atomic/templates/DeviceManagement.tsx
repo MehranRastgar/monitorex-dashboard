@@ -73,7 +73,7 @@ export default function DeviceManagement() {
   }, [queryDevices.isFetching, queryDevices.isSuccess]);
   React.useEffect(() => {
     if (selectStateOfDeviceSlice === "success") {
-      queryDevices.refetch();
+      // queryDevices.refetch();
       dispatch(setDevicesStatus("initial"));
     }
   }, [selectStateOfDeviceSlice]);
