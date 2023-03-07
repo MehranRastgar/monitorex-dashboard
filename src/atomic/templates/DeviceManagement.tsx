@@ -8,6 +8,7 @@ import DeviceForm from "../organisms/device/deviceForm";
 import { GetDevices } from "../../api/devices";
 import { useQuery } from "react-query";
 import {
+  selectDevicesStatus,
   selectSelectedDevice,
   setDevicesData,
   setDevicesStatus,
@@ -25,6 +26,7 @@ export default function DeviceManagement() {
   const dispatch = useAppDispatch();
   const queryDevices = useQuery("devices", GetDevices);
   const selectedDevice = useAppSelector(selectSelectedDevice);
+  const selectStateOfDeviceSlice = useAppSelector(selectDevicesStatus);
   const { t } = useTranslation();
 
   function newDevice() {
@@ -66,10 +68,15 @@ export default function DeviceManagement() {
   React.useEffect(() => {
     if (queryDevices.status === "success") {
       dispatch(setDevicesData(queryDevices.data));
-      dispatch(setDevicesStatus("success"));
+      // dispatch(setDevicesStatus("success"));
     }
   }, [queryDevices.isFetching, queryDevices.isSuccess]);
-
+  React.useEffect(() => {
+    if (selectStateOfDeviceSlice === "success") {
+      queryDevices.refetch();
+      dispatch(setDevicesStatus("initial"));
+    }
+  }, [selectStateOfDeviceSlice]);
   return (
     <>
       <Box className={"select-none"} sx={{ flexGrow: 1 }}>

@@ -104,8 +104,8 @@ export default function DeviceForm() {
 
   useEffect(() => {
     if (selectStatus === "success" && selectEM === "success") {
-      dispatch(setErrorMessage("idle"));
-      dispatch(getDevicesAsync());
+      // dispatch(setErrorMessage("idle"));
+      // dispatch(getDevicesAsync());
     }
   }, [selectEM]);
   useEffect(() => {}, [selectedDevice]);

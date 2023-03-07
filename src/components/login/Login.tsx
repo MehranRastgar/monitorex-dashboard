@@ -107,9 +107,9 @@ function LoginBox() {
           </span>
           <Input ref={passwordRef} type={"password"} id={"pass"} />
           <Button type="submit">{t("login")}</Button>
-          <Link className={classes.forgat_pass} href="/">
+          {/* <Link className={classes.forgat_pass} href="/">
             {t("forgetPass")}
-          </Link>
+          </Link> */}
           {/* <div className={classes.checkbox}>
             <input type="checkbox" id="rememberMe" />
             <label htmlFor="rememberMe">{t("rememberMe")}</label>

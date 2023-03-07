@@ -58,7 +58,7 @@ const ArrayOfElectrical: React.FC<Props> = (props) => {
             > */}
             <Item
               key={index + i.toString()}
-              className={`flex w-20 justify-start font-Vazir-Light m-2  ${
+              className={`flex w-20 h-20 justify-start font-Vazir-Light m-2  ${
                 props?.byte !== undefined
                   ? (props?.byte & (0x00000001 << (6 - index))) === 0
                     ? "bg-red-600"
@@ -109,47 +109,9 @@ const DeviceName: React.FC<PropsDev> = ({ portNumber, id, children }) => {
 
   return (
     <>
-      <div className={classes.tooltip + " text-xs "}>
-        {}
+      <div className=" text-md break-words text-clip text-justify overflow-hidden h-full">
         {/* {index + offs} */}
-        <div className="flex h-10">{arrDev?.title ?? "not Assigned"}</div>
-
-        {/* <span className={classes.tooltiptext}>
-          <div>
-            {
-              arrDev?.[
-                arrDev?.findIndex((dev) => dev.numberOfPorts === portNumber)
-              ]?.title
-            }
-          </div>
-          <div>
-            {
-              arrDev?.[
-                arrDev?.findIndex((dev) => dev.numberOfPorts === portNumber)
-              ]?._id
-            }
-          </div>
-          <div>
-            {
-              arrDev?.[
-                arrDev?.findIndex((dev) => dev.numberOfPorts === portNumber)
-              ]?.address?.multiPort
-            }
-            ,
-            {
-              arrDev?.[
-                arrDev?.findIndex((dev) => dev.numberOfPorts === portNumber)
-              ]?.address?.sMultiPort
-            }
-          </div>
-          <div>
-            {
-              arrDev?.[
-                arrDev?.findIndex((dev) => dev.numberOfPorts === portNumber)
-              ]?.numberOfPorts
-            }
-          </div>
-        </span> */}
+        <div>{arrDev?.title ?? "NA"}</div>
         {children}
       </div>
     </>
