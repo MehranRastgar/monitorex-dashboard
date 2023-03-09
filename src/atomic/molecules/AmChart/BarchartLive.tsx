@@ -28,9 +28,15 @@ import {
 } from "../../../store/slices/analizeSlice";
 import UserGroupsContainer from "../../organisms/UserGroups/UserGroupsContainer";
 import { socket } from "../../../components/socketio";
-import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
+// import { io, Socket } from "socket.io-client";
+
+import {
+  SensorsReceiveTpe,
+  SensorWebsocketRealTimeDataType,
+} from "../../../components/pages/sensors/sensorsTable";
 import { selectUserGroups } from "../../../store/slices/userSlice";
 import ProgressAndNoData from "../Progress/ProgressAndNoData";
+import { selectSocketObject } from "../../../store/slices/socketSlice";
 if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
@@ -51,6 +57,7 @@ const BarchartLive: React.FC<Props> = (props) => {
   // const [realTimeData,setRealTimeData] = useState(undefined)
   const [divideBy, setDivideBy] = useState<number>(0);
   const [continues, setcontinues] = useState(true);
+  const socketObj = useAppSelector(selectSocketObject);
 
   function makeData(data: Datum[]) {
     const arr: any[] = [];
@@ -67,38 +74,38 @@ const BarchartLive: React.FC<Props> = (props) => {
     if (selectDataOFChart?.[0]?._id !== undefined && state !== undefined)
       selectDataOFChart?.map((item: SensorsReceiveTpe, index) => {
         // console.log(item);
-        if (item?._id !== undefined)
-          socket.on(item?._id, (data) => {
-            if (data.value === 200000) {
-              return;
-            }
-            // setDataOfWebsocket(data);
-            // console.log(state?.chartOptions?.series);
-            let newdata: any = [...state?.chartOptions?.series];
-            const find = newdata?.findIndex(
-              (theItem: any) => theItem.id === data.sensorId
-            );
-            // console.log("finded series", find, data, newdata);
-            const title = newdata?.[find].data.title;
-            newdata?.[find].data?.pop();
-            newdata?.[find].data?.push([title, data?.value]);
-            // console.log("newdata", newdata);
-            let stater = {
-              ...state,
-              chartOptions: {
-                ...state?.chartOptions,
-                series: [...newdata],
-              },
-            };
-            setState({ ...stater });
-          });
+        if (item?._id !== undefined) {
+          const data: SensorWebsocketRealTimeDataType = socketObj?.[item?._id];
+          if (data?.value === 200000) {
+            return;
+          }
+          // setDataOfWebsocket(data);
+          // console.log(state?.chartOptions?.series);
+          let newdata: any = [...state?.chartOptions?.series];
+          const find = newdata?.findIndex(
+            (theItem: any) => theItem?.id === data?.sensorId
+          );
+          // console.log("finded series", find, data, newdata);
+          const title = newdata?.[find].data.title;
+          newdata?.[find]?.data?.pop();
+          newdata?.[find]?.data?.push([title, data?.value]);
+          // console.log("newdata", newdata);
+          let stater = {
+            ...state,
+            chartOptions: {
+              ...state?.chartOptions,
+              series: [...newdata],
+            },
+          };
+          setState({ ...stater });
+        }
       });
     return () => {
-      selectDataOFChart?.map((item, index) => {
-        socket.off(item?._id);
-      });
+      // selectDataOFChart?.map((item, index) => {
+      //   socket.off(item?._id);
+      // });
     };
-  }, [state]);
+  }, [socketObj]);
 
   function sumOfdata(data: SensorsReportType[]) {
     const arrSeries: any[] = [];
@@ -275,7 +282,7 @@ const BarchartLive: React.FC<Props> = (props) => {
   }, [selectDataOFChart, continues, divideBy]);
   return (
     <>
-      <div className="flex  justify-end ">
+      <div className="flex h-[250px] justify-end ">
         {state?.chartOptions !== undefined ? (
           <>
             <HighchartsReact

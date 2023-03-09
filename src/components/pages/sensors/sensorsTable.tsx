@@ -50,12 +50,13 @@ const rows = [
   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
-export interface SensorWebsocketReaktimeDataType {
+export interface SensorWebsocketRealTimeDataType {
   createdAt: string;
   deviceId: string;
   sensorId: string;
   value: number;
   sensorTitle: string;
+  deviceTitle: string;
   _id: string;
 }
 export interface SensorsReceiveTpe {
@@ -212,7 +213,7 @@ export function PageSizeCustomOptions({
     // },
   ];
   // function getLastUpdate(_id: string) {
-  //   console.log();
+  //  //console.log();
 
   //   axios
   //     .get(`${getSensorLastSerie}${_id.toString()}`)
@@ -243,13 +244,13 @@ export function PageSizeCustomOptions({
 
   useEffect(() => {
     console.table(selectionModel);
-    console.log(selectionModel.length);
+    //console.log(selectionModel.length);
     const datapush: SensorsReceiveTpe[] = [];
     selectionModel?.map((item, index) => {
       const indexindata = data2?.rows?.findIndex((it) => it._id === item);
-      console.log(data2?.rows?.[indexindata]);
+      //console.log(data2?.rows?.[indexindata]);
       datapush.push(data2?.rows?.[indexindata]);
-      console.log(datapush);
+      //console.log(datapush);
     });
     dispatch(setSelectedSensor(datapush));
   }, [selectionModel]);

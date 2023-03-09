@@ -35,21 +35,21 @@ function LoginBox() {
   }
   let isValid = true;
   async function loginUser() {
-    // console.log("please write code", SelectMobile);
+    ////console.log("please write code", SelectMobile);
     // if (otpCode !== 0 && SelectMobile !== undefined) {
     //   const signIn: SignInRequest = {
     //     code: otpCode,
     //     usernamebyphone: SelectMobile,
     //   };
-    //   console.log("please write code", signIn.usernamebyphone);
+    //  //console.log("please write code", signIn.usernamebyphone);
     //   dipatch(signInAction(signIn)); //signIn api call
     // } else {
-    //   console.log("please write code");
+    //  //console.log("please write code");
     // }
   }
   function loginHandler(e: React.FormEvent) {
     e.preventDefault();
-    console.log("pass:", passwordRef.current, "userName:", userNameRef.current);
+    //console.log("pass:", passwordRef.current, "userName:", userNameRef.current);
     // isValid = userNameRef.current?.value === "admin";
     if (
       userNameRef?.current?.value === undefined ||
@@ -79,7 +79,7 @@ function LoginBox() {
   }
   useEffect(() => {
     if (selectsigninflag === "success") {
-      console.log("sign in");
+      //console.log("sign in");
       router.push("/");
     }
   }, [selectsigninflag]);

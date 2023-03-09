@@ -104,10 +104,10 @@ const DeviceName: React.FC<PropsDev> = ({
 
   useEffect(() => {
     const dev = devices.filter((de) => de.electricalId === id);
-    console.log(dev);
+    //console.log(dev);
     const ind = dev?.findIndex((dev) => dev.electricalPort === portNumber);
     setArrDev(dev[ind]);
-    // console.log("dive filtered", dev);
+    ////console.log("dive filtered", dev);
   }, [id, portNumber, children]);
 
   return (
@@ -115,17 +115,27 @@ const DeviceName: React.FC<PropsDev> = ({
       {arrDev?.title && (
         <Item
           key={index}
-          className={`flex w-20 h-20 justify-start font-Vazir-Light m-2  ${
+          className={`flex flex-wrap w-20 h-20 justify-center font-Vazir-Light m-2  ${
             byte !== undefined
               ? (byte & (0x00000001 << (6 - index))) === 0
-                ? "bg-red-600"
+                ? "bg-gray-600"
                 : "bg-green-600"
               : undefined
           }`}
         >
-          <div className=" text-md break-words text-clip text-justify overflow-hidden h-full">
+          <div className="flex w-full ">
+            {byte !== undefined
+              ? (byte & (0x00000001 << (6 - index))) === 0
+                ? "OFF"
+                : "ON"
+              : undefined}
+          </div>
+          <div className=" text-xs break-words text-clip text-justify overflow-hidden h-full">
             {/* {index + offs} */}
-            <div>{arrDev?.title ?? "NA"}</div>
+            <div className="max-h-8 h-8 text-justify w-full justify-center">
+              {arrDev?.title ?? "NA"}
+            </div>
+
             {children}
           </div>
         </Item>

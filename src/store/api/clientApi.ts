@@ -5,7 +5,7 @@ export async function fetchClient(
   clientId: string
 ): Promise<Client | { error: { errorCode: any } }> {
   let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   try {
     const getConfig = {
       headers: {
@@ -32,7 +32,7 @@ export async function fetchAllUsers(
   accessToken: string
 ): Promise<Client | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   try {
     const getConfig = {
       headers: {
@@ -60,7 +60,7 @@ export async function requestSms(
   phoneNumber: number
 ): Promise<any | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   // state.signInFlag = "request";
 
   const getConfig = {
@@ -76,7 +76,7 @@ export async function requestSms(
   try {
     const { data, status } = await axios.get(uri, getConfig);
     // .then((Response: AxiosResponse) => {
-    //   console.log("sms sended:", Response.data);
+    //  //console.log("sms sended:", Response.data);
     //   if (Response.status < 300) state.signInFlag = "smsWaiting";
     // })
     // .catch((err) => {
@@ -95,7 +95,7 @@ export async function signIn(
   password: string
 ): Promise<any | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   // state.signInFlag = "request";
 
   const postConfig = {
@@ -115,7 +115,7 @@ export async function signIn(
   try {
     const { data, status } = await axios.post(uri, body, postConfig);
     // .then((Response: AxiosResponse) => {
-    //   console.log("sms sended:", Response.data);
+    //  //console.log("sms sended:", Response.data);
     //   if (Response.status < 300) state.signInFlag = "smsWaiting";
     // })
     // .catch((err) => {
@@ -133,7 +133,7 @@ export async function checkSignIn(
   accessToken: string
 ): Promise<any | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   // state.signInFlag = "request";
 
   const getConfig = {
@@ -151,13 +151,13 @@ export async function checkSignIn(
   try {
     const { data, status } = await axios.get(uri, getConfig);
     // .then((Response: AxiosResponse) => {
-    //   console.log("sms sended:", Response.data);
+    //  //console.log("sms sended:", Response.data);
     //   if (Response.status < 300) state.signInFlag = "smsWaiting";
     // })
     // .catch((err) => {
     //   state.signInFlag = "smsProviderError";
     // });
-    console.log("datadatadatadata", { ...data, accessToken: accessToken });
+    //console.log("datadatadatadata", { ...data, accessToken: accessToken });
     const result: any = { ...data, accessToken: accessToken };
     return result;
   } catch (err: any | AxiosError) {
@@ -170,7 +170,7 @@ export async function addToCartApi(
   AddToCart: AddToCartType
 ): Promise<Client | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   // state.signInFlag = "request";
   const axiosConf: AxiosRequestConfig = {
     headers: {
@@ -189,7 +189,7 @@ export async function addToCartApi(
   const uri: string =
     `${process.env.NEXT_PUBLIC_BASE_API_URL}/client/cart/add/` +
     `${AddToCart.userId}`;
-  // console.log(uri);
+  ////console.log(uri);
   try {
     const { data, status } = await axios.post(uri, body, axiosConf);
 
@@ -205,7 +205,7 @@ export async function reduceFromCartApi(
   removeItem: AddToCartType
 ): Promise<Client | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   // state.signInFlag = "request";
   const axiosConf: AxiosRequestConfig = {
     headers: {
@@ -224,7 +224,7 @@ export async function reduceFromCartApi(
   const uri: string =
     `${process.env.NEXT_PUBLIC_BASE_API_URL}/client/cart/reduce/` +
     `${removeItem.userId}`;
-  // console.log(uri);
+  ////console.log(uri);
   try {
     const { data, status } = await axios.post(uri, body, axiosConf);
     const result: Client = { ...data, accessToken: removeItem.accessToken };
@@ -240,7 +240,7 @@ export async function PutUserApi(
   userInfo: Client
 ): Promise<any | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   // state.signInFlag = "request";
 
   const getConfig = {
@@ -262,7 +262,7 @@ export async function PutUserApi(
   try {
     const { data, status } = await axios.put(uri, body, getConfig);
     // .then((Response: AxiosResponse) => {
-    //   console.log("sms sended:", Response.data);
+    //  //console.log("sms sended:", Response.data);
     //   if (Response.status < 300) state.signInFlag = "smsWaiting";
     // })
     // .catch((err) => {

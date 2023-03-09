@@ -21,7 +21,7 @@ export async function getDevices(): Promise<AxiosResponse | AxiosError> {
     // const result = await response.data;
 
     // if (response.status >= 400) {
-    //   console.log("access token removes");
+    //  //console.log("access token removes");
     //   localStorage.removeItem("access_token");
     // }
     return response;

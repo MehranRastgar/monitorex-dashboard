@@ -23,13 +23,13 @@ const signinHandler: NextApiHandler = async (request, response) => {
       postData,
       axiosConfig
     );
-    console.log(response);
+    //console.log(response);
     if (data.accessToken === undefined)
       return response.status(500).json({ data: "sms error" });
 
     return response.status(200).json(data);
   } catch (err: any) {
-    console.log("eeerrrr===>>", err);
+    //console.log("eeerrrr===>>", err);
 
     return response.status(502).end(err);
   }

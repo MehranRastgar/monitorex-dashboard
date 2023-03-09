@@ -10,6 +10,7 @@ import devicesReducer from "./slices/devicesSlice";
 import analizeReducer from "./slices/analizeSlice";
 import userReducer from "./slices/userSlice";
 import chartReducer from "./slices/chartSlice";
+import socketReducer from "./slices/socketSlice";
 
 export function makeStore() {
   return configureStore({
@@ -24,6 +25,7 @@ export function makeStore() {
       devices: devicesReducer,
       analize: analizeReducer,
       chart: chartReducer,
+      socket: socketReducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

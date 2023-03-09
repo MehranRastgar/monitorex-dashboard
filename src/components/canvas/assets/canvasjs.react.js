@@ -32,7 +32,7 @@ class CanvasJSChart extends React.Component {
     //Create Chart and Render
     this.chart = new CanvasJS.Chart(this.chartContainerId, this.options);
     this.chart.render();
-    console.log(this.containerProps);
+    //console.log(this.containerProps);
 
     if (this.props.onRef) this.props.onRef(this.chart);
   }

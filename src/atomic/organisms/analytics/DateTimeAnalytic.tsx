@@ -39,7 +39,7 @@ export default function DateTimeAnalytic() {
   useEffect(() => {
     if (value !== null) {
       let publishDate = new Date(1000 * dayjs(value).unix());
-      console.log(publishDate.toJSON());
+      //console.log(publishDate.toJSON());
       dispatch(setStartDate(publishDate.toJSON()));
     }
   }, [value]);
@@ -47,7 +47,7 @@ export default function DateTimeAnalytic() {
     if (value2 !== null) {
       let publishDate = new Date(1000 * dayjs(value2).unix());
 
-      console.log("toJSON", publishDate.toJSON());
+      //console.log("toJSON", publishDate.toJSON());
       dispatch(setEndDate(publishDate.toJSON()));
     }
   }, [value2]);

@@ -38,9 +38,9 @@ const LiveChart: React.FC<Props> = (props) => {
     GpNumber2?: number
   ) {
     const arr: string[] = [];
-    // console.log(selectUserGr2, GpNumber2);
+    ////console.log(selectUserGr2, GpNumber2);
     if (selectUserGr !== undefined && GpNumber !== undefined) {
-      // console.log("handleFetchData");
+      ////console.log("handleFetchData");
       selectUserGr?.[GpNumber]?.sensors.map((item, index) => {
         if (item?._id !== undefined) arr.push(item?._id);
       });

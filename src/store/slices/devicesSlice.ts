@@ -168,7 +168,7 @@ export const devicesSlice = createSlice({
         state.errorMessage = "action.payload?.message";
         // state.errorMessage = "error rejected ";
 
-        // console.log(action.payload);
+        ////console.log(action.payload);
 
         // state.data = [];
       })

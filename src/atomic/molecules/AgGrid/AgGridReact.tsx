@@ -27,7 +27,7 @@ const AgGrid: React.FC<Props> = (props) => {
 
   // Example of consuming Grid Event
   const cellClickedListener = useCallback((event: any) => {
-    console.log("cellClicked", event);
+    //console.log("cellClicked", event);
   }, []);
 
   const onBtNormal = useCallback(() => {
@@ -63,7 +63,7 @@ const AgGrid: React.FC<Props> = (props) => {
 
   function makeLighterData() {
     const divider = Math.floor(props.rowdata.length / 100);
-    console.log(divider);
+    //console.log(divider);
     const arr: any[] = [];
     props.rowdata.map((item, index) => {
       if (index % divider === 0 || index === 0) {
@@ -74,7 +74,7 @@ const AgGrid: React.FC<Props> = (props) => {
   }
 
   useEffect(() => {
-    console.log(rowData);
+    //console.log(rowData);
   }, [rowData]);
 
   return (

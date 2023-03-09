@@ -48,7 +48,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
           arr.push({ ...userD?.groups?.[i] });
       }
     const user: UserType = { ...userD, groups: [...arr] };
-    console.log(userD);
+    //console.log(userD);
     dispatch(updateUserData(user));
   };
   const style = {

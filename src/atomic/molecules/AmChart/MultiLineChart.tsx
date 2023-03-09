@@ -51,7 +51,7 @@ export default function MultiLineChart({ id }: { id: string }) {
           arr.push([new Date(item?.x).getTime(), item?.y ?? null]);
     });
 
-    console.log("len of array", arr.length);
+    //console.log("len of array", arr.length);
     return arr;
   }
   function makeMultiAxis() {
@@ -124,7 +124,7 @@ export default function MultiLineChart({ id }: { id: string }) {
         }
       }
     });
-    // console.log(arrSeries);
+    ////console.log(arrSeries);
     if (arrSeries.length > 0) {
       if (multiAxis === true) {
         setState({
@@ -618,7 +618,7 @@ export function MultiLineChartPrintMode({ id }: { id: string }) {
         }
       }
     });
-    // console.log(arrSeries);
+    ////console.log(arrSeries);
     if (arrSeries.length > 0) {
       if (multiAxis === true) {
         setState({

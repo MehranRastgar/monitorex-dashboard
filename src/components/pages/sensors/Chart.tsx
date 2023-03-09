@@ -29,7 +29,7 @@ export default function Chart({
       value?: number;
       timeMinute: string;
     }[] = [];
-    console.log(query.data);
+    //console.log(query.data);
     query.data?.[0]?.data?.map((item, index) => {
       if (item?.x !== undefined && index % 20 === 0) {
         const datess = new Date(item.x);

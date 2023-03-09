@@ -14,7 +14,7 @@ export async function getOrderByIdApi(
   userId: string
 ): Promise<Order | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   try {
     const axiosConf: AxiosRequestConfig = {
       headers: {
@@ -50,7 +50,7 @@ export async function getOrdersApi(
   userId: string
 ): Promise<Order[] | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   try {
     const axiosConf: AxiosRequestConfig = {
       headers: {
@@ -87,7 +87,7 @@ export async function getCartPrices(
   userId: string
 ): Promise<UpdatePriceRespons[] | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   try {
     const axiosConf: AxiosRequestConfig = {
       headers: {
@@ -122,7 +122,7 @@ export async function updateCartVariants(
   userId: string
 ): Promise<Client | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   try {
     const axiosConf: AxiosRequestConfig = {
       headers: {

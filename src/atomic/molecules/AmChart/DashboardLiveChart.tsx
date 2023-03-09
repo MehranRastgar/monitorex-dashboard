@@ -28,10 +28,13 @@ import {
 } from "../../../store/slices/analizeSlice";
 import UserGroupsContainer from "../../organisms/UserGroups/UserGroupsContainer";
 import { socket } from "../../../components/socketio";
+// import { io, Socket } from "socket.io-client";
+
 import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
 import { selectUserGroups } from "../../../store/slices/userSlice";
 import ProgressAndNoData from "../Progress/ProgressAndNoData";
 import { LiveBlink } from "../../organisms/Charts/LiveChart";
+import { selectSocketObject } from "../../../store/slices/socketSlice";
 if (typeof Highcharts === "object") {
   HighchartsExporting(Highcharts);
 }
@@ -43,6 +46,7 @@ export const Granolarity: number[] = [1, 2, 5, 10, 20, 50];
 
 const DashboardLiveChart: React.FC<Props> = (props) => {
   const { t } = useTranslation();
+  const socketObj = useAppSelector(selectSocketObject);
   const selectDataOFChart = useAppSelector(selectSensorReports);
   const selectStatusOfApi = useAppSelector(selectStatusReportApi);
   const [blink, setBlink] = useState(false);
@@ -81,7 +85,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
       selectUserGr?.[GpNumber]?.sensors !== undefined
     ) {
       let publishDate = new Date(1000 * dayjs(dayjs()).unix());
-      // console.log(publishDate.toJSON());
+      ////console.log(publishDate.toJSON());
       // dispatch(setStartDate(publishDate.toJSON()));
       dispatch(
         setStartDayjs(
@@ -114,7 +118,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
   }, [GpNumber]);
   useEffect(() => {
     // if (state?.chartOptions?.series?.[0]?.id !== undefined) {
-    //   console.log(state?.chartOptions?.series);
+    //  //console.log(state?.chartOptions?.series);
     //   let newdata = [...state?.chartOptions?.series];
     //   newdata?.[0].data.push([
     //     new Date(dataOfWebsocket.createdAt),
@@ -166,42 +170,71 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
   useEffect(() => {
     if (selectDataOFChart?.[0]?._id !== undefined && state !== undefined)
       selectDataOFChart?.map((item: SensorsReceiveTpe, index) => {
-        // console.log(item);
-        if (item?._id !== undefined)
-          socket.on(item?._id, (data) => {
-            if (data.value === 200000) {
-              return;
-            }
-            setBlink((val) => !val);
-            // setDataOfWebsocket(data);
-            // console.log(state?.chartOptions?.series);
-            const find = selectDataOFChart.findIndex(
-              (theItem: any) => theItem?._id === data.sensorId
-            );
+        ////console.log(item);
+        if (item?._id !== undefined) {
+          const data = socketObj?.[item?._id];
 
-            let newdata = [...state?.chartOptions?.series];
-            newdata?.[find]?.data.push([
-              new Date(data.createdAt).getTime(),
-              data.value,
-            ]);
+          if (data?.value === 200000 || data === undefined) {
+            return;
+          }
+          setBlink((val) => !val);
+          // setDataOfWebsocket(data);
+          ////console.log(state?.chartOptions?.series);
+          const find = selectDataOFChart.findIndex(
+            (theItem: any) => theItem?._id === data.sensorId
+          );
 
-            let stater = {
-              ...state,
-              chartOptions: {
-                ...state.chartOptions,
-                series: [...newdata],
-              },
-            };
+          let newdata = [...state?.chartOptions?.series];
+          newdata?.[find]?.data.push([
+            new Date(data.createdAt).getTime(),
+            data.value,
+          ]);
 
-            setState({ ...stater });
-          });
+          let stater = {
+            ...state,
+            chartOptions: {
+              ...state.chartOptions,
+              series: [...newdata],
+            },
+          };
+
+          setState({ ...stater });
+        }
+        // if (item?._id !== undefined)
+        //   socket.on(item?._id, (data) => {
+        //     if (data.value === 200000) {
+        //       return;
+        //     }
+        //     setBlink((val) => !val);
+        //     // setDataOfWebsocket(data);
+        //     ////console.log(state?.chartOptions?.series);
+        //     const find = selectDataOFChart.findIndex(
+        //       (theItem: any) => theItem?._id === data.sensorId
+        //     );
+
+        //     let newdata = [...state?.chartOptions?.series];
+        //     newdata?.[find]?.data.push([
+        //       new Date(data.createdAt).getTime(),
+        //       data.value,
+        //     ]);
+
+        //     let stater = {
+        //       ...state,
+        //       chartOptions: {
+        //         ...state.chartOptions,
+        //         series: [...newdata],
+        //       },
+        //     };
+
+        //     setState({ ...stater });
+        //   });
       });
     return () => {
-      selectDataOFChart?.map((item, index) => {
-        socket.off(item?._id);
-      });
+      // selectDataOFChart?.map((item, index) => {
+      //   socket.off(item?._id);
+      // });
     };
-  }, [state]);
+  }, [socketObj]);
 
   const handleReport = () => {
     const arr: string[] = [];
@@ -299,7 +332,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
         }
       }
     });
-    // console.log(arrSeries);
+    ////console.log(arrSeries);
     setTempArr(arrSeries);
     if (arrSeries.length > 0) {
       if (multiAxis === true) {
@@ -573,7 +606,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
   return (
     <>
       <LiveBlink state={blink} />
-      <div className="justify-start  w-full items-start">
+      <div className="justify-start h-[500px] w-full items-start">
         <Box className="flex items-center ">
           <ButtonRegular
             disabled={continues}

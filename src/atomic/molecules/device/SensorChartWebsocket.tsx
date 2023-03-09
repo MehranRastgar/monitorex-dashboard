@@ -26,12 +26,12 @@ export function SensorChartWebsocket({ idSubScribe }: { idSubScribe: string }) {
   useEffect(() => {
     // setValue(undefined  );
     // socket.on("connect", () => {
-    //   console.log("connected");
+    //  //console.log("connected");
     // });
     socket.on(idSubScribe, (data) => {
       setValue(data);
 
-      console.log("data:", data);
+     //console.log("data:", data);
     });
     return () => {
       // socket.off("connect");
@@ -46,7 +46,7 @@ export function SensorChartWebsocket({ idSubScribe }: { idSubScribe: string }) {
 
       setAddedValue(arr.slice(-100));
 
-      console.log(addedValue);
+     //console.log(addedValue);
     }
 
     return () => {};

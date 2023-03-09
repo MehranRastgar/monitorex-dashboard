@@ -26,7 +26,7 @@ export async function GetSensors(): Promise<SensorsReceiveTpe[]> {
     return datares;
   } catch (err: any | AxiosError) {
     {
-      console.log(JSON.stringify(err));
+      //console.log(JSON.stringify(err));
       return [];
     }
   }

@@ -72,7 +72,7 @@ export default function ChartSensor({
       value3: number;
       timeMinute: string;
     }[] = [];
-    console.log(query.data?.length);
+    //console.log(query.data?.length);
     query.data?.map((item, index) => {
       if (item?.timestamp !== undefined && index % 10 === 0) {
         const datess = new Date(item.timestamp);

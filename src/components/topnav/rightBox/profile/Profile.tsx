@@ -10,7 +10,7 @@ function Profile() {
   const user = useAppSelector(selectOwnUser);
   const { t } = useTranslation();
   useEffect(() => {
-    console.log(images.avt);
+    //console.log(images.avt);
   }, []);
   return (
     <div className={classes.profile}>

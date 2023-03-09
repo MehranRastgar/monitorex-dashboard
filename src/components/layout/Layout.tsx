@@ -104,7 +104,7 @@ function Layout({ children }: { children: any }) {
   //================================================
   function configPage() {
     // dispatch(fetchSettingsAsync());
-    console.log("justOne time");
+    //console.log("justOne time");
     dispatch(signInCheck());
   }
   useEffect(() => {
@@ -203,16 +203,16 @@ function Layout({ children }: { children: any }) {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["sensors"] });
-      console.log("sensor query is revalidate");
+      //console.log("sensor query is revalidate");
     },
   });
 
   useEffect(() => {
     let timer1 = setTimeout(() => mutation.mutate(), 30000);
-    // console.log(query);
+    ////console.log(query);
     if (queryDevices.isFetching === true) {
       dispatch(setDevicesStatus("request"));
-      // console.log("sensor query is updated");
+      ////console.log("sensor query is updated");
     }
     if (
       queryDevices.status === "success" &&
@@ -220,8 +220,8 @@ function Layout({ children }: { children: any }) {
     ) {
       dispatch(setDevicesData(queryDevices.data));
       dispatch(setDevicesStatus("success"));
-      // console.log(queryDevices.dataUpdatedAt);
-      // console.log(new Date().getTime() - queryDevices.dataUpdatedAt);
+      ////console.log(queryDevices.dataUpdatedAt);
+      ////console.log(new Date().getTime() - queryDevices.dataUpdatedAt);
     }
 
     return () => {
@@ -230,46 +230,46 @@ function Layout({ children }: { children: any }) {
   }, [queryDevices.isFetching, queryDevices.isSuccess]);
 
   useEffect(() => {
-    socket.on("alarms", (data: alarmsType) => {
-      let pastAlLen = selectAlarms?.length;
-      dispatch(setDevicesAlarmsHandler(data));
-      // console.log("alarms:", data);
-      if (
-        pastAlLen !== undefined &&
-        selectAlarms !== undefined &&
-        selectAlarms?.length > pastAlLen
-      ) {
-        setAllert(
-          " alarm: " +
-            data?.message +
-            "-" +
-            data?.value +
-            "-" +
-            data.sensorTitle +
-            "-" +
-            data.sensorId
-        );
-        setOpen(true);
-      }
-    });
-    return () => {
-      // socket.off("alarms");
-      socket.off("alarms");
-    };
+    // socket.on("alarms", (data: alarmsType) => {
+    //   let pastAlLen = selectAlarms?.length;
+    //   dispatch(setDevicesAlarmsHandler(data));
+    //   ////console.log("alarms:", data);
+    //   if (
+    //     pastAlLen !== undefined &&
+    //     selectAlarms !== undefined &&
+    //     selectAlarms?.length > pastAlLen
+    //   ) {
+    //     setAllert(
+    //       " alarm: " +
+    //         data?.message +
+    //         "-" +
+    //         data?.value +
+    //         "-" +
+    //         data.sensorTitle +
+    //         "-" +
+    //         data.sensorId
+    //     );
+    //     setOpen(true);
+    //   }
+    // });
+    // return () => {
+    //   // socket.off("alarms");
+    //   socket.off("alarms");
+    // };
   }, []);
 
   useEffect(() => {
     if (selectsigninflag === "faild") {
-      console.log("sign out");
+      //console.log("sign out");
       router.push("/login");
     }
-    console.log("sign selectSignInFlag", selectSignInFlag);
+    //console.log("sign selectSignInFlag", selectSignInFlag);
   }, [selectsigninflag]);
   useEffect(() => {
     if (selectEM === "unauthorize") {
       router.push("/login");
     }
-    // console.log("selectsensorsstatus", selectsensorsstatus);
+    ////console.log("selectsensorsstatus", selectsensorsstatus);
   }, [selectEM]);
 
   function SlideTransition(props: SlideProps) {

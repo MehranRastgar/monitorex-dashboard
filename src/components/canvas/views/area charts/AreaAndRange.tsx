@@ -36,7 +36,7 @@ export default function AreaAndRange({
       x: Date;
       y?: number;
     }[] = [];
-    // console.log(query.data);
+    ////console.log(query.data);
     const minRange = new Date(query?.data?.[0]?.data?.[0]?.x ?? 0);
     const MaxRange = new Date(
       query?.data?.[0]?.data?.[Number(query?.data?.[0]?.data?.length ?? 0 - 1)]
@@ -52,7 +52,7 @@ export default function AreaAndRange({
     // );
     min.push({ x: minRange, y: 20 }, { x: MaxRange, y: 20 });
 
-    console.log(
+   //console.log(
       "min & max",
       minRange.getTime(),
       MaxRange.getTime(),
@@ -60,9 +60,9 @@ export default function AreaAndRange({
     );
 
     const numberOFMinutes = (MaxRange.getTime() - minRange.getTime()) / 60000;
-    console.log("numberOFMinutes", numberOFMinutes);
+   //console.log("numberOFMinutes", numberOFMinutes);
 
-    console.log(query.data);
+   //console.log(query.data);
     let lastValidY = 0;
     query.data?.[0]?.data?.map((item, index) => {
       if (item?.x !== undefined && index % 2 === 0) {
@@ -86,7 +86,7 @@ export default function AreaAndRange({
         // tempdata.push(Number(item?.metaField?.value));
       }
     });
-    console.log(tempdata);
+   //console.log(tempdata);
 
     // query.data?.[0]?.data?.map((item, index) => {
     //   if (item?.x !== undefined && item?.y !== undefined && index % 1 === 0) {
@@ -235,19 +235,19 @@ export default function AreaAndRange({
       queryClient.invalidateQueries({
         queryKey: ["sensorseries" + itemSelected._id],
       });
-      console.log("sensor query is revalidate");
+     //console.log("sensor query is revalidate");
     },
   });
 
   useEffect(() => {
     // let timer1 = setTimeout(() => mutation.mutate(), 30000);
-    // // console.log(query);
+    // ////console.log(query);
     // if (query.isFetching === true) {
-    //   console.log("sensor query is updated");
+    //  //console.log("sensor query is updated");
     // }
     if (query.status === "success") {
       createData();
-      console.log("sensor seriesss query is updated");
+     //console.log("sensor seriesss query is updated");
     }
     // return () => {
     //   clearTimeout(timer1);

@@ -26,7 +26,7 @@ export default function AreaC({
       x?: Date;
       y: number;
     }[] = [];
-    console.log(query.data);
+    //console.log(query.data);
     query.data?.[0]?.data?.map((item, index) => {
       if (item?.x !== undefined && index % 1 === 0) {
         const datess = new Date(item.x);

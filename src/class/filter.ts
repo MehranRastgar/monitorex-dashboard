@@ -7,7 +7,7 @@
 
 //   constructor(search: SearchType) {
 //     this.search = search;
-//     console.log("constructor called");
+//    //console.log("constructor called");
 //   }
 
 //   SearchSetter(search: SearchType) {
@@ -145,7 +145,7 @@
 //         ChooseTrueBrands.push(brand);
 //       }
 //     });
-//     console.log(
+//    //console.log(
 //       "ChooseTrueBrands",
 //       ChooseTrueBrands,
 //       searchConf.filter.availableBrands

@@ -19,10 +19,10 @@ const smsHandler: NextApiHandler = async (request, response) => {
       postData,
       axiosConfig
     );
-    console.log(data);
+    //console.log(data);
     return response.status(200).json(data);
   } catch (err: any) {
-    console.log("eeerrrr===>>", err);
+    //console.log("eeerrrr===>>", err);
 
     return response.status(502).end(err);
   }

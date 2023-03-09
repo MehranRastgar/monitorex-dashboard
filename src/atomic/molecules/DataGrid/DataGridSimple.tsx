@@ -20,7 +20,7 @@ const DataGridSimple: React.FC<DataGridProps> = ({
   ];
 
   useEffect(() => {
-    console.log("usersusersusers", users);
+    //console.log("usersusersusers", users);
   }, [users]);
 
   return (

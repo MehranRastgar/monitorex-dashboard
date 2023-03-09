@@ -20,15 +20,18 @@ const ObjectElectrical: React.FC<Props> = (props) => {
             setReverse((value) => !value);
           }}
         >
-          <div className={classes.container}>
+          <div className="flex w-full justify-center">
+            port : {props?.number}
+          </div>
+          {/* <div className={classes.container + " flex justify-center"}>
             {props.OnOrOff ? (
               <div className={classes.badge}>{props?.number}</div>
             ) : (
               <div className={classes.badge}>{props?.number}</div>
-            )}
-            {/* <LightBulb OnOff={props.OnOrOff} /> */}
-            {/* <Switch {...label} defaultChecked color="secondary" /> */}
-          </div>
+            )} */}
+          {/* <LightBulb OnOff={props.OnOrOff} /> */}
+          {/* <Switch {...label} defaultChecked color="secondary" /> */}
+          {/* </div> */}
         </div>
       ) : (
         <>

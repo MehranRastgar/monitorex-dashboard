@@ -52,7 +52,7 @@ const UserGroupItem: React.FC<UserGroupItemProps> = (props) => {
       if (props?.index !== undefined)
         dispatch(setSelectedGroupNumber(props?.index));
       let publishDate = new Date(1000 * dayjs(dayjs()).unix());
-      console.log(publishDate.toJSON());
+      //console.log(publishDate.toJSON());
       // dispatch(setStartDate(publishDate.toJSON()));
       dispatch(
         setStartDayjs(

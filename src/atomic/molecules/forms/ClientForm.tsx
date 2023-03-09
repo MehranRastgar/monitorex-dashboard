@@ -8,7 +8,7 @@ function CustomerForm() {
   function handleSubmit(event: any) {
     event.preventDefault();
     // ارسال اطلاعات به سرور
-    console.log(name, phoneNumber, nationalId);
+    //console.log(name, phoneNumber, nationalId);
   }
 
   return (

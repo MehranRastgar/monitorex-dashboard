@@ -310,7 +310,7 @@ const XYChart: React.FC<PropsXYChart> = (props) => {
     });
     return () => {
       // socket.off("connect");
-      // socket.off(idSubScribe);
+      socket.off(idSubScribe);
       props?.data?.map((item, index) => {
         socket.off(item?._id);
       });

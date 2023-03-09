@@ -18,7 +18,7 @@ export default function DemoTinyLine() {
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => {
-        console.log("fetch data failed", error);
+        //console.log("fetch data failed", error);
       });
   };
   const theme = G2.getTheme("dark");

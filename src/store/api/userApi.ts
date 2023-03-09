@@ -12,7 +12,7 @@ export async function signIn(
   password: string
 ): Promise<any | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   // state.signInFlag = "request";
 
   const postConfig = {
@@ -32,7 +32,7 @@ export async function signIn(
   try {
     const { data, status } = await axios.post(uri, body, postConfig);
     // .then((Response: AxiosResponse) => {
-    //   console.log("sms sended:", Response.data);
+    //  //console.log("sms sended:", Response.data);
     //   if (Response.status < 300) state.signInFlag = "smsWaiting";
     // })
     // .catch((err) => {
@@ -51,7 +51,7 @@ export async function checkSignIn(
   accessToken: string
 ): Promise<any | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   // state.signInFlag = "request";
 
   const getConfig = {
@@ -69,7 +69,7 @@ export async function checkSignIn(
   try {
     const { data, status } = await axios.get(uri, getConfig);
     // .then((Response: AxiosResponse) => {
-    //   console.log("sms sended:", Response.data);
+    //  //console.log("sms sended:", Response.data);
     //   if (Response.status < 300) state.signInFlag = "smsWaiting";
     // })
     // .catch((err) => {
@@ -101,14 +101,14 @@ export async function PatchUserApi(
   const body: any = {
     ...userInfo,
   };
-  console.log(userInfo);
+  //console.log(userInfo);
   const uri: string = `${process.env.NEXT_PUBLIC_BASE_API_URL}/users/${String(
     userInfo._id
   )}`;
   try {
     const { data, status } = await axios.patch(uri, body, getConfig);
     // .then((Response: AxiosResponse) => {
-    //   console.log("sms sended:", Response.data);
+    //  //console.log("sms sended:", Response.data);
     //   if (Response.status < 300) state.signInFlag = "smsWaiting";
     // })
     // .catch((err) => {
@@ -140,12 +140,12 @@ export async function CreateUserApi(
   const body: any = {
     ...userInfo,
   };
-  console.log(userInfo);
+  //console.log(userInfo);
   const uri: string = `${process.env.NEXT_PUBLIC_BASE_API_URL}/users`;
   try {
     const { data, status } = await axios.post(uri, body, getConfig);
     // .then((Response: AxiosResponse) => {
-    //   console.log("sms sended:", Response.data);
+    //  //console.log("sms sended:", Response.data);
     //   if (Response.status < 300) state.signInFlag = "smsWaiting";
     // })
     // .catch((err) => {
@@ -165,7 +165,7 @@ export async function UpdateGroupApi(
   userInfo: UserType
 ): Promise<any | { error: { errorCode: any } }> {
   // let clientid = localStorage.getItem("clientId");
-  // console.log(clientid);
+  ////console.log(clientid);
   // state.signInFlag = "request";
 
   const getConfig = {
@@ -187,7 +187,7 @@ export async function UpdateGroupApi(
   try {
     const { data, status } = await axios.put(uri, body, getConfig);
     // .then((Response: AxiosResponse) => {
-    //   console.log("sms sended:", Response.data);
+    //  //console.log("sms sended:", Response.data);
     //   if (Response.status < 300) state.signInFlag = "smsWaiting";
     // })
     // .catch((err) => {

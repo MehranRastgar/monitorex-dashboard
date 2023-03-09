@@ -113,7 +113,7 @@ const NewItem = (props: NewItemInterface) => {
   const handleChange = (event: SelectChangeEvent) => {
     AnopdeviceClass.changeDeviceType(event?.target?.value as deviceTypes);
     // setDataShow(deviceClass);
-    console.log(AnopdeviceClass.type);
+    //console.log(AnopdeviceClass.type);
   };
   const { t } = useTranslation();
   return (
@@ -159,7 +159,7 @@ const NewItem = (props: NewItemInterface) => {
 //   // const handleChange = (event: SelectChangeEvent) => {
 //   //   deviceClass.changeDeviceType(event?.target?.value as deviceTypes);
 //   //   setDataShow(deviceClass);
-//   //   console.log(deviceClass.type);
+//   //  //console.log(deviceClass.type);
 //   // };
 //   return (
 //     <tr key={index + "-tr"}>
@@ -191,7 +191,7 @@ const NewItem = (props: NewItemInterface) => {
 //   );
 // }
 
-// console.log(propsArray); // prints out  ["id", "title", "isDeleted"]
+////console.log(propsArray); // prints out  ["id", "title", "isDeleted"]
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

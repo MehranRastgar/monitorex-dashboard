@@ -17,12 +17,12 @@ import OneEPanel from "../../organisms/electrical/OneEPanel";
 export default function EbDeviceObject({
   device,
 }: {
-  device: DevicesReceiveType;
+  device?: DevicesReceiveType;
 }) {
   const { t } = useTranslation();
   const selectDevices = useAppSelector(selectDevicesData);
   useEffect(() => {
-    console.log(selectDevices);
+    //console.log(selectDevices);
   });
 
   return (

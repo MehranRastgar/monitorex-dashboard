@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Summary from "../src/components/summary/Summary";
 import SaleChart from "../src/components/chart/Chart";
@@ -14,6 +14,13 @@ import Item from "../src/atomic/atoms/Item/Item";
 import DashboardTemplate1 from "../src/atomic/templates/DashboardTemplate1";
 import ButtonPupup from "../src/atomic/molecules/Pupup/ButtonPupup";
 import LogBox from "../src/atomic/molecules/Log/LogBox";
+import {
+  useAppSelector,
+  useSocketDatas,
+  useSocketId,
+} from "../src/store/hooks";
+import { selectUserGroups } from "../src/store/slices/userSlice";
+import { selectGroupNumber } from "../src/store/slices/analizeSlice";
 
 function Dashboard() {
   const { t } = useTranslation();

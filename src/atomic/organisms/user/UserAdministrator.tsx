@@ -65,7 +65,7 @@ const UserAdministrator: React.FC<Props> = (props) => {
     //     prevUser?._id === user?._id ? { ...prevUser, ...user } : prevUser
     //   )
     // );
-    // console.log(user);
+    ////console.log(user);
     if (selectedUser._id !== undefined) {
       dispatch(updateUserData(selectedUser));
     } else {
@@ -139,7 +139,7 @@ const UserAdministrator: React.FC<Props> = (props) => {
               type="button"
               className="mx-2 w-auto border-2 rounded-lg flex justify-center flex-wrap backdrop-blur-sm text-[var(--text-color)] bg-white/30 hover:bg-white/60  items-end"
               onClick={() => {
-                console.log("removeUSER");
+                //console.log("removeUSER");
                 setOpen(false);
               }}
             >

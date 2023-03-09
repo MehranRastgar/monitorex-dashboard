@@ -24,7 +24,7 @@ export default function DataGridReports({
   //   maxColumns: 12,
   // });
   React.useEffect(() => {
-    console.log("reportDatareportDatareportDatareportData::::", reportData);
+    //console.log("reportDatareportDatareportDatareportData::::", reportData);
   }, [reportData]);
   return (
     <>
@@ -101,7 +101,7 @@ export function DataGridReportsPrintMode({ reportData }: { reportData: any }) {
   });
 
   React.useEffect(() => {
-    console.log("reportDatareportDatareportDatareportData::::", reportData);
+    //console.log("reportDatareportDatareportDatareportData::::", reportData);
   }, [reportData]);
   return (
     <>

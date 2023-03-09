@@ -46,7 +46,7 @@ function Sidebar() {
   useEffect(() => {
     const curPath = router.asPath.split("/")[1];
     var activeItem = sidebarNav.findIndex((item) => item.section === curPath);
-    console.log(curPath);
+    //console.log(curPath);
     if (!sidebarNav.findIndex((item) => item.section === curPath)) {
       activeItem = 0;
     }

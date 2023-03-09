@@ -85,7 +85,7 @@ export default function DateTimePickerComponent({
 }) {
   const { t } = useTranslation();
   React.useEffect(() => {
-    console.log(value?.date);
+    //console.log(value?.date);
   }, [value]);
 
   return (

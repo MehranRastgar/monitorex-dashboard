@@ -85,13 +85,13 @@ export default function Analytics() {
         timeRange: time,
       });
     const user: UserType = { ...userD, groups: [...arr] };
-    console.log(userD);
+    //console.log(userD);
     dispatch(updateUserData(user));
     setOpen(false);
   };
 
   useEffect(() => {
-    console.log(queryDevices);
+    //console.log(queryDevices);
     if (queryDevices.status === "success") {
       dispatch(setDevicesData(queryDevices.data));
       dispatch(setDevicesStatus("success"));

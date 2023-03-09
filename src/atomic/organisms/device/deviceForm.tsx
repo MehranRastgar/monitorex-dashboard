@@ -292,7 +292,7 @@ export default function DeviceForm() {
                             ]?._id ?? "none"
                           }
                           onChange={(e) => {
-                            // console.log(e.target.value);
+                            ////console.log(e.target.value);
                             dispatch(
                               setSelectedDevice({
                                 ...selectedDevice,
@@ -460,7 +460,7 @@ export default function DeviceForm() {
               dispatch(putDeviceAsync(selectedDevice));
               // dispatch(getDevicesAsync());
 
-              // console.log(selectedDevice);
+              ////console.log(selectedDevice);
             }}
           >
             Save Changes
@@ -533,7 +533,7 @@ function SensorsPart({ port, type }: { port?: number; type?: string }) {
       }
       dispatch(setSelectedDevice({ ...selectedDevice, sensors: s }));
     }
-    console.log(s);
+    //console.log(s);
     // setSensorsL(s);
   }
 
@@ -840,7 +840,7 @@ function ElectricalPorts() {
       }
     }
     dispatch(setSelectedDevice({ ...selectedDevice, electricals: [...panel] }));
-    console.log(panel);
+    //console.log(panel);
   }
 
   useEffect(() => {
@@ -915,7 +915,7 @@ function FactorsPart() {
 
       dispatch(setSelectedDevice({ ...selectedDevice, factors: f }));
     }
-    console.log(f);
+    //console.log(f);
     // setSensorsL(s);
   }
 

@@ -77,7 +77,7 @@ function LayoutLogin({ children }: { children: any }) {
   //================================================
   function configPage() {
     // dispatch(fetchSettingsAsync());
-    console.log("justOne time");
+    //console.log("justOne time");
     dispatch(signInCheck());
   }
   useEffect(() => {

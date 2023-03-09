@@ -92,7 +92,7 @@ export const signInAction = createAsyncThunk(
             errorCode: any;
           };
         } = await signIn(signInReq.userName, signInReq.password);
-    console.log("response thunk signInsignInsignIn", response);
+    //console.log("response thunk signInsignInsignIn", response);
 
     // The value we return becomes the `fulfilled` action payload
     return response;
@@ -110,7 +110,7 @@ export const signInRequestAsync = createAsyncThunk(
           };
         } = await requestSms(OtpReq.usernamebyphone);
     // The value we return becomes the `fulfilled` action payload
-    console.log("response thunk", response);
+    //console.log("response thunk", response);
     return response;
   }
 );
@@ -123,7 +123,7 @@ export const signInCheck = createAsyncThunk("client/checkSignIn", async () => {
           errorCode: any;
         };
       } = await checkSignIn(String(localStorage?.getItem("access_token")));
-  console.log("response thunk", response);
+  //console.log("response thunk", response);
   return response;
 });
 
@@ -140,7 +140,7 @@ export const updateUserData = createAsyncThunk(
       String(localStorage?.getItem("access_token")),
       userInfo
     );
-    // console.log("response thunk", response);
+    ////console.log("response thunk", response);
     return response;
   }
 );
@@ -209,7 +209,7 @@ export const clientSlice = createSlice({
         "/api/sendotp" + `PhoneNumber=${action.payload.usernamebyphone}`;
       // const {data, status} = axios.get(uri, getConfig)
       // .then((Response: AxiosResponse) => {
-      //   console.log("sms sended:", Response.data);
+      //  //console.log("sms sended:", Response.data);
       //   if (Response.status < 300) state.signInFlag = "smsWaiting";
       // })
       // .catch((err) => {
@@ -248,7 +248,7 @@ export const clientSlice = createSlice({
     },
     // addToCart: (state, action: PayloadAction<ProductId>) => {
     //   const data: Cart[] | undefined = state?.value?.cart;
-    //   console.log(action.payload.value);
+    //  //console.log(action.payload.value);
     // },
     // decrement: (state) => {
     //   state.value -= 1
