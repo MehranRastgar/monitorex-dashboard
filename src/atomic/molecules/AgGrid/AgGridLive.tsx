@@ -88,7 +88,7 @@ const AgGridLive: React.FC<Props> = (props) => {
           if (data?.value === 200000 || data?.value === undefined) {
             obj[item?.title?.toString() ?? "noname"] = "no data";
           } else {
-            obj[item?.title] = data?.value ?? "no data";
+            if (item?.title) obj[item?.title] = data?.value ?? "no data";
           }
           const date = new Date(data?.createdAt ?? "");
           obj["date"] = date?.toLocaleDateString();

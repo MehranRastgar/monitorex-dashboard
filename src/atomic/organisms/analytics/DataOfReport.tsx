@@ -150,10 +150,6 @@ export default function DataOfReport() {
 
   React.useEffect(() => {
     makeData(selectDataOFChart);
-   //console.log(
-      "selectDataOFChart selectDataOFChart selectDataOFChart",
-      selectDataOFChart
-    );
   }, [selectionModel, selectDataOFChart]);
 
   return (
@@ -331,7 +327,7 @@ export function DataOfReportPrintMode() {
 
     setTableData(arr);
     setCulu(columnsMakes);
-   //console.log("arr", arr);
+    //console.log("arr", arr);
   }
 
   React.useEffect(() => {

@@ -84,14 +84,16 @@ const DerakhtKesh: React.FC<DerakhtProps> = ({ value, left, right }) => {
 //   );
 // }
 interface DerakhtKeshContainerProps {
-  values?: string;
+  values?: string[];
 }
 const DerakhtKeshContainer: React.FC<DerakhtKeshContainerProps> = ({
   values,
 }) => {
-  const obj = buildObject(values, 0);
-
-  return <>{values && <DerakhtKesh {...obj} />}</>;
+  if (values !== undefined) {
+    const obj = buildObject(values, 0);
+    return <>{values && <DerakhtKesh {...(obj ?? {})} />}</>;
+  }
+  return <></>;
 };
 
 type Props = {

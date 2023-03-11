@@ -52,17 +52,10 @@ export default function AreaAndRange({
     // );
     min.push({ x: minRange, y: 20 }, { x: MaxRange, y: 20 });
 
-   //console.log(
-      "min & max",
-      minRange.getTime(),
-      MaxRange.getTime(),
-      (MaxRange.getTime() - minRange.getTime()) / 60000
-    );
-
     const numberOFMinutes = (MaxRange.getTime() - minRange.getTime()) / 60000;
-   //console.log("numberOFMinutes", numberOFMinutes);
+    //console.log("numberOFMinutes", numberOFMinutes);
 
-   //console.log(query.data);
+    //console.log(query.data);
     let lastValidY = 0;
     query.data?.[0]?.data?.map((item, index) => {
       if (item?.x !== undefined && index % 2 === 0) {
@@ -86,7 +79,7 @@ export default function AreaAndRange({
         // tempdata.push(Number(item?.metaField?.value));
       }
     });
-   //console.log(tempdata);
+    //console.log(tempdata);
 
     // query.data?.[0]?.data?.map((item, index) => {
     //   if (item?.x !== undefined && item?.y !== undefined && index % 1 === 0) {
@@ -235,7 +228,7 @@ export default function AreaAndRange({
       queryClient.invalidateQueries({
         queryKey: ["sensorseries" + itemSelected._id],
       });
-     //console.log("sensor query is revalidate");
+      //console.log("sensor query is revalidate");
     },
   });
 
@@ -247,7 +240,7 @@ export default function AreaAndRange({
     // }
     if (query.status === "success") {
       createData();
-     //console.log("sensor seriesss query is updated");
+      //console.log("sensor seriesss query is updated");
     }
     // return () => {
     //   clearTimeout(timer1);

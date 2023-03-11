@@ -276,45 +276,42 @@ const XYChart: React.FC<PropsXYChart> = (props) => {
   }, [props?.data]);
   //---------------------------------------------------------------------
   useEffect(() => {
-    props?.data?.map((item: SensorsReportType, index) => {
-      if (item?._id !== undefined)
-        socket.on(item?._id, (data) => {
-          if (data.value === 200000) {
-            return;
-          }
-          const DObject = {
-            [`${"date"}_${data?.sensorId}`]: new Date(
-              data?.createdAt
-            ).getTime(),
-            [`${"value"}_${data?.sensorId}`]: data?.value ?? null,
-          };
-          const newd = [...allData];
-
-          // setAllData([...newd]);
-          const aaa: any[] = [...allData];
-          aaa[0]?.push(DObject);
-          console.table(aaa.values);
-          setDataReal(aaa);
-
-          // setSeries(data);
-          //   const find = props?.data?.findIndex(
-          //     (theItem: any) => theItem?._id === data.sensorId
-          //   );
-          //   if (find) {
-          //     let newdata = [...dataReal];
-          //     newdata?.[find]?.data.push([new Date(data.createdAt), data.value]);
-
-          //     setDataReal([...newdata]);
-          //   }
-        });
-    });
-    return () => {
-      // socket.off("connect");
-      socket.off(idSubScribe);
-      props?.data?.map((item, index) => {
-        socket.off(item?._id);
-      });
-    };
+    // props?.data?.map((item: SensorsReportType, index) => {
+    //   if (item?._id !== undefined)
+    //     socket.on(item?._id, (data) => {
+    //       if (data.value === 200000) {
+    //         return;
+    //       }
+    //       const DObject = {
+    //         [`${"date"}_${data?.sensorId}`]: new Date(
+    //           data?.createdAt
+    //         ).getTime(),
+    //         [`${"value"}_${data?.sensorId}`]: data?.value ?? null,
+    //       };
+    //       const newd = [...allData];
+    //       // setAllData([...newd]);
+    //       const aaa: any[] = [...allData];
+    //       aaa[0]?.push(DObject);
+    //       console.table(aaa.values);
+    //       setDataReal(aaa);
+    //       // setSeries(data);
+    //       //   const find = props?.data?.findIndex(
+    //       //     (theItem: any) => theItem?._id === data.sensorId
+    //       //   );
+    //       //   if (find) {
+    //       //     let newdata = [...dataReal];
+    //       //     newdata?.[find]?.data.push([new Date(data.createdAt), data.value]);
+    //       //     setDataReal([...newdata]);
+    //       //   }
+    //     });
+    // });
+    // return () => {
+    //   // socket.off("connect");
+    //   // socket.off(idSubScribe);
+    //   props?.data?.map((item, index) => {
+    //     socket.off(item?._id);
+    //   });
+    // };
   }, [props.data]);
   //---------------------------------------------------------------------
   useEffect(() => {
