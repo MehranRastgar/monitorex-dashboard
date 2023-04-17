@@ -102,7 +102,7 @@ export default function UserManagement() {
             </Box>
           </Grid>
           <Grid xs={8}>
-            <UserAdministrator />{" "}
+            <UserAdministrator />
           </Grid>
         </Grid>
       </Box>

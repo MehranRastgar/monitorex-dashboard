@@ -28,6 +28,9 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   const selectDevices = useAppSelector(selectDevicesData);
   // const Groups = useAppSelector(selectUserGroups);
   // const gpNumber = useAppSelector(selectGroupNumber);
+
+  const [showGrid, setShowGrid] = useState<boolean>(true);
+
   const dispatch = useAppDispatch();
   const Groups = useAppSelector(selectUserGroups);
   const gpNumber = useAppSelector(selectGroupNumber);
@@ -52,6 +55,11 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
       });
     };
   }, [group]);
+
+  useEffect(() => {
+    setShowGrid(false);
+    setTimeout(() => setShowGrid(true), 500);
+  }, [group]);
   return (
     <>
       <section className="flex">
@@ -71,7 +79,11 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
           </Grid>
           <Grid item xs={4}>
             <Item>
-              <LiveDataGrid />
+              {showGrid ? (
+                <LiveDataGrid />
+              ) : (
+                <div className="flex w-[500px] h-[500px]"></div>
+              )}
             </Item>
           </Grid>
           <Grid item xs={8}>

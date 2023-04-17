@@ -106,7 +106,13 @@ const UserAdministrator: React.FC<Props> = (props) => {
         users={usersdata ?? []}
         onRowSelect={handleUserSelect}
       /> */}
-      {selectedUser && <UserForm user={selectedUser} onSave={handleUserSave} />}
+      {selectedUser && (
+        <UserForm
+          user={selectedUser}
+          isAdmin={ownuser?.isAdmin}
+          onSave={handleUserSave}
+        />
+      )}
 
       {ownuser.isAdmin && selectedUser._id !== ownuser._id && (
         <Button
@@ -119,7 +125,7 @@ const UserAdministrator: React.FC<Props> = (props) => {
             icon={"material-symbols:delete-outline"}
             color={"white"}
             fontSize={25}
-          ></Icon>{" "}
+          ></Icon>
           removeUser
         </Button>
       )}

@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
+  selectGroupNumber,
   selectSensorReports,
   SensorsReportType,
 } from "../../../store/slices/analizeSlice";
@@ -24,6 +25,7 @@ const LiveDataGrid: React.FC<Props> = (props) => {
     React.useState<GridSelectionModel>([]);
   const [colu, setCulu] = React.useState<GridColDef[]>([]);
   const selectDataOFChart = useAppSelector(selectSensorReports);
+  const gpNumber = useAppSelector(selectGroupNumber);
 
   const columns: GridColDef[] = [
     {
@@ -108,7 +110,7 @@ const LiveDataGrid: React.FC<Props> = (props) => {
         dataR?.map((ite, ind) => {
           obj[ite.sensor?.title?.toString() ?? "noname"] =
             ite.data?.[index]?.y ?? "no data";
-          const date = new Date(ite?.data?.[index]?.x ?? "");
+          const date = new Date();
           obj["date"] = date.toLocaleDateString();
           obj["time"] = date.toLocaleTimeString();
         });

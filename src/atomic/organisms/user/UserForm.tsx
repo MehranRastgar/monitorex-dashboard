@@ -19,9 +19,10 @@ import ButtonRegular from "../../atoms/ButtonA/ButtonRegular";
 interface UserFormProps {
   user: UserType;
   onSave: (user: UserType) => void;
+  isAdmin?: boolean;
 }
 
-const UserForm: React.FC<UserFormProps> = ({ user, onSave }) => {
+const UserForm: React.FC<UserFormProps> = ({ user, onSave, isAdmin }) => {
   const [formValues, setFormValues] = useState<any>(user);
   const { t } = useTranslation();
   const selectedUser = useAppSelector(selectSelectedUser);
@@ -90,9 +91,7 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSave }) => {
           )}
         </div>
       ))}
-      <div className="flex w-full">
-        <UserPermissions />
-      </div>
+      <div className="flex w-full">{isAdmin && <UserPermissions />}</div>
       <div className="flex w-full my-4 m-2">
         <ButtonRegular
           className="flex p-4 text-larg font-Vazir  "

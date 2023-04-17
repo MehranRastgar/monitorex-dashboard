@@ -93,7 +93,7 @@ info  - Linting and checking validity of types...
 37:6  Warning: React Hook useEffect has a missing dependency: 'GpNumber'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/templates/DashboardTemplate1.tsx
-54:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+57:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/templates/DeviceManagement.tsx
 73:6  Warning: React Hook React.useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -148,7 +148,7 @@ SyntaxError: Unexpected end of JSON input
     at JSON.parse (<anonymous>)
     at Object.patchIncorrectLockfile (G:\gh\scada\adminpanel\monitorex-dashboard\node_modules\next\dist\lib\patch-incorrect-lockfile.js:100:33)
 Warning: A null PostCSS plugin was provided. This entry will be ignored.
-(node:13196) [DEP_WEBPACK_MODULE_UPDATE_HASH] DeprecationWarning: Module.updateHash: Use new ChunkGraph API
+(node:19552) [DEP_WEBPACK_MODULE_UPDATE_HASH] DeprecationWarning: Module.updateHash: Use new ChunkGraph API
 (Use `node --trace-deprecation ...` to show where the warning was created)
 info  - Compiled successfully
 info  - Collecting page data...
@@ -160,10 +160,10 @@ info  - Generating static pages (12/12)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ○ /                                      9.73 kB         739 kB
+┌ ○ / (457 ms)                             9.75 kB         739 kB
 ├   /_app                                  0 B             161 kB
 ├ ○ /404                                   417 B           247 kB
-├ ○ /analytics (832 ms)                    570 kB         1.43 MB
+├ ○ /analytics (722 ms)                    570 kB         1.43 MB
 ├   └ css/e86aaeaa55886c8b.css             2.31 kB
 ├ λ /api/sendotp                           0 B             161 kB
 ├ λ /api/signin                            0 B             161 kB
@@ -172,18 +172,18 @@ Route (pages)                              Size     First Load JS
 ├   └ css/d468bf879017fb3e.css             2.3 kB
 ├ ○ /login                                 2.83 kB         192 kB
 ├   └ css/ca9dc42df1f7aa5f.css             1.22 kB
-├ ○ /management                            9.29 kB         387 kB
+├ ○ /management                            7.46 kB         388 kB
 ├ ○ /routes                                3.44 kB         250 kB
 ├   └ css/c5c83ffa5c924163.css             3.31 kB
 ├ ○ /sensors                               2.83 kB         250 kB
-├ ○ /settings                              2.53 kB         380 kB
+├ ○ /settings                              1.35 kB         382 kB
 └ ○ /users                                 314 B           247 kB
 + First Load JS shared by all              170 kB
   ├ chunks/framework-b3e87112e04ff518.js   67 kB
   ├ chunks/main-1c8ee1adb5e9916b.js        26.9 kB
   ├ chunks/pages/_app-08d4a12d3b1ffd8b.js  64.8 kB
-  ├ chunks/webpack-6bb4ff16a382cc37.js     2.45 kB
-  └ css/ef88143810b95ea7.css               8.61 kB
+  ├ chunks/webpack-f0222f63a2746e42.js     2.45 kB
+  └ css/a0f8e213e1bb5bd8.css               8.61 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

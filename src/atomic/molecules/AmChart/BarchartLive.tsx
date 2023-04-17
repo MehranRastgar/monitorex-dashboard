@@ -86,7 +86,7 @@ const BarchartLive: React.FC<Props> = (props) => {
             (theItem: any) => theItem?.id === data?.sensorId
           );
           // console.log("finded series", find, data, newdata);
-          const title = newdata?.[find].data.title;
+          const title = newdata?.[find]?.data?.title;
           newdata?.[find]?.data?.pop();
           newdata?.[find]?.data?.push([title, data?.value]);
           // console.log("newdata", newdata);

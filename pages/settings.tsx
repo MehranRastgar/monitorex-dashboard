@@ -4,35 +4,92 @@ import Summary from "../src/components/summary/Summary";
 import SaleChart from "../src/components/chart/Chart";
 import DashboardTables from "../src/components/tables/DashboardTables";
 import Layout from "../src/components/layout/Layout";
+import { useQuery } from "react-query";
+import { GetOwnUser } from "../src/api/users";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { styled } from "@mui/material/styles";
+import SettingsSensors from "../src/components/pages/settings/sensors";
+import SettingsDevices from "../src/components/pages/settings/device/devices";
+import DeviceList from "../src/atomic/organisms/device/DeviceList";
+import Test from "../testbahar";
+import UserAdministrator from "../src/atomic/organisms/user/UserAdministrator";
+import UserForm from "../src/atomic/organisms/user/UserForm";
+import { UserType } from "../src/types/types";
+import Item from "../src/atomic/atoms/Item/Item";
+import {
+  selectSelectedUser,
+  updateUserData,
+} from "../src/store/slices/userSlice";
+import { useAppDispatch, useAppSelector } from "../src/store/hooks";
 
 function Settings() {
   const { t } = useTranslation();
-  useEffect(() => {}, []);
+  const userOwn = useQuery("userOwn", () => GetOwnUser());
+  const dispatch = useAppDispatch();
+  const selectedUser = useAppSelector(selectSelectedUser);
+
+  useEffect(() => {}, [userOwn]);
   const [state, setState] = useState<any>();
   const [values, setValues] = useState<string[]>([]);
 
+  const handleUserSave = (user: UserType) => {
+    if (selectedUser._id !== undefined) {
+      dispatch(updateUserData(selectedUser));
+    }
+  };
+
   useEffect(() => {}, []);
+
   return (
     <Layout>
       <section>
-        <h2 className="title">{t("settings")}</h2>
-        {/* <BasicTabs /> */}
-        <div className="flex w-full ">
-          <input
-            type="text"
-            className="flex w-full"
-            onChange={(e) => {
-              setValues(e.target.value.split(" "));
-            }}
-          ></input>
-        </div>
-        <div className="w-full flex-wrap flex items-start justify-center h-screen">
-          {/* <Test /> */}
-        </div>
+        <h1 className="text-xl">{t("profile")}</h1>
+        <Item>
+          {userOwn?.isSuccess && (
+            <UserForm
+              onSave={handleUserSave}
+              user={userOwn?.data as UserType}
+              isAdmin={userOwn?.data.isAdmin}
+            />
+          )}
+        </Item>
+        <h1 className="text-xl">{t("chart")}</h1>
+        <h1 className="text-xl">{t("theme")}</h1>
       </section>
     </Layout>
   );
 }
+// function Settings() {
+//   const { t } = useTranslation();
+//   useEffect(() => {}, []);
+//   const [state, setState] = useState<any>();
+//   const [values, setValues] = useState<string[]>([]);
+
+//   useEffect(() => {}, []);
+//   return (
+//     <Layout>
+//       <section>
+//         <h2 className="title">{t("settings")}</h2>
+//         {/* <BasicTabs /> */}
+//         <div className="flex w-full ">
+//           <input
+//             type="text"
+//             className="flex w-full"
+//             onChange={(e) => {
+//               setValues(e.target.value.split(" "));
+//             }}
+//           ></input>
+//         </div>
+//         {/* <div className="w-full flex-wrap flex items-start justify-center h-screen">
+//           <Test />
+//         </div> */}
+//       </section>
+//     </Layout>
+//   );
+// }
 const values = ["1", "2", "5", "3", "4", "6", "7", "8", "9", "10"];
 
 export default Settings;
@@ -139,16 +196,6 @@ const tree = {
     },
   },
 };
-
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
-import SettingsSensors from "../src/components/pages/settings/sensors";
-import SettingsDevices from "../src/components/pages/settings/device/devices";
-import DeviceList from "../src/atomic/organisms/device/DeviceList";
-import Test from "../testbahar";
 
 interface TabPanelProps {
   children?: React.ReactNode;

@@ -57,7 +57,12 @@ export function useSocketDatas() {
     dispatch(setSocketIds(newSocketIds));
   }
   useEffect(() => {
-    const socket = io("http://localhost:3051");
+    const socket = io(
+      process.env.NEXT_PUBLIC_BASE_WEBSOCKET ?? "http://localhost:3051",
+      {
+        extraHeaders: { "Access-Control-Allow-Origin": "*" },
+      }
+    );
     const socketIdsbackup = socketIds;
     if (socketDatas) setSoDa(socketDatas);
     //console.log("count count count ", socketIds);

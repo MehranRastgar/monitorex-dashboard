@@ -115,36 +115,6 @@ export default function Analytics() {
         <Item className="flex justify-start flex-wrap w-full ">
           <Box className="flex w-full mt-4 flex-wrap justify-center">
             <DateTimeAnalytic />
-
-            {/* <div className="flex h-fit w-1/3 justify-start">
-              <ButtonRegular className="p-5  mx-2" onClick={handleOpen}>
-                <Typography className="text-lg font-Vazir-Bold ">
-                  {t("saveToThisGroup")}
-                </Typography>
-              </ButtonRegular>
-              <ButtonRegular className="p-5 mx-2" onClick={handleOpen}>
-                <Typography className="text-lg font-Vazir-Bold ">
-                  {t("saveAsNewGroup")}
-                </Typography>
-              </ButtonRegular>
-              <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <Typography
-                    id="modal-modal-title"
-                    variant="h6"
-                    component="h2"
-                  >
-                    {t("saveToGroups")}
-                  </Typography>
-                  <UserGroupsSaveContainer />
-                </Box>
-              </Modal>
-            </div> */}
           </Box>
         </Item>
         {selectedSensorsSlice !== undefined &&
@@ -209,18 +179,4 @@ export default function Analytics() {
       </section>
     </Layout>
   );
-}
-
-{
-  /* <DeviceList moreItems={true} /> */
-}
-{
-  /* <DeviceSummary /> */
-}
-{
-  /* <ButtonRegular className="p-5" onClick={handleSaveToGroup}>
-                <Typography className="text-lg font-Vazir-Bold">
-                  {t("saveToGroup")}
-                </Typography>
-              </ButtonRegular> */
 }
