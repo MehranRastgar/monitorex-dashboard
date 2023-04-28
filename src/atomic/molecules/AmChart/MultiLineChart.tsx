@@ -44,11 +44,18 @@ export default function MultiLineChart({ id }: { id: string }) {
   ]);
 
   function makeData(data: Datum[]) {
+    const localOffset = new Date().getTimezoneOffset();
+
+    // Convert the offset to seconds and invert the sign
+    const offsetSeconds = localOffset * -60 * 1000;
     const arr: any[] = [];
     data.map((item, index) => {
       if (item?.x !== undefined && index % Granolarity[divideBy] === 0)
         if (item?.y !== undefined || continues)
-          arr.push([new Date(item?.x).getTime(), item?.y ?? null]);
+          arr.push([
+            new Date(item?.x).getTime() + offsetSeconds,
+            item?.y ?? null,
+          ]);
     });
 
     //console.log("len of array", arr.length);
@@ -149,7 +156,7 @@ export default function MultiLineChart({ id }: { id: string }) {
                   ? "var(--chart-bgc)"
                   : `${
                       theme === 1
-                        ? "var(--pending-bgc)"
+                        ? "var(--chart-bgc2)"
                         : `${theme === 2 ? "var(--approved-bgc)" : "white"}`
                     }`
               }`,
@@ -170,10 +177,19 @@ export default function MultiLineChart({ id }: { id: string }) {
             tooltip: {
               // snap: 1 / 24,
               // stickOnContact: true,
+              valueSuffix: "",
               pointFormat:
                 '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/>',
               valueDecimals: 1,
               split: true,
+              useHTML: true,
+              headerFormat: '<table><tr><th colspan="2">{point.key}</th></tr>',
+              // pointFormat:
+              //   '<tr><td style="color: {series.color}">{series.name} </td>' +
+              //   '<td style="text-align: right"><b>{point.y} {series.name}</b></td></tr>',
+              footerFormat: "</table>",
+              xDateFormat: "%Y-%m-%d %H:%M:%S",
+              shared: true,
             },
             plotOptions: {
               series: {
@@ -277,7 +293,7 @@ export default function MultiLineChart({ id }: { id: string }) {
                   ? "var(--chart-bgc)"
                   : `${
                       theme === 1
-                        ? "var(--pending-bgc)"
+                        ? "var(--chart-bgc2)"
                         : `${theme === 2 ? "var(--approved-bgc)" : "white"}`
                     }`
               }`,
@@ -417,7 +433,7 @@ export default function MultiLineChart({ id }: { id: string }) {
             setcontinues((val) => !val);
           }}
         >
-          {t("dataPasteTogegher")}
+          {t("dataPasteTogether")}
         </ButtonRegular>
         <div className="flex h-[10px] border w-fit mx-2"></div>
         <ButtonRegular
@@ -459,7 +475,7 @@ export default function MultiLineChart({ id }: { id: string }) {
         <div className="flex h-[10px] border w-fit mx-2"></div>
         <ButtonRegular
           onClick={(e) => {
-            if (theme < 3) setTheme(theme + 1);
+            if (theme < 1) setTheme(theme + 1);
             else setTheme(0);
           }}
         >
@@ -541,10 +557,17 @@ export function MultiLineChartPrintMode({ id }: { id: string }) {
 
   function makeData(data: Datum[]) {
     const arr: any[] = [];
+    const localOffset = new Date().getTimezoneOffset();
+
+    // Convert the offset to seconds and invert the sign
+    const offsetSeconds = localOffset * -60 * 1000;
     data.map((item, index) => {
       if (item?.x !== undefined && index % Granolarity[divideBy] === 0)
         if (item?.y !== undefined || continues)
-          arr.push([new Date(item?.x), item?.y ?? null]);
+          arr.push([
+            new Date(item?.x).getTime() + offsetSeconds,
+            item?.y ?? null,
+          ]);
     });
     return arr;
   }
@@ -862,7 +885,7 @@ export function MultiLineChartPrintMode({ id }: { id: string }) {
             setcontinues((val) => !val);
           }}
         >
-          {t("dataPasteTogegher")}
+          {t("dataPasteTogether")}
         </ButtonRegular>
         <div className="flex h-[10px] border w-fit mx-2"></div>
         <ButtonRegular

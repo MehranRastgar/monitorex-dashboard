@@ -8,6 +8,7 @@ import {
   Factor,
   getDevices,
   putDevice,
+  removeDevice,
 } from "../api/devicesApi";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { setSignInFlag } from "./clientSlice";
@@ -85,7 +86,16 @@ export const putDeviceAsync = createAsyncThunk(
     return response;
   }
 );
-
+export const removeDeviceAsync = createAsyncThunk(
+  "devices/putDevice",
+  async (
+    body: DevicesReceiveType,
+    { rejectWithValue }
+  ): Promise<AxiosResponse | AxiosError> => {
+    const response = await removeDevice(body?._id);
+    return response;
+  }
+);
 export const devicesSlice = createSlice({
   name: "devices",
   initialState,

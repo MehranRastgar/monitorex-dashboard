@@ -75,7 +75,30 @@ export async function putDevice(
     return err;
   }
 }
+export async function removeDevice(
+  deviceId?: string
+): Promise<AxiosResponse | AxiosError> {
+  let response: AxiosResponse;
+  const accessToken: string | null = localStorage.getItem("access_token");
+  try {
+    response = await axios.delete(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/devices/${deviceId}`,
 
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken ?? 0}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (err: any) {
+    return err;
+  }
+}
 export interface DevicesReceiveType {
   _id?: string;
   title?: string;

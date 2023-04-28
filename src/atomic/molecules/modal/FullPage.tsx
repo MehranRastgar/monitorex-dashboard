@@ -66,14 +66,12 @@ export default function FullPageModal({
 
   return (
     <div>
-      <Button
-        variant="contained"
-        color={"success"}
-        className="bg-green-600 font-Vazir-Medium"
+      <button
+        className="bg-[var(--approved-bgc)] hover:bg-[var(--pending-bgc)] p-2 font-Vazir-Medium rounded-lg"
         onClick={handleClickOpen}
       >
         {t("printPreview")}
-      </Button>
+      </button>
 
       <Dialog
         fullWidth={true}
@@ -87,28 +85,29 @@ export default function FullPageModal({
             position: "relative",
             display: "flex",
             justifyContent: "center",
+            backgroundColor: "white",
           }}
         >
-          <Toolbar>
-            <Button
-              variant="contained"
-              color={"success"}
-              className="bg-red-600 font-Vazir-Medium"
+          <Toolbar
+            sx={{
+              backgroundColor: "white",
+            }}
+          >
+            <button
+              className="bg-[var(--rejected-bgc)] p-2 rounded-lg font-Vazir-Medium mx-2"
               onClick={handleClose}
             >
               <CloseIcon />
-            </Button>
+            </button>
             {/* <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               close
             </Typography> */}
-            <Button
-              variant="contained"
-              color={"success"}
-              className="bg-green-600 font-Vazir-Medium mx-4"
+            <button
+              className="bg-[var(--pending-bgc)] p-2 rounded-lg font-Vazir-Medium mx-2"
               onClick={handlePrint}
             >
               print
-            </Button>
+            </button>
           </Toolbar>
           <div className="w-full flex justify-center">
             <Item

@@ -12,6 +12,7 @@ import {
   GridSelectionModel,
   GridValueGetterParams,
 } from "@mui/x-data-grid";
+
 import { NodeNextRequest } from "next/dist/server/base-http/node";
 
 export default function ListDataGrid({
@@ -43,13 +44,18 @@ export default function ListDataGrid({
   return (
     <>
       <Item>
-        <div style={{ height: height ?? 400, width: width ?? "100%" }}>
+        <div
+          style={{
+            height: height ?? 500,
+            width: width ?? "100%",
+          }}
+        >
           <DataGrid
             onSelectionModelChange={(newSelectionModel) => {
               setSelectionModel(newSelectionModel);
             }}
             selectionModel={selectionModel}
-            getRowId={(row: any) => row._id}
+            getRowId={(row: any) => row?._id ?? "null"}
             {...data2}
             rows={RowsData ?? data.rows}
             columns={columns ?? columnsConst}
@@ -57,6 +63,17 @@ export default function ListDataGrid({
             columnThreshold={2}
             // rowsPerPageOptions={}
             sx={{
+              ".MuiDataGrid-row:hover": {
+                backgroundColor: "var(--blur-bg)",
+              },
+              ".MuiDataGrid-virtualScroller": {
+                display: "flex",
+                justifyContent: "start",
+              },
+              ".MuiDataGrid-footerContainer": {
+                display: "flex",
+                justifyContent: "start",
+              },
               ".MuiTablePagination-selectLabel": {
                 display: "none",
               },
@@ -65,7 +82,7 @@ export default function ListDataGrid({
               },
               ".MuiDataGrid-columnHeaderTitle": {
                 fontFamily: ["Source Sans Bold", "sans-serif"].join(","),
-                fontSize: 18,
+                fontSize: 14,
                 color: "var(--header-text-color)",
               },
               ".MuiDataGrid-cellContent": {
@@ -80,17 +97,19 @@ export default function ListDataGrid({
                 fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
                 fontSize: 14,
                 fontWeight: 400,
-                display: "-ms-inline-grid",
+                display: "flex",
                 textAlign: "center",
                 color: "var(--header-text-color)",
+                justifyItems: "flex-end",
               },
               "	.MuiDataGrid-cellCheckbox": {},
+
               boxShadow: 2,
               bgcolor: "var(--bgc)",
               border: 0.5,
               borderRadius: "5px",
               padding: 2,
-              borderColor: "var(--sidebar)",
+              borderColor: "var(--border-color)",
               ".MuiDataGrid-cell:hover": {
                 color: "primary.main",
                 textAlign: "center",

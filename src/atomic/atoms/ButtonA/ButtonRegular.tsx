@@ -13,21 +13,19 @@ interface Props {
 }
 const ButtonRegular: React.FC<Props> = (props) => {
   return (
-    <Button
-      size={"small"}
+    <button
       className={
-        `flex w-fit text-justify my-1 max-h-[20px] font-Vazir-Medium text-xs ${
+        `p-2 items-center rounded-lg flex w-fit text-justify my-1 max-h-[20px] font-Vazir-Medium text-xs ${
           props?.disabled === true
             ? "bg-gray-600"
-            : "bg-[var(--button-primary)]"
+            : "bg-[var(--dev-bgc-selected)]"
         } ` + props.className
       }
-      variant={"contained"}
       onClick={props.onClick}
       type={props?.type}
     >
       {props.children}
-    </Button>
+    </button>
   );
 };
 

@@ -68,7 +68,7 @@ export default function DataGridReports({
             border: 0.5,
             borderRadius: "5px",
             padding: 2,
-            borderColor: "var(--sidebar)",
+            borderColor: "var(--border-color)",
             ".MuiDataGrid-cell:hover": {
               color: "primary.main",
               textAlign: "center",

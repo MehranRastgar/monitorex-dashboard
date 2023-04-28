@@ -10,6 +10,7 @@ import { AiOutlineInfoCircle } from "react-icons/ai";
 import {
   getDevicesAsync,
   putDeviceAsync,
+  removeDeviceAsync,
   selectDevicesData,
   selectDevicesStatus,
   selectErrorMessage,
@@ -21,7 +22,6 @@ import {
   Autocomplete,
   AutocompleteInputChangeReason,
   Badge,
-  Button,
   dialogClasses,
   FormControl,
   FormHelperText,
@@ -454,8 +454,8 @@ export default function DeviceForm() {
               </Box>
             </Item>
           </Box>
-          <Button
-            className="bg-green-600 hover:bg-green-800 text-white mx-2"
+          <button
+            className="p-2 rounded-lg bg-green-600 hover:bg-green-800 text-white mx-4"
             onClick={(e) => {
               dispatch(putDeviceAsync(selectedDevice));
               // dispatch(getDevicesAsync());
@@ -463,8 +463,19 @@ export default function DeviceForm() {
               ////console.log(selectedDevice);
             }}
           >
-            Save Changes
-          </Button>
+            {t("save") + " " + t("changes")}
+          </button>
+          <button
+            className="mx-4 p-2 rounded-lg bg-red-600 hover:bg-red-800 text-white "
+            onClick={(e) => {
+              dispatch(removeDeviceAsync(selectedDevice));
+              // dispatch(getDevicesAsync());
+
+              ////console.log(selectedDevice);
+            }}
+          >
+            {t("remove") + " " + t("device")}
+          </button>
         </Box>
         {/* <div>{selectEM}</div> */}
         {/* <div>{selectStatus}</div> */}
@@ -1035,7 +1046,7 @@ function FactorsPart() {
         </>
       ))}
       <Box>
-        <Button
+        <button
           onClick={() => {
             let fac: Factor[] = [...(selectedDevice?.factors ?? [])];
             fac.push({
@@ -1052,8 +1063,8 @@ function FactorsPart() {
           }}
         >
           add Factor
-        </Button>
-        <Button
+        </button>
+        <button
           onClick={() => {
             let fac: Factor[] = [...(selectedDevice?.factors ?? [])];
             fac.pop();
@@ -1066,7 +1077,7 @@ function FactorsPart() {
           }}
         >
           clear Factor
-        </Button>
+        </button>
       </Box>
     </>
   );

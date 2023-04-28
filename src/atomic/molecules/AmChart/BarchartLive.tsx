@@ -61,10 +61,17 @@ const BarchartLive: React.FC<Props> = (props) => {
 
   function makeData(data: Datum[]) {
     const arr: any[] = [];
+    const localOffset = new Date().getTimezoneOffset();
+
+    // Convert the offset to seconds and invert the sign
+    const offsetSeconds = localOffset * -60 * 1000;
     data.map((item, index) => {
       if (item?.x !== undefined && index % Granolarity[divideBy] === 0)
         if (item?.y !== undefined || continues)
-          arr?.push([new Date(item?.x)?.getTime(), item?.y ?? null]);
+          arr?.push([
+            new Date(item?.x)?.getTime() + offsetSeconds,
+            item?.y ?? null,
+          ]);
     });
 
     // console.log("len of array", arr.length);

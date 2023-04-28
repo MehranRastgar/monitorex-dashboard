@@ -5,21 +5,32 @@
 html {
   /* ****Colors**** */
   --chart-bgc: rgba(238, 238, 238, 0.8);
+  --chart-bgc2: rgb(45, 43, 43);
   --chart-color-1: rgba(20, 125, 245, 1);
   --chart-color-2: rgba(212, 52, 52, 1);
   --chart-color-3: rgb(170, 0, 248);
 
   --primaryColor: #384aee;
   --secondaryColor: #3c4b6d;
-  --background-image: url("https://img.freepik.com/free-vector/honeycomb-background-3d-paper-style_23-2148400328.jpg?w=1380&t=st=1675610151~exp=1675610751~hmac=696b5885f5698dba9eeecee6dd41e94cd5d38e897a983102ec76f6bff3ed0d83");
+  // --background-image: url("https://img.freepik.com/free-vector/honeycomb-background-3d-paper-style_23-2148400328.jpg?w=1380&t=st=1675610151~exp=1675610751~hmac=696b5885f5698dba9eeecee6dd41e94cd5d38e897a983102ec76f6bff3ed0d83");
+  // --background-image: url("https://images.unsplash.com/photo-1565638459249-c85cbb2faaa8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=100");
 
   //light theme
-  --blur-bg: rgba(216, 231, 229, 0.8);
-  --bgc: #f2f2f2;
-  --sidebar: #f2f2f2;
-  --card-bgc: #f9f9fa;
-  --text-color: #424750;
-  --header-text-color: #1e1f20;
+  --blur-bg: #ebebebfe;
+  --bgc: #f4eeee;
+  --bgGrad: #eaebed;
+  --sidebar: #75e2ff;
+  --card-bgc: #e1f1f1;
+  --text-color: #000000;
+  --header-text-color: #070707;
+  --dev-bgc: rgba(248, 240, 240, 0.698);
+
+  // --blur-bg: rgba(216, 231, 229, 0.8);
+  // --bgc: #f2f2f2;
+  // --sidebar: #f2f2f2;
+  // --card-bgc: #f9f9fa;
+  // --text-color: #424750;
+  // --header-text-color: #1e1f20;
   //light theme status
   --approved-bgc: rgb(84, 240, 0);
   --approved-textColor: #246500;
@@ -27,7 +38,6 @@ html {
   --pending-textColor: #086785;
   --rejected-bgc: rgb(255, 56, 56);
   --rejected-textColor: #9d0e0e;
-  --dev-bgc: rgba(248, 240, 240, 0.52);
   --dev-bgc-disable: rgba(180, 31, 31, 0.678);
   --dev-bgc-selected: rgba(22, 207, 62, 0.7);
   --text-ultimate-color: rgb(36, 151, 189);
@@ -37,33 +47,35 @@ html {
 }
 html[theme="dark"] {
   //dark theme
-  --chart-bgc: rgba(19, 17, 17, 0.8);
+  --chart-bgc: #13274f;
+  --chart-bgc2: rgb(255, 255, 255);
   --chart-color-1: rgba(20, 125, 245, 1);
   --chart-color-2: rgba(212, 52, 52, 1);
   --chart-color-3: rgb(0, 255, 170);
 
-  --blur-bg: rgba(49, 47, 47, 0.8);
-  --bgc: #283036;
-  --bgGrad: #ebebeb;
-  --sidebar: #252525;
-  --card-bgc: #252525;
-  --text-color: #ebebeb;
+  --bgc: #002d62;
+  --blur-bg: #13274f;
+  --bgGrad: #13274f;
+  --sidebar: #13274f;
+  --card-bgc: #041e42;
+  --text-color: #ecdbba;
   --header-text-color: #f7f4f4;
+  --border-color: #c84b31;
+  --dev-bgc: rgba(30, 65, 126, 0.645);
 
   //light theme status
 
   // --background-image: url("../assets/images/darkbg.jpg");
 
-  --background-image: url("https://images.unsplash.com/photo-1544365558-35aa4afcf11f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1936&q=100");
+  // --background-image: url("https://images.unsplash.com/photo-1544365558-35aa4afcf11f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1936&q=100");
   // --background-image: url("https://images.unsplash.com/photo-1565638459249-c85cbb2faaa8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=100");
 
   --approved-bgc: rgba(107, 197, 59, 0.822);
-  --approved-textColor: #d0ffb6;
+  --approved-textColor: #ffffff;
   --pending-bgc: rgba(17, 162, 211, 0.801);
   --pending-textColor: #a5e9ff;
   --rejected-bgc: rgba(255, 96, 56, 0.822);
   --rejected-textColor: #f2bebe;
-  --dev-bgc: rgba(68, 68, 68, 0.52);
   --dev-bgc-disable: rgba(134, 49, 49, 0.7);
   --dev-bgc-selected: rgba(31, 150, 57, 0.7);
   --text-ultimate-color: rgb(45, 202, 255);

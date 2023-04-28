@@ -94,7 +94,7 @@ function Sidebar() {
           <div className={classes.sidebar__menu__item__icon}>
             <Icon icon="tabler:language" />
           </div>
-          <div className={classes.sidebar__menu__item__txt}>
+          <div className={classes.sidebar__menu__item__txt + " cursor-pointer"}>
             {t("change") + " " + t("language")}
           </div>
         </div>

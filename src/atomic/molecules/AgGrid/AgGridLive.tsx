@@ -7,9 +7,15 @@ import React, {
 } from "react";
 // import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
 import { AgGridReact } from "ag-grid-react";
+// import classes from "./aggrid.module.scss";
+import { makeStyles } from "@material-ui/styles";
+import {
+  DataGrid,
+  GridSelectionModel,
+  GridToolbar,
+  GridToolbarExport,
+} from "@mui/x-data-grid";
 
-import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
-import "ag-grid-community/styles/ag-theme-alpine.css"; // Optional theme CSS
 import { useTranslation } from "react-i18next";
 import {
   selectGroupNumber,
@@ -24,13 +30,16 @@ import { socket } from "../../../components/socketio";
 import { selectSocketObject } from "../../../store/slices/socketSlice";
 import { selectUserGroups } from "../../../store/slices/userSlice";
 import { GroupItemType } from "../../../types/types";
+import ListDataGrid from "../device/ListDataGrid";
 
 // import "../../../../styles/index.css";
 interface Props {
   column: { field: string; filter?: boolean }[];
   rowdata: {}[];
 }
-
+const useStyles = makeStyles({
+  // your styles here
+});
 const AgGridLive: React.FC<Props> = (props) => {
   const gridRef = useRef<AgGridReact>(null); // Optional - for accessing Grid's API
   const [rowData, setRowData] = useState<any[]>(); // Set rowData to Array of Objects, one Object per Row
@@ -38,7 +47,8 @@ const AgGridLive: React.FC<Props> = (props) => {
   const Groups = useAppSelector(selectUserGroups);
   const gpNumber = useAppSelector(selectGroupNumber);
   const [group, setGroup] = useState<GroupItemType | null>(null);
-
+  const [selectionModel, setSelectionModel] =
+    React.useState<GridSelectionModel>([]);
   // Each Column Definition results in one Column.
   const [columnDefs, setColumnDefs] = useState(props?.column);
   const selectDataOFChart = useAppSelector(selectSensorReports);
@@ -70,12 +80,14 @@ const AgGridLive: React.FC<Props> = (props) => {
   // const buttonListener = useCallback((e: any) => {
   //   gridRef?.current?.api?.deselectAll();
   // }, []);
+  const classes = useStyles();
 
   useEffect(() => {
     if (true) {
       const newda: any[] = rowData ?? [];
       let obj = Object.create({
-        index: newda?.length ?? "0",
+        id: "cossher",
+        index: newda?.length ?? 0,
       });
 
       group?.sensors?.map((item: SensorsReceiveTpe, index) => {
@@ -93,18 +105,17 @@ const AgGridLive: React.FC<Props> = (props) => {
           const date = new Date(data?.createdAt ?? "");
           obj["date"] = date?.toLocaleDateString();
           obj["time"] = date?.toLocaleTimeString();
+          obj["_id"] = rowData?.length;
         }
       });
 
       setRowData([obj, ...newda.slice(0, 200)]);
-      console.log(obj);
-      console.log(rowData);
     }
     return () => {};
   }, [socketObj]);
 
   useEffect(() => {
-    ////console.log("this is row data", rowData);
+    console.log("this is row data", rowData);
   }, [rowData]);
 
   return (
@@ -127,18 +138,143 @@ const AgGridLive: React.FC<Props> = (props) => {
       {/* <button onClick={buttonListener}>Push Me</button> */}
 
       {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-      <div className="ag-theme-alpine-dark" style={{ width: 500, height: 500 }}>
-        <AgGridReact
-          ref={gridRef} // Ref for accessing Grid's API
-          rowData={rowData} // Row Data for Rows
-          columnDefs={columnDefs} // Column Defs for Columns
-          defaultColDef={defaultColDef} // Default Column Properties
-          animateRows={true} // Optional - set to 'true' to have rows animate when sorted
-          rowSelection="multiple" // Options - allows click selection of rows
-          onCellClicked={cellClickedListener} // Optional - registering for Grid Event
-        />
+      <div className="flex w-full overflow-scroll">
+        {rowData?.length && columns?.length && (
+          <ListDataGrid
+            width={"100vw"}
+            height={"400px"}
+            RowsData={rowData ?? []}
+            columns={columns}
+            title={"data"}
+            selectionModel={selectionModel}
+            setSelectionModel={setSelectionModel}
+          />
+        )}
+        {/* {rowData?.length && <DataGrid rows={rowData} columns={columns} />} */}
       </div>
     </div>
   );
 };
 export default AgGridLive;
+
+const columns = [
+  {
+    field: "date",
+    headerName: "Date",
+    width: 120,
+  },
+  {
+    field: "time",
+    headerName: "Time",
+    width: 130,
+  },
+  {
+    field: "humidity",
+    headerName: "Humidity",
+    width: 120,
+  },
+  {
+    field: "temp3",
+    headerName: "Temp3",
+    width: 120,
+  },
+  {
+    field: "noname",
+    headerName: "",
+    width: 80,
+  },
+  {
+    field: "temp",
+    headerName: "Temp",
+    width: 100,
+  },
+  {
+    field: "temp2",
+    headerName: "Temp2",
+    width: 100,
+  },
+];
+
+const DataGridComponent = ({ rowData }) => {
+  const [gridData, setGridData] = useState([]);
+
+  useEffect(() => {
+    setGridData(rowData);
+  }, [rowData]);
+
+  const handleCellEditCommit = ({ id, field, value }) => {
+    const updatedData = gridData.map((row) => {
+      if (row.id === id) {
+        return { ...row, [field]: value };
+      } else {
+        return row;
+      }
+    });
+    setGridData(updatedData);
+  };
+
+  return (
+    <div style={{ height: 400, width: "100%" }}>
+      <DataGrid
+        rows={gridData}
+        columns={columns}
+        onCellEditCommit={handleCellEditCommit}
+      />
+    </div>
+  );
+};
+
+const row = [
+  {
+    date: "4/29/2023",
+    humidity: 36.5,
+    temp: 27.4,
+    temp2: "no data",
+    temp3: 25.3,
+    time: "12:36:02 AM",
+  },
+  {
+    date: "4/29/2023",
+    humidity: 36.5,
+    temp: 27.4,
+    temp2: "43",
+    temp3: 25.3,
+    time: "12:36:03 AM",
+  },
+];
+const column = [
+  {
+    field: "date",
+    headerName: "date",
+    width: 120,
+  },
+  {
+    field: "time",
+    headerName: "time",
+    width: 130,
+  },
+  {
+    field: "humidity",
+    headerName: "humidity",
+    width: 80,
+  },
+  {
+    field: "temp3",
+    headerName: "temp3",
+    width: 80,
+  },
+  {
+    field: "noname",
+    width: 80,
+  },
+  {
+    field: "temp",
+    headerName: "temp",
+    width: 80,
+  },
+  {
+    field: "temp2",
+    headerName: "temp2",
+    width: 80,
+  },
+];

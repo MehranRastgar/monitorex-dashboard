@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
+import ButtonRegular from "../../atoms/ButtonA/ButtonRegular";
 
 interface Props {
   children?: React.ReactNode;
@@ -13,12 +14,11 @@ const ButtonPupup: React.FC<Props> = (props) => {
       <section
         className={`overflow-hidden w-full bottom-[1px]  fixed flex justify-center flex-wrap items-start  z-[999]`}
       >
-        <Button
+        <button
           onClick={() => {
             setTerminalOpen((val) => !val);
           }}
-          variant={"contained"}
-          className={`border-4 border-red-600 z-[100] ${
+          className={`border  z-[100] ${
             terminalOpen ? "translate-y-[35px]" : ""
           } translate-x-[400px] w-[160px]  h-fit  ${
             terminalOpen === true
@@ -27,7 +27,7 @@ const ButtonPupup: React.FC<Props> = (props) => {
           }`}
         >
           {!terminalOpen ? props.title : "close"}
-        </Button>
+        </button>
         {terminalOpen === true ? (
           <div className="flex w-full bg-transparent items-center justify-center">
             {props.children}

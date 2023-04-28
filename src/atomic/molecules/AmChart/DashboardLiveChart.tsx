@@ -184,11 +184,21 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
             (theItem: any) => theItem?._id === data.sensorId
           );
 
+          // Get the current time as a Unix timestamp
+          const timestamp = Math.floor(Date.now());
+
+          // Get the local time offset from UTC in minutes
+          const localOffset = new Date().getTimezoneOffset();
+
+          // Convert the offset to seconds and invert the sign
+          const offsetSeconds = localOffset * -60 * 1000;
+
+          // Calculate the epoch time with the local offset
+          const epochTime = timestamp + offsetSeconds;
+          console.log("epochTime", localOffset, new Date().getTime());
+
           let newdata = [...state?.chartOptions?.series];
-          newdata?.[find]?.data.push([
-            new Date(data.createdAt).getTime(),
-            data.value,
-          ]);
+          newdata?.[find]?.data.push([epochTime, data.value]);
 
           let stater = {
             ...state,
@@ -254,10 +264,18 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
   };
   function makeData(data: Datum[]) {
     const arr: any[] = [];
+    // Get the local time offset from UTC in minutes
+    const localOffset = new Date().getTimezoneOffset();
+
+    // Convert the offset to seconds and invert the sign
+    const offsetSeconds = localOffset * -60 * 1000;
     data?.map((item, index) => {
       if (item?.x !== undefined && index % Granolarity[divideBy] === 0)
         if (item?.y !== undefined || continues)
-          arr.push([new Date(item?.x).getTime(), item?.y ?? null]);
+          arr.push([
+            new Date(item?.x).getTime() + offsetSeconds,
+            item?.y ?? null,
+          ]);
     });
 
     return arr;
@@ -614,7 +632,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
               setcontinues((val) => !val);
             }}
           >
-            {t("dataPasteTogegher")}
+            {t("dataPasteTogether")}
           </ButtonRegular>
           <div className="flex h-[10px] border w-fit mx-2"></div>
           <ButtonRegular

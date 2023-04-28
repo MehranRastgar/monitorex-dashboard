@@ -20,6 +20,7 @@ import {
 } from "../../../store/slices/analizeSlice";
 import SelectDevicesForAnalize from "../SelectDevicesForAnalize";
 import { useTranslation } from "react-i18next";
+import ButtonRegular from "../../atoms/ButtonA/ButtonRegular";
 
 const dateTimeStartProps = {
   label: "startDate",
@@ -33,7 +34,7 @@ export default function DateTimeAnalytic() {
   const dispatch = useAppDispatch();
   const selectSD = useAppSelector(selectStartDate);
   const selectED = useAppSelector(selectEndDate);
-  const [locale, setLocale] = useState<typeof locales[number]>("fa");
+  const [locale, setLocale] = useState<(typeof locales)[number]>("fa");
   const [value, setValue] = useState<Dayjs | null>(null);
   const [value2, setValue2] = useState<Dayjs | null>(dayjs());
   useEffect(() => {
@@ -177,17 +178,16 @@ function HowMuchBefor({
   return (
     <>
       <Box sx={{ p: 1, flexGrow: 1 }}>
-        <Button
+        <button
           onClick={() => {
             handleClick();
           }}
-          variant="contained"
           type="button"
-          className="border py-4 bg-black/30 text-white"
+          className="hover:bg-cyan-400/30 rounded-lg flex border border-black py-4 bg-black/30 text-white"
         >
-          <div className="mx-2">{t(str?.[0])}</div>{" "}
           <div className="mx-2">{t(str?.[1])}</div>
-        </Button>
+          <div className="mx-2">{t(str?.[0])}</div>{" "}
+        </button>
       </Box>
     </>
   );

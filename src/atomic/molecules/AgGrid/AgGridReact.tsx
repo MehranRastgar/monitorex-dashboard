@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from "react";
 import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
-
+import classes from "./aggrid.module.scss";
 import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useTranslation } from "react-i18next";

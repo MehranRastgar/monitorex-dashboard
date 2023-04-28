@@ -10,6 +10,7 @@ i18n
     resources: {
       en: {
         translation: {
+          changes: "changes",
           saveAsNewGroup: "save as new group",
           saveToThisGroup: "save in this group",
           sensorsPointsData: "sensors points data",
@@ -146,6 +147,12 @@ i18n
       },
       fa: {
         translation: {
+          dataPasteTogether: "پیوسته کردن اطلاعات",
+          justPoint: "فقط نقطه",
+          MultiAxis: "چند محوره",
+          device: "دستگاه",
+          remove: "حذف",
+          changes: "تغییرات",
           save: "ذخیره",
           saveAsNewGroup: "در گروه جدید ذخیره کن",
           saveToThisGroup: "در همین گروه ذخیره کن",
