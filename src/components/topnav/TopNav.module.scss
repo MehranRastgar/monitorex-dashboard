@@ -12,6 +12,10 @@
     flex: 1;
 
     &_menu_icon {
+      display: none;
+      @include tablet {
+        display: block;
+      }
       cursor: pointer;
       @include tablet {
         display: none;

@@ -5,10 +5,13 @@
   @include flex(stretch, center);
   flex-direction: column;
   padding: 15px;
+  @media (min-width: 768px) {
+    display: none;
+  }
   // background-color: var(--image);
   // background-image: var(--background-image);
   /* From https://css.glass */
-  background: var(--blur-bg);
+  background: var(--sidebar);
   // border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6.6px);

@@ -6,6 +6,7 @@ import TopNavRightBox from "./rightBox/TopNavRightBox";
 import SidebarContext from "../../store/sidebarContext";
 
 import classes from "./TopNav.module.scss";
+import TopNavMenu from "./rightBox/TopNavMenu/TopNavMenu";
 
 function TopNav() {
   const sideOpenCtx = useContext(SidebarContext);
@@ -17,7 +18,11 @@ function TopNav() {
   }
 
   return (
-    <div className={classes.topNav}>
+    <div
+      className={
+        "fixed bg-[var(--sidebar)] flex w-full z-[200] p-[1rem] flex-wrap border-b "
+      }
+    >
       <div className={classes.topNav_left}>
         <div
           className={classes.topNav_left_menu_icon}
@@ -35,13 +40,17 @@ function TopNav() {
         </div>
         {/* <div className={classes.search_desktop_wrapper}>
           <SearchBox />
+
         </div> */}
       </div>
-      <TopNavRightBox />
-      <br />
-      <div className={classes.search_tablet_wrapper}>
-        <SearchBox />
+      <div className="w-3/4 hidden md:flex">
+        <TopNavMenu />
       </div>
+      <br />
+      <TopNavRightBox />
+      {/* <div className={classes.search_tablet_wrapper}>
+        <SearchBox />
+      </div> */}
     </div>
   );
 }

@@ -62,48 +62,9 @@ const LiveChart: React.FC<Props> = (props) => {
 
   return (
     <>
-      {/* <div>
-        {selectStatusOfApi}
-        {GpNumber}
-      </div> */}
-      <Item className="flex flex-wrap w-full h-fit  p-2">
-        <section className="flex flex-wrap w-full">
-          <DashboardLiveChart id={"id-" + props.id} />
-        </section>
-
-        {/* <NoSsr>
-          <XYChartJS
-            dataSets={[
-              {
-                label: "Data Set 1",
-                color: "rgba(75, 192, 192, 1)",
-                data: [
-                  { x: 1, y: 1 },
-                  { x: 2, y: 2 },
-                  { x: 3, y: 3 },
-                ],
-                updateData: () => ({
-                  x: Math.random() * 10,
-                  y: Math.random() * 10,
-                }),
-              },
-              {
-                label: "Data Set 2",
-                color: "rgba(192, 75, 75, 1)",
-                data: [
-                  { x: 1, y: 10 },
-                  { x: 2, y: 8 },
-                  { x: 3, y: 6 },
-                ],
-                updateData: () => ({
-                  x: Math.random() * 10,
-                  y: Math.random() * 10,
-                }),
-              },
-            ]}
-          />
-        </NoSsr> */}
-      </Item>
+      <section className="flex flex-wrap w-full bg-[var(--blur-bg)] p-2">
+        <DashboardLiveChart id={"id-" + props.id} />
+      </section>
     </>
   );
 };
@@ -133,7 +94,7 @@ const LiveBlink: React.FC<PropsBlink> = (props) => {
 
   return (
     <>
-      <section className="flex w-full items-start justify-end">
+      <section className="flex w-full items-start justify-end bg-[var(--sidebar)] p-1">
         <div className="flex w-full m-4 font-Vazir-Medium">
           {GpNumber !== undefined && selectUserGr !== undefined
             ? selectUserGr?.[GpNumber]?.groupTitle

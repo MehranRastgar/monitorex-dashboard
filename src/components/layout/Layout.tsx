@@ -313,6 +313,7 @@ function Layout({ children }: { children: any }) {
       )}
       <div className={classes.background}></div>
       <div className={classes.container}>
+        <TopNav />
         <Sidebar />
         <div className={classes.main}>
           <div
@@ -320,7 +321,6 @@ function Layout({ children }: { children: any }) {
               !sidebarCtx.isOpen ? classes.close_sidebar : ""
             } main_wrapper`}
           >
-            <TopNav />
             {/* <Outlet /> */}
             {children}
           </div>

@@ -43,81 +43,78 @@ export default function ListDataGrid({
 
   return (
     <>
-      <Item>
-        <div
-          style={{
-            height: height ?? 500,
-            width: width ?? "100%",
+      <div
+        className={`flex  ${width ? `w-[${width}]` : "w-[100%]"} ${
+          height ? `h-[${height}]` : "h-[40vh]"
+        }`}
+      >
+        <DataGrid
+          onSelectionModelChange={(newSelectionModel) => {
+            setSelectionModel(newSelectionModel);
           }}
-        >
-          <DataGrid
-            onSelectionModelChange={(newSelectionModel) => {
-              setSelectionModel(newSelectionModel);
-            }}
-            selectionModel={selectionModel}
-            getRowId={(row: any) => row?._id ?? "null"}
-            {...data2}
-            rows={RowsData ?? data.rows}
-            columns={columns ?? columnsConst}
-            columnBuffer={2}
-            columnThreshold={2}
-            // rowsPerPageOptions={}
-            sx={{
-              ".MuiDataGrid-row:hover": {
-                backgroundColor: "var(--blur-bg)",
-              },
-              ".MuiDataGrid-virtualScroller": {
-                display: "flex",
-                justifyContent: "start",
-              },
-              ".MuiDataGrid-footerContainer": {
-                display: "flex",
-                justifyContent: "start",
-              },
-              ".MuiTablePagination-selectLabel": {
-                display: "none",
-              },
-              ".MuiDataGrid-selectedRowCount": {
-                display: "none",
-              },
-              ".MuiDataGrid-columnHeaderTitle": {
-                fontFamily: ["Source Sans Bold", "sans-serif"].join(","),
-                fontSize: 14,
-                color: "var(--header-text-color)",
-              },
-              ".MuiDataGrid-cellContent": {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 14,
-                fontWeight: 400,
-                display: "-ms-inline-grid",
-                textAlign: "center",
-                color: "var(--header-text-color)",
-              },
-              ".MuiTablePagination-toolbar": {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 14,
-                fontWeight: 400,
-                display: "flex",
-                textAlign: "center",
-                color: "var(--header-text-color)",
-                justifyItems: "flex-end",
-              },
-              "	.MuiDataGrid-cellCheckbox": {},
+          selectionModel={selectionModel}
+          getRowId={(row: any) => row?._id ?? "null"}
+          {...data2}
+          rows={RowsData ?? data.rows}
+          columns={columns ?? columnsConst}
+          columnBuffer={2}
+          columnThreshold={2}
+          // rowsPerPageOptions={}
+          sx={{
+            ".MuiDataGrid-row:hover": {
+              backgroundColor: "var(--blur-bg)",
+            },
+            ".MuiDataGrid-virtualScroller": {
+              display: "flex",
+              justifyContent: "start",
+            },
+            ".MuiDataGrid-footerContainer": {
+              display: "flex",
+              justifyContent: "start",
+            },
+            ".MuiTablePagination-selectLabel": {
+              display: "none",
+            },
+            ".MuiDataGrid-selectedRowCount": {
+              display: "none",
+            },
+            ".MuiDataGrid-columnHeaderTitle": {
+              fontFamily: ["Source Sans Bold", "sans-serif"].join(","),
+              fontSize: 14,
+              color: "var(--header-text-color)",
+            },
+            ".MuiDataGrid-cellContent": {
+              fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+              fontSize: 14,
+              fontWeight: 400,
+              display: "-ms-inline-grid",
+              textAlign: "center",
+              color: "var(--header-text-color)",
+            },
+            ".MuiTablePagination-toolbar": {
+              fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+              fontSize: 14,
+              fontWeight: 400,
+              display: "flex",
+              textAlign: "center",
+              color: "var(--header-text-color)",
+              justifyItems: "flex-end",
+            },
+            "	.MuiDataGrid-cellCheckbox": {},
 
-              boxShadow: 2,
-              bgcolor: "var(--bgc)",
-              border: 0.5,
-              borderRadius: "5px",
-              padding: 2,
-              borderColor: "var(--border-color)",
-              ".MuiDataGrid-cell:hover": {
-                color: "primary.main",
-                textAlign: "center",
-              },
-            }}
-          />
-        </div>
-      </Item>
+            boxShadow: 2,
+            bgcolor: "var(--bgc)",
+            border: 0.5,
+            borderRadius: "5px",
+            padding: 2,
+            borderColor: "var(--bgc)",
+            ".MuiDataGrid-cell:hover": {
+              color: "primary.main",
+              textAlign: "center",
+            },
+          }}
+        />
+      </div>
     </>
   );
 }

@@ -33,7 +33,7 @@ const SensorsSummary: React.FC<Props> = ({ groups }) => {
         {group?.sensors?.map((sensor, index) => (
           <div
             id={"sensorSummary-" + index}
-            className="flex "
+            className="flex w-full"
             key={"sensorSummary-" + index}
           >
             {sensor._id && <SensorObjectForSummary sensor={sensor} />}
@@ -97,8 +97,8 @@ const SensorObjectForSummary: React.FC<PropsObj> = ({ sensor }) => {
 
   return (
     <>
-      <Item className="flex p-[15px] justify-start flex-wrap w-[200px] h-[190px] text-xs m-4 font-Vazir-Medium">
-        <SensorTitleDescribe title="ID" describe={sensor?._id} />
+      <Item className="flex p-[15px] justify-start flex-wrap w-auto max-h-[100px] text-xs m-1 font-Vazir-Medium">
+        {/* <SensorTitleDescribe title="ID" describe={sensor?._id} /> */}
         <SensorTitleDescribe
           title="sensorName"
           describe={sensorLive?.sensorTitle + "," + sensorLive?.deviceTitle}
@@ -110,8 +110,9 @@ const SensorObjectForSummary: React.FC<PropsObj> = ({ sensor }) => {
           title="Last Data"
           describe={new Date(sensorLive?.createdAt ?? 0).toLocaleTimeString()}
         />
+        <h4>{sensor?.unit}</h4>
         <div
-          className={`absolute translate-x-[-100px] translate-y-[100px] z-[50] flex p-2 text-md rounded-lg ${
+          className={`flex  z-[50]  p-2 text-md rounded-lg ${
             sensorLive?.value === 200000
               ? "bg-gray-400"
               : sensorLive?.value !== undefined

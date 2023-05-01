@@ -141,8 +141,7 @@ const BarchartLive: React.FC<Props> = (props) => {
           spacingLeft: 10,
           spacingRight: 10,
           // Explicitly tell the width and height of a chart
-          width: 500,
-          height: 200,
+          height: 280,
           type: "column",
           zoomType: "xy",
           alignTicks: true,
@@ -289,7 +288,7 @@ const BarchartLive: React.FC<Props> = (props) => {
   }, [selectDataOFChart, continues, divideBy]);
   return (
     <>
-      <div className="flex h-[250px] justify-end ">
+      <div className="flex overflow-hidden rounded-md h-[300px] justify-center items-center p-4 m-2">
         {state?.chartOptions !== undefined ? (
           <>
             <HighchartsReact

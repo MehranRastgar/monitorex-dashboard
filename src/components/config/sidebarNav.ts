@@ -3,7 +3,7 @@ const sidebarNav = [
     link: "/",
     section: "dashboard",
     icon: "lucide:layout-dashboard", //width:"20"
-    text: "dashboard",
+    text: "real_time_view",
   },
 
   // {

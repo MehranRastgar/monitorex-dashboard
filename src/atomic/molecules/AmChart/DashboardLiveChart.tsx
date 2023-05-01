@@ -493,7 +493,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
               enabled: true,
               align: "left",
               alignColumns: true,
-              backgroundColor: "white",
+              backgroundColor: "var(--dev-bgc)",
               floating: false,
             },
             // tooltip: {
@@ -625,7 +625,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
     <>
       <LiveBlink state={blink} />
       <div className="justify-start h-[500px] w-full items-start">
-        <Box className="flex items-center ">
+        <Box className="flex flex-wrap items-center ">
           <ButtonRegular
             disabled={continues}
             onClick={(e) => {
@@ -690,31 +690,33 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
             {t("MultiAxis")}
           </ButtonRegular>
           <div className="flex h-[10px] border w-fit mx-2"></div>
-          <button
-            className="flex w-fit mx-2 text-blue-600"
-            onClick={(e) => {
-              if (divideBy < 5) setDivideBy((val) => val + 1);
-            }}
-          >
-            <Icon
-              width="40"
-              height="40"
-              icon="material-symbols:arrow-circle-up-outline"
-            />
-          </button>
-          <div> {divideBy}</div>
-          <button
-            className="flex w-fit mx-2 text-blue-600"
-            onClick={(e) => {
-              if (divideBy > 0) setDivideBy((val) => val - 1);
-            }}
-          >
-            <Icon
-              width="40"
-              height="40"
-              icon="material-symbols:arrow-circle-down-outline"
-            />
-          </button>
+          <div className="flex mt-2">
+            <button
+              className="flex w-fit mx-2 text-blue-600"
+              onClick={(e) => {
+                if (divideBy < 5) setDivideBy((val) => val + 1);
+              }}
+            >
+              <Icon
+                width="40"
+                height="40"
+                icon="material-symbols:arrow-circle-up-outline"
+              />
+            </button>
+            <div> {divideBy}</div>
+            <button
+              className="flex w-fit mx-2 text-blue-600"
+              onClick={(e) => {
+                if (divideBy > 0) setDivideBy((val) => val - 1);
+              }}
+            >
+              <Icon
+                width="40"
+                height="40"
+                icon="material-symbols:arrow-circle-down-outline"
+              />
+            </button>
+          </div>
         </Box>
         {state?.chartOptions !== undefined ? (
           <HighchartsReact

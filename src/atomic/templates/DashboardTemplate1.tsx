@@ -29,7 +29,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   // const Groups = useAppSelector(selectUserGroups);
   // const gpNumber = useAppSelector(selectGroupNumber);
 
-  const [showGrid, setShowGrid] = useState<boolean>(true);
+  const [showdiv, setShowdiv] = useState<boolean>(true);
 
   const dispatch = useAppDispatch();
   const Groups = useAppSelector(selectUserGroups);
@@ -57,41 +57,34 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   }, [group]);
 
   useEffect(() => {
-    setShowGrid(false);
-    setTimeout(() => setShowGrid(true), 500);
+    setShowdiv(false);
+    setTimeout(() => setShowdiv(true), 500);
   }, [group]);
   return (
     <>
-      <section className="flex">
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Item>
-              <GroupListComponent />
-            </Item>
-            <Item className="w-full mt-4">
-              <BarchartLive id="barchart-live" />
-            </Item>
-          </Grid>
-          <Grid item xs={8}>
-            <Item className="h-full">
-              <LiveChart />
-            </Item>
-          </Grid>
-          <Grid item xs={4}>
-            <Item>
-              {showGrid ? (
-                <LiveDataGrid />
-              ) : (
-                <div className="flex w-[500px] h-[500px]"></div>
-              )}
-            </Item>
-          </Grid>
-          <Grid item xs={8}>
-            <Item>
-              <SensorsSummary />
-            </Item>
-          </Grid>
-          {/* <Grid item xs={8}>
+      <section className="flex justify-center min-w-full -mt-6">
+        <div className="flex justify-center flex-wrap min-w-full">
+          <div className="flex flex-wrap justify-self-auto min-w-full m-1 border border-[var(--border-color)]">
+            <div className="flex w-full md:w-1/2 lg:w-1/2">
+              <GroupListComponent type="group" />
+            </div>
+            <div className="flex w-full md:w-1/2 lg:w-1/2">
+              <GroupListComponent type="device" />
+            </div>
+          </div>
+          <div className="flex justify-center min-w-full m-1 border border-[var(--border-color)] p-2">
+            <LiveChart />
+          </div>
+          <div className="min-w-full min-h-[40vh] m-1 border border-[var(--border-color)]">
+            {showdiv ? <LiveDataGrid /> : <>loading</>}
+          </div>
+          <div className="min-w-full max-h-[50vh] m-1 border border-[var(--border-color)] overflow-auto">
+            <SensorsSummary />
+          </div>
+          {/* <div className="flex w-full justify-center lg:w-1/3 ">
+            <BarchartLive id="barchart-live" />
+          </div> */}
+          {/* <div item xs={8}>
             <Item>
               {selectDevices?.map(({ _id, title, type }) => (
                 <>
@@ -103,8 +96,9 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
                 </>
               ))}
             </Item>
-          </Grid> */}
-        </Grid>
+          </div> */}
+        </div>
+
         {/* 
 
         <div className="flex flex-wrap w-1/4">

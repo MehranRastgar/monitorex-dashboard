@@ -10,6 +10,8 @@ i18n
     resources: {
       en: {
         translation: {
+          electricalboard: "electrical boards",
+          real_time_view: "real time view",
           changes: "changes",
           saveAsNewGroup: "save as new group",
           saveToThisGroup: "save in this group",
@@ -147,6 +149,10 @@ i18n
       },
       fa: {
         translation: {
+          real_time_view: "نمایش لحظه ای",
+          electricalboard: "تابلو برق ها",
+          dark: "تیره",
+          light: "روشن",
           dataPasteTogether: "پیوسته کردن اطلاعات",
           justPoint: "فقط نقطه",
           MultiAxis: "چند محوره",

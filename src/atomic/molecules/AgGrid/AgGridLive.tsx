@@ -119,30 +119,10 @@ const AgGridLive: React.FC<Props> = (props) => {
   }, [rowData]);
 
   return (
-    <div className="flex flex-wrap w-full justify-center">
-      <div className="flex w-full justify-center">
-        {/* <button
-          className="flex border p-2 rounded-lg bg-white-600 m-2 text-black font-Vazir-Medium"
-          onClick={onBtPrinterFriendly}
-        >
-          {t("sensorsPointsData")}
-        </button> */}
-        {/* <button
-          className="flex border p-2 rounded-lg bg-slate-600"
-          onClick={onBtNormal}
-        >
-          Normal
-        </button> */}
-      </div>
-      {/* Example using Grid's API */}
-      {/* <button onClick={buttonListener}>Push Me</button> */}
-
-      {/* On div wrapping Grid a) specify theme CSS Class Class and b) sets Grid size */}
-      <div className="flex w-full overflow-scroll">
+    <div className="flex min-w-full justify-start overflow-auto">
+      <div className="flex min-w-[1200px] min-h-[40vh]">
         {rowData?.length && columns?.length && (
           <ListDataGrid
-            width={"100vw"}
-            height={"400px"}
             RowsData={rowData ?? []}
             columns={columns}
             title={"data"}
@@ -150,7 +130,6 @@ const AgGridLive: React.FC<Props> = (props) => {
             setSelectionModel={setSelectionModel}
           />
         )}
-        {/* {rowData?.length && <DataGrid rows={rowData} columns={columns} />} */}
       </div>
     </div>
   );
@@ -194,35 +173,6 @@ const columns = [
     width: 100,
   },
 ];
-
-const DataGridComponent = ({ rowData }) => {
-  const [gridData, setGridData] = useState([]);
-
-  useEffect(() => {
-    setGridData(rowData);
-  }, [rowData]);
-
-  const handleCellEditCommit = ({ id, field, value }) => {
-    const updatedData = gridData.map((row) => {
-      if (row.id === id) {
-        return { ...row, [field]: value };
-      } else {
-        return row;
-      }
-    });
-    setGridData(updatedData);
-  };
-
-  return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={gridData}
-        columns={columns}
-        onCellEditCommit={handleCellEditCommit}
-      />
-    </div>
-  );
-};
 
 const row = [
   {

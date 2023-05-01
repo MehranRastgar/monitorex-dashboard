@@ -8,9 +8,9 @@ import Messages from "./Messages/Messages";
 
 function TopNavRightBox() {
   return (
-    <div className={classes.topNavBox_right}>
+    <div className="flex w-1/4">
       <div className={classes.wrapper}>
-        <Messages />
+        {/* <Messages /> */}
         <LangBox />
         <ThemeBox />
       </div>

@@ -19,6 +19,7 @@ export interface AnalizeState {
   sensorsReport?: SensorsReportType[];
   statusReportApi: statusApiType;
   selectedGroup?: number; ///////
+  selectionType?: "device" | "group";
 }
 export interface SensorsReportType {
   _id?: string;
@@ -76,6 +77,9 @@ export const analizeSlice = createSlice({
     },
     setStartDate: (state, action: PayloadAction<string>) => {
       state.startDate = action.payload;
+    },
+    setSelectionType: (state, action: PayloadAction<"device" | "group">) => {
+      state.selectionType = action.payload;
     },
     setStartDayjs: (state, action: PayloadAction<string>) => {
       state.startDayjs = action.payload;
@@ -158,6 +162,7 @@ export const {
   addSelectedSensors,
   setSelectedSensors,
   removeSelectedSensors,
+  setSelectionType,
 } = analizeSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
@@ -179,7 +184,8 @@ export const selectStartDayjs = (state: AppState) => state.analize.startDayjs;
 export const selectEndDayjs = (state: AppState) => state.analize.endDayjs;
 export const selectGroupNumber = (state: AppState) =>
   state.analize.selectedGroup;
-
+export const selectSelectionType = (state: AppState) =>
+  state.analize.selectionType;
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 // export const incrementIfOdd =

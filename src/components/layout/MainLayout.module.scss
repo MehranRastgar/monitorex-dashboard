@@ -24,7 +24,7 @@
 
 .main {
   width: 100%;
-
+  margin-top: 75px;
   // background-color: var(--card-bgc);
   // background-color: var(--bgc);
   // background-image: var(--background-image);
@@ -62,9 +62,9 @@
 
 html[dir="rtl"] {
   .main__content {
-    padding: 1rem 17rem 1rem 2.5rem;
+    padding: 1rem 1rem 1rem 1rem;
     &.close_sidebar {
-      padding: 1rem 6rem 1rem 2rem;
+      padding: 1rem 1rem 1rem 1rem;
       @include tablet {
         padding: 0.8rem 2rem 0.8rem 2rem;
       }
