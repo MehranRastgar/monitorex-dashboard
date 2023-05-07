@@ -8,7 +8,7 @@ interface socketsSl {
   socketObj: socketObType;
 }
 
-interface socketObType {
+export interface socketObType {
   [key: string]: SensorWebsocketRealTimeDataType;
 }
 

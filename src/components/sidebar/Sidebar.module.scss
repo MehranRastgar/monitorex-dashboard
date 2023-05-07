@@ -118,6 +118,9 @@
 
 html[dir="rtl"] {
   .sidebar {
+    @media (min-width: 768px) {
+      display: none;
+    }
     &__menu {
       &__item {
         padding-left: 0;

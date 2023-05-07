@@ -20,6 +20,10 @@ const nextConfig = {
       "localhost",
     ],
     loader: "custom",
+    //only for tauri mode
+    images: {
+      unoptimized: true,
+    },
     // path: "/public/",
   },
 };

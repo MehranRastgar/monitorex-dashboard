@@ -25,6 +25,7 @@ const Transition = React.forwardRef(function Transition(
 });
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Item from "../../atoms/Item/Item";
+import ThemeButton from "src/atomic/atoms/ThemeButton/ThemeButton";
 
 const theme = createTheme({
   typography: {
@@ -66,12 +67,9 @@ export default function FullPageModal({
 
   return (
     <div>
-      <button
-        className="bg-[var(--approved-bgc)] hover:bg-[var(--pending-bgc)] p-2 font-Vazir-Medium rounded-lg"
-        onClick={handleClickOpen}
-      >
+      <ThemeButton type={"explore"} onClick={handleClickOpen}>
         {t("printPreview")}
-      </button>
+      </ThemeButton>
 
       <Dialog
         fullWidth={true}
@@ -93,21 +91,15 @@ export default function FullPageModal({
               backgroundColor: "white",
             }}
           >
-            <button
-              className="bg-[var(--rejected-bgc)] p-2 rounded-lg font-Vazir-Medium mx-2"
-              onClick={handleClose}
-            >
+            <ThemeButton type="reject" className=" mx-2" onClick={handleClose}>
               <CloseIcon />
-            </button>
+            </ThemeButton>
             {/* <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               close
             </Typography> */}
-            <button
-              className="bg-[var(--pending-bgc)] p-2 rounded-lg font-Vazir-Medium mx-2"
-              onClick={handlePrint}
-            >
+            <ThemeButton type="submit" className="mx-2" onClick={handlePrint}>
               print
-            </button>
+            </ThemeButton>
           </Toolbar>
           <div className="w-full flex justify-center">
             <Item

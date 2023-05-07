@@ -1,7 +1,9 @@
 import { Icon } from "@iconify/react";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import ButtonRegular from "src/atomic/atoms/ButtonA/ButtonRegular";
+import ThemeButton from "src/atomic/atoms/ThemeButton/ThemeButton";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import {
   selectEndDate,
@@ -29,6 +31,8 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
   const { t } = useTranslation();
   const [indexOfItem, setIndexOfItem] = useState<number | undefined>(undefined);
 
+  useEffect(() => {}, []);
+
   const handleRemoveFromGroups = async (index: number) => {
     const start = startDate !== undefined ? new Date(startDate).getTime() : 0;
     const end = endDate !== undefined ? new Date(endDate).getTime() : 0;
@@ -37,19 +41,20 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
       localStorage.getItem("user") ?? ""
     );
     const arr: GroupItemType[] = [];
-    if (selectedSensorsSlice !== undefined)
-      for (
-        let i = 0;
-        userD?.groups?.length !== undefined &&
-        i < userD?.groups?.length !== undefined;
-        i++
-      ) {
-        if (index !== i && userD?.groups?.[i] !== undefined)
-          arr.push({ ...userD?.groups?.[i] });
+    if (
+      selectedSensorsSlice !== undefined &&
+      userD?.groups?.length !== undefined
+    )
+      for (let i = 0; i < userD?.groups?.length; i++) {
+        if (userD?.groups[i]?.groupTitle !== undefined && i !== index) {
+          arr.push(userD?.groups[i]);
+        }
       }
+    console.log(arr);
+
     const user: UserType = { ...userD, groups: [...arr] };
-    //console.log(userD);
     dispatch(updateUserData(user));
+    localStorage.setItem("user", JSON.stringify(user));
   };
   const style = {
     position: "absolute" as "absolute",
@@ -99,33 +104,26 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
               {t("do_you_want_to_remove_this_group")}
             </Typography>
             <div className="flex m-4 mt-10">
-              <Button
-                variant="contained"
-                type="button"
-                className="mx-2 w-auto border-2 rounded-lg flex justify-center flex-wrap backdrop-blur-sm text-[var(--text-color)] bg-white/30 hover:bg-white/60  items-end"
+              <ThemeButton
+                className="mx-2"
+                type="submit"
                 onClick={() => {
                   if (indexOfItem !== undefined)
                     handleRemoveFromGroups(indexOfItem);
-                  //  if (sensor?._id !== undefined)
-                  //  dispatch(remo(sensor?._id));
+                  setOpen(false);
                 }}
               >
-                <Typography className="text-lg font-Vazir-Bold">
-                  {t("yes")}
-                </Typography>
-              </Button>
-              <Button
-                variant="contained"
-                type="button"
-                className="mx-2 w-auto border-2 rounded-lg flex justify-center flex-wrap backdrop-blur-sm text-[var(--text-color)] bg-white/30 hover:bg-white/60  items-end"
+                {t("yes")}
+              </ThemeButton>
+              <ThemeButton
+                className="mx-2"
+                type="reject"
                 onClick={() => {
                   setOpen(false);
                 }}
               >
-                <Typography className="text-lg font-Vazir-Bold">
-                  {t("no")}
-                </Typography>
-              </Button>
+                {t("no")}
+              </ThemeButton>
             </div>
             {/* <UserGroupsSaveContainer /> */}
           </Box>
@@ -161,13 +159,17 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
             sx={styleInput}
             label={t("title")}
           />
-          <div className="flex h-fit">
-            <Button
-              className=" font-Vazir-Medium bg-green-600 hover:bg-green-800 text-white mx-2"
+          <div className="flex w-full justify-center mt-10 h-fit ">
+            <ThemeButton
+              disabled={
+                nameofGp !== "unname" && nameofGp.length !== 0 ? false : true
+              }
+              type="submit"
+              className="mt-10"
               onClick={() => props?.handleSaveToGroup(nameofGp)}
             >
               {t("saveToGroups")}
-            </Button>
+            </ThemeButton>
           </div>
         </section>
       </Box>

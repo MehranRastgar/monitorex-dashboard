@@ -273,7 +273,7 @@ export default function MultiLineChart({ id }: { id: string }) {
         setState({
           chartOptions: {
             exporting: {
-              enabled: false,
+              enabled: true,
             },
             colors: [
               "var(--chart-color-1)",

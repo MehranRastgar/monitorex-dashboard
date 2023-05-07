@@ -2,6 +2,7 @@
 
 import { Box, Grid, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
+import ScrollContainer from "react-indiana-drag-scroll";
 import { SensorWebsocketRealTimeDataType } from "../../components/pages/sensors/sensorsTable";
 import { socket } from "../../components/socketio";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -12,12 +13,13 @@ import { selectUserGroups } from "../../store/slices/userSlice";
 import { GroupItemType } from "../../types/types";
 import Item from "../atoms/Item/Item";
 import BarchartLive from "../molecules/AmChart/BarchartLive";
-import LiveChart from "../organisms/Charts/LiveChart";
+import DeviceUnit from "../molecules/device/DeviceUnit";
 import OneEPanel from "../organisms/electrical/OneEPanel";
 import LiveDataGrid from "../organisms/LiveDataGrid/LiveDataGrid";
 import SensorsSummary from "../organisms/sensor/SensorsSummary";
 import GroupListComponent from "../organisms/UserGroups/GroupListComponent";
 import classes from "./../../components/summary/Summary.module.scss";
+import LiveChart from "../organisms/Charts/LiveChart";
 
 interface Props {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -64,6 +66,18 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
     <>
       <section className="flex justify-center min-w-full -mt-6">
         <div className="flex justify-center flex-wrap min-w-full">
+          {/* <div className="flex flex-wrap justify-self-auto min-w-full m-1 border border-[var(--border-color)]"> */}
+          <ScrollContainer
+            vertical={false}
+            hideScrollbars={false}
+            className="overflow-y-hidden flex border border-[var(--border-color)]"
+          >
+            {selectDevices.map((dev, index) => (
+              <DeviceUnit key={index.toString()} index={index} />
+            ))}
+          </ScrollContainer>
+          {/* </div> */}
+
           <div className="flex flex-wrap justify-self-auto min-w-full m-1 border border-[var(--border-color)]">
             <div className="flex w-full md:w-1/2 lg:w-1/2">
               <GroupListComponent type="group" />
@@ -78,9 +92,9 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
           <div className="min-w-full min-h-[40vh] m-1 border border-[var(--border-color)]">
             {showdiv ? <LiveDataGrid /> : <>loading</>}
           </div>
-          <div className="min-w-full max-h-[50vh] m-1 border border-[var(--border-color)] overflow-auto">
+          {/* <div className="min-w-full max-h-[50vh] m-1 border border-[var(--border-color)] overflow-auto">
             <SensorsSummary />
-          </div>
+          </div> */}
           {/* <div className="flex w-full justify-center lg:w-1/3 ">
             <BarchartLive id="barchart-live" />
           </div> */}

@@ -10,7 +10,9 @@
     "lint": "next lint",
     "deploy:local": "next build && pm2 startOrRestart ecosystem.config.js --env local",
     "deploy:dev": "next build && pm2 startOrRestart ecosystem.config.js --env development",
-    "deploy:prod": "next build && pm2 startOrRestart ecosystem.config.js --env production"
+    "deploy:prod": "next build && pm2 startOrRestart ecosystem.config.js --env production",
+    "export": "next export",
+    "tauri": "tauri"
   },
   "dependencies": {
     "@amcharts/amcharts5": "^5.2.45",
@@ -98,6 +100,7 @@
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "latest",
     "@iconify/react": "^3.1.4",
+    "@tauri-apps/cli": "^1.2.3",
     "@types/node": "18.11.2",
     "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",

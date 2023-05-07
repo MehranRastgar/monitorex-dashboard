@@ -16,7 +16,7 @@ function ThemeBox() {
           theme === "dark" ? classes.darkMode : ""
         }`}
       >
-        <span className="flex justify-center -translate-y-6 ">{t(theme)}</span>
+        <span className="flex justify-center -translate-y-6 "></span>
       </div>
     </div>
   );
