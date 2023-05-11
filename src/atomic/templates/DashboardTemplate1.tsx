@@ -1,25 +1,28 @@
 // import DemoDualAxes from "../molecules/AntChart/MultiLineChart";
 
-import { Box, Grid, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import ScrollContainer from "react-indiana-drag-scroll";
-import { SensorWebsocketRealTimeDataType } from "../../components/pages/sensors/sensorsTable";
-import { socket } from "../../components/socketio";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { selectGroupNumber } from "../../store/slices/analizeSlice";
-import { selectDevicesData } from "../../store/slices/devicesSlice";
-import { addNewRecordToSocket } from "../../store/slices/socketSlice";
-import { selectUserGroups } from "../../store/slices/userSlice";
-import { GroupItemType } from "../../types/types";
-import Item from "../atoms/Item/Item";
-import BarchartLive from "../molecules/AmChart/BarchartLive";
-import DeviceUnit from "../molecules/device/DeviceUnit";
-import OneEPanel from "../organisms/electrical/OneEPanel";
-import LiveDataGrid from "../organisms/LiveDataGrid/LiveDataGrid";
-import SensorsSummary from "../organisms/sensor/SensorsSummary";
-import GroupListComponent from "../organisms/UserGroups/GroupListComponent";
-import classes from "./../../components/summary/Summary.module.scss";
-import LiveChart from "../organisms/Charts/LiveChart";
+import { Box, Grid, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import ScrollContainer from 'react-indiana-drag-scroll';
+import { SensorWebsocketRealTimeDataType } from '../../components/pages/sensors/sensorsTable';
+import { socket } from '../../components/socketio';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { selectGroupNumber } from '../../store/slices/analizeSlice';
+import { selectDevicesData } from '../../store/slices/devicesSlice';
+import { addNewRecordToSocket } from '../../store/slices/socketSlice';
+import { selectUserGroups } from '../../store/slices/userSlice';
+import { GroupItemType } from '../../types/types';
+import Item from '../atoms/Item/Item';
+import BarchartLive from '../molecules/AmChart/BarchartLive';
+import DeviceUnit from '../molecules/device/DeviceUnit';
+import OneEPanel from '../organisms/electrical/OneEPanel';
+import LiveDataGrid from '../organisms/LiveDataGrid/LiveDataGrid';
+import SensorsSummary from '../organisms/sensor/SensorsSummary';
+import GroupListComponent from '../organisms/UserGroups/GroupListComponent';
+import classes from './../../components/summary/Summary.module.scss';
+import LiveChart from '../organisms/Charts/LiveChart';
+import ThemeButton from '../atoms/ThemeButton/ThemeButton';
+import GroupUnit from '../molecules/device/GroupUnit';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -28,6 +31,7 @@ interface Props {
 }
 const DashboardTemplate1: React.FC<Props> = (props) => {
   const selectDevices = useAppSelector(selectDevicesData);
+  const { t } = useTranslation();
   // const Groups = useAppSelector(selectUserGroups);
   // const gpNumber = useAppSelector(selectGroupNumber);
 
@@ -37,6 +41,9 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   const Groups = useAppSelector(selectUserGroups);
   const gpNumber = useAppSelector(selectGroupNumber);
   const [group, setGroup] = useState<GroupItemType | null>(null);
+  const [groupOrDevice, setGroupOrDevice] = useState<'group' | 'device'>(
+    'device',
+  );
 
   useEffect(() => {
     if (gpNumber !== undefined && Groups?.[gpNumber] !== undefined)
@@ -65,27 +72,58 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   return (
     <>
       <section className="flex justify-center min-w-full -mt-6">
-        <div className="flex justify-center flex-wrap min-w-full">
+        <div className="mt-10 m-1 flex justify-center flex-wrap min-w-full">
+          <div className="flex w-full justify-center">
+            <ThemeButton
+              onClick={() => setGroupOrDevice('device')}
+              type={groupOrDevice === 'device' ? 'activate' : 'deactivate'}
+            >
+              {t('devices')}
+            </ThemeButton>
+            <ThemeButton
+              onClick={() => setGroupOrDevice('group')}
+              type={groupOrDevice === 'group' ? 'activate' : 'deactivate'}
+            >
+              {t('groups')}
+            </ThemeButton>
+          </div>
           {/* <div className="flex flex-wrap justify-self-auto min-w-full m-1 border border-[var(--border-color)]"> */}
+
           <ScrollContainer
             vertical={false}
             hideScrollbars={false}
             className="overflow-y-hidden flex border border-[var(--border-color)]"
           >
-            {selectDevices.map((dev, index) => (
-              <DeviceUnit key={index.toString()} index={index} />
-            ))}
+            <div className={groupOrDevice === 'device' ? 'flex' : 'hidden'}>
+              {selectDevices.map((dev, index) => (
+                <DeviceUnit key={index.toString()} index={index} />
+              ))}
+            </div>
+
+            <div className={groupOrDevice === 'device' ? 'hidden' : 'flex'}>
+              {group !== null ? (
+                <>
+                  {Groups?.map((dev, index) => (
+                    <GroupUnit key={index.toString()} index={index} />
+                  ))}
+                </>
+              ) : (
+                <>
+                  <section className="flex flex-wrap border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4"></section>
+                </>
+              )}
+            </div>
           </ScrollContainer>
           {/* </div> */}
 
-          <div className="flex flex-wrap justify-self-auto min-w-full m-1 border border-[var(--border-color)]">
+          {/* <div className="flex flex-wrap justify-self-auto min-w-full m-1 border border-[var(--border-color)]">
             <div className="flex w-full md:w-1/2 lg:w-1/2">
               <GroupListComponent type="group" />
             </div>
             <div className="flex w-full md:w-1/2 lg:w-1/2">
               <GroupListComponent type="device" />
             </div>
-          </div>
+          </div> */}
           <div className="flex justify-center min-w-full m-1 border border-[var(--border-color)] p-2">
             <LiveChart />
           </div>

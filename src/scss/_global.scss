@@ -1,7 +1,7 @@
-@use "./abstracts/" as *;
+@use './abstracts/' as *;
 @import url(../assets/fonts/css/fontiran.css);
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;500&display=swap');
 html {
   /* ****Colors**** */
   --chart-bgc: rgba(238, 238, 238, 0.8);
@@ -25,6 +25,7 @@ html {
   --card-bgc: #e1f1f1;
   --text-color: #000000;
   --header-text-color: #070707;
+  --border-color: #636261;
   --dev-bgc: rgba(248, 240, 240, 0.698);
 
   // --blur-bg: rgba(216, 231, 229, 0.8);
@@ -41,13 +42,17 @@ html {
   --rejected-bgc: rgb(255, 56, 56);
   --rejected-textColor: #9d0e0e;
   --dev-bgc-disable: rgba(180, 31, 31, 0.678);
+  --dev-bgc-deactive: rgb(121, 121, 121);
   --dev-bgc-selected: rgba(22, 207, 62, 0.7);
   --text-ultimate-color: rgb(36, 151, 189);
   /* ****Font family**** */
-  --fontFamily: "Poppins", "Roboto", sans-serif;
+  --fontFamily: 'Poppins', 'Roboto', sans-serif;
   --button-primary: rgba(17, 162, 211, 0.801);
+  --max-color: rgb(255, 139, 45);
+  --min-color: rgb(45, 202, 255);
+  --bgc-table: #8b42a152;
 }
-html[theme="dark"] {
+html[theme='dark'] {
   //dark theme
   --chart-bgc: #13274f;
   --chart-bgc2: rgb(255, 255, 255);
@@ -81,13 +86,17 @@ html[theme="dark"] {
   --rejected-bgc: rgba(255, 96, 56, 0.822);
   --rejected-textColor: #f2bebe;
   --dev-bgc-disable: rgba(134, 49, 49, 0.7);
+  --dev-bgc-deactive: rgb(66, 66, 66);
   --dev-bgc-selected: rgba(31, 150, 57, 0.7);
   --text-ultimate-color: rgb(45, 202, 255);
   --button-primary: rgb(21, 79, 133);
+  --max-color: rgb(255, 139, 45);
+  --min-color: rgb(45, 202, 255);
+  --bgc-table: #4296a152;
 }
 
-html[dir="rtl"] {
-  --fontFamily: iranyekan, "IRANSans", "Tahoma";
+html[dir='rtl'] {
+  --fontFamily: iranyekan, 'IRANSans', 'Tahoma';
 }
 
 //reset
@@ -203,7 +212,7 @@ body {
 }
 
 .rtl {
-  font-family: iranyekan, "IRANSans", "Tahoma";
+  font-family: iranyekan, 'IRANSans', 'Tahoma';
   direction: rtl;
   text-align: right;
 }
@@ -270,7 +279,7 @@ body {
 }
 
 .notFound__container_rtl {
-  font-family: iranyekan, "IRANSans", "Tahoma";
+  font-family: iranyekan, 'IRANSans', 'Tahoma';
   min-height: 100vh;
   @include flex();
   flex-direction: column;
@@ -306,7 +315,7 @@ body {
 
 //---------- end of not Found page
 
-html[dir="rtl"] {
+html[dir='rtl'] {
   @include tablet {
     .sidebar__open .main_wrapper {
       border-top-right-radius: 30px;

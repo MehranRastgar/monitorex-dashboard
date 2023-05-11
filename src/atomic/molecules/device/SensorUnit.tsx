@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   SensorsReceiveTpe,
   SensorWebsocketRealTimeDataType,
-} from "src/components/pages/sensors/sensorsTable";
-import { socket } from "src/components/socketio";
-import { useAppSelector } from "src/store/hooks";
-import { selectSocketObject, socketObType } from "src/store/slices/socketSlice";
+} from 'src/components/pages/sensors/sensorsTable';
+import { socket } from 'src/components/socketio';
+import { useAppSelector } from 'src/store/hooks';
+import { selectSocketObject, socketObType } from 'src/store/slices/socketSlice';
 interface Props {
   index: number;
   sensor: SensorsReceiveTpe;
+  time?: string;
 }
 const SensorUnit: React.FC<Props> = (props) => {
   const socketObj: socketObType = useAppSelector(selectSocketObject);
@@ -20,24 +21,36 @@ const SensorUnit: React.FC<Props> = (props) => {
     // if (props?.sensor?._id !== undefined)
     //   setSensorData(socketObj?.[props?.sensor?._id]);
     if (props?.sensor?._id)
-      socket.on(props?.sensor?._id, (data: SensorWebsocketRealTimeDataType) => {
-        // console.log(data);
-        setSensorData(data);
-      });
+      socket.once(
+        props?.sensor?._id,
+        (data: SensorWebsocketRealTimeDataType) => {
+          console.log('sensorsocket:', data);
+          setSensorData(data);
+        },
+      );
 
-    return () => {
-      if (props?.sensor?._id) socket.off(props?.sensor?._id);
-    };
-  }, []);
+    return () => {};
+  }, [props.time]);
 
   return (
     <section
       className={
-        "flex flex-wrap items-center justify-center border-[var(--border-color)] border-b h-[4vh] w-full text-[1.2vw] xl:text-xl overflow-x-auto overflow-y-hidden " +
+        'flex flex-wrap items-center justify-center border-[var(--border-color)] border-b h-[4vh] w-full text-[1.2vw] xl:text-xl overflow-x-auto overflow-y-hidden ' +
         `${
           sensorData?.value === 200000
-            ? "bg-[var(--warning-bg)] text-[var(--warning-text)]"
-            : ""
+            ? 'bg-[var(--dev-bgc-deactive)] text-[var(--text-color)]'
+            : `${
+                props?.sensor?.maxAlarm &&
+                sensorData?.value &&
+                sensorData?.value >= props?.sensor?.maxAlarm
+                  ? 'bg-[var(--max-color)]'
+                  : `${
+                      props?.sensor?.minAlarm &&
+                      sensorData?.value &&
+                      sensorData?.value <= props?.sensor?.minAlarm &&
+                      'bg-[var(--min-color)]'
+                    }`
+              }`
         }`
       }
     >
@@ -45,11 +58,25 @@ const SensorUnit: React.FC<Props> = (props) => {
         <div className="text-center justify-center w-1/2 ">
           {props?.sensor?.title}
         </div>
-        <div className={"text-center justify-center w-1/2 "}>
+        <div className={'text-center justify-center w-1/2 '}>
           {sensorData?.value === 200000
-            ? "bad Data"
-            : sensorData?.value ?? "--"}
+            ? 'bad Data'
+            : sensorData?.value ?? '--'}
         </div>
+        {props?.sensor?.maxAlarm &&
+        sensorData?.value &&
+        sensorData?.value >= props?.sensor?.maxAlarm ? (
+          <div>max</div>
+        ) : (
+          <></>
+        )}
+        {props?.sensor?.minAlarm &&
+        sensorData?.value &&
+        sensorData?.value <= props?.sensor?.minAlarm ? (
+          <div>min</div>
+        ) : (
+          <></>
+        )}
       </div>
     </section>
   );

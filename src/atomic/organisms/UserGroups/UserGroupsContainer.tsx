@@ -168,7 +168,7 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
               className="mt-10"
               onClick={() => props?.handleSaveToGroup(nameofGp)}
             >
-              {t("saveToGroups")}
+              {t("saveInGroups")}
             </ThemeButton>
           </div>
         </section>

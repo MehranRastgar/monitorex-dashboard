@@ -1,10 +1,10 @@
-import { images } from "../../../../constants";
-import classes from "./Profile.module.scss";
-import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
-import { useAppSelector } from "../../../../store/hooks";
-import { selectOwnUser } from "../../../../store/slices/userSlice";
-import Avatar from "react-avatar";
+import { images } from '../../../../constants';
+import classes from './Profile.module.scss';
+import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+import { useAppSelector } from '../../../../store/hooks';
+import { selectOwnUser } from '../../../../store/slices/userSlice';
+import Avatar from 'react-avatar';
 
 function Profile() {
   const user = useAppSelector(selectOwnUser);
@@ -13,14 +13,14 @@ function Profile() {
     //console.log(images.avt);
   }, []);
   return (
-    <div className={classes.profile}>
+    <div className={classes.profile + ' mx-4 flex'}>
       <div className={classes.profile__avatar}>
         {/* <img src={"Rectangle2.png"} alt="avatar" /> */}
-        <Avatar name={`${user?.family} ${user?.name}`} size="40" round={true} />
+        <Avatar name={`${user?.family} `} size="30" round={true} />
       </div>
       <div className={classes.profile__info}>
         <p className={classes.profile__userName}>
-          {user?.family}
+          {/* {user?.family} */}
           {user?.name ?? user?.username}
         </p>
         {/* <span className={classes.profile__role}>{t("admin")}</span> */}

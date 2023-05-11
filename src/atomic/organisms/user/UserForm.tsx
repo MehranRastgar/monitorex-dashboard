@@ -4,17 +4,18 @@ import {
   MenuItem,
   Select,
   TextField,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { setSelectedDevice } from "../../../store/slices/devicesSlice";
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { setSelectedDevice } from '../../../store/slices/devicesSlice';
 import {
   selectSelectedUser,
   setSelectedUser,
-} from "../../../store/slices/userSlice";
-import { UserType } from "../../../types/types";
-import ButtonRegular from "../../atoms/ButtonA/ButtonRegular";
+} from '../../../store/slices/userSlice';
+import { UserType } from '../../../types/types';
+import ButtonRegular from '../../atoms/ButtonA/ButtonRegular';
 
 interface UserFormProps {
   user: UserType;
@@ -31,18 +32,18 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSave, isAdmin }) => {
   // Create fields array from JSON file or User interface
   const fields = [
     // { name: "_id", label: "ID", type: "text", size: 250 },
-    { name: "username", label: "username", type: "text" },
-    { name: "password", label: "password", type: "password" },
-    { name: "name", label: "Name", type: "text" },
-    { name: "family", label: "Family", type: "text" },
+    { name: 'username', label: 'username', type: 'text' },
+    { name: 'password', label: 'password', type: 'password' },
+    { name: 'name', label: 'Name', type: 'text' },
+    { name: 'family', label: 'Family', type: 'text' },
     {
-      name: "isAdmin",
-      label: "isAdmin",
-      type: "select",
-      options: ["true", "false"],
+      name: 'isAdmin',
+      label: 'isAdmin',
+      type: 'select',
+      options: ['true', 'false'],
     },
-    { name: "email", label: "Email", type: "email", size: 250 },
-    { name: "phoneNumber", label: "Phone Number", type: "tel" },
+    { name: 'email', label: 'Email', type: 'email', size: 250 },
+    { name: 'phoneNumber', label: 'Phone Number', type: 'tel' },
   ];
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,11 +64,11 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSave, isAdmin }) => {
     <form className="flex flex-wrap" onSubmit={handleSubmit}>
       {fields.map(({ name, label, type, options, size }) => (
         <div className="m-2" key={name}>
-          {type !== "select" ? (
+          {type !== 'select' ? (
             <>
               {/* <label htmlFor={name}>{t(label)}</label> */}
               <TextField
-                value={formValues?.[name] ?? ""}
+                value={formValues?.[name] ?? ''}
                 // id={idPrefix + `sensor?.[${index}]?.name`}
                 variant="filled"
                 onChange={(e) => {
@@ -75,7 +76,7 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSave, isAdmin }) => {
                     setSelectedUser({
                       ...selectedUser,
                       [name]: e.target.value,
-                    })
+                    }),
                   );
                 }}
                 sx={{
@@ -93,12 +94,9 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSave, isAdmin }) => {
       ))}
       <div className="flex w-full">{isAdmin && <UserPermissions />}</div>
       <div className="flex w-full my-4 m-2">
-        <ButtonRegular
-          className="flex p-4 text-larg font-Vazir  "
-          type="submit"
-        >
-          {t("save")}
-        </ButtonRegular>
+        <ThemeButton className="m-4" type="submit">
+          {t('save')}
+        </ThemeButton>
       </div>
     </form>
   );
@@ -111,12 +109,12 @@ const UserPermissions: React.FC = () => {
   const [showitems, setShowitems] = useState(false);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const permisionOptions = ["manage", "create", "read", "update", "delete"];
+  const permisionOptions = ['manage', 'create', 'read', 'update', 'delete'];
   const fields = [
-    { name: "devices", label: "devices", type: "text", size: 150 },
-    { name: "profile", label: "profile", type: "text", size: 150 },
-    { name: "reports", label: "reports", type: "text", size: 150 },
-    { name: "users", label: "users", type: "text", size: 150 },
+    { name: 'devices', label: 'devices', type: 'text', size: 150 },
+    { name: 'profile', label: 'profile', type: 'text', size: 150 },
+    { name: 'reports', label: 'reports', type: 'text', size: 150 },
+    { name: 'users', label: 'users', type: 'text', size: 150 },
   ];
 
   useEffect(() => {}, [selectedUser]);
@@ -137,7 +135,7 @@ const UserPermissions: React.FC = () => {
                 <Select
                   // id={idPrefix + "numberOfPorts"}
                   labelId="demo-simple-select-standard-label"
-                  value={selectedUser?.accessControll?.[name] ?? ""}
+                  value={selectedUser?.accessControll?.[name] ?? ''}
                   onChange={(e) => {
                     dispatch(
                       setSelectedUser({
@@ -146,7 +144,7 @@ const UserPermissions: React.FC = () => {
                           ...selectedUser?.accessControll,
                           [name]: e?.target?.value?.toString(),
                         },
-                      })
+                      }),
                     );
                   }}
                   label={label}
@@ -170,16 +168,16 @@ const UserPermissions: React.FC = () => {
 const style = {
   width: 250,
   boxShadow: 2,
-  bgcolor: "var(--card-bgc)",
-  ".MuiFormLabel-root": {
-    color: "var(--approved-bgc)",
+  bgcolor: 'var(--card-bgc)',
+  '.MuiFormLabel-root': {
+    color: 'var(--approved-bgc)',
   },
-  ".MuiInputBase-input": {
-    color: "var(--text-color)",
+  '.MuiInputBase-input': {
+    color: 'var(--text-color)',
     fontSize: 16,
   },
-  ".MuiInputLabel-filled": {
-    color: "var(--text-color)",
+  '.MuiInputLabel-filled': {
+    color: 'var(--text-color)',
     fontSize: 16,
   },
 };

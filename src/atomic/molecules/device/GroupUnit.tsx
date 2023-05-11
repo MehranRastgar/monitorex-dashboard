@@ -13,7 +13,7 @@ import SensorUnit from './SensorUnit';
 interface Props {
   index?: number;
 }
-const DeviceUnit: React.FC<Props> = (props) => {
+const GroupUnit: React.FC<Props> = (props) => {
   const [time, setTime] = useState(new Date());
   const devices = useAppSelector(selectDevicesData);
   const [device, setDevice] = useState<DevicesReceiveType | undefined>(
@@ -68,4 +68,4 @@ const DeviceUnit: React.FC<Props> = (props) => {
   );
 };
 
-export default DeviceUnit;
+export default GroupUnit;

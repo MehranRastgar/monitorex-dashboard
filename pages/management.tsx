@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import Summary from "../src/components/summary/Summary";
-import SaleChart from "../src/components/chart/Chart";
-import DashboardTables from "../src/components/tables/DashboardTables";
-import Layout from "../src/components/layout/Layout";
-import UserManagement from "../src/atomic/templates/UserManagement";
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import Summary from '../src/components/summary/Summary';
+import SaleChart from '../src/components/chart/Chart';
+import DashboardTables from '../src/components/tables/DashboardTables';
+import Layout from '../src/components/layout/Layout';
+import UserManagement from '../src/atomic/templates/UserManagement';
 
 function Settings() {
   const [value, setValue] = useState(0);
@@ -14,11 +14,9 @@ function Settings() {
   return (
     <Layout>
       <section>
-        <h2 className="title">{t("management")}</h2>
         <BasicTabs value={value} setValue={setValue} />
         <Box sx={{ p: 3 }}>
           {value === 0 ? <DeviceManagement /> : <></>}
-          {/* {value === 1 ? <SensorList props={{ title: "sensors" }} /> : <></>} */}
           {value === 1 ? <UserManagement /> : <></>}
         </Box>
       </section>
@@ -28,16 +26,16 @@ function Settings() {
 
 export default Settings;
 
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import { styled } from "@mui/material/styles";
-import SettingsSensors from "../src/components/pages/settings/sensors";
-import SettingsDevices from "../src/components/pages/settings/device/devices";
-import DeviceList from "../src/atomic/organisms/device/DeviceList";
-import DeviceManagement from "../src/atomic/templates/DeviceManagement";
-import SensorList from "../src/atomic/organisms/sensor/SensorList";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
+import SettingsSensors from '../src/components/pages/settings/sensors';
+import SettingsDevices from '../src/components/pages/settings/device/devices';
+import DeviceList from '../src/atomic/organisms/device/DeviceList';
+import DeviceManagement from '../src/atomic/templates/DeviceManagement';
+import SensorList from '../src/atomic/organisms/sensor/SensorList';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -72,7 +70,7 @@ function TabPanel(props: TabPanelProps) {
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 // const TagA = ({ num, m }: { num: number; m: number }) => {
@@ -112,8 +110,8 @@ function BasicTabs({ setValue, value }: { setValue: any; value: number }) {
   return (
     <>
       {/* <TagA num={10} m={5}></TagA> */}
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -124,9 +122,9 @@ function BasicTabs({ setValue, value }: { setValue: any; value: number }) {
               children: <span className="MuiTabs-indicatorSpan" />,
             }}
           >
-            <StyledTab label={t("devices")} {...a11yProps(0)} />
+            <StyledTab label={t('devices')} {...a11yProps(0)} />
             {/* <StyledTab label={t("sensors")} {...a11yProps(1)} /> */}
-            <StyledTab label={t("users")} {...a11yProps(1)} />
+            <StyledTab label={t('users')} {...a11yProps(1)} />
           </Tabs>
         </Box>
       </Box>
@@ -146,15 +144,15 @@ const StyledTabs = styled((props: StyledTabsProps) => (
     TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
   />
 ))({
-  "& .MuiTabs-indicator": {
-    display: "flex",
-    justifyContent: "center",
-    backgroundColor: "transparent",
+  '& .MuiTabs-indicator': {
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
   },
-  "& .MuiTabs-indicatorSpan": {
+  '& .MuiTabs-indicatorSpan': {
     maxWidth: 40,
-    width: "100%",
-    backgroundColor: "#635ee7",
+    width: '100%',
+    backgroundColor: '#635ee7',
   },
 });
 
@@ -165,16 +163,16 @@ interface StyledTabProps {
 const StyledTab = styled((props: StyledTabProps) => (
   <Tab disableRipple {...props} />
 ))(({ theme }) => ({
-  textTransform: "none",
+  textTransform: 'none',
   fontWeight: theme.typography.fontWeightRegular,
   fontSize: theme.typography.pxToRem(15),
-  fontFamily: "inherit",
+  fontFamily: 'inherit',
   marginRight: theme.spacing(1),
-  color: "rgba(255, 255, 255, 0.7)",
-  "&.Mui-selected": {
-    color: "#fff",
+  color: 'var(--text-color)',
+  '&.Mui-selected': {
+    color: 'var(--approved-textColor)',
   },
-  "&.Mui-focusVisible": {
-    backgroundColor: "rgba(100, 95, 228, 0.32)",
+  '&.Mui-focusVisible': {
+    backgroundColor: 'rgba(100, 95, 228, 0.32)',
   },
 }));

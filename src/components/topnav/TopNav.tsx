@@ -20,7 +20,7 @@ function TopNav() {
   return (
     <div
       className={
-        "fixed bg-[var(--sidebar)] flex w-full z-[200] p-[1rem] flex-wrap border-b "
+        "items-end fixed bg-[var(--sidebar)] flex w-full z-[200]  flex-wrap  "
       }
     >
       <div className={classes.topNav_left}>
@@ -43,7 +43,7 @@ function TopNav() {
 
         </div> */}
       </div>
-      <div className="w-3/4 hidden md:flex">
+      <div className="items-end w-3/4 hidden md:flex">
         <TopNavMenu />
       </div>
       <br />

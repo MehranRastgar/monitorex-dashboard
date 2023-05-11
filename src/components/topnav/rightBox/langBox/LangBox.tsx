@@ -4,12 +4,12 @@ import React, {
   useRef,
   useCallback,
   useContext,
-} from "react";
-import { Icon } from "@iconify/react";
-import { useOnClickOutside } from "usehooks-ts";
-import LangContext from "../../../../store/langContext";
+} from 'react';
+import { Icon } from '@iconify/react';
+import { useOnClickOutside } from 'usehooks-ts';
+import LangContext from '../../../../store/langContext';
 
-import classes from "./LangBox.module.scss";
+import classes from './LangBox.module.scss';
 
 function LangBox() {
   const [showLangBox, setShowLangBox] = useState(false);
@@ -21,8 +21,8 @@ function LangBox() {
     setShowLangBox((prev) => !prev);
   };
   useEffect(() => {
-    document.documentElement.dir = lang === "en" ? "ltr" : "rtl";
-    document.documentElement.lang = lang === "en" ? "en" : "fa";
+    document.documentElement.dir = lang === 'en' ? 'ltr' : 'rtl';
+    document.documentElement.lang = lang === 'en' ? 'en' : 'fa';
   }, [lang]);
   const checkIfClickedOutside = useCallback(() => {
     // If the menu is open and the clicked target is not within the menu,
@@ -45,11 +45,13 @@ function LangBox() {
         <Icon icon="ep:arrow-down-bold" width="10" />
       </div>
       <div
-        className={`${classes.lang_menu} ${showLangBox ? classes.show : ""}`}
+        className={`${classes.lang_menu} ${
+          showLangBox ? classes.show : 'hidden'
+        }`}
       >
         <div
           onClick={() => {
-            langCtx.toggleLanguage("en");
+            langCtx.toggleLanguage('en');
             showBoxHandler();
           }}
         >
@@ -57,7 +59,7 @@ function LangBox() {
         </div>
         <div
           onClick={() => {
-            langCtx.toggleLanguage("fa");
+            langCtx.toggleLanguage('fa');
             showBoxHandler();
           }}
         >
