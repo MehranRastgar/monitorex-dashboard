@@ -1,8 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { SensorWebsocketRealTimeDataType } from 'src/components/pages/sensors/sensorsTable';
+import {
+  SensorsReceiveTpe,
+  SensorWebsocketRealTimeDataType,
+} from 'src/components/pages/sensors/sensorsTable';
 import { socket } from 'src/components/socketio';
 import { DevicesReceiveType } from 'src/store/api/devicesApi';
-import { useAppSelector } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectDevicesData } from 'src/store/slices/devicesSlice';
 import { selectSocketObject, socketObType } from 'src/store/slices/socketSlice';
 import SensorItem from './SensorItem';
@@ -45,22 +48,14 @@ import { GlobalFilter } from '../Table/GlobalFilter';
 import { useQuery } from 'react-query';
 import { GetDevices } from 'src/api/devices';
 import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
-
-export type TableInstanceWithHooks<T extends object> = TableInstance<T> &
-  UseFiltersInstanceProps<T> &
-  UseGlobalFiltersInstanceProps<T> &
-  TableState &
-  UsePaginationInstanceProps<T> &
-  UseSortByInstanceProps<T> & {
-    state: UsePaginationState<T> & UseGlobalFiltersOptions<T>;
-  };
-
-export interface ColumnInstance<
-  D extends Record<string, unknown> = Record<string, unknown>,
-> extends UseFiltersColumnProps<D>,
-    UseGroupByColumnProps<D>,
-    UseResizeColumnsColumnProps<D>,
-    UseSortByColumnProps<D> {}
+import ReactTable from '../Table/ReactTable';
+import { Icon } from '@iconify/react';
+import {
+  removeSelectedSensors,
+  selectSelectedSensorsAnalize,
+  setSelectedSensors,
+  setSelectedSensorsAdvanced,
+} from 'src/store/slices/analizeSlice';
 
 interface Props {
   index?: number;
@@ -68,6 +63,20 @@ interface Props {
 
 const DeviceTable: React.FC<Props> = (props) => {
   const queryDevices = useQuery('devices', GetDevices);
+  const selectedSensorRedux = useAppSelector(selectSelectedSensorsAnalize);
+  const [selectedRow, setSelectedRow] = useState<string>('');
+  const [selectedRowSensor, setSelectedRowSensor] = useState<string>('');
+  const [selectedDevice, setSelectedDevice] = useState<
+    DevicesReceiveType | undefined
+  >(undefined);
+
+  const dispatch = useAppDispatch();
+
+  function ClickSelectSensor(sensor: SensorsReceiveTpe) {
+    console.log(sensor);
+    dispatch(setSelectedSensorsAdvanced(sensor));
+  }
+
   const data = React.useMemo(
     () =>
       queryDevices.isSuccess === true
@@ -89,115 +98,136 @@ const DeviceTable: React.FC<Props> = (props) => {
 
     [],
   );
+  const columnsSensor = React.useMemo(
+    () => [
+      {
+        Header: 'sensor name',
+        accessor: 'title',
+      },
+      {
+        Header: 'port number',
+        accessor: 'type',
+      },
+    ],
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    page,
-    nextPage,
-    previousPage,
-    canPreviousPage,
-    canNextPage,
-    prepareRow,
-    pageOptions,
-    preGlobalFilteredRows,
-    setGlobalFilter,
-    state,
-  } = useTable<any>(
-    {
-      columns,
-      data,
-    },
-    useFilters, // useFilters!
-    useGlobalFilter, // useGlobalFilter!
-    useSortBy,
-    usePagination,
-  ) as TableInstanceWithHooks<any>;
+    [],
+  );
 
-  const { globalFilter, pageIndex } = state;
+  const columnsSensorInGroup = React.useMemo(
+    () => [
+      {
+        Header: 'Sensor InGroup',
+        accessor: 'title',
+      },
+      {
+        Header: 'type',
+        accessor: 'type',
+      },
+    ],
+
+    [],
+  );
+
+  useEffect(() => {
+    setSelectedDevice(
+      queryDevices.data?.find((item) => item._id === selectedRow),
+    );
+    console.log(queryDevices.data?.find((item) => item._id === selectedRow));
+  }, [selectedRow]);
+
   return (
     <>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
-      <section className="flex flex-wrap border-[var(--border-color)] border h-[40vh] max-w-[250px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4 overflow-y-auto">
-        {/* {queryDevices.data[0].DeviceUniqueName} */}
-        <table className={classes.table} {...getTableProps()}>
-          <thead>
-            {headerGroups?.map((headerGroup, indexOne) => (
-              <tr
-                key={indexOne}
-                {...(headerGroup?.getHeaderGroupProps() as HeaderGroupPropGetter<any>)}
+      {/* {queryDevices.data[0].DeviceUniqueName} */}
+      <div className="flex flex-wrap">
+        <section className="flex flex-wrap h-[20rem] max-w-[20rem] overflow-hidden w-[20rem]">
+          {queryDevices.isSuccess === true && (
+            <ReactTable
+              hasSearch={true}
+              hasPagination={true}
+              setSelectedRow={setSelectedRow}
+              tHeight=" h-[15rem] "
+              columns={columns}
+              data={data}
+              selectedRow={selectedRow}
+            />
+          )}
+        </section>
+        <section className="flex mt-[40px] flex-wrap h-[20rem] max-w-[15rem] overflow-hidden w-[20rem]">
+          {selectedDevice?.sensors?.length !== undefined && (
+            <ReactTable
+              hasPagination={false}
+              setSelectedRow={setSelectedRowSensor}
+              tHeight=" h-[15rem] "
+              columns={columnsSensor}
+              data={selectedDevice?.sensors}
+              selectedRow={selectedRowSensor}
+            />
+          )}
+        </section>
+        <div className="flex flex-wrap w-fit justify-between items-center h-[20rem]">
+          <div>
+            <aside className="flex items-center h-fit m-1">
+              <button
+                onClick={() => {
+                  const seni = selectedDevice?.sensors?.find(
+                    (item) => item._id === selectedRowSensor,
+                  );
+                  if (seni !== undefined) ClickSelectSensor(seni);
+                }}
+                className={'mx-2 border p-1 rounded-lg button-add'}
+                type="button"
+                disabled={
+                  undefined ===
+                    selectedDevice?.sensors?.find(
+                      (item) => item._id === selectedRowSensor,
+                    ) ||
+                  undefined !==
+                    selectedSensorRedux?.find(
+                      (item) => item._id === selectedRowSensor,
+                    )
+                }
               >
-                {headerGroup.headers.map((columns: any, colIndex) => (
-                  <>
-                    {columns?.getSortByToggleProps() !== undefined && (
-                      <th
-                        key={colIndex}
-                        className=" border  p-1"
-                        {...columns.getHeaderProps(
-                          columns.getSortByToggleProps() as HeaderPropGetter<object>,
-                        )}
-                      >
-                        {columns.render('Header')}
-                        <span className="text-xs mx-1">
-                          {columns.isSorted
-                            ? columns.isSortedDesc
-                              ? '▼'
-                              : '▲'
-                            : ''}
-                        </span>
-                      </th>
-                    )}
-                  </>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody
-            className="justify-center overflow-y-auto  "
-            {...getTableBodyProps()}
-          >
-            {page.map((row, index) => {
-              prepareRow(row);
-              return (
-                <tr
-                  key={index}
-                  {...(row.getRowProps() as HeaderGroupPropGetter<any>)}
-                >
-                  {row.cells.map((cell, indexw) => (
-                    <td
-                      key={indexw}
-                      className="p-1 border"
-                      {...(cell.getCellProps() as CellPropGetter<any>)}
-                    >
-                      {cell.render('Cell')}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </section>
-      <ThemeButton
-        className=" flex text-center mx-2 text-[12px] h-[30px] items-center"
-        type={'activate'}
-        onClick={() => previousPage()}
-        disabled={!canPreviousPage}
-      >
-        Prev
-      </ThemeButton>
-      <span className="mx-2">
-        {pageIndex + 1} / {pageOptions?.length}
-      </span>
-      <ThemeButton
-        className=" flex text-center mx-2 text-[12px] h-[30px] items-center"
-        type={'activate'}
-        onClick={() => nextPage()}
-        disabled={!canNextPage}
-      >
-        next
-      </ThemeButton>
+                <Icon icon={'material-symbols:add'} />
+              </button>
+            </aside>
+            <aside className="flex items-center h-fit m-1">
+              <button
+                onClick={() => {
+                  const seni = selectedDevice?.sensors?.find(
+                    (item) => item._id === selectedRowSensor,
+                  );
+                  if (selectedRowSensor !== undefined)
+                    dispatch(removeSelectedSensors(selectedRowSensor));
+                }}
+                className="mx-2 border p-1 rounded-lg button-remove"
+                type="button"
+                disabled={
+                  undefined ===
+                  selectedSensorRedux?.find(
+                    (item) => item._id === selectedRowSensor,
+                  )
+                }
+              >
+                <Icon icon={'material-symbols:remove'} />
+              </button>
+            </aside>
+          </div>
+        </div>
+
+        <section className="flex mt-[40px] flex-wrap h-[20rem] max-w-[15rem] overflow-hidden w-[20rem]">
+          {selectedSensorRedux?.length !== undefined && (
+            <ReactTable
+              hasPagination={false}
+              setSelectedRow={setSelectedRowSensor}
+              tHeight=" h-[15rem] "
+              columns={columnsSensorInGroup}
+              data={selectedSensorRedux}
+              selectedRow={selectedRowSensor}
+            />
+          )}
+        </section>
+        {/* {selectedRowSensor} */}
+      </div>
     </>
   );
 };

@@ -1,0 +1,82 @@
+@use '../../../scss/abstracts/' as *;
+
+.table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  font-size: 14px;
+  width: 100%;
+  position: relative;
+
+  // max-height: 100%;
+  // min-height: 100%;
+  text-align: center;
+  // position: relative;
+  // justify-content: flex-start;
+  border-collapse: collapse;
+}
+
+.table td {
+  flex: content;
+  border: 1px solid var(--border-color);
+  padding: 1px;
+  max-height: 30px;
+  line-height: 30px;
+  height: 30px;
+}
+
+.table th {
+  border: 1px solid var(--border-color);
+  background-color: var(--bgc);
+  box-shadow: rgba(44, 46, 187, 0.699) 0 -25px 18px -14px inset,
+    rgba(44, 46, 187, 0.35) 0 1px 2px, rgba(44, 46, 187, 0.35) 0 2px 4px,
+    rgba(44, 46, 187, 0.35) 0 4px 8px, rgba(44, 46, 187, 0.35) 0 8px 16px,
+    rgba(44, 46, 187, 0.35) 0 16px 32px;
+  color: var(--text-color);
+  padding: 1px;
+}
+
+// .table tr {
+//   height: 20px;
+//   max-height: 20px;
+// }
+
+.table tr:nth-child(odd) {
+  background-color: var(--table-odd);
+  height: 25px;
+  max-height: 25px;
+}
+.table tr:nth-child(even) {
+  background-color: var(--table-even);
+  height: 25px;
+  max-height: 25px;
+}
+
+.table tr:hover {
+  // height: 40px;
+  // background-color: var(--button-primary);
+  background-color: #1cc7dd;
+  box-shadow: rgba(44, 165, 187, 0.4) 0 -25px 18px -14px inset,
+    rgba(44, 165, 187, 0.4) 0 1px 2px, rgba(44, 165, 187, 0.4) 0 2px 4px,
+    rgba(44, 165, 187, 0.4) 0 4px 8px, rgba(44, 165, 187, 0.4) 0 8px 16px,
+    rgba(44, 165, 187, 0.4) 0 16px 32px;
+  color: rgb(0, 13, 128);
+}
+.table_selected {
+  // background-color: var(--dev-bgc-selected);
+  background-color: #c2fbd7;
+  box-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+    rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
+    rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
+    rgba(44, 187, 99, 0.15) 0 16px 32px;
+  color: green;
+}
+
+.table th {
+  padding-top: 8px;
+  padding-bottom: 4px;
+  text-align: center;
+  // background-color: var(--bgc);
+  // color: var(--text-color);
+  position: sticky;
+  top: 0;
+}

@@ -1,11 +1,11 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AxiosResponse } from "axios";
-import { SensorsReceiveTpe } from "../../components/pages/sensors/sensorsTable";
-import { reportSensors } from "../api/analizeApi";
-import { DevicesReceiveType } from "../api/devicesApi";
-import dayjs, { Dayjs } from "dayjs";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AxiosResponse } from 'axios';
+import { SensorsReceiveTpe } from '../../components/pages/sensors/sensorsTable';
+import { reportSensors } from '../api/analizeApi';
+import { DevicesReceiveType } from '../api/devicesApi';
+import dayjs, { Dayjs } from 'dayjs';
 
-import type { AppState } from "../store";
+import type { AppState } from '../store';
 // import { fetchCount } from './../counterAPI'
 
 export interface AnalizeState {
@@ -19,7 +19,7 @@ export interface AnalizeState {
   sensorsReport?: SensorsReportType[];
   statusReportApi: statusApiType;
   selectedGroup?: number; ///////
-  selectionType?: "device" | "group";
+  selectionType?: 'device' | 'group';
 }
 export interface SensorsReportType {
   _id?: string;
@@ -45,10 +45,10 @@ export interface SensorInReport {
   updatedAt?: string;
 }
 
-type statusApiType = "idle" | "loading" | "success" | "failed" | "unauthorize";
+type statusApiType = 'idle' | 'loading' | 'success' | 'failed' | 'unauthorize';
 const initialState: AnalizeState = {
-  statusApi: "idle",
-  statusReportApi: "idle",
+  statusApi: 'idle',
+  statusReportApi: 'idle',
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -57,17 +57,17 @@ const initialState: AnalizeState = {
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
 export const reportSensorsAsync = createAsyncThunk(
-  "analize/reportSensors",
+  'analize/reportSensors',
 
   async (report: { sensors: string[]; start: string; end: string }) => {
     const data = await reportSensors(report);
     // The value we return becomes the `fulfilled` action payload
     return data;
-  }
+  },
 );
 
 export const analizeSlice = createSlice({
-  name: "analize",
+  name: 'analize',
   initialState,
 
   // The `reducers` field lets us define reducers and generate associated actions
@@ -78,7 +78,7 @@ export const analizeSlice = createSlice({
     setStartDate: (state, action: PayloadAction<string>) => {
       state.startDate = action.payload;
     },
-    setSelectionType: (state, action: PayloadAction<"device" | "group">) => {
+    setSelectionType: (state, action: PayloadAction<'device' | 'group'>) => {
       state.selectionType = action.payload;
     },
     setStartDayjs: (state, action: PayloadAction<string>) => {
@@ -92,7 +92,7 @@ export const analizeSlice = createSlice({
     },
     setSelectedDevicesAnalize: (
       state,
-      action: PayloadAction<DevicesReceiveType[]>
+      action: PayloadAction<DevicesReceiveType[]>,
     ) => {
       state.selectedDevices = action.payload;
     },
@@ -101,6 +101,21 @@ export const analizeSlice = createSlice({
     },
     setSelectedSensors: (state, action: PayloadAction<SensorsReceiveTpe[]>) => {
       state.selectedSensors = action.payload;
+    },
+    setSelectedSensorsAdvanced: (
+      state,
+      action: PayloadAction<SensorsReceiveTpe>,
+    ) => {
+      const index = state?.selectedSensors?.findIndex(
+        (item) => item._id === action.payload._id,
+      );
+      if (index !== undefined && index >= 0) {
+        return;
+      }
+      const sens: SensorsReceiveTpe[] =
+        state?.selectedSensors !== undefined ? [...state?.selectedSensors] : [];
+      sens.push(action.payload);
+      state.selectedSensors = sens;
     },
     addSelectedSensors: (state, action: PayloadAction<SensorsReceiveTpe>) => {
       const arr: SensorsReceiveTpe[] = [...(state?.selectedSensors ?? [])];
@@ -127,27 +142,27 @@ export const analizeSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(reportSensorsAsync.pending, (state) => {
-        state.statusReportApi = "loading";
+        state.statusReportApi = 'loading';
       })
       .addCase(
         reportSensorsAsync.fulfilled,
         (state, action: PayloadAction<SensorsReportType[]>) => {
           state.sensorsReport = action.payload;
-          state.statusReportApi = "success";
+          state.statusReportApi = 'success';
           // if (action?.payload?.status < 400) {
           //   state.statusReportApi = "success";
           //   state.sensorsReport = action.payload.data as SensorsReportType[];
           // } else {
           //   state.statusReportApi = "failed";
           // }
-        }
+        },
       )
       .addCase(
         reportSensorsAsync.rejected,
         (state, action: PayloadAction<any>) => {
-          state.statusReportApi = "failed";
+          state.statusReportApi = 'failed';
           state.sensorsReport = undefined;
-        }
+        },
       );
   },
 });
@@ -163,6 +178,7 @@ export const {
   setSelectedSensors,
   removeSelectedSensors,
   setSelectionType,
+  setSelectedSensorsAdvanced,
 } = analizeSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
