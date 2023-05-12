@@ -1,7 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Row } from 'react-table';
 interface Props {
-  filter?: string;
+  filter?:
+    | string
+    | ((rows: Row<any>[], columnIds: string[], filterValue: any) => Row<any>[])
+    | undefined;
   setFilter: any;
 }
 export const GlobalFilter: React.FC<Props> = (props) => {
@@ -11,7 +15,7 @@ export const GlobalFilter: React.FC<Props> = (props) => {
       {t('search')}:{' '}
       <input
         className="mx-2 bg-[var(--bgc)]"
-        value={props.filter || ''}
+        value={props.filter?.toString() || ''}
         onChange={(e) => props.setFilter(e.target.value)}
       />
     </span>

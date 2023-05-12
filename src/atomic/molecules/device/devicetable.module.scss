@@ -18,8 +18,11 @@
   border: 1px solid var(--border-color);
   padding: 1px;
 }
+.table tr:nth-child(odd) {
+  background-color: var(--table-odd);
+}
 .table tr:nth-child(even) {
-  background-color: var(--bgc-table);
+  background-color: var(--table-even);
 }
 .table tr:hover {
   background-color: var(--button-primary);

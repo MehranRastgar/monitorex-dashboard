@@ -16,6 +16,25 @@ import {
   HeaderPropGetter,
   TableInstance,
   usePagination,
+  UsePaginationInstanceProps,
+  UseSortByInstanceProps,
+  UsePaginationState,
+  UseFiltersInstanceProps,
+  UseGlobalFiltersInstanceProps,
+  TableState,
+  UseGlobalFiltersOptions,
+  UseFiltersColumnOptions,
+  UseGlobalFiltersColumnOptions,
+  UseGroupByColumnOptions,
+  UseResizeColumnsColumnOptions,
+  UseSortByColumnOptions,
+  UseFiltersColumnProps,
+  UseGroupByColumnProps,
+  UseResizeColumnsColumnProps,
+  UseSortByColumnProps,
+  Column,
+  HeaderGroupPropGetter,
+  CellPropGetter,
 } from 'react-table';
 
 import mockdata from './MOCK_DATA.json';
@@ -26,9 +45,27 @@ import { GlobalFilter } from '../Table/GlobalFilter';
 import { useQuery } from 'react-query';
 import { GetDevices } from 'src/api/devices';
 import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
+
+export type TableInstanceWithHooks<T extends object> = TableInstance<T> &
+  UseFiltersInstanceProps<T> &
+  UseGlobalFiltersInstanceProps<T> &
+  TableState &
+  UsePaginationInstanceProps<T> &
+  UseSortByInstanceProps<T> & {
+    state: UsePaginationState<T> & UseGlobalFiltersOptions<T>;
+  };
+
+export interface ColumnInstance<
+  D extends Record<string, unknown> = Record<string, unknown>,
+> extends UseFiltersColumnProps<D>,
+    UseGroupByColumnProps<D>,
+    UseResizeColumnsColumnProps<D>,
+    UseSortByColumnProps<D> {}
+
 interface Props {
   index?: number;
 }
+
 const DeviceTable: React.FC<Props> = (props) => {
   const queryDevices = useQuery('devices', GetDevices);
   const data = React.useMemo(
@@ -49,6 +86,7 @@ const DeviceTable: React.FC<Props> = (props) => {
         accessor: 'sensors.length',
       },
     ],
+
     [],
   );
 
@@ -62,11 +100,11 @@ const DeviceTable: React.FC<Props> = (props) => {
     canPreviousPage,
     canNextPage,
     prepareRow,
-    state,
     pageOptions,
     preGlobalFilteredRows,
     setGlobalFilter,
-  } = useTable(
+    state,
+  } = useTable<any>(
     {
       columns,
       data,
@@ -75,7 +113,8 @@ const DeviceTable: React.FC<Props> = (props) => {
     useGlobalFilter, // useGlobalFilter!
     useSortBy,
     usePagination,
-  );
+  ) as TableInstanceWithHooks<any>;
+
   const { globalFilter, pageIndex } = state;
   return (
     <>
@@ -85,11 +124,15 @@ const DeviceTable: React.FC<Props> = (props) => {
         <table className={classes.table} {...getTableProps()}>
           <thead>
             {headerGroups?.map((headerGroup, indexOne) => (
-              <tr {...(headerGroup?.getHeaderGroupProps(), { key: indexOne })}>
+              <tr
+                key={indexOne}
+                {...(headerGroup?.getHeaderGroupProps() as HeaderGroupPropGetter<any>)}
+              >
                 {headerGroup.headers.map((columns: any, colIndex) => (
                   <>
                     {columns?.getSortByToggleProps() !== undefined && (
                       <th
+                        key={colIndex}
                         className=" border  p-1"
                         {...columns.getHeaderProps(
                           columns.getSortByToggleProps() as HeaderPropGetter<object>,
@@ -117,15 +160,19 @@ const DeviceTable: React.FC<Props> = (props) => {
             {page.map((row, index) => {
               prepareRow(row);
               return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map((cell, indexw) => {
-                    // Apply the cell props
-                    return (
-                      <td className="p-1 border" {...cell.getCellProps()}>
-                        {cell.render('Cell')}
-                      </td>
-                    );
-                  })}
+                <tr
+                  key={index}
+                  {...(row.getRowProps() as HeaderGroupPropGetter<any>)}
+                >
+                  {row.cells.map((cell, indexw) => (
+                    <td
+                      key={indexw}
+                      className="p-1 border"
+                      {...(cell.getCellProps() as CellPropGetter<any>)}
+                    >
+                      {cell.render('Cell')}
+                    </td>
+                  ))}
                 </tr>
               );
             })}

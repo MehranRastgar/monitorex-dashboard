@@ -51,6 +51,8 @@ html {
   --max-color: rgb(255, 139, 45);
   --min-color: rgb(45, 202, 255);
   --bgc-table: #8b42a152;
+  --table-even: #d4d4d4;
+  --table-odd: #adadad;
 }
 html[theme='dark'] {
   //dark theme
@@ -93,6 +95,8 @@ html[theme='dark'] {
   --max-color: rgb(255, 139, 45);
   --min-color: rgb(45, 202, 255);
   --bgc-table: #4296a152;
+  --table-even: #494949;
+  --table-odd: #3f3f3f;
 }
 
 html[dir='rtl'] {
