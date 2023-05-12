@@ -52,7 +52,20 @@ html {
   --min-color: rgb(45, 202, 255);
   --bgc-table: #8b42a152;
   --table-even: #d4d4d4;
-  --table-odd: #adadad;
+  --table-odd: #dad0d0;
+
+  --selected-table-bg: #c2fbd7;
+  --selected-table-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+    rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
+    rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
+    rgba(44, 187, 99, 0.15) 0 16px 32px;
+  --selected-table-color: rgb(35, 36, 35);
+  --hover-table-bg: #1cc7dd;
+  --hover-table-shadow: rgba(44, 165, 187, 0.4) 0 -25px 18px -14px inset,
+    rgba(44, 165, 187, 0.4) 0 1px 2px, rgba(44, 165, 187, 0.4) 0 2px 4px,
+    rgba(44, 165, 187, 0.4) 0 4px 8px, rgba(44, 165, 187, 0.4) 0 8px 16px,
+    rgba(44, 165, 187, 0.4) 0 16px 32px;
+  --hover-table-color: rgb(0, 13, 128);
 }
 html[theme='dark'] {
   //dark theme
@@ -71,7 +84,7 @@ html[theme='dark'] {
   --card-bgc: #27241c;
   --text-color: #ffffff;
   --header-text-color: #ffd369;
-  --border-color: #ffd369;
+  --border-color: #06b89a;
   --dev-bgc: #393e46cf;
 
   //light theme status
@@ -97,6 +110,19 @@ html[theme='dark'] {
   --bgc-table: #4296a152;
   --table-even: #494949;
   --table-odd: #3f3f3f;
+
+  --selected-table-bg: #4ec278ad;
+  --selected-table-shadow: rgba(44, 187, 99, 0.2) 0 -25px 18px -14px inset,
+    rgba(44, 187, 99, 0.15) 0 1px 2px, rgba(44, 187, 99, 0.15) 0 2px 4px,
+    rgba(44, 187, 99, 0.15) 0 4px 8px, rgba(44, 187, 99, 0.15) 0 8px 16px,
+    rgba(44, 187, 99, 0.15) 0 16px 32px;
+  --selected-table-color: rgb(255, 255, 255);
+  --hover-table-bg: #166670;
+  --hover-table-shadow: rgba(44, 165, 187, 0.4) 0 -25px 18px -14px inset,
+    rgba(44, 165, 187, 0.4) 0 1px 2px, rgba(44, 165, 187, 0.4) 0 2px 4px,
+    rgba(44, 165, 187, 0.4) 0 4px 8px, rgba(44, 165, 187, 0.4) 0 8px 16px,
+    rgba(44, 165, 187, 0.4) 0 16px 32px;
+  --hover-table-color: rgb(217, 218, 233);
 }
 
 html[dir='rtl'] {

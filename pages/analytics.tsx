@@ -101,9 +101,11 @@ export default function Analytics() {
   }, [queryDevices.isFetching, queryDevices.isSuccess]);
   return (
     <Layout>
-      <section>
+      <section className="flex flex-wrap justify-center">
         <DeviceMA />
-
+        <div className="flex justify-center w-full">
+          <DateTimeAnalytic />
+        </div>
         <div className="flex justify-center w-full">
           <div className="flex h-fit  justify-center mx-4 my-2">
             <ThemeButton

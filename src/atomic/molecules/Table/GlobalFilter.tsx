@@ -11,10 +11,10 @@ interface Props {
 export const GlobalFilter: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   return (
-    <span className="flex bg-[var(--bgc)] p-2 h-fit">
+    <span className="flex bg-[var(--bgc)] p-2 h-fit  w-full ml-[7px] ">
       {t('search')}:{' '}
       <input
-        className="mx-2 bg-[var(--bgc)]"
+        className="mx-2 bg-[var(--bgc-table)] focus:bg-[var(--bgc-table)]"
         value={props.filter?.toString() || ''}
         onChange={(e) => props.setFilter(e.target.value)}
       />

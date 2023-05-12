@@ -4,12 +4,12 @@ import React, {
   useEffect,
   useMemo,
   useCallback,
-} from "react";
-import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
-import classes from "./aggrid.module.scss";
-import "ag-grid-community/styles/ag-grid.css"; // Core grid CSS, always needed
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import { useTranslation } from "react-i18next";
+} from 'react';
+import { AgGridReact } from 'ag-grid-react'; // the AG Grid React Component
+import classes from './aggrid.module.scss';
+import 'ag-grid-community/styles/ag-grid.css'; // Core grid CSS, always needed
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   column: { field: string; filter?: boolean }[];
@@ -31,22 +31,22 @@ const AgGrid: React.FC<Props> = (props) => {
   }, []);
 
   const onBtNormal = useCallback(() => {
-    var eGridDiv = document.querySelector("#myGrid") as HTMLElement;
-    eGridDiv.style.width = "400px";
-    eGridDiv.style.height = "200px";
+    var eGridDiv = document.querySelector('#myGrid') as HTMLElement;
+    eGridDiv.style.width = '400px';
+    eGridDiv.style.height = '200px';
     // Same as setting to 'normal' as it is the default
     gridRef.current.api.setDomLayout();
   }, []);
   const onBtPrinterFriendly = useCallback(() => {
     makeLighterData();
-    var eGridDiv = document.querySelector("#myGrid") as HTMLElement;
+    var eGridDiv = document.querySelector('#myGrid') as HTMLElement;
     if (
       eGridDiv?.style?.width !== undefined &&
       eGridDiv?.style?.height !== undefined
     ) {
-      eGridDiv.style.width = "";
-      eGridDiv.style.height = "";
-      gridRef.current.api.setDomLayout("print");
+      eGridDiv.style.width = '';
+      eGridDiv.style.height = '';
+      gridRef.current.api.setDomLayout('print');
     }
   }, []);
   // Example load data from sever
@@ -84,7 +84,7 @@ const AgGrid: React.FC<Props> = (props) => {
           className="flex border p-2 rounded-lg bg-white-600 m-2 text-black font-Vazir-Medium"
           onClick={onBtPrinterFriendly}
         >
-          {t("sensorsPointsData")}
+          {t('sensorsPointsData')}
         </button>
         {/* <button
           className="flex border p-2 rounded-lg bg-slate-600"

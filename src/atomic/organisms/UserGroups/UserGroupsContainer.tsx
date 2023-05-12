@@ -1,22 +1,22 @@
-import { Icon } from "@iconify/react";
-import { Box, Button, Modal, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import ButtonRegular from "src/atomic/atoms/ButtonA/ButtonRegular";
-import ThemeButton from "src/atomic/atoms/ThemeButton/ThemeButton";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { Icon } from '@iconify/react';
+import { Box, Button, Modal, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import ButtonRegular from 'src/atomic/atoms/ButtonA/ButtonRegular';
+import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
   selectEndDate,
   selectSelectedSensorsAnalize,
   selectStartDate,
-} from "../../../store/slices/analizeSlice";
+} from '../../../store/slices/analizeSlice';
 import {
   selectUserGroups,
   updateUserData,
-} from "../../../store/slices/userSlice";
-import { GroupItemType, UserType } from "../../../types/types";
-import Item from "../../atoms/Item/Item";
-import UserGroupItem from "../../molecules/UserGroups/UserGroupItem";
+} from '../../../store/slices/userSlice';
+import { GroupItemType, UserType } from '../../../types/types';
+import Item from '../../atoms/Item/Item';
+import UserGroupItem from '../../molecules/UserGroups/UserGroupItem';
 
 export interface UserGroupsContainerProps {}
 
@@ -38,7 +38,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
     const end = endDate !== undefined ? new Date(endDate).getTime() : 0;
     const time = end - start;
     const userD: UserType = await JSON.parse(
-      localStorage.getItem("user") ?? ""
+      localStorage.getItem('user') ?? '',
     );
     const arr: GroupItemType[] = [];
     if (
@@ -54,16 +54,16 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
 
     const user: UserType = { ...userD, groups: [...arr] };
     dispatch(updateUserData(user));
-    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem('user', JSON.stringify(user));
   };
   const style = {
-    position: "absolute" as "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
+    position: 'absolute' as 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: "var(--bgc)",
-    border: "2px solid #000",
+    bgcolor: 'var(--bgc)',
+    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
   };
@@ -71,7 +71,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
     <>
       <Item>
         <section className="flex flex-wrap w-full h-auto min-h-[100px] font-Vazir-Medium rounded-[5px]">
-          <h1 className="flex w-full justify-center text-xl">{t("groups")}</h1>
+          <h1 className="flex w-full justify-center text-xl">{t('groups')}</h1>
           {selectUserGr?.map((gpitem, index) => (
             <>
               <div className="flex w-auto justify-end">
@@ -84,8 +84,8 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
                   className="flex translate-y-14 translate-x-10 z-[3]"
                 >
                   <Icon
-                    icon={"material-symbols:delete-outline"}
-                    color={"red"}
+                    icon={'material-symbols:delete-outline'}
+                    color={'red'}
                     fontSize={25}
                   ></Icon>
                 </button>
@@ -99,9 +99,9 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description "
         >
-          <Box sx={{ ...style, height: "200px" }}>
+          <Box sx={{ ...style, height: '200px' }}>
             <Typography className="text-lg font-Vazir-Bold">
-              {t("do_you_want_to_remove_this_group")}
+              {t('do_you_want_to_remove_this_group')}
             </Typography>
             <div className="flex m-4 mt-10">
               <ThemeButton
@@ -113,7 +113,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
                   setOpen(false);
                 }}
               >
-                {t("yes")}
+                {t('yes')}
               </ThemeButton>
               <ThemeButton
                 className="mx-2"
@@ -122,7 +122,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
                   setOpen(false);
                 }}
               >
-                {t("no")}
+                {t('no')}
               </ThemeButton>
             </div>
             {/* <UserGroupsSaveContainer /> */}
@@ -138,18 +138,18 @@ export interface UserGroupsSaveContainerProps {
 }
 
 const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
-  props
+  props,
 ) => {
   const selectUserGr = useAppSelector(selectUserGroups);
   const { t } = useTranslation();
-  const [nameofGp, setNameofGp] = useState("unname");
+  const [nameofGp, setNameofGp] = useState('unname');
 
   return (
     <>
       <Box sx={style}>
         <section className="flex flex-wrap w-full h-[200px]  rounded-[5px]">
           <Typography className="text-lg font-Vazir-Bold">
-            {t("take_a_name_for_this_group")}
+            {t('take_a_name_for_this_group')}
           </Typography>
           <TextField
             onChange={(e) => {
@@ -157,18 +157,18 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
             }}
             variant="filled"
             sx={styleInput}
-            label={t("title")}
+            label={t('title')}
           />
           <div className="flex w-full justify-center mt-10 h-fit ">
             <ThemeButton
               disabled={
-                nameofGp !== "unname" && nameofGp.length !== 0 ? false : true
+                nameofGp !== 'unname' && nameofGp.length !== 0 ? false : true
               }
               type="submit"
               className="mt-10"
               onClick={() => props?.handleSaveToGroup(nameofGp)}
             >
-              {t("saveInGroups")}
+              {t('saveInGroups')}
             </ThemeButton>
           </div>
         </section>
@@ -178,29 +178,29 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
 };
 
 const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
   width: 400,
-  bgcolor: "var(--bgc)",
-  border: "2px solid #000",
+  bgcolor: 'var(--bgc)',
+  border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
 const styleInput = {
   width: 250,
   boxShadow: 2,
-  bgcolor: "var(--card-bgc)",
-  ".MuiFormLabel-root": {
-    color: "var(--approved-bgc)",
+  bgcolor: 'var(--card-bgc)',
+  '.MuiFormLabel-root': {
+    color: 'var(--approved-bgc)',
   },
-  ".MuiInputBase-input": {
-    color: "var(--text-color)",
+  '.MuiInputBase-input': {
+    color: 'var(--text-color)',
     fontSize: 16,
   },
-  ".MuiInputLabel-filled": {
-    color: "var(--text-color)",
+  '.MuiInputLabel-filled': {
+    color: 'var(--text-color)',
     fontSize: 16,
   },
 };

@@ -56,12 +56,14 @@ import {
   setSelectedSensors,
   setSelectedSensorsAdvanced,
 } from 'src/store/slices/analizeSlice';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   index?: number;
 }
 
 const DeviceTable: React.FC<Props> = (props) => {
+  const { t } = useTranslation();
   const queryDevices = useQuery('devices', GetDevices);
   const selectedSensorRedux = useAppSelector(selectSelectedSensorsAnalize);
   const [selectedRow, setSelectedRow] = useState<string>('');
@@ -73,7 +75,7 @@ const DeviceTable: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch();
 
   function ClickSelectSensor(sensor: SensorsReceiveTpe) {
-    console.log(sensor);
+    // console.log(sensor);
     dispatch(setSelectedSensorsAdvanced(sensor));
   }
 
@@ -112,7 +114,6 @@ const DeviceTable: React.FC<Props> = (props) => {
 
     [],
   );
-
   const columnsSensorInGroup = React.useMemo(
     () => [
       {
@@ -132,14 +133,15 @@ const DeviceTable: React.FC<Props> = (props) => {
     setSelectedDevice(
       queryDevices.data?.find((item) => item._id === selectedRow),
     );
-    console.log(queryDevices.data?.find((item) => item._id === selectedRow));
+    // console.log(queryDevices.data?.find((item) => item._id === selectedRow));
   }, [selectedRow]);
 
   return (
     <>
       {/* {queryDevices.data[0].DeviceUniqueName} */}
-      <div className="flex flex-wrap">
-        <section className="flex flex-wrap h-[20rem] max-w-[20rem] overflow-hidden w-[20rem]">
+      <div className="flex justify-center flex-wrap h-[25rem] ">
+        <section className="flex items-start flex-wrap h-[20rem] max-w-[20rem] w-[20rem]">
+          <span className="mx-4 "> {t('devices')}</span>
           {queryDevices.isSuccess === true && (
             <ReactTable
               hasSearch={true}
@@ -152,7 +154,8 @@ const DeviceTable: React.FC<Props> = (props) => {
             />
           )}
         </section>
-        <section className="flex mt-[40px] flex-wrap h-[20rem] max-w-[15rem] overflow-hidden w-[20rem]">
+        <section className="flex flex-wrap h-[20rem] max-w-[15rem] overflow-hidden w-[20rem]">
+          <span className="mx-4 mb-[23px]"> {t('sensors')}</span>
           {selectedDevice?.sensors?.length !== undefined && (
             <ReactTable
               hasPagination={false}
@@ -183,13 +186,17 @@ const DeviceTable: React.FC<Props> = (props) => {
                     ) ||
                   undefined !==
                     selectedSensorRedux?.find(
-                      (item) => item._id === selectedRowSensor,
+                      (item: SensorsReceiveTpe) =>
+                        item._id === selectedRowSensor,
                     )
                 }
               >
                 <Icon icon={'material-symbols:add'} />
               </button>
             </aside>
+            <div className="flex w-full justify-center">
+              {selectedSensorRedux?.length}
+            </div>
             <aside className="flex items-center h-fit m-1">
               <button
                 onClick={() => {
@@ -204,7 +211,7 @@ const DeviceTable: React.FC<Props> = (props) => {
                 disabled={
                   undefined ===
                   selectedSensorRedux?.find(
-                    (item) => item._id === selectedRowSensor,
+                    (item: SensorsReceiveTpe) => item._id === selectedRowSensor,
                   )
                 }
               >
@@ -213,8 +220,13 @@ const DeviceTable: React.FC<Props> = (props) => {
             </aside>
           </div>
         </div>
-
-        <section className="flex mt-[40px] flex-wrap h-[20rem] max-w-[15rem] overflow-hidden w-[20rem]">
+        <section className="flex flex-wrap h-[20rem] max-w-[15rem] overflow-hidden w-[20rem]">
+          <span className="mx-4 mb-[23px]"> {t('group')}</span>
+          {selectedSensorRedux?.length && (
+            <span className="mx-4 mb-[23px]">
+              {selectedSensorRedux.length} {t('pcs')} {t('sensor')}
+            </span>
+          )}
           {selectedSensorRedux?.length !== undefined && (
             <ReactTable
               hasPagination={false}
@@ -226,7 +238,6 @@ const DeviceTable: React.FC<Props> = (props) => {
             />
           )}
         </section>
-        {/* {selectedRowSensor} */}
       </div>
     </>
   );

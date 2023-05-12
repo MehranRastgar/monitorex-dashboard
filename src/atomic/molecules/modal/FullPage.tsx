@@ -1,42 +1,42 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import ListItemText from "@mui/material/ListItemText";
-import ListItem from "@mui/material/ListItem";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import Slide from "@mui/material/Slide";
-import { TransitionProps } from "@mui/material/transitions";
-import { useReactToPrint } from "react-to-print";
-import { useTranslation } from "react-i18next";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
+import List from '@mui/material/List';
+import Divider from '@mui/material/Divider';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import CloseIcon from '@mui/icons-material/Close';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
+import { useReactToPrint } from 'react-to-print';
+import { useTranslation } from 'react-i18next';
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
   },
-  ref: React.Ref<unknown>
+  ref: React.Ref<unknown>,
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Item from "../../atoms/Item/Item";
-import ThemeButton from "src/atomic/atoms/ThemeButton/ThemeButton";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Item from '../../atoms/Item/Item';
+import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 
 const theme = createTheme({
   typography: {
     h2: {
-      fontSize: "1rem",
+      fontSize: '1rem',
       fontWeight: 700,
-      borderBottom: "2px solid black",
-      "@media print": {
-        fontSize: "2rem",
-        borderBottom: "14px solid red",
-        color: "gray",
+      borderBottom: '2px solid black',
+      '@media print': {
+        fontSize: '2rem',
+        borderBottom: '14px solid red',
+        color: 'gray',
       },
     },
   },
@@ -54,8 +54,8 @@ export default function FullPageModal({
 
   const handlePrint = useReactToPrint({
     content: () => inputRef.current,
-    documentTitle: "report-data",
-    onAfterPrint: () => alert("Print Success"),
+    documentTitle: 'report-data',
+    onAfterPrint: () => alert('Print Success'),
   });
   const handleClickOpen = () => {
     setOpen(true);
@@ -67,28 +67,41 @@ export default function FullPageModal({
 
   return (
     <div>
-      <ThemeButton type={"explore"} onClick={handleClickOpen}>
-        {t("printPreview")}
-      </ThemeButton>
+      <button
+        type={'button'}
+        onClick={handleClickOpen}
+        className="button-82-pushable"
+        role="button"
+      >
+        <span className="button-82-shadow"></span>
+        <span className="button-82-edge"></span>
+        <span className="button-82-front text">{t('printPreview')}</span>
+      </button>
+      {/* <button
+        className="button-82-pushable"
+       
+      >
+        {t('printPreview')}
+      </button> */}
 
       <Dialog
         fullWidth={true}
-        maxWidth={"lg"}
+        maxWidth={'lg'}
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
       >
         <AppBar
           sx={{
-            position: "relative",
-            display: "flex",
-            justifyContent: "center",
-            backgroundColor: "white",
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            backgroundColor: 'white',
           }}
         >
           <Toolbar
             sx={{
-              backgroundColor: "white",
+              backgroundColor: 'white',
             }}
           >
             <ThemeButton type="reject" className=" mx-2" onClick={handleClose}>

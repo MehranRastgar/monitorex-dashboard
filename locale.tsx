@@ -150,6 +150,10 @@ i18n
       },
       fa: {
         translation: {
+          sensor: 'سنسور',
+          pcs: 'عدد',
+          next: 'بعدی',
+          prev: 'قبلی',
           new_device: 'دستگاه جدید',
           new_from_this_device: 'دستگاه جدید مشابه',
           real_time_view: 'نمایش لحظه ای',

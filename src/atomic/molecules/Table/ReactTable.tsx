@@ -43,6 +43,7 @@ import { GlobalFilter } from '../Table/GlobalFilter';
 import { useQuery } from 'react-query';
 import { GetDevices } from 'src/api/devices';
 import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
+import { useTranslation } from 'react-i18next';
 
 export type TableInstanceWithHooks<T extends object> = TableInstance<T> &
   UseFiltersInstanceProps<T> &
@@ -72,6 +73,7 @@ interface Props {
 }
 
 const ReactTable: React.FC<Props> = (props) => {
+  const { t } = useTranslation();
   const data = React.useMemo(() => props.data, [props.data]);
   const columns = React.useMemo(
     () => props.columns,
@@ -114,7 +116,7 @@ const ReactTable: React.FC<Props> = (props) => {
         )}
         {/* {queryDevices.data[0].DeviceUniqueName} */}
         <div
-          className={`flex flex-wrap w-full overflow-y-auto ${
+          className={`flex flex-wrap w-full overflow-y-scroll ${
             props?.tHeight !== undefined ? ` ${props?.tHeight} ` : ' h-[15rem] '
           } `}
         >
@@ -223,14 +225,14 @@ const ReactTable: React.FC<Props> = (props) => {
           </div>
         </div>
         {props.hasPagination && (
-          <div className="w-full h-10 mt-2">
+          <div className="flex justify-center w-full h-10 mt-2 scale-75">
             <ThemeButton
               className=" flex text-center mx-2 text-[12px] h-[30px] items-center"
               type={'activate'}
               onClick={() => previousPage()}
               disabled={!canPreviousPage}
             >
-              Prev
+              {t('prev')}
             </ThemeButton>
             <span className="mx-2">
               {pageIndex + 1} / {pageOptions?.length}
@@ -241,7 +243,7 @@ const ReactTable: React.FC<Props> = (props) => {
               onClick={() => nextPage()}
               disabled={!canNextPage}
             >
-              next
+              {t('next')}
             </ThemeButton>
           </div>
         )}
