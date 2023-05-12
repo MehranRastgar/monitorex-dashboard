@@ -5,12 +5,33 @@ import DeviceUnitOffline from 'src/atomic/molecules/device/DeviceTable';
 import { useAppSelector } from 'src/store/hooks';
 import { selectDevicesData } from 'src/store/slices/devicesSlice';
 import DeviceTable from 'src/atomic/molecules/device/DeviceTable';
+import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
+import { useTranslation } from 'react-i18next';
+import GroupTable from '../Group/GroupTable';
 
 interface Props {}
 const DeviceMA: React.FC<Props> = () => {
+  const { t } = useTranslation();
+  const [groupOrDevice, setGroupOrDevice] = React.useState<'group' | 'device'>(
+    'device',
+  );
   return (
-    <div>
-      <DeviceTable />
+    <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-10 m-2 rounded-md">
+      <div className="flex w-full justify-center mb-8">
+        <ThemeButton
+          onClick={() => setGroupOrDevice('device')}
+          type={groupOrDevice === 'device' ? 'activate' : 'deactivate'}
+        >
+          {t('devices')}
+        </ThemeButton>
+        <ThemeButton
+          onClick={() => setGroupOrDevice('group')}
+          type={groupOrDevice === 'group' ? 'activate' : 'deactivate'}
+        >
+          {t('groups')}
+        </ThemeButton>
+      </div>
+      {groupOrDevice === 'device' ? <DeviceTable /> : <GroupTable />}
     </div>
   );
 };

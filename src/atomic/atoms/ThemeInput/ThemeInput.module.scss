@@ -1,0 +1,34 @@
+@use '../../../scss/abstracts/index' as *;
+
+/* CSS */
+.inpt {
+  font-size: 14px;
+  border-radius: 6px;
+  line-height: 1.5;
+  padding: 5px 10px;
+  transition: box-shadow 100ms ease-in, border 100ms ease-in,
+    background-color 100ms ease-in;
+  border: 2px solid var(--border-color);
+  color: var(--text-color);
+  background: var(--table-odd);
+  display: block;
+  height: 36px;
+}
+
+.inpt:hover {
+  border-color: var(--border-color);
+}
+.inpt:focus {
+  border-color: #9147ff;
+  background: var(--table-even);
+}
+.inpt::-webkit-input-placeholder {
+  color: var(--input-placeholder);
+  text-shadow: 0 0 0.125em transparent;
+  transition: all 0.25s;
+}
+html[dir='rtl'] {
+  .inpt {
+    font-family: iranyekan, 'IRANSans', 'Tahoma';
+  }
+}

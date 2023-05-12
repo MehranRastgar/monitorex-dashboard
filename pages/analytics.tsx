@@ -103,49 +103,52 @@ export default function Analytics() {
     <Layout>
       <section className="flex flex-wrap justify-center">
         <DeviceMA />
-        <div className="flex justify-center w-full">
+        <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 m-2 rounded-md">
           <DateTimeAnalytic />
-        </div>
-        <div className="flex justify-center w-full">
-          <div className="flex h-fit  justify-center mx-4 my-2">
-            <ThemeButton
-              disabled={
-                selectedSensorsSlice === undefined ||
-                selectedSensorsSlice?.length === 0 ||
-                startDate === undefined
-                  ? true
-                  : false
-              }
-              type="submit"
-              className="flex items-center h-[30px]"
-              onClick={handleReport}
-            >
-              <div className="flex items-center justify-center">
-                <span className="flex mx-1 text-xs ">{t('takeReport')}</span>
-                <Icon fontSize={20} icon={'line-md:document-report'}></Icon>
-              </div>
-            </ThemeButton>
+          <div className="flex justify-center w-full">
+            <div className="flex h-fit  justify-center mx-4 my-2">
+              <ThemeButton
+                disabled={
+                  selectedSensorsSlice === undefined ||
+                  selectedSensorsSlice?.length === 0 ||
+                  startDate === undefined
+                    ? true
+                    : false
+                }
+                type="submit"
+                className="flex items-center h-[30px]"
+                onClick={handleReport}
+              >
+                <div className="flex items-center justify-center">
+                  <span className="flex mx-1 text-xs ">{t('takeReport')}</span>
+                  <Icon fontSize={20} icon={'line-md:document-report'}></Icon>
+                </div>
+              </ThemeButton>
+            </div>
+            <div className="flex justify-center mx-4 my-2">
+              <ThemeButton
+                disabled={
+                  selectedSensorsSlice === undefined ||
+                  selectedSensorsSlice?.length === 0 ||
+                  startDate === undefined
+                    ? true
+                    : false
+                }
+                type="explore"
+                className="flex h-[30px]"
+                onClick={() => setOpen(true)}
+              >
+                <div className="flex items-center justify-center">
+                  <span className="flex mx-1 text-xs ">
+                    {t('saveInGroups')}
+                  </span>
+                  <Icon fontSize={20} icon={'ion:save'}></Icon>
+                </div>
+              </ThemeButton>
+            </div>
           </div>
-          <div className="flex justify-center mx-4 my-2">
-            <ThemeButton
-              disabled={
-                selectedSensorsSlice === undefined ||
-                selectedSensorsSlice?.length === 0 ||
-                startDate === undefined
-                  ? true
-                  : false
-              }
-              type="explore"
-              className="flex h-[30px]"
-              onClick={() => setOpen(true)}
-            >
-              <div className="flex items-center justify-center">
-                <span className="flex mx-1 text-xs ">{t('saveInGroups')}</span>
-                <Icon fontSize={20} icon={'ion:save'}></Icon>
-              </div>
-            </ThemeButton>
-          </div>
         </div>
+
         <Modal
           open={open}
           onClose={() => setOpen(false)}

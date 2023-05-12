@@ -1,40 +1,40 @@
-import { Button, Grid, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import Box from "@mui/material/Box";
+import { Button, Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import Box from '@mui/material/Box';
 import {
   Dispatch,
   SetStateAction,
   useEffect,
   useState,
   useTransition,
-} from "react";
-import Item from "../../atoms/Item/Item";
-import DateTimePickerComponent from "../../molecules/DateTime/DateTimePicker";
-import dayjs, { Dayjs } from "dayjs";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+} from 'react';
+import Item from '../../atoms/Item/Item';
+import DateTimePickerComponent from '../../molecules/DateTime/DateTimePicker';
+import dayjs, { Dayjs } from 'dayjs';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
   selectEndDate,
   selectStartDate,
   selectStartDayjs,
   setEndDate,
   setStartDate,
-} from "../../../store/slices/analizeSlice";
-import SelectDevicesForAnalize from "../SelectDevicesForAnalize";
-import { useTranslation } from "react-i18next";
-import ButtonRegular from "../../atoms/ButtonA/ButtonRegular";
+} from '../../../store/slices/analizeSlice';
+import SelectDevicesForAnalize from '../SelectDevicesForAnalize';
+import { useTranslation } from 'react-i18next';
+import ButtonRegular from '../../atoms/ButtonA/ButtonRegular';
 
 const dateTimeStartProps = {
-  label: "startDate",
+  label: 'startDate',
 };
 const dateTimeEndProps = {
-  label: "endDate",
+  label: 'endDate',
 };
-const locales = ["en", "fa"] as const;
+const locales = ['en', 'fa'] as const;
 export default function DateTimeAnalytic() {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const selectSD = useAppSelector(selectStartDate);
   const selectED = useAppSelector(selectEndDate);
-  const [locale, setLocale] = useState<(typeof locales)[number]>("fa");
+  const [locale, setLocale] = useState<(typeof locales)[number]>('fa');
   const [value, setValue] = useState<Dayjs | null>(null);
   const [value2, setValue2] = useState<Dayjs | null>(dayjs());
   useEffect(() => {
@@ -54,90 +54,57 @@ export default function DateTimeAnalytic() {
   }, [value2]);
   return (
     <>
-      {/* {selectSD !== undefined && selectED !== undefined
-          ? new Date(selectSD).getDate() - new Date(selectED).getDate() + " D"
-          : ""} */}
-      {/* <div
-          style={{ direction: "ltr" }}
-          className="flex justify-end border border-white/50 rounded-md w-fit m-3 p-2 items-center hover:bg-white/10 backdrop-blur-lg text-lg mb-8"
-        >
-          <ToggleButtonGroup
-            value={locale}
-            exclusive
-            sx={{ mb: 2, display: "block" }}
-          >
-            {locales.map((localeItem) => (
-              <ToggleButton
-                sx={{
-                  color: "var(--pending-bgc)",
-                  "&.Mui-selected": {
-                    color: "var(--text-color)",
-                  },
-                }}
-                key={localeItem}
-                value={localeItem}
-                onClick={() => {
-                  setValue(null);
-                  setValue2(null);
-                  setLocale(localeItem);
-                }}
-              >
-                {localeItem}
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
-          <h3 className="flex p-2">{t("calendar")}</h3>
-        </div> */}
-      <Box className="flex m-2 justify-center">
-        <Grid container spacing={2}>
-          <Grid>
+      <section className="flex flex-wrap m-2 justify-center scale-75 lg:scale-100 ">
+        <div className="flex">
+          <div>
             <DateTimePickerComponent
               {...dateTimeEndProps}
               locale={locale}
               value={value2}
               setValue={setValue2}
             />
-          </Grid>
-          <Grid className="flex">
+          </div>
+          <div className="flex">
             <HowMuchBefor
               setValue={setValue}
-              str={["hour", "24"]}
+              str={['hour', '24']}
               hourValue={24}
             />
             <HowMuchBefor
               setValue={setValue}
-              str={["day", "7"]}
+              str={['day', '7']}
               hourValue={24 * 7}
             />
             <HowMuchBefor
               setValue={setValue}
-              str={["day", "15"]}
+              str={['day', '15']}
               hourValue={15 * 24}
             />
             <HowMuchBefor
               setValue={setValue}
-              str={["month", "1"]}
+              str={['month', '1']}
               hourValue={30 * 24}
             />
             <HowMuchBefor
               setValue={setValue}
-              str={["month", "3"]}
+              str={['month', '3']}
               hourValue={3 * 30 * 24}
             />
-          </Grid>
-          <Grid>
+          </div>
+          <div>
             <DateTimePickerComponent
               {...dateTimeStartProps}
               locale={locale}
               value={value}
               setValue={setValue}
             />
-          </Grid>
+          </div>
+
           {/* <Grid>
               <HowManyDays SD={selectSD} ED={selectED} />
             </Grid> */}
-        </Grid>
-      </Box>
+        </div>
+      </section>
     </>
   );
 }
@@ -186,7 +153,7 @@ function HowMuchBefor({
           className="hover:bg-cyan-400/30 rounded-lg flex border border-black py-4 bg-black/30 text-white"
         >
           <div className="mx-2">{t(str?.[1])}</div>
-          <div className="mx-2">{t(str?.[0])}</div>{" "}
+          <div className="mx-2">{t(str?.[0])}</div>{' '}
         </button>
       </Box>
     </>

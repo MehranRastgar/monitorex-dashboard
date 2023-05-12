@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ButtonRegular from 'src/atomic/atoms/ButtonA/ButtonRegular';
 import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
+import ThemeInput from 'src/atomic/atoms/ThemeInput/ThemeInput';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
   selectEndDate,
@@ -142,7 +143,7 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
 ) => {
   const selectUserGr = useAppSelector(selectUserGroups);
   const { t } = useTranslation();
-  const [nameofGp, setNameofGp] = useState('unname');
+  const [nameofGp, setNameofGp] = useState<string | undefined>(undefined);
 
   return (
     <>
@@ -151,22 +152,21 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
           <Typography className="text-lg font-Vazir-Bold">
             {t('take_a_name_for_this_group')}
           </Typography>
-          <TextField
-            onChange={(e) => {
-              setNameofGp(e.target.value);
-            }}
-            variant="filled"
-            sx={styleInput}
-            label={t('title')}
+          <ThemeInput
+            label={t('GPname') ?? undefined}
+            onChange={setNameofGp}
+            value={nameofGp}
           />
           <div className="flex w-full justify-center mt-10 h-fit ">
             <ThemeButton
               disabled={
-                nameofGp !== 'unname' && nameofGp.length !== 0 ? false : true
+                nameofGp !== undefined && nameofGp?.length > 0 ? false : true
               }
               type="submit"
               className="mt-10"
-              onClick={() => props?.handleSaveToGroup(nameofGp)}
+              onClick={() => {
+                if (nameofGp?.length) props?.handleSaveToGroup(nameofGp);
+              }}
             >
               {t('saveInGroups')}
             </ThemeButton>

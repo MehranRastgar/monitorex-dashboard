@@ -227,7 +227,7 @@ const ReactTable: React.FC<Props> = (props) => {
         {props.hasPagination && (
           <div className="flex justify-center w-full h-10 mt-2 scale-75">
             <ThemeButton
-              className=" flex text-center mx-2 text-[12px] h-[30px] items-center"
+              className=" flex text-center mx-2 text-[12px] items-center"
               type={'activate'}
               onClick={() => previousPage()}
               disabled={!canPreviousPage}
@@ -238,7 +238,7 @@ const ReactTable: React.FC<Props> = (props) => {
               {pageIndex + 1} / {pageOptions?.length}
             </span>
             <ThemeButton
-              className=" flex text-center mx-2 text-[12px] h-[30px] items-center"
+              className=" flex text-center mx-2 text-[12px] items-center"
               type={'activate'}
               onClick={() => nextPage()}
               disabled={!canNextPage}

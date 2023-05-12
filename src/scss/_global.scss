@@ -27,6 +27,7 @@ html {
   --header-text-color: #070707;
   --border-color: #636261;
   --dev-bgc: rgba(248, 240, 240, 0.698);
+  --input-placeholder: #2b487754;
 
   // --blur-bg: rgba(216, 231, 229, 0.8);
   // --bgc: #f2f2f2;
@@ -86,7 +87,7 @@ html[theme='dark'] {
   --header-text-color: #ffd369;
   --border-color: #06b89a;
   --dev-bgc: #393e46cf;
-
+  --input-placeholder: #cbd4e23a;
   //light theme status
 
   // --background-image: url("../assets/images/darkbg.jpg");
