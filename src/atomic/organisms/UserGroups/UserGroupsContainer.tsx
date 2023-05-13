@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import ButtonRegular from 'src/atomic/atoms/ButtonA/ButtonRegular';
 import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 import ThemeInput from 'src/atomic/atoms/ThemeInput/ThemeInput';
+import ThemeInputSelect from 'src/atomic/atoms/ThemeInput/ThemeInputSelect';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
   selectEndDate,
@@ -136,6 +137,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
 
 export interface UserGroupsSaveContainerProps {
   handleSaveToGroup: (gp: string) => Promise<void>;
+  handleUpdateToGroup: (gpId: string, gpName: string) => Promise<void>;
 }
 
 const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
@@ -144,31 +146,70 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
   const selectUserGr = useAppSelector(selectUserGroups);
   const { t } = useTranslation();
   const [nameofGp, setNameofGp] = useState<string | undefined>(undefined);
+  const [gpMap, setGpMap] = useState<{ id: string; title: string }[]>([]);
+  const [updateGp, setUpdateGp] = useState<string | undefined>(undefined);
 
+  useEffect(() => {
+    const ppp: { id: string; title: string }[] = [];
+    selectUserGr?.map((gp, index) => {
+      if (gp?._id !== undefined)
+        ppp.push({ id: gp?._id, title: gp.groupTitle });
+    });
+    setGpMap(ppp);
+  }, []);
+  useEffect(() => {
+    setNameofGp(gpMap?.find((g) => g.id === updateGp)?.title);
+  }, [updateGp]);
   return (
     <>
       <Box sx={style}>
         <section className="flex flex-wrap w-full h-[200px]  rounded-[5px]">
-          <Typography className="text-lg font-Vazir-Bold">
-            {t('take_a_name_for_this_group')}
-          </Typography>
-          <ThemeInput
-            label={t('GPname') ?? undefined}
-            onChange={setNameofGp}
-            value={nameofGp}
-          />
+          <div>
+            <Typography className="text-lg font-Vazir-Bold">
+              {t('take_a_name_for_this_group')}
+            </Typography>
+            <ThemeInput
+              label={t('GPname') ?? undefined}
+              onChange={setNameofGp}
+              value={nameofGp}
+            />
+          </div>
+          <div>
+            or
+            <Typography className="text-lg font-Vazir-Bold">
+              {t('updateGroup')}
+            </Typography>
+            <ThemeInputSelect
+              label={t('GPname') ?? undefined}
+              onChange={setUpdateGp}
+              value={gpMap}
+            />
+            {updateGp}
+          </div>
+
           <div className="flex w-full justify-center mt-10 h-fit ">
             <ThemeButton
               disabled={
                 nameofGp !== undefined && nameofGp?.length > 0 ? false : true
               }
               type="submit"
-              className="mt-10"
+              className="mt-10 mx-2"
               onClick={() => {
                 if (nameofGp?.length) props?.handleSaveToGroup(nameofGp);
               }}
             >
-              {t('saveInGroups')}
+              {t('saveAsNewGroup')}
+            </ThemeButton>
+            <ThemeButton
+              disabled={updateGp === undefined || updateGp === '0'}
+              type="submit"
+              className="mt-10  mx-2"
+              onClick={() => {
+                if (nameofGp?.length)
+                  props?.handleUpdateToGroup(updateGp, nameofGp);
+              }}
+            >
+              {t('updateGroup')}
             </ThemeButton>
           </div>
         </section>

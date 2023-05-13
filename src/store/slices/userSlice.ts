@@ -1,56 +1,56 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { GroupItemType, SignInRequest, UserType } from "../../types/types";
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { GroupItemType, SignInRequest, UserType } from '../../types/types';
 import {
   checkSignIn,
   CreateUserApi,
   PatchUserApi,
   signIn,
   UpdateGroupApi,
-} from "../api/userApi";
-import type { AppState, AppThunk } from "../store";
+} from '../api/userApi';
+import type { AppState, AppThunk } from '../store';
 export interface UserState {
   ownUser: UserType;
   selectedUser: UserType;
   status: UserSignInStatus;
   users: UserType[];
-  token: "initial" | string;
+  token: 'initial' | string;
   updateFlag: ApiFlag;
   signInFlag: ApiFlag;
   selectedGroup?: number;
 }
 
 export type UserSignInStatus =
-  | "initial"
-  | "logedIn"
-  | "loading"
-  | "403"
-  | "401"
-  | "unknownError"
-  | "logout";
+  | 'initial'
+  | 'logedIn'
+  | 'loading'
+  | '403'
+  | '401'
+  | 'unknownError'
+  | 'logout';
 export type ApiFlag =
-  | "initial"
-  | "loading"
-  | "request"
-  | "success"
-  | "pending"
-  | "403"
-  | "401"
-  | "unknownError"
-  | "faild";
+  | 'initial'
+  | 'loading'
+  | 'request'
+  | 'success'
+  | 'pending'
+  | '403'
+  | '401'
+  | 'unknownError'
+  | 'faild';
 
 const initialState: UserState = {
   selectedUser: {},
   ownUser: {},
   users: [],
-  status: "initial",
-  signInFlag: "initial",
-  token: "initial",
-  updateFlag: "initial",
+  status: 'initial',
+  signInFlag: 'initial',
+  token: 'initial',
+  updateFlag: 'initial',
 };
 
 //--------------------------------------------------------------------------------//
 export const signInAction = createAsyncThunk(
-  "user/signIn",
+  'user/signIn',
   async (signInReq: SignInRequest) => {
     const response:
       | UserType
@@ -62,23 +62,23 @@ export const signInAction = createAsyncThunk(
     ////console.log("response thunk signInsignInsignIn", response);
     // The value we return becomes the `fulfilled` action payload
     return response;
-  }
+  },
 );
 //--------------------------------------------------------------------------------//
-export const signInCheck = createAsyncThunk("user/checkSignIn", async () => {
+export const signInCheck = createAsyncThunk('user/checkSignIn', async () => {
   const response:
     | UserType
     | {
         error: {
           errorCode: any;
         };
-      } = await checkSignIn(String(localStorage?.getItem("access_token")));
+      } = await checkSignIn(String(localStorage?.getItem('access_token')));
   ////console.log("response thunk", response);
   return response;
 });
 //--------------------------------------------------------------------------------//
 export const updateUserData = createAsyncThunk(
-  "user/updateUserData",
+  'user/updateUserData',
   async (userInfo: UserType) => {
     const response:
       | UserType
@@ -87,15 +87,15 @@ export const updateUserData = createAsyncThunk(
             errorCode: any;
           };
         } = await PatchUserApi(
-      String(localStorage?.getItem("access_token")),
-      userInfo
+      String(localStorage?.getItem('access_token')),
+      userInfo,
     );
     return response;
-  }
+  },
 );
 //--------------------------------------------------------------------------------//
 export const createUser = createAsyncThunk(
-  "user/createUser",
+  'user/createUser',
   async (userInfo: UserType) => {
     const response:
       | UserType
@@ -104,11 +104,11 @@ export const createUser = createAsyncThunk(
             errorCode: any;
           };
         } = await CreateUserApi(
-      String(localStorage?.getItem("access_token")),
-      userInfo
+      String(localStorage?.getItem('access_token')),
+      userInfo,
     );
     return response;
-  }
+  },
 );
 //--------------------------------------------------------------------------------//
 // export const updateUserGroup = createAsyncThunk(
@@ -130,7 +130,7 @@ export const createUser = createAsyncThunk(
 //--------------------------------------------------------------------------------//
 //--------------------------------------------------------------------------------//
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -147,11 +147,25 @@ export const userSlice = createSlice({
     setSelectedUser: (state, action: PayloadAction<UserType>) => {
       state.selectedUser = action.payload;
     },
+    addGroupToUserData: (state, action: PayloadAction<GroupItemType>) => {
+      const arr: GroupItemType[] = state.ownUser?.groups ?? [];
+      arr.push(action.payload);
+      const user: UserType = { ...state.ownUser, groups: [...arr] };
+      state.ownUser = user;
+    },
+
+    removeGroupFromUserData: (state, action: PayloadAction<string>) => {
+      const gpId = action.payload;
+    },
+
+    updateGroupInUserData: (state, action: PayloadAction<GroupItemType>) => {
+      state.selectedUser = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(signInAction.pending, (state) => {
-        state.signInFlag = "loading";
+        state.signInFlag = 'loading';
       })
       .addCase(
         signInAction.fulfilled,
@@ -159,16 +173,16 @@ export const userSlice = createSlice({
           state.ownUser = action.payload.user;
           state.token = action.payload.access_token;
           if (state?.token !== undefined) {
-            localStorage.setItem("access_token", state?.token);
-            state.signInFlag = "success";
-            localStorage.setItem("user", JSON.stringify(state?.ownUser));
+            localStorage.setItem('access_token', state?.token);
+            state.signInFlag = 'success';
+            localStorage.setItem('user', JSON.stringify(state?.ownUser));
           } else {
-            state.signInFlag = "faild";
+            state.signInFlag = 'faild';
           }
-        }
+        },
       )
       .addCase(signInAction.rejected, (state, action) => {
-        state.signInFlag = "faild";
+        state.signInFlag = 'faild';
       })
       .addCase(
         signInCheck.fulfilled,
@@ -176,25 +190,25 @@ export const userSlice = createSlice({
           state.ownUser = action.payload.user;
           state.token = action.payload.access_token;
           if (state?.token !== undefined) {
-            localStorage.setItem("access_token", state?.token);
-            state.signInFlag = "success";
-            localStorage.setItem("user", JSON.stringify(state?.ownUser));
+            localStorage.setItem('access_token', state?.token);
+            state.signInFlag = 'success';
+            localStorage.setItem('user', JSON.stringify(state?.ownUser));
           } else {
-            state.signInFlag = "faild";
+            state.signInFlag = 'faild';
           }
-        }
+        },
       )
       .addCase(signInCheck.rejected, (state) => {
-        state.signInFlag = "faild";
+        state.signInFlag = 'faild';
       })
       .addCase(signInCheck.pending, (state) => {
-        state.signInFlag = "loading";
+        state.signInFlag = 'loading';
       })
       .addCase(updateUserData.pending, (state) => {
-        state.updateFlag = "pending";
+        state.updateFlag = 'pending';
       })
       .addCase(updateUserData.rejected, (state) => {
-        state.updateFlag = "faild";
+        state.updateFlag = 'faild';
       })
       .addCase(
         updateUserData.fulfilled,
@@ -203,21 +217,21 @@ export const userSlice = createSlice({
           // state.token = action.payload.access_token;
           if (state?.token !== undefined) {
             // localStorage.setItem("access_token", state?.token);
-            state.signInFlag = "success";
-            state.updateFlag = "success";
+            state.signInFlag = 'success';
+            state.updateFlag = 'success';
             // localStorage.setItem("user", JSON.stringify(state?.ownUser));
             state.selectedUser = action.payload.user;
             state.ownUser = action.payload.user;
           } else {
-            state.signInFlag = "faild";
+            state.signInFlag = 'faild';
           }
-        }
+        },
       )
       .addCase(createUser.pending, (state) => {
-        state.updateFlag = "pending";
+        state.updateFlag = 'pending';
       })
       .addCase(createUser.rejected, (state) => {
-        state.updateFlag = "faild";
+        state.updateFlag = 'faild';
       })
       .addCase(
         createUser.fulfilled,
@@ -226,20 +240,25 @@ export const userSlice = createSlice({
           // state.token = action.payload.access_token;
           if (state?.token !== undefined) {
             // localStorage.setItem("access_token", state?.token);
-            state.signInFlag = "success";
-            state.updateFlag = "success";
+            state.signInFlag = 'success';
+            state.updateFlag = 'success';
             // localStorage.setItem("user", JSON.stringify(state?.ownUser));
             state.selectedUser = action.payload.user;
           } else {
-            state.signInFlag = "faild";
+            state.signInFlag = 'faild';
           }
-        }
+        },
       );
   },
 });
 
-export const { setUsersData, setSignInFlag, setAllUsersData, setSelectedUser } =
-  userSlice.actions;
+export const {
+  setUsersData,
+  setSignInFlag,
+  setAllUsersData,
+  setSelectedUser,
+  addGroupToUserData,
+} = userSlice.actions;
 export const selectOwnUser = (state: AppState) => state.user.ownUser;
 export const selectAllUsersData = (state: AppState) => state.user.users;
 export const selectSelectedUser = (state: AppState) =>

@@ -16,7 +16,7 @@ const DeviceMA: React.FC<Props> = () => {
     'device',
   );
   return (
-    <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-10 m-2 rounded-md">
+    <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] pt-10 p-2  rounded-md">
       <div className="flex w-full justify-center mb-8">
         <ThemeButton
           onClick={() => setGroupOrDevice('device')}

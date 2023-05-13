@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { SensorsReceiveTpe } from "../components/pages/sensors/sensorsTable";
+import mongoose from 'mongoose';
+import { SensorsReceiveTpe } from '../components/pages/sensors/sensorsTable';
 
 export interface GetProductsArray {
   info: Info | null | undefined;
@@ -76,42 +76,42 @@ export interface Attribute {
 export interface Attributext {
   وزن: string;
   ابعاد: string;
-  "سازنده پردازنده": string;
-  "سری پردازنده": string;
-  "مدل پردازنده": string;
-  "محدوده سرعت پردازنده": string;
-  "فرکانس پردازنده": string;
-  "حافظه Cache": string;
-  "سایر توضیحات پردازنده مرکزی (CPU)": string;
-  "ظرفیت حافظه RAM": string;
-  "نوع حافظه RAM": string;
-  "سایر توضیحات حافظه RAM": string;
-  "ظرفیت حافظه داخلی": string;
-  "نوع حافظه داخلی": string;
-  "مشخصات حافظه داخلی": string;
-  "سایر توضیحات حافظه داخلی": string;
-  "سازنده پردازنده گرافیکی": string;
-  "مدل پردازنده گرافیکی": string;
-  "حافظه اختصاصی پردازنده گرافیکی": string;
-  "سایر توضیحات پردازنده گرافیکی": string;
-  "اندازه صفحه نمایش": string;
-  "نوع صفحه نمایش": string;
-  "دقت صفحه نمایش": string;
-  "توضیحات صفحه نمایش": string;
-  "قابلیت\u200cهای دستگاه": string;
-  "درایو نوری": string;
-  "مشخصات تاچ پد": string;
-  "درگاه\u200cهای ارتباطی": string;
+  'سازنده پردازنده': string;
+  'سری پردازنده': string;
+  'مدل پردازنده': string;
+  'محدوده سرعت پردازنده': string;
+  'فرکانس پردازنده': string;
+  'حافظه Cache': string;
+  'سایر توضیحات پردازنده مرکزی (CPU)': string;
+  'ظرفیت حافظه RAM': string;
+  'نوع حافظه RAM': string;
+  'سایر توضیحات حافظه RAM': string;
+  'ظرفیت حافظه داخلی': string;
+  'نوع حافظه داخلی': string;
+  'مشخصات حافظه داخلی': string;
+  'سایر توضیحات حافظه داخلی': string;
+  'سازنده پردازنده گرافیکی': string;
+  'مدل پردازنده گرافیکی': string;
+  'حافظه اختصاصی پردازنده گرافیکی': string;
+  'سایر توضیحات پردازنده گرافیکی': string;
+  'اندازه صفحه نمایش': string;
+  'نوع صفحه نمایش': string;
+  'دقت صفحه نمایش': string;
+  'توضیحات صفحه نمایش': string;
+  'قابلیت\u200cهای دستگاه': string;
+  'درایو نوری': string;
+  'مشخصات تاچ پد': string;
+  'درگاه\u200cهای ارتباطی': string;
   مودم: string;
-  "تعداد پورت USB 3.0": string;
-  "تعداد پورت USB Type-C": string;
-  "طبقه\u200cبندی": string;
-  "نوع باتری": string;
-  "توضیحات باتری": string;
-  "شارژدهی باتری": string;
-  "سیستم عامل": string;
-  "توضیحات سیستم عامل": string;
-  "اقلام همراه": string;
+  'تعداد پورت USB 3.0': string;
+  'تعداد پورت USB Type-C': string;
+  'طبقه\u200cبندی': string;
+  'نوع باتری': string;
+  'توضیحات باتری': string;
+  'شارژدهی باتری': string;
+  'سیستم عامل': string;
+  'توضیحات سیستم عامل': string;
+  'اقلام همراه': string;
 }
 
 export interface Category {
@@ -164,26 +164,26 @@ export interface SEO {
 }
 
 export interface PurpleMarkupSchema {
-  "@context": string;
-  "@type": string;
+  '@context': string;
+  '@type': string;
   itemListElement: ItemListElement[];
 }
 
 export interface ItemListElement {
-  "@type": string;
+  '@type': string;
   position: number;
   name: string;
   item?: ItemClass | string;
 }
 
 export interface ItemClass {
-  "@type": string;
-  "@id": string;
+  '@type': string;
+  '@id': string;
 }
 
 export interface FluffyMarkupSchema {
-  "@context": string;
-  "@type": string;
+  '@context': string;
+  '@type': string;
   name: string;
   alternateName: string;
   image: string[];
@@ -196,14 +196,14 @@ export interface FluffyMarkupSchema {
 }
 
 export interface Brand {
-  "@type": string;
+  '@type': string;
   name: string;
   url: string;
-  "@id": string;
+  '@id': string;
 }
 
 export interface Offers {
-  "@type": string;
+  '@type': string;
   priceCurrency: string;
   price: number;
   itemCondition: string;
@@ -346,7 +346,7 @@ export interface SignInCheck {
 
 export interface ClientType {
   info: Client;
-  status: "loading" | "success" | "403" | "401" | "unknownError";
+  status: 'loading' | 'success' | '403' | '401' | 'unknownError';
 }
 
 export interface UserType {
@@ -357,7 +357,7 @@ export interface UserType {
   family?: string;
   nationalId?: string;
   personalId?: string;
-  theme?: "dark" | "light";
+  theme?: 'dark' | 'light';
   // chart: {};
   groups?: GroupItemType[];
   accessControll?: {
@@ -374,21 +374,22 @@ export interface GroupItemType {
   groupTitle: string;
   sensors: SensorsReceiveTpe[];
   timeRange: number;
+  _id?: string;
 }
 
 export type isAdminType = boolean;
 export type abilityActionsType =
-  | "manage"
-  | "create"
-  | "read"
-  | "update"
-  | "delete";
+  | 'manage'
+  | 'create'
+  | 'read'
+  | 'update'
+  | 'delete';
 export enum AbilityAction {
-  Manage = "manage",
-  Create = "create",
-  Read = "read",
-  Update = "update",
-  Delete = "delete",
+  Manage = 'manage',
+  Create = 'create',
+  Read = 'read',
+  Update = 'update',
+  Delete = 'delete',
 }
 
 export interface Client {
@@ -453,12 +454,12 @@ export interface AtedAt {
 //theme
 export interface Theme {
   themeName?: string;
-  DeviceType?: "android" | "ios" | "mobile" | "tablet" | "pc" | "laptop";
+  DeviceType?: 'android' | 'ios' | 'mobile' | 'tablet' | 'pc' | 'laptop';
 }
 //--------------------------------------------------
 export interface Sort {
-  SortType: "asce" | "desc";
-  SortBy: "date" | "price" | "interest" | "likes" | "ralative" | "sell";
+  SortType: 'asce' | 'desc';
+  SortBy: 'date' | 'price' | 'interest' | 'likes' | 'ralative' | 'sell';
 }
 //--------------------------------------------------
 export interface ReverseAddress {

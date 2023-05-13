@@ -89,6 +89,11 @@ const DeviceTable: React.FC<Props> = (props) => {
   const columns = React.useMemo(
     () => [
       {
+        Header: 'N',
+        id: 'index',
+        accessor: (_row: any, i: number) => i + 1,
+      },
+      {
         Header: 'device name',
         accessor: 'title',
       },
@@ -103,6 +108,11 @@ const DeviceTable: React.FC<Props> = (props) => {
   const columnsSensor = React.useMemo(
     () => [
       {
+        Header: 'N',
+        id: 'index',
+        accessor: (_row: any, i: number) => i + 1,
+      },
+      {
         Header: 'sensor name',
         accessor: 'title',
       },
@@ -116,6 +126,11 @@ const DeviceTable: React.FC<Props> = (props) => {
   );
   const columnsSensorInGroup = React.useMemo(
     () => [
+      {
+        Header: 'N',
+        id: 'index',
+        accessor: (_row: any, i: number) => i + 1,
+      },
       {
         Header: 'Sensor InGroup',
         accessor: 'title',

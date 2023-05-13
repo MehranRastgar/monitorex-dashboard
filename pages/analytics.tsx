@@ -5,6 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
 import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 import DeviceMA from 'src/atomic/organisms/device/DeviceMA';
+import User from 'src/class/user';
+import { SensorsReceiveTpe } from 'src/components/pages/sensors/sensorsTable';
 import { GetDevices } from '../src/api/devices';
 import ButtonRegular from '../src/atomic/atoms/ButtonA/ButtonRegular';
 import Item from '../src/atomic/atoms/Item/Item';
@@ -31,7 +33,11 @@ import {
   setDevicesData,
   setDevicesStatus,
 } from '../src/store/slices/devicesSlice';
-import { selectOwnUser, updateUserData } from '../src/store/slices/userSlice';
+import {
+  addGroupToUserData,
+  selectOwnUser,
+  updateUserData,
+} from '../src/store/slices/userSlice';
 import { GroupItemType, UserType } from '../src/types/types';
 
 export default function Analytics() {
@@ -63,7 +69,7 @@ export default function Analytics() {
 
   const handleReport = () => {
     const arr: string[] = [];
-    selectedSensorsSlice?.map((sensor) => {
+    selectedSensorsSlice?.map((sensor: SensorsReceiveTpe) => {
       if (sensor._id !== undefined) arr.push(sensor?._id);
     });
     dispatch(
@@ -74,21 +80,39 @@ export default function Analytics() {
       }),
     );
   };
+
+  const handleUpdateToGroup = async (gpId: string, name: string) => {
+    const start = startDate !== undefined ? new Date(startDate).getTime() : 0;
+    const end = endDate !== undefined ? new Date(endDate).getTime() : 0;
+    const time = end - start;
+    const userIns = new User(userData);
+    if (selectedSensorsSlice !== undefined)
+      dispatch(
+        updateUserData(
+          await userIns.updateThisGroup(gpId, {
+            groupTitle: name,
+            sensors: [...selectedSensorsSlice],
+            timeRange: time,
+          }),
+        ),
+      );
+  };
   const handleSaveToGroup = async (nameofGp: string) => {
     const start = startDate !== undefined ? new Date(startDate).getTime() : 0;
     const end = endDate !== undefined ? new Date(endDate).getTime() : 0;
     const time = end - start;
-    const userD = await JSON.parse(localStorage.getItem('user') ?? '');
-    const arr: GroupItemType[] = userD?.groups ?? [];
+
+    const userIns = new User(userData);
     if (selectedSensorsSlice !== undefined)
-      arr.push({
-        groupTitle: nameofGp ?? 'unnamed',
-        sensors: [...selectedSensorsSlice],
-        timeRange: time,
-      });
-    const user: UserType = { ...userD, groups: [...arr] };
-    //console.log(userD);
-    dispatch(updateUserData(user));
+      dispatch(
+        updateUserData(
+          await userIns.addNewGroup({
+            groupTitle: nameofGp ?? 'unnamed',
+            sensors: [...selectedSensorsSlice],
+            timeRange: time,
+          }),
+        ),
+      );
     setOpen(false);
   };
 
@@ -155,7 +179,10 @@ export default function Analytics() {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <UserGroupsSaveContainer handleSaveToGroup={handleSaveToGroup} />
+          <UserGroupsSaveContainer
+            handleUpdateToGroup={handleUpdateToGroup}
+            handleSaveToGroup={handleSaveToGroup}
+          />
         </Modal>
       </section>
       <section className="my-2">

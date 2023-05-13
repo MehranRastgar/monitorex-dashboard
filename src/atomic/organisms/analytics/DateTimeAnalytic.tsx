@@ -52,6 +52,16 @@ export default function DateTimeAnalytic() {
       dispatch(setEndDate(publishDate.toJSON()));
     }
   }, [value2]);
+
+  useEffect(() => {
+    if (selectED !== undefined) setValue2(dayjs(selectED));
+    console.log('selectSD', selectED);
+  }, [selectED]);
+  useEffect(() => {
+    if (selectSD !== undefined) setValue(dayjs(selectSD));
+    console.log('selectSD', selectSD);
+  }, [selectSD]);
+
   return (
     <>
       <section className="flex flex-wrap m-2 justify-center scale-75 lg:scale-100 ">
