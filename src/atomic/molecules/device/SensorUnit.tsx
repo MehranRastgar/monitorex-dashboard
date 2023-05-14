@@ -21,13 +21,10 @@ const SensorUnit: React.FC<Props> = (props) => {
     // if (props?.sensor?._id !== undefined)
     //   setSensorData(socketObj?.[props?.sensor?._id]);
     if (props?.sensor?._id)
-      socket.once(
-        props?.sensor?._id,
-        (data: SensorWebsocketRealTimeDataType) => {
-          console.log('sensorsocket:', data);
-          setSensorData(data);
-        },
-      );
+      socket.on(props?.sensor?._id, (data: SensorWebsocketRealTimeDataType) => {
+        console.log('sensorsocket:', data);
+        setSensorData(data);
+      });
 
     return () => {};
   }, [props.time]);

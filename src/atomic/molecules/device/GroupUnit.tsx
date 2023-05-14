@@ -1,11 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SensorWebsocketRealTimeDataType } from 'src/components/pages/sensors/sensorsTable';
 import { socket } from 'src/components/socketio';
 import { DevicesReceiveType } from 'src/store/api/devicesApi';
-import { useAppSelector } from 'src/store/hooks';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import {
+  reportSensorsAsync,
+  selectGroupNumber,
+  setEndDate,
+  setSelectedGroupNumber,
+  setSelectedSensors,
+  setSelectedSensorsAdvanced,
+  setStartDate,
+} from 'src/store/slices/analizeSlice';
 import { selectDevicesData } from 'src/store/slices/devicesSlice';
 import { selectSocketObject, socketObType } from 'src/store/slices/socketSlice';
+import { selectOwnUser } from 'src/store/slices/userSlice';
 import SensorUnit from './SensorUnit';
+import dayjs, { Dayjs } from 'dayjs';
+import { GroupItemType } from 'src/types/types';
 
 // import dynamic from "next/dynamic";
 // const SensorUnit = dynamic(() => import("./SensorUnit"));
@@ -16,50 +28,95 @@ interface Props {
 const GroupUnit: React.FC<Props> = (props) => {
   const [time, setTime] = useState(new Date());
   const devices = useAppSelector(selectDevicesData);
+  const selectUSer = useAppSelector(selectOwnUser);
+  const selectGPnumber = useAppSelector(selectGroupNumber);
+  const group = useMemo(
+    () => selectUSer?.groups?.[props?.index ?? 0],
+    [selectUSer, props?.index],
+  );
   const [device, setDevice] = useState<DevicesReceiveType | undefined>(
     devices?.[props?.index ?? 0],
   );
+  const dispatch = useAppDispatch();
   const socketObj: socketObType = useAppSelector(selectSocketObject);
   const [deviceData, setDeviceData] = useState<
     SensorWebsocketRealTimeDataType | undefined
   >(undefined);
 
   useEffect(() => {
-    if (device?._id)
-      socket.once(device?._id, (data: SensorWebsocketRealTimeDataType) => {
-        // console.log(data);
-        setDeviceData(data);
-      });
+    // if (device?._id)
+    // socket.once(device?._id, (data: SensorWebsocketRealTimeDataType) => {
+    //   // console.log(data);
+    //   setDeviceData(data);
+    // });
 
     return () => {
       // if (device?._id) socket.off(device?._id);
     };
   }, [devices, device, deviceData]);
 
+  const GetReport = (group: GroupItemType) => {
+    let publishDate = new Date(1000 * dayjs().unix());
+
+    dispatch(setEndDate(publishDate.toJSON()));
+    dispatch(
+      setStartDate(
+        new Date(dayjs().unix() * 1000 - group.timeRange).toLocaleString(),
+      ),
+    );
+
+    dispatch(setSelectedSensors(group.sensors));
+    const arr: string[] = [];
+    group?.sensors.map((item) => arr.push(item?._id ?? ''));
+    dispatch(
+      reportSensorsAsync({
+        sensors: arr,
+        start: new Date(
+          dayjs().unix() * 1000 - group.timeRange,
+        ).toLocaleString(),
+        end: publishDate.toJSON(),
+      }),
+    );
+  };
+
   return (
-    <section className="flex flex-wrap border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4">
+    <section
+      className={
+        'flex flex-wrap border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4 ' +
+        `${
+          props.index === selectGPnumber
+            ? '   shadow-xl shadow-green-500 border'
+            : ' '
+        }`
+      }
+    >
       <ul className="text-[1.2vw] xl:text-xl  w-full h-[6vh] justify-center items-center border-b border-[var(--border-color)]">
-        <li className="flex w-full h-[6vh] justify-center items-center border-b border-[var(--border-color)]">
+        <li
+          onClick={() => {
+            if (group) {
+              GetReport(group);
+              if (props.index) dispatch(setSelectedGroupNumber(props.index));
+              dispatch(setSelectedSensors(group.sensors));
+            }
+          }}
+          className={`cursor-pointer flex w-full h-[6vh] justify-center items-center border-b border-[var(--border-color)] ${
+            props.index === selectGPnumber
+              ? 'bg-[var(--selected-table-bg)]'
+              : ' '
+          } `}
+        >
           <div className="text-center justify-center w-full p-3 text-[1.8vw] xl:text-xl">
-            {device?.title},{device?.address?.multiPort},
-            {device?.address?.sMultiPort}
+            {group?.groupTitle}
           </div>
         </li>
-        <li className="flex w-full h-[4vh] justify-center items-center border-b border-[var(--border-color)]">
-          <div className=" text-center justify-center w-full p-3">
-            {/* {deviceData?.deviceTitle ?? "- -"} */}
-            {deviceData?.createdAt !== undefined
-              ? new Date(deviceData?.createdAt).toLocaleTimeString()
-              : '- - -'}
-          </div>
-        </li>
+
         <li className="overflow-auto w-full h-[30vh]">
-          {device?.sensors?.map((sensor, index) => (
+          {group?.sensors?.map((sensor, index) => (
             <SensorUnit
               time={deviceData?.createdAt}
               index={index}
               sensor={sensor}
-              key={index.toString()}
+              key={sensor._id}
             />
           ))}
         </li>

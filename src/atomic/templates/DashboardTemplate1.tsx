@@ -53,14 +53,14 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   useEffect(() => {
     group?.sensors?.map((sens, index) => {
       if (sens?._id)
-        socket.on(sens?._id, (data: SensorWebsocketRealTimeDataType) => {
+        socket.once(sens?._id, (data: SensorWebsocketRealTimeDataType) => {
           dispatch(addNewRecordToSocket(data));
           // console.log(data);
         });
     });
     return () => {
       group?.sensors?.map((sens, index) => {
-        socket.off(sens?._id);
+        // socket.off(sens?._id);
       });
     };
   }, [group]);
@@ -94,25 +94,29 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
             hideScrollbars={false}
             className="overflow-y-hidden flex border border-[var(--border-color)]"
           >
-            <div className={groupOrDevice === 'device' ? 'flex' : 'hidden'}>
-              {selectDevices.map((dev, index) => (
-                <DeviceUnit key={index.toString()} index={index} />
-              ))}
-            </div>
+            {groupOrDevice === 'device' && (
+              <div className={groupOrDevice === 'device' ? 'flex' : 'hidden'}>
+                {selectDevices.map((dev, index) => (
+                  <DeviceUnit key={index.toString()} index={index} />
+                ))}
+              </div>
+            )}
 
-            <div className={groupOrDevice === 'device' ? 'hidden' : 'flex'}>
-              {group !== null ? (
-                <>
-                  {Groups?.map((dev, index) => (
-                    <GroupUnit key={index.toString()} index={index} />
-                  ))}
-                </>
-              ) : (
-                <>
-                  <section className="flex flex-wrap border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4"></section>
-                </>
-              )}
-            </div>
+            {groupOrDevice === 'group' && (
+              <div className={groupOrDevice === 'group' ? 'flex' : 'hidden'}>
+                {group !== null ? (
+                  <>
+                    {Groups?.map((dev, index) => (
+                      <GroupUnit key={dev._id} index={index} />
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <section className="flex flex-wrap border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4"></section>
+                  </>
+                )}
+              </div>
+            )}
           </ScrollContainer>
           {/* </div> */}
 
