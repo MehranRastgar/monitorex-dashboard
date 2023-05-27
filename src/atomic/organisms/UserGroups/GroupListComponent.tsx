@@ -1,19 +1,19 @@
-import { Typography } from "@mui/material";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { Typography } from '@mui/material';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
   selectGroupNumber,
   selectSelectionType,
   setSelectedGroupNumber,
   setSelectionType,
-} from "../../../store/slices/analizeSlice";
-import { selectDevicesData } from "../../../store/slices/devicesSlice";
-import { selectUserGroups } from "../../../store/slices/userSlice";
-import Item from "../../atoms/Item/Item";
+} from '../../../store/slices/analizeSlice';
+import { selectDevicesData } from '../../../store/slices/devicesSlice';
+import { selectUserGroups } from '../../../store/slices/userSlice';
+import Item from '../../atoms/Item/Item';
 
 export interface GroupListComponentProps {
-  type: "device" | "group";
+  type: 'device' | 'group';
 }
 
 const GroupListComponent: React.FC<GroupListComponentProps> = (props) => {
@@ -27,7 +27,7 @@ const GroupListComponent: React.FC<GroupListComponentProps> = (props) => {
   function handleScrollToSelectedItem(index: number) {
     if (document !== undefined) {
       const el = document?.getElementById(
-        "GpItem-" + index.toString()
+        'GpItem-' + index.toString(),
       ) as HTMLElement;
       el?.scrollIntoView();
     }
@@ -46,23 +46,23 @@ const GroupListComponent: React.FC<GroupListComponentProps> = (props) => {
       <div className="flex w-full h-[300px] ">
         <Item className="w-full m-2 border border-gray-600 overflow-hidden  ">
           <Typography className=" font-Vazir-Medium">
-            {t(props.type === "group" ? "groups" : "devices")}
+            {t(props.type === 'group' ? 'groups' : 'devices')}
           </Typography>
           <section className=" h-[230px] overflow-y-scroll">
-            {props.type === "device" ? (
+            {props.type === 'device' ? (
               <>
                 {Devices?.map((device, Index) => (
                   <div
-                    key={"dveice-" + Index}
-                    id={"dveice-" + Index}
+                    key={'dveice-' + Index}
+                    id={'dveice-' + Index}
                     onClick={() => {
                       dispatch(setSelectedGroupNumber(Index));
-                      dispatch(setSelectionType("device"));
+                      dispatch(setSelectionType('device'));
                     }}
                     className={`flex border border-gray-500 p-1 w-full cursor-pointer  ${
-                      GpNumber === Index && selectionType === "device"
-                        ? "bg-green-500/80 text-gray-800"
-                        : ""
+                      GpNumber === Index && selectionType === 'device'
+                        ? 'bg-green-500/80 text-gray-800'
+                        : ''
                     }`}
                   >
                     {/* <Typography className="w-4 font-Vazir-Bold">
@@ -78,16 +78,16 @@ const GroupListComponent: React.FC<GroupListComponentProps> = (props) => {
               <>
                 {selectUserGr?.map((GpItem, Index) => (
                   <div
-                    key={"GpItem-" + Index}
-                    id={"GpItem-" + Index}
+                    key={'GpItem-' + Index}
+                    id={'GpItem-' + Index}
                     onClick={() => {
                       dispatch(setSelectedGroupNumber(Index));
-                      dispatch(setSelectionType("group"));
+                      dispatch(setSelectionType('group'));
                     }}
                     className={`flex border border-gray-500 p-1 w-full cursor-pointer  ${
-                      GpNumber === Index && selectionType === "group"
-                        ? "bg-green-500/80 text-gray-800"
-                        : ""
+                      GpNumber === Index && selectionType === 'group'
+                        ? 'bg-green-500/80 text-gray-800'
+                        : ''
                     }`}
                   >
                     {/* <Typography className="w-4 font-Vazir-Bold">

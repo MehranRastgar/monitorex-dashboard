@@ -1,33 +1,34 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Unstable_Grid2";
-import { useTranslation } from "react-i18next";
-import DeviceForm from "./deviceForm";
-import ListDataGrid from "../../molecules/device/ListDataGrid";
-import Item from "../../atoms/Item/Item";
+import React, { useState } from 'react';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Unstable_Grid2';
+import { useTranslation } from 'react-i18next';
+import DeviceForm from './deviceForm';
+import ListDataGrid from '../../molecules/device/ListDataGrid';
+import Item from '../../atoms/Item/Item';
 import {
   GridColDef,
   GridSelectionModel,
   GridValueGetterParams,
-} from "@mui/x-data-grid";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+} from '@mui/x-data-grid';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import {
   selectDevicesData,
   setDevicesData,
   setDevicesStatus,
   setSelectedDevice,
-} from "../../../store/slices/devicesSlice";
+} from '../../../store/slices/devicesSlice';
 import {
   useQuery,
   useMutation,
   useQueryClient,
   QueryClient,
   QueryClientProvider,
-} from "react-query";
-import { GetDevices } from "../../../api/devices";
-import { SensorsReceiveTpe } from "../../../components/pages/sensors/sensorsTable";
+} from 'react-query';
+import { GetDevices } from '../../../api/devices';
+import { SensorsReceiveTpe } from '../../../components/pages/sensors/sensorsTable';
+import ReactTable from 'src/atomic/molecules/Table/ReactTable';
 
 export default function DeviceList({ moreItems }: { moreItems?: boolean }) {
   const { t } = useTranslation();
@@ -35,87 +36,56 @@ export default function DeviceList({ moreItems }: { moreItems?: boolean }) {
   const [selectionModel, setSelectionModel] =
     React.useState<GridSelectionModel>([]);
   const devices = useAppSelector(selectDevicesData);
-  const columns: GridColDef[] = [
-    {
-      field: "_id",
-      headerName: "id",
-      width: 50,
-    },
-    {
-      field: "title",
-      headerName: t("title") ?? "title",
-      width: 150,
-    },
-    {
-      field: "type",
-      headerName: t("type") ?? "type",
-      width: 150,
-    },
-  ];
-  const columnsMore: GridColDef[] = [
-    {
-      field: "_id",
-      headerName: "id",
-      width: 50,
-    },
-    {
-      field: "title",
-      headerName: t("title") ?? "title",
-      width: 150,
-    },
-    {
-      field: "type",
-      headerName: t("type") ?? "type",
-      width: 150,
-    },
-    {
-      field: "sensors",
-      headerName: t("sensors") ?? "type",
-      width: 150,
-      valueGetter: (params: GridValueGetterParams) =>
-        params.row?.sensors?.map((sensor: SensorsReceiveTpe, index: number) => {
-          return sensor?.title;
-        }),
-    },
-    {
-      field: "unit",
-      headerName: t("unit") ?? "unit",
-      width: 150,
-      valueGetter: (params: GridValueGetterParams) =>
-        params.row?.sensors?.map((sensor: SensorsReceiveTpe, index: number) => {
-          return sensor?.unit;
-        }),
-    },
-    {
-      field: "numberOfPorts",
-      headerName: t("numberOfPorts") ?? "numberOfPorts",
-      width: 150,
-    },
-  ];
+  const queryDevices = useQuery('devices', GetDevices);
+  const [selectedRow, setSelectedRow] = useState<string>('');
+
+  const data = React.useMemo(
+    () =>
+      queryDevices.isSuccess === true
+        ? queryDevices.data
+        : [{ title: 'no data' }],
+    [queryDevices?.data],
+  );
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'N',
+        id: 'index',
+        accessor: (_row: any, i: number) => i + 1,
+      },
+      {
+        Header: 'device name',
+        accessor: 'title',
+      },
+      {
+        Header: 'ports',
+        accessor: 'sensors.length',
+      },
+    ],
+
+    [],
+  );
   React.useEffect(() => {
-    const indexindata = devices.findIndex((it) => it._id === selectionModel[0]);
+    const indexindata = devices.findIndex((it) => it._id === selectedRow);
     dispatch(setSelectedDevice(devices?.[indexindata]));
-  }, [selectionModel]);
+  }, [selectedRow]);
 
   return (
     <>
-      <Box className={"select-none"}>
-        <Box sx={{ p: 1 }}>
-          <Item>
-            <div className="font-Vazir-Medium text-[20px]">{t("list")}</div>
-          </Item>
-        </Box>
-        <Box sx={{ p: 1 }}>
-          {/* {selectionModel?.[0]} */}
-          <ListDataGrid
-            RowsData={devices ?? []}
-            columns={moreItems ? columnsMore : columns}
-            title={"devices"}
-            selectionModel={selectionModel}
-            setSelectionModel={setSelectionModel}
+      <section className="flex items-start flex-wrap h-[20rem] max-w-[20rem] w-[20rem] mb-[4rem]">
+        <span className="mx-4 "> {t('devices')}</span>
+        {queryDevices.isSuccess === true && (
+          <ReactTable
+            hasSearch={true}
+            hasPagination={true}
+            setSelectedRow={setSelectedRow}
+            tHeight=" h-[15rem] "
+            columns={columns}
+            data={data}
+            selectedRow={selectedRow}
           />
-        </Box>
-      </Box>
+        )}
+      </section>
     </>
   );
 }
@@ -147,7 +117,7 @@ export interface deviceAddress {
 export interface Device {
   title: string;
   address: deviceAddress;
-  type: "Electrical panel" | "Sensor Cotroller";
+  type: 'Electrical panel' | 'Sensor Cotroller';
   DeviceUniqueName: string;
   factors: factors[];
 }

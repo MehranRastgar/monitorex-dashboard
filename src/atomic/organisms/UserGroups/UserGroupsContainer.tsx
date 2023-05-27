@@ -163,8 +163,8 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
   return (
     <>
       <Box sx={style}>
-        <section className="flex flex-wrap w-full h-[200px]  rounded-[5px]">
-          <div>
+        <section className="flex flex-wrap w-full h-[auto]  rounded-[5px]">
+          <div className="flex flex-wrap w-full">
             <Typography className="text-lg font-Vazir-Bold">
               {t('take_a_name_for_this_group')}
             </Typography>
@@ -205,7 +205,7 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
               type="submit"
               className="mt-10  mx-2"
               onClick={() => {
-                if (nameofGp?.length)
+                if (nameofGp?.length && updateGp)
                   props?.handleUpdateToGroup(updateGp, nameofGp);
               }}
             >

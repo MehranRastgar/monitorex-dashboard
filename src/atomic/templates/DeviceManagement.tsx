@@ -22,6 +22,7 @@ import { DevicesReceiveType, Factor } from '../../store/api/devicesApi';
 import { sensor } from '../../interfaces/Sensor';
 import { SensorsReceiveTpe } from '../../components/pages/sensors/sensorsTable';
 import ThemeButton from '../atoms/ThemeButton/ThemeButton';
+import DeviceFormFormik from '../molecules/device/DeviceFormFormik';
 
 export default function DeviceManagement() {
   const dispatch = useAppDispatch();
@@ -103,7 +104,7 @@ export default function DeviceManagement() {
         {t('new_from_this_device')}
       </ThemeButton>
 
-      <DeviceForm />
+      <DeviceFormFormik />
     </>
   );
 }

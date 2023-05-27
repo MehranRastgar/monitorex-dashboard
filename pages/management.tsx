@@ -9,15 +9,35 @@ import UserManagement from '../src/atomic/templates/UserManagement';
 function Settings() {
   const [value, setValue] = useState(0);
   const { t } = useTranslation();
+  const [groupOrDevice, setGroupOrDevice] = useState<'user' | 'device'>(
+    'device',
+  );
   useEffect(() => {}, [,]);
 
   return (
     <Layout>
       <section>
-        <BasicTabs value={value} setValue={setValue} />
+        {/* <BasicTabs value={value} setValue={setValue} /> */}
+        <div className="flex w-full justify-center">
+          <ThemeButton
+            className="mx-1"
+            onClick={() => setGroupOrDevice('device')}
+            type={groupOrDevice === 'device' ? 'activate' : 'deactivate'}
+          >
+            {t('devices')}
+          </ThemeButton>
+          <></>
+          <ThemeButton
+            className="mx-1"
+            onClick={() => setGroupOrDevice('user')}
+            type={groupOrDevice === 'user' ? 'activate' : 'deactivate'}
+          >
+            {t('groups')}
+          </ThemeButton>
+        </div>
         <Box sx={{ p: 3 }}>
-          {value === 0 ? <DeviceManagement /> : <></>}
-          {value === 1 ? <UserManagement /> : <></>}
+          {groupOrDevice === 'device' ? <DeviceManagement /> : <></>}
+          {groupOrDevice === 'user' ? <UserManagement /> : <></>}
         </Box>
       </section>
     </Layout>
@@ -36,6 +56,7 @@ import SettingsDevices from '../src/components/pages/settings/device/devices';
 import DeviceList from '../src/atomic/organisms/device/DeviceList';
 import DeviceManagement from '../src/atomic/templates/DeviceManagement';
 import SensorList from '../src/atomic/organisms/sensor/SensorList';
+import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 
 interface TabPanelProps {
   children?: React.ReactNode;

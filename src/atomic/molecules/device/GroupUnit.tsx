@@ -93,9 +93,11 @@ const GroupUnit: React.FC<Props> = (props) => {
       <ul className="text-[1.2vw] xl:text-xl  w-full h-[6vh] justify-center items-center border-b border-[var(--border-color)]">
         <li
           onClick={() => {
+            console.log(group, props.index);
             if (group) {
               GetReport(group);
-              if (props.index) dispatch(setSelectedGroupNumber(props.index));
+              if (props?.index !== undefined)
+                dispatch(setSelectedGroupNumber(props.index));
               dispatch(setSelectedSensors(group.sensors));
             }
           }}
