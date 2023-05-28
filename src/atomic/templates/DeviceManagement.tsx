@@ -81,30 +81,35 @@ export default function DeviceManagement() {
   }, [selectStateOfDeviceSlice]);
   return (
     <>
-      <DeviceList />
-
-      <ThemeButton
-        type={'explore'}
-        className=" mx-2"
-        onClick={() => {
-          newDevice();
-        }}
-      >
-        {t('new_device')}
-      </ThemeButton>
-
-      <ThemeButton
-        type={'explore'}
-        disabled={selectedDevice?._id === undefined}
-        className="mx-2"
-        onClick={() => {
-          newFromSelectedDevice();
-        }}
-      >
-        {t('new_from_this_device')}
-      </ThemeButton>
-
-      <DeviceFormFormik />
+      <section className="flex flex-wrap">
+        <aside className="flex flex-wrap lg:w-1/3 w-full ">
+          <DeviceList />
+          <div className="w-full">
+            <ThemeButton
+              type={'explore'}
+              className=" mx-2"
+              onClick={() => {
+                newDevice();
+              }}
+            >
+              {t('new_device')}
+            </ThemeButton>
+            <ThemeButton
+              type={'explore'}
+              disabled={selectedDevice?._id === undefined}
+              className="mx-2"
+              onClick={() => {
+                newFromSelectedDevice();
+              }}
+            >
+              {t('new_from_this_device')}
+            </ThemeButton>
+          </div>
+        </aside>
+        <aside className="flex flex-wrap lg:w-2/3 w-full ">
+          <DeviceFormFormik />
+        </aside>
+      </section>
     </>
   );
 }

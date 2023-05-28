@@ -32,7 +32,7 @@ function Settings() {
             onClick={() => setGroupOrDevice('user')}
             type={groupOrDevice === 'user' ? 'activate' : 'deactivate'}
           >
-            {t('groups')}
+            {t('users')}
           </ThemeButton>
         </div>
         <Box sx={{ p: 3 }}>

@@ -1,64 +1,101 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import ThemeInput from 'src/atomic/atoms/ThemeInput/ThemeInput';
 import { useTranslation } from 'react-i18next';
 import classes from './formik.module.scss';
-import FormFormik from '../forms/FormFormik';
+import FormFormik, {
+  ContainerFormMapType,
+  FormMapType,
+} from '../forms/FormFormik';
+import { DevicesReceiveType } from 'src/store/api/devicesApi';
 
-const DevicesFormFormik = () => {
+const DeviceFormFormik = () => {
   const { t } = useTranslation();
-  const formik = useFormik({
-    initialValues: {
-      title: '',
-      firstName: '',
-      lastName: '',
-      email: '',
+  const formData = {
+    title: '',
+    multiPort: 0,
+    sMultiPort: 0,
+  };
+  const device: DevicesReceiveType = {
+    address: {
+      multiPort: 0,
+      sMultiPort: 0,
     },
-    onSubmit: (values) => {
-      console.log(values);
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
+  };
+  useEffect(() => {}, []);
   return (
-    <FormFormik
-      formMap={[...deviceFormMap]}
-      initialValues={{ title: '', firstName: '', lastName: '', email: '' }}
-    />
+    <div className="flex min-w-[800px] mx-2 m-4 p-2 border border-[var(--border-color)] rounded-md">
+      <FormFormik
+        formMap={[...DeviceWholeData]}
+        initialValues={{
+          ...formData,
+        }}
+      />
+    </div>
   );
 };
-export default DevicesFormFormik;
-
-const deviceFormMap: deviceFormMapType[] = [
+export default DeviceFormFormik;
+const deviceFormMap: FormMapType[] = [
   {
     id: 'title',
     name: 'title',
     type: 'text',
     value: 'formik.values.title',
+    suggestions: ['Cell 1', 'Cell 2', 'Cell N'],
+  },
+  {
+    id: 'sMultiPort',
+    name: 'Super MultiPort',
+    type: 'number',
+    value: 'formik.values.sMultiPort',
+    class: 'w-[70px]',
+  },
+  {
+    id: 'multiPort',
+    name: 'MultiPort',
+    type: 'number',
+    value: 'formik.values.multiPort',
+    class: 'w-[70px]',
   },
   {
     id: 'ports',
-    name: 'ports',
-    type: 'text',
+    name: 'number of ports',
+    type: 'number',
+    opstions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
     value: 'formik.values.ports',
-  },
-  {
-    id: 'top',
-    name: 'top',
-    type: 'text',
-    value: 'formik.values.top',
-  },
-  {
-    id: 'god',
-    name: 'god',
-    type: 'text',
-    value: 'formik.values.god',
+    model: 'select',
+    class: 'w-[70px]',
   },
 ];
 
-interface deviceFormMapType {
-  id: string;
-  name: string;
-  type: string;
-  value: string;
-  calss?: string;
-}
+const addre: FormMapType[] = [
+  {
+    id: 'address.multiPort',
+    name: 'number of ports',
+    type: 'number',
+    opstions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    value: 'formik.values.address.multiPort',
+    model: 'select',
+    class: 'w-[70px]',
+  },
+  {
+    id: 'address.sMultiPort',
+    name: 'number of ports',
+    type: 'number',
+    opstions: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+    value: 'formik.values.sMultiPort',
+    model: 'select',
+    class: 'w-[70px]',
+  },
+];
+
+const DeviceWholeData: ContainerFormMapType[] = [
+  {
+    header: 'Device Info',
+    section: deviceFormMap,
+  },
+  {
+    header: 'address Info',
+    section: addre,
+  },
+];
