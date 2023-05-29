@@ -1,0 +1,867 @@
+[
+  {
+    "_id": { "$oid": "63a0291ff9a6dc9c40016b9b" },
+    "title": "Cell 2",
+    "address": {
+      "multiPort": 16,
+      "sMultiPort": 1,
+      "_id": { "$oid": "63a020e5f9a6dc9c40016b92" }
+    },
+    "type": "Sensor Cotroller",
+    "DeviceUniqueName": "Soole_Room2_1_2",
+    "numberOfPorts": 4,
+    "factors": [
+      {
+        "factorName": "GrowFactor",
+        "factorPosition": 5,
+        "_id": { "$oid": "63a020e5f9a6dc9c40016b93" }
+      },
+      {
+        "factorName": "GrowFactor",
+        "factorPosition": 6,
+        "_id": { "$oid": "63a020e5f9a6dc9c40016b94" }
+      }
+    ],
+    "createdAt": { "$date": "2022-12-19T09:04:31.102Z" },
+    "updatedAt": { "$date": "2023-05-14T08:56:24.792Z" },
+    "__v": 0,
+    "sensors": [
+      {
+        "title": "temp6",
+        "port": 1,
+        "type": "Temperature",
+        "unit": "°C",
+        "resolution": "minute",
+        "_id": { "$oid": "63af114cba52efabcb27bbad" },
+        "createdAt": { "$date": "2023-05-10T07:50:06.820Z" },
+        "updatedAt": { "$date": "2023-05-10T07:50:06.820Z" }
+      },
+      {
+        "title": "humidity1",
+        "type": "Humidity",
+        "unit": "%",
+        "maxAlarm": 22,
+        "resolution": "minute",
+        "_id": { "$oid": "63af312b3e58a678b955cc80" },
+        "createdAt": { "$date": "2023-05-10T07:50:06.820Z" },
+        "updatedAt": { "$date": "2023-05-10T07:50:06.820Z" }
+      },
+      {
+        "title": "sensor hum",
+        "type": "Humidity",
+        "unit": "%",
+        "minAlarm": 30,
+        "resolution": "minute",
+        "_id": { "$oid": "63af312b3e58a678b955cc81" },
+        "createdAt": { "$date": "2023-05-10T07:50:06.820Z" },
+        "updatedAt": { "$date": "2023-05-10T07:50:06.820Z" }
+      },
+      {
+        "title": "temp2",
+        "type": "Temperature",
+        "unit": "°F",
+        "resolution": "minute",
+        "_id": { "$oid": "63af312b3e58a678b955cc82" },
+        "createdAt": { "$date": "2023-05-10T07:50:06.820Z" },
+        "updatedAt": { "$date": "2023-05-10T07:50:06.820Z" }
+      }
+    ],
+    "sensorLastSerie": [
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "63af312b3e58a678b955cc80" },
+        "metaField": {
+          "incremental": 4795,
+          "value": 28.4,
+          "max": 29.4,
+          "min": 25.4,
+          "average": 27.361564129301254
+        },
+        "_id": { "$oid": "6460a2384c22083c16860474" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "63af312b3e58a678b955cc81" },
+        "metaField": {
+          "incremental": 4795,
+          "value": 28.4,
+          "max": 29.3,
+          "min": 25.4,
+          "average": 27.303149113660027
+        },
+        "_id": { "$oid": "6460a2384c22083c16860476" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "63af312b3e58a678b955cc82" },
+        "metaField": {
+          "incremental": 1,
+          "value": 200000,
+          "max": 200000,
+          "min": 200000,
+          "average": 200000
+        },
+        "_id": { "$oid": "6460a2384c22083c16860478" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "63af114cba52efabcb27bbad" },
+        "metaField": {
+          "incremental": 1,
+          "value": 200000,
+          "max": 200000,
+          "min": 200000,
+          "average": 200000
+        },
+        "_id": { "$oid": "6460a2384c22083c16860479" }
+      }
+    ],
+    "electricalId": "63b5f8b29d6c56acddc8b55a",
+    "electricalPort": 1,
+    "electricals": []
+  },
+  {
+    "_id": { "$oid": "63a0292cf9a6dc9c40016ba0" },
+    "title": "Soole Room3",
+    "address": {
+      "multiPort": 15,
+      "sMultiPort": 1,
+      "_id": { "$oid": "63a0292cf9a6dc9c40016ba1" }
+    },
+    "type": "Sensor Cotroller",
+    "DeviceUniqueName": "Soole_Room2_1_3",
+    "numberOfPorts": 4,
+    "factors": [
+      {
+        "factorName": "GrowFactor",
+        "factorPosition": 5,
+        "_id": { "$oid": "63a0292cf9a6dc9c40016ba2" }
+      },
+      {
+        "factorName": "GrowFactor",
+        "factorPosition": 6,
+        "_id": { "$oid": "63a0292cf9a6dc9c40016ba3" }
+      }
+    ],
+    "createdAt": { "$date": "2022-12-19T09:04:44.752Z" },
+    "updatedAt": { "$date": "2023-05-12T12:33:36.354Z" },
+    "__v": 0,
+    "sensors": [
+      {
+        "resolution": "minute",
+        "_id": { "$oid": "63af47d93e58a678b955d752" },
+        "createdAt": { "$date": "2023-05-12T12:33:36.354Z" },
+        "updatedAt": { "$date": "2023-05-12T12:33:36.354Z" }
+      },
+      {
+        "resolution": "minute",
+        "_id": { "$oid": "63af47d93e58a678b955d753" },
+        "createdAt": { "$date": "2023-05-12T12:33:36.354Z" },
+        "updatedAt": { "$date": "2023-05-12T12:33:36.354Z" }
+      },
+      {
+        "title": "temp",
+        "type": "Temperature",
+        "unit": "K",
+        "resolution": "minute",
+        "_id": { "$oid": "63af47d93e58a678b955d754" },
+        "createdAt": { "$date": "2023-05-12T12:33:36.354Z" },
+        "updatedAt": { "$date": "2023-05-12T12:33:36.354Z" }
+      },
+      {
+        "title": "lumin",
+        "type": "Luminosity",
+        "unit": "cd",
+        "resolution": "minute",
+        "_id": { "$oid": "63af47d93e58a678b955d755" },
+        "createdAt": { "$date": "2023-05-12T12:33:36.354Z" },
+        "updatedAt": { "$date": "2023-05-12T12:33:36.354Z" }
+      }
+    ],
+    "sensorLastSerie": [
+      {
+        "timestamp": { "$date": "2023-05-07T21:28:00Z" },
+        "sensorId": { "$oid": "63af47d93e58a678b955d753" },
+        "metaField": {
+          "incremental": 23672,
+          "value": 28.5,
+          "max": 30,
+          "min": 19.1,
+          "average": 26.23159428861058
+        },
+        "_id": { "$oid": "6458180592781c3e55d5c5c8" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-07T21:28:00Z" },
+        "sensorId": { "$oid": "63af47d93e58a678b955d754" },
+        "metaField": {
+          "incremental": 23674,
+          "value": 28.4,
+          "max": 29.6,
+          "min": 19.3,
+          "average": 26.1570921686243
+        },
+        "_id": { "$oid": "6458180592781c3e55d5c5c9" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-07T21:28:00Z" },
+        "sensorId": { "$oid": "63af47d93e58a678b955d755" },
+        "metaField": {
+          "incremental": 1,
+          "value": 200000,
+          "max": 200000,
+          "min": 200000,
+          "average": 200000
+        },
+        "_id": { "$oid": "6458180592781c3e55d5c5cc" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-07T21:28:00Z" },
+        "sensorId": { "$oid": "63af47d93e58a678b955d752" },
+        "metaField": {
+          "incremental": 1,
+          "value": 200000,
+          "max": 200000,
+          "min": 200000,
+          "average": 200000
+        },
+        "_id": { "$oid": "6458180592781c3e55d5c5cd" }
+      }
+    ],
+    "electricalId": "63b5f8b29d6c56acddc8b55a",
+    "electricalPort": 10,
+    "electricals": []
+  },
+  {
+    "_id": { "$oid": "63a6fe160f213b5c89eb0504" },
+    "title": "Soole Room4",
+    "address": {
+      "multiPort": 3,
+      "sMultiPort": 1,
+      "_id": { "$oid": "63a6fe160f213b5c89eb0505" }
+    },
+    "type": "Sensor Cotroller",
+    "DeviceUniqueName": "Soole_Room1_1_2",
+    "numberOfPorts": 4,
+    "factors": [
+      {
+        "factorName": "GrowFactor",
+        "factorPosition": 5,
+        "factorValue": 10,
+        "_id": { "$oid": "63a6fe160f213b5c89eb0506" }
+      },
+      {
+        "factorName": "GrowFactor",
+        "factorPosition": 6,
+        "factorValue": 10,
+        "_id": { "$oid": "63a6fe160f213b5c89eb0507" }
+      }
+    ],
+    "sensors": [
+      {
+        "resolution": "minute",
+        "_id": { "$oid": "640463dd1512392cb30840df" },
+        "createdAt": { "$date": "2023-03-05T16:09:52.716Z" },
+        "updatedAt": { "$date": "2023-03-05T16:09:52.716Z" }
+      },
+      {
+        "resolution": "minute",
+        "_id": { "$oid": "640463dd1512392cb30840e0" },
+        "createdAt": { "$date": "2023-03-05T16:09:52.716Z" },
+        "updatedAt": { "$date": "2023-03-05T16:09:52.716Z" }
+      },
+      {
+        "resolution": "minute",
+        "_id": { "$oid": "640463dd1512392cb30840e1" },
+        "createdAt": { "$date": "2023-03-05T16:09:52.716Z" },
+        "updatedAt": { "$date": "2023-03-05T16:09:52.716Z" }
+      },
+      {
+        "resolution": "minute",
+        "_id": { "$oid": "640463dd1512392cb30840e2" },
+        "createdAt": { "$date": "2023-03-05T16:09:52.716Z" },
+        "updatedAt": { "$date": "2023-03-05T16:09:52.716Z" }
+      }
+    ],
+    "createdAt": { "$date": "2022-12-24T13:26:46.813Z" },
+    "updatedAt": { "$date": "2023-03-05T16:09:52.716Z" },
+    "__v": 0,
+    "electricalId": "63b5f8b29d6c56acddc8b55a",
+    "electricalPort": 12,
+    "electricals": [],
+    "sensorLastSerie": []
+  },
+  {
+    "_id": { "$oid": "63b5f8b29d6c56acddc8b55a" },
+    "title": "Tablo 1",
+    "address": {
+      "multiPort": 10,
+      "sMultiPort": 1,
+      "_id": { "$oid": "63b5f8b29d6c56acddc8b55b" }
+    },
+    "type": "Electrical panel",
+    "numberOfPorts": 21,
+    "sensors": [],
+    "factors": [],
+    "createdAt": { "$date": "2023-01-04T22:07:46.014Z" },
+    "updatedAt": { "$date": "2023-03-05T16:21:02.989Z" },
+    "__v": 0,
+    "sensorLastSerie": [],
+    "electricals": [
+      { "_id": { "$oid": "6404638b1512392cb308186b" } },
+      { "_id": { "$oid": "6404638b1512392cb308186c" } },
+      { "_id": { "$oid": "6404638b1512392cb308186d" } },
+      { "_id": { "$oid": "6404638b1512392cb308186e" } },
+      { "_id": { "$oid": "6404638b1512392cb308186f" } },
+      { "_id": { "$oid": "6404638b1512392cb3081870" } },
+      { "_id": { "$oid": "6404638b1512392cb3081871" } },
+      { "_id": { "$oid": "6404638b1512392cb3081872" } },
+      { "_id": { "$oid": "6404638b1512392cb3081873" } },
+      { "_id": { "$oid": "6404638b1512392cb3081874" } },
+      { "_id": { "$oid": "6404638b1512392cb3081875" } },
+      { "_id": { "$oid": "6404638b1512392cb3081876" } },
+      { "_id": { "$oid": "6404638b1512392cb3081877" } },
+      { "_id": { "$oid": "6404638b1512392cb3081878" } },
+      { "_id": { "$oid": "6404638b1512392cb3081879" } },
+      { "_id": { "$oid": "6404638b1512392cb308187a" } }
+    ]
+  },
+  {
+    "_id": { "$oid": "63b602de262e59536b95dc71" },
+    "title": "device6dunplicate",
+    "address": {
+      "multiPort": 1,
+      "sMultiPort": 2,
+      "_id": { "$oid": "63b602de262e59536b95dc72" }
+    },
+    "type": "Sensor Cotroller",
+    "numberOfPorts": 4,
+    "sensors": [
+      {
+        "title": "temp1",
+        "type": "Temperature",
+        "unit": "°C",
+        "maxAlarm": 36,
+        "minAlarm": 0,
+        "resolution": "minute",
+        "_id": { "$oid": "63b602de262e59536b95dc73" },
+        "createdAt": { "$date": "2023-03-07T10:16:16.881Z" },
+        "updatedAt": { "$date": "2023-03-07T10:16:16.881Z" }
+      },
+      {
+        "title": "temp2",
+        "resolution": "minute",
+        "_id": { "$oid": "63bfd02522668b8f91cd6070" },
+        "createdAt": { "$date": "2023-03-07T10:16:16.881Z" },
+        "updatedAt": { "$date": "2023-03-07T10:16:16.881Z" }
+      },
+      {
+        "title": "temp3",
+        "resolution": "minute",
+        "_id": { "$oid": "63bfd03722668b8f91cd609b" },
+        "createdAt": { "$date": "2023-03-07T10:16:16.881Z" },
+        "updatedAt": { "$date": "2023-03-07T10:16:16.881Z" }
+      },
+      {
+        "title": "temp4",
+        "resolution": "minute",
+        "_id": { "$oid": "63bfd03722668b8f91cd609c" },
+        "createdAt": { "$date": "2023-03-07T10:16:16.881Z" },
+        "updatedAt": { "$date": "2023-03-07T10:16:16.881Z" }
+      }
+    ],
+    "factors": [],
+    "createdAt": { "$date": "2023-01-04T22:51:10.790Z" },
+    "updatedAt": { "$date": "2023-03-07T10:16:16.881Z" },
+    "__v": 0,
+    "sensorLastSerie": [],
+    "electricalId": "63b5f8b29d6c56acddc8b55a",
+    "electricalPort": 18,
+    "electricals": []
+  },
+  {
+    "_id": { "$oid": "63bfd17922668b8f91cd61a1" },
+    "title": "Cell 3",
+    "address": {
+      "multiPort": 1,
+      "sMultiPort": 6,
+      "_id": { "$oid": "63bfd17922668b8f91cd61a2" }
+    },
+    "type": "Sensor Cotroller",
+    "numberOfPorts": 4,
+    "sensors": [
+      {
+        "title": "temp1",
+        "type": "Temperature",
+        "unit": "°C",
+        "maxAlarm": 50,
+        "minAlarm": 0,
+        "resolution": "minute",
+        "_id": { "$oid": "63bfd17922668b8f91cd61a3" },
+        "createdAt": { "$date": "2023-03-07T10:16:25.841Z" },
+        "updatedAt": { "$date": "2023-03-07T10:16:25.841Z" }
+      },
+      {
+        "title": "tem2",
+        "resolution": "minute",
+        "_id": { "$oid": "63ff40f3d52cb868f6a1096d" },
+        "createdAt": { "$date": "2023-03-07T10:16:25.841Z" },
+        "updatedAt": { "$date": "2023-03-07T10:16:25.841Z" }
+      },
+      {
+        "title": "tem3",
+        "resolution": "minute",
+        "_id": { "$oid": "63ff40f3d52cb868f6a1096e" },
+        "createdAt": { "$date": "2023-03-07T10:16:25.841Z" },
+        "updatedAt": { "$date": "2023-03-07T10:16:25.841Z" }
+      },
+      {
+        "title": "temp4",
+        "resolution": "minute",
+        "_id": { "$oid": "63ff40f3d52cb868f6a1096f" },
+        "createdAt": { "$date": "2023-03-07T10:16:25.841Z" },
+        "updatedAt": { "$date": "2023-03-07T10:16:25.841Z" }
+      }
+    ],
+    "sensorLastSerie": [],
+    "factors": [],
+    "createdAt": { "$date": "2023-01-12T09:23:05.919Z" },
+    "updatedAt": { "$date": "2023-03-07T10:16:25.841Z" },
+    "__v": 0,
+    "electricals": [],
+    "electricalId": "63b5f8b29d6c56acddc8b55a",
+    "electricalPort": 21
+  },
+  {
+    "_id": { "$oid": "63c00967f8bc90f79e201046" },
+    "title": "cel5",
+    "address": {
+      "multiPort": 8,
+      "sMultiPort": 9,
+      "_id": { "$oid": "63c00967f8bc90f79e201047" }
+    },
+    "type": "Sensor Cotroller",
+    "numberOfPorts": 1,
+    "sensors": [
+      {
+        "title": "temp",
+        "type": "Temperature",
+        "unit": "°C",
+        "maxAlarm": 50,
+        "minAlarm": 0,
+        "resolution": "minute",
+        "_id": { "$oid": "63c00967f8bc90f79e201048" },
+        "createdAt": { "$date": "2023-05-12T12:34:07.142Z" },
+        "updatedAt": { "$date": "2023-05-12T12:34:07.142Z" }
+      }
+    ],
+    "sensorLastSerie": [
+      {
+        "timestamp": { "$date": "2023-05-12T12:34:00Z" },
+        "sensorId": { "$oid": "63c00967f8bc90f79e201048" },
+        "metaField": {
+          "incremental": 23,
+          "value": 25.5,
+          "max": 25.5,
+          "min": 25.4,
+          "average": 25.460869565217394
+        },
+        "_id": { "$oid": "645e32410deb11e50d08e227" }
+      }
+    ],
+    "factors": [],
+    "createdAt": { "$date": "2023-01-12T13:21:43.023Z" },
+    "updatedAt": { "$date": "2023-05-12T12:34:09.567Z" },
+    "__v": 0,
+    "electricalId": "63b5f8b29d6c56acddc8b55a",
+    "electricalPort": 20,
+    "electricals": []
+  },
+  {
+    "_id": { "$oid": "63c2786ad869091fddbdf2f0" },
+    "title": "cell6",
+    "address": {
+      "multiPort": 10,
+      "sMultiPort": 7,
+      "_id": { "$oid": "63c2786ad869091fddbdf2f1" }
+    },
+    "type": "Sensor Cotroller",
+    "numberOfPorts": 1,
+    "sensors": [
+      {
+        "title": "temp",
+        "type": "Temperature",
+        "unit": "°C",
+        "resolution": "minute",
+        "_id": { "$oid": "63c2786ad869091fddbdf2f2" },
+        "createdAt": { "$date": "2023-05-12T12:34:13.699Z" },
+        "updatedAt": { "$date": "2023-05-12T12:34:13.699Z" }
+      }
+    ],
+    "sensorLastSerie": [],
+    "factors": [],
+    "createdAt": { "$date": "2023-01-14T09:39:54.879Z" },
+    "updatedAt": { "$date": "2023-05-12T12:34:13.699Z" },
+    "__v": 0,
+    "electricalId": "63b5f8b29d6c56acddc8b55a",
+    "electricalPort": 10,
+    "electricals": []
+  },
+  {
+    "_id": { "$oid": "63c27940d869091fddbe04bb" },
+    "title": "cell7",
+    "address": {
+      "multiPort": 15,
+      "sMultiPort": 14,
+      "_id": { "$oid": "63c27940d869091fddbe04bc" }
+    },
+    "type": "Sensor Cotroller",
+    "numberOfPorts": 1,
+    "sensors": [
+      {
+        "title": "temp",
+        "type": "Temperature",
+        "unit": "°C",
+        "resolution": "minute",
+        "_id": { "$oid": "63c27940d869091fddbe04bd" },
+        "createdAt": { "$date": "2023-05-12T12:34:20.505Z" },
+        "updatedAt": { "$date": "2023-05-12T12:34:20.505Z" }
+      }
+    ],
+    "sensorLastSerie": [
+      {
+        "timestamp": { "$date": "2023-05-12T12:35:00Z" },
+        "sensorId": { "$oid": "63c27940d869091fddbe04bd" },
+        "metaField": {
+          "incremental": 2,
+          "value": 25.5,
+          "max": 25.5,
+          "min": 25.5,
+          "average": 25.5
+        },
+        "_id": { "$oid": "645e32810deb11e50d08e56f" }
+      }
+    ],
+    "factors": [],
+    "createdAt": { "$date": "2023-01-14T09:43:28.681Z" },
+    "updatedAt": { "$date": "2023-05-12T12:35:13.034Z" },
+    "__v": 0,
+    "electricals": []
+  },
+  {
+    "_id": { "$oid": "63c27b0ad869091fddbeee3c" },
+    "title": "1admin test",
+    "address": {
+      "multiPort": 10,
+      "sMultiPort": 11,
+      "_id": { "$oid": "63c27b0ad869091fddbeee3d" }
+    },
+    "type": "Sensor Cotroller",
+    "numberOfPorts": 1,
+    "sensors": [
+      {
+        "title": "temp",
+        "type": "Temperature",
+        "unit": "°C",
+        "resolution": "minute",
+        "_id": { "$oid": "63c27b0ad869091fddbeee3e" },
+        "createdAt": { "$date": "2023-05-12T12:34:28.664Z" },
+        "updatedAt": { "$date": "2023-05-12T12:34:28.664Z" }
+      }
+    ],
+    "sensorLastSerie": [],
+    "factors": [],
+    "createdAt": { "$date": "2023-01-14T09:51:06.235Z" },
+    "updatedAt": { "$date": "2023-05-12T12:34:28.664Z" },
+    "__v": 0,
+    "electricalId": "63b5f8b29d6c56acddc8b55a",
+    "electricalPort": 17,
+    "electricals": []
+  },
+  {
+    "_id": { "$oid": "63c27b6cd869091fddbeeec5" },
+    "title": "admintest2",
+    "address": {
+      "multiPort": 6,
+      "sMultiPort": 7,
+      "_id": { "$oid": "63c27b6cd869091fddbeeec6" }
+    },
+    "type": "Sensor Cotroller",
+    "numberOfPorts": 1,
+    "sensors": [
+      {
+        "title": "temp",
+        "type": "Temperature",
+        "unit": "°C",
+        "resolution": "minute",
+        "_id": { "$oid": "63c27b6cd869091fddbeeec7" },
+        "createdAt": { "$date": "2023-05-12T12:34:36.587Z" },
+        "updatedAt": { "$date": "2023-05-12T12:34:36.587Z" }
+      }
+    ],
+    "sensorLastSerie": [],
+    "factors": [],
+    "createdAt": { "$date": "2023-01-14T09:52:44.799Z" },
+    "updatedAt": { "$date": "2023-05-12T12:34:36.587Z" },
+    "__v": 0,
+    "electricals": []
+  },
+  {
+    "_id": { "$oid": "64077de90530ee7f6ca9593c" },
+    "title": "Tablo 2",
+    "address": {
+      "multiPort": 11,
+      "sMultiPort": 1,
+      "_id": { "$oid": "64077de90530ee7f6ca9593d" }
+    },
+    "type": "Electrical panel",
+    "numberOfPorts": 21,
+    "sensors": [],
+    "sensorLastSerie": [],
+    "electricals": [
+      { "_id": { "$oid": "6404638b1512392cb308186b" } },
+      { "_id": { "$oid": "6404638b1512392cb308186c" } },
+      { "_id": { "$oid": "6404638b1512392cb308186d" } },
+      { "_id": { "$oid": "6404638b1512392cb308186e" } },
+      { "_id": { "$oid": "6404638b1512392cb308186f" } },
+      { "_id": { "$oid": "6404638b1512392cb3081870" } },
+      { "_id": { "$oid": "6404638b1512392cb3081871" } },
+      { "_id": { "$oid": "6404638b1512392cb3081872" } },
+      { "_id": { "$oid": "6404638b1512392cb3081873" } },
+      { "_id": { "$oid": "6404638b1512392cb3081874" } },
+      { "_id": { "$oid": "6404638b1512392cb3081875" } },
+      { "_id": { "$oid": "6404638b1512392cb3081876" } },
+      { "_id": { "$oid": "6404638b1512392cb3081877" } },
+      { "_id": { "$oid": "6404638b1512392cb3081878" } },
+      { "_id": { "$oid": "6404638b1512392cb3081879" } },
+      { "_id": { "$oid": "6404638b1512392cb308187a" } }
+    ],
+    "factors": [],
+    "createdAt": { "$date": "2023-03-07T18:09:45.503Z" },
+    "updatedAt": { "$date": "2023-03-07T18:09:45.503Z" },
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "64077e000530ee7f6ca95cc2" },
+    "title": "Tablo 3",
+    "address": {
+      "multiPort": 12,
+      "sMultiPort": 1,
+      "_id": { "$oid": "64077e000530ee7f6ca95cc3" }
+    },
+    "type": "Electrical panel",
+    "numberOfPorts": 21,
+    "sensors": [],
+    "sensorLastSerie": [],
+    "electricals": [
+      { "_id": { "$oid": "6404638b1512392cb308186b" } },
+      { "_id": { "$oid": "6404638b1512392cb308186c" } },
+      { "_id": { "$oid": "6404638b1512392cb308186d" } },
+      { "_id": { "$oid": "6404638b1512392cb308186e" } },
+      { "_id": { "$oid": "6404638b1512392cb308186f" } },
+      { "_id": { "$oid": "6404638b1512392cb3081870" } },
+      { "_id": { "$oid": "6404638b1512392cb3081871" } },
+      { "_id": { "$oid": "6404638b1512392cb3081872" } },
+      { "_id": { "$oid": "6404638b1512392cb3081873" } },
+      { "_id": { "$oid": "6404638b1512392cb3081874" } },
+      { "_id": { "$oid": "6404638b1512392cb3081875" } },
+      { "_id": { "$oid": "6404638b1512392cb3081876" } },
+      { "_id": { "$oid": "6404638b1512392cb3081877" } },
+      { "_id": { "$oid": "6404638b1512392cb3081878" } },
+      { "_id": { "$oid": "6404638b1512392cb3081879" } },
+      { "_id": { "$oid": "6404638b1512392cb308187a" } }
+    ],
+    "factors": [],
+    "createdAt": { "$date": "2023-03-07T18:10:08.813Z" },
+    "updatedAt": { "$date": "2023-03-07T18:10:08.813Z" },
+    "__v": 0
+  },
+  {
+    "_id": { "$oid": "645e31910deb11e50d08d9fb" },
+    "title": "Cell hH",
+    "address": {
+      "multiPort": 1,
+      "sMultiPort": 1,
+      "_id": { "$oid": "645e31910deb11e50d08d9fc" }
+    },
+    "type": "Sensor Cotroller",
+    "numberOfPorts": 8,
+    "sensors": [
+      {
+        "title": "sen1",
+        "type": "Temperature",
+        "unit": "°C",
+        "resolution": "minute",
+        "_id": { "$oid": "645e31910deb11e50d08d9fd" },
+        "createdAt": { "$date": "2023-05-12T12:31:13.642Z" },
+        "updatedAt": { "$date": "2023-05-12T12:31:13.642Z" }
+      },
+      {
+        "title": "sen2",
+        "type": "Temperature",
+        "unit": "°F",
+        "resolution": "minute",
+        "_id": { "$oid": "645e31910deb11e50d08d9fe" },
+        "createdAt": { "$date": "2023-05-12T12:31:13.642Z" },
+        "updatedAt": { "$date": "2023-05-12T12:31:13.642Z" }
+      },
+      {
+        "title": "sen3",
+        "type": "Humidity",
+        "unit": "%",
+        "resolution": "minute",
+        "_id": { "$oid": "645e31910deb11e50d08d9ff" },
+        "createdAt": { "$date": "2023-05-12T12:31:13.642Z" },
+        "updatedAt": { "$date": "2023-05-12T12:31:13.642Z" }
+      },
+      {
+        "title": "sen4",
+        "type": "Humidity",
+        "unit": "%",
+        "resolution": "minute",
+        "_id": { "$oid": "645e31910deb11e50d08da00" },
+        "createdAt": { "$date": "2023-05-12T12:31:13.642Z" },
+        "updatedAt": { "$date": "2023-05-12T12:31:13.642Z" }
+      },
+      {
+        "title": "sen5",
+        "type": "Temperature",
+        "unit": "°C",
+        "resolution": "minute",
+        "_id": { "$oid": "645e31910deb11e50d08da01" },
+        "createdAt": { "$date": "2023-05-12T12:31:13.642Z" },
+        "updatedAt": { "$date": "2023-05-12T12:31:13.642Z" }
+      },
+      {
+        "title": "sen6",
+        "type": "Temperature",
+        "unit": "°C",
+        "resolution": "minute",
+        "_id": { "$oid": "645e31910deb11e50d08da02" },
+        "createdAt": { "$date": "2023-05-12T12:31:13.642Z" },
+        "updatedAt": { "$date": "2023-05-12T12:31:13.642Z" }
+      },
+      {
+        "title": "sen7",
+        "type": "Temperature",
+        "unit": "°C",
+        "resolution": "minute",
+        "_id": { "$oid": "645e31910deb11e50d08da03" },
+        "createdAt": { "$date": "2023-05-12T12:31:13.642Z" },
+        "updatedAt": { "$date": "2023-05-12T12:31:13.642Z" }
+      },
+      {
+        "title": "sen8",
+        "type": "Temperature",
+        "unit": "°C",
+        "resolution": "minute",
+        "_id": { "$oid": "645e31910deb11e50d08da04" },
+        "createdAt": { "$date": "2023-05-12T12:31:13.642Z" },
+        "updatedAt": { "$date": "2023-05-12T12:31:13.642Z" }
+      }
+    ],
+    "sensorLastSerie": [
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "645e31910deb11e50d08d9ff" },
+        "metaField": {
+          "incremental": 1587,
+          "value": 37.5,
+          "max": 38,
+          "min": 33.9,
+          "average": 35.53056080655318
+        },
+        "_id": { "$oid": "6460a2394c22083c1686049c" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "645e31910deb11e50d08d9fe" },
+        "metaField": {
+          "incremental": 1587,
+          "value": 27.2,
+          "max": 31.9,
+          "min": 24.7,
+          "average": 25.663390044108397
+        },
+        "_id": { "$oid": "6460a2394c22083c1686049d" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "645e31910deb11e50d08d9fd" },
+        "metaField": {
+          "incremental": 1587,
+          "value": 26.5,
+          "max": 26.6,
+          "min": 24.5,
+          "average": 25.620856962823073
+        },
+        "_id": { "$oid": "6460a2394c22083c1686049f" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "645e31910deb11e50d08da02" },
+        "metaField": {
+          "incremental": 1,
+          "value": 200000,
+          "max": 200000,
+          "min": 200000,
+          "average": 200000
+        },
+        "_id": { "$oid": "6460a2394c22083c168604a1" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "645e31910deb11e50d08da03" },
+        "metaField": {
+          "incremental": 1,
+          "value": 200000,
+          "max": 200000,
+          "min": 200000,
+          "average": 200000
+        },
+        "_id": { "$oid": "6460a2394c22083c168604a2" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "645e31910deb11e50d08da01" },
+        "metaField": {
+          "incremental": 1,
+          "value": 200000,
+          "max": 200000,
+          "min": 200000,
+          "average": 200000
+        },
+        "_id": { "$oid": "6460a2394c22083c168604a3" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "645e31910deb11e50d08da00" },
+        "metaField": {
+          "incremental": 1,
+          "value": 200000,
+          "max": 200000,
+          "min": 200000,
+          "average": 200000
+        },
+        "_id": { "$oid": "6460a2394c22083c168604a4" }
+      },
+      {
+        "timestamp": { "$date": "2023-05-14T08:56:00Z" },
+        "sensorId": { "$oid": "645e31910deb11e50d08da04" },
+        "metaField": {
+          "incremental": 1,
+          "value": 200000,
+          "max": 200000,
+          "min": 200000,
+          "average": 200000
+        },
+        "_id": { "$oid": "6460a2394c22083c168604a5" }
+      }
+    ],
+    "electricals": [],
+    "factors": [],
+    "createdAt": { "$date": "2023-05-12T12:31:13.642Z" },
+    "updatedAt": { "$date": "2023-05-14T08:56:25.144Z" },
+    "__v": 0
+  }
+]

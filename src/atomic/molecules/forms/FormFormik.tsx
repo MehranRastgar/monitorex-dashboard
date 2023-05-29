@@ -1,5 +1,5 @@
-import React from 'react';
-import { useFormik } from 'formik';
+import React, { useEffect } from 'react';
+import { FieldArray, useFormik } from 'formik';
 import ThemeInput from 'src/atomic/atoms/ThemeInput/ThemeInput';
 import { useTranslation } from 'react-i18next';
 import classes from './formik.module.scss';
@@ -7,8 +7,11 @@ import { AbstractColDef } from 'ag-grid-community';
 import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 import FormThemeButton from 'src/atomic/atoms/ThemeButton/FormThemeButton';
 interface Props {
+  validationSchema?: object;
   initialValues: object;
   formMap: ContainerFormMapType[];
+  setFormData: any;
+  // selectedForm: object;
 }
 const FormFormik: React.FC<Props> = (props) => {
   const { t } = useTranslation();
@@ -16,15 +19,34 @@ const FormFormik: React.FC<Props> = (props) => {
     initialValues: {
       ...props.initialValues,
     },
+
     onSubmit: (values) => {
+      // props.setFormData(values);
       console.log(values);
       alert(JSON.stringify(values, null, 2));
     },
+
+    validate(values) {
+      props.setFormData(values);
+      // alert(JSON.stringify(values, null, 2));
+    },
   });
+
+  // useEffect(() => {
+  //   // formik.resetForm({
+  //   //   values: { ...props.selectedForm },
+  //   // });
+  //   formik.resetForm();
+  // }, [props.selectedForm]);
+
   return (
-    <form className="flex w-full flex-wrap m-4" onSubmit={formik.handleSubmit}>
+    <form
+      className="flex w-full flex-wrap m-4"
+      onChange={() => formik.validateForm}
+      onSubmit={formik.handleSubmit}
+    >
       {props.formMap.map((maptype, indexSection) => (
-        <section className="flex flex-wrap mb-4" key={indexSection}>
+        <section className="flex flex-wrap m-1 p-2 w-full" key={indexSection}>
           <h2 className="w-full">{maptype.header}</h2>
           {maptype?.section?.map((formItem: FormMapType, index) => (
             <>
@@ -41,7 +63,7 @@ const FormFormik: React.FC<Props> = (props) => {
                       name={formItem.id}
                       type={formItem.type}
                       onChange={formik.handleChange}
-                      value={eval(formItem.value)}
+                      value={eval(formItem?.value)}
                       placeholder={formItem.name ?? ''}
                       className={`${classes?.inpt} ` + formItem.class}
                     />
@@ -60,9 +82,6 @@ const FormFormik: React.FC<Props> = (props) => {
                     placeholder={formItem.name ?? ''}
                     className={`${classes?.inpt} ` + formItem.class}
                   >
-                    <option key={'none'} value={'0'}>
-                      {undefined}
-                    </option>
                     {formItem?.opstions?.map((value, index) => (
                       <option key={index} value={value ?? index}>
                         {value}
@@ -96,6 +115,6 @@ export interface FormMapType {
   value: string;
   class?: string;
   model?: 'absolute' | 'select';
-  opstions?: string[] | number[];
+  opstions?: any[];
   suggestions?: string[] | number[];
 }

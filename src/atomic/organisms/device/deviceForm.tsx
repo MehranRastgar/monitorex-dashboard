@@ -551,25 +551,6 @@ function SensorsPart({ port, type }: { port?: number; type?: string }) {
     // setSensorsL(s);
   }
 
-  const topUnits = [
-    { title: 'temperature Centigrade', unit: '°C' },
-    { title: 'temperature Fahrenheit ', unit: '°F' },
-    { title: 'temperature Kelvin', unit: 'K' },
-    { title: 'Humidity percentage', unit: '%' },
-    { title: 'Pressure Pascal', unit: 'pa' },
-    { title: 'Luminous intensity candela', unit: 'cd' },
-    { title: 'kiloo grams', unit: 'kg' },
-    { title: 'point per milions', unit: 'ppm' },
-    { title: 'Presure mmHg', unit: 'mmHg' },
-  ];
-  const topType = [
-    { title: 'Temperature' },
-    { title: 'Humidity' },
-    { title: 'Pressure' },
-    { title: 'Luminosity' },
-    { title: 'Velucity' },
-    { title: 'Density' },
-  ];
   const defaultTypeProps = {
     options: topType,
     getOptionLabel: (option: any) => option.title,
@@ -1107,3 +1088,23 @@ export interface SensorRealtimeValuesT {
 export function TitleHandler() {
   return <></>;
 }
+
+export const topUnits: any[] = [
+  { title: 'temperature Centigrade', unit: '°C' },
+  { title: 'temperature Fahrenheit ', unit: '°F' },
+  { title: 'temperature Kelvin', unit: 'K' },
+  { title: 'Humidity percentage', unit: '%' },
+  { title: 'Pressure Pascal', unit: 'pa' },
+  { title: 'Luminous intensity candela', unit: 'cd' },
+  { title: 'kiloo grams', unit: 'kg' },
+  { title: 'point per milions', unit: 'ppm' },
+  { title: 'Presure mmHg', unit: 'mmHg' },
+];
+export const topType: any[] = [
+  { title: 'Temperature' },
+  { title: 'Humidity' },
+  { title: 'Pressure' },
+  { title: 'Luminosity' },
+  { title: 'Velucity' },
+  { title: 'Density' },
+];
