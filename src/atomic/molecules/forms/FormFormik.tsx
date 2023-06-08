@@ -6,46 +6,104 @@ import classes from './formik.module.scss';
 import { AbstractColDef } from 'ag-grid-community';
 import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 import FormThemeButton from 'src/atomic/atoms/ThemeButton/FormThemeButton';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import {
+  selectFormData,
+  selectFormDataInit,
+  selectFormMap,
+  setFormData,
+} from 'src/store/slices/formikSlice';
+import Formine from 'src/class/form';
+import { Convert } from 'src/class/device';
 interface Props {
-  validationSchema?: object;
-  initialValues: object;
-  formMap: ContainerFormMapType[];
-  setFormData: any;
-  // selectedForm: object;
+  // validationSchema?: object;
+  // initialValues: object;
+  // formMap: ContainerFormMapType[];
 }
 const FormFormik: React.FC<Props> = (props) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const selectformdata = useAppSelector(selectFormData);
+  const selectformmap = useAppSelector(selectFormMap);
+  const selectformdatainit = useAppSelector(selectFormDataInit);
   const formik = useFormik({
     initialValues: {
-      ...props.initialValues,
+      ...selectformdatainit,
     },
-
     onSubmit: (values) => {
       // props.setFormData(values);
-      console.log(values);
       alert(JSON.stringify(values, null, 2));
     },
 
     validate(values) {
-      props.setFormData(values);
+      dispatch(setFormData(values));
+      console.log('valiadata', values);
       // alert(JSON.stringify(values, null, 2));
     },
   });
+  async function MakeJson(values: object) {
+    const str = JSON.stringify(values, null, 2);
+    console.log(JSON.parse(str), str);
+  }
+  useEffect(() => {
+    console.log('selectformdatainit', selectformdatainit, selectformmap);
+    formik.resetForm();
+    selectformdatainit && formik.setValues(selectformdatainit);
+  }, [selectformdatainit]);
 
-  // useEffect(() => {
-  //   // formik.resetForm({
-  //   //   values: { ...props.selectedForm },
-  //   // });
-  //   formik.resetForm();
-  // }, [props.selectedForm]);
+  useEffect(() => {
+    console.log(formik.values);
+  }, [formik.values]);
+
+  function SaveForm(ev: any) {
+    console.log("form data", selectformdata, selectformmap)
+    ev.preventDefault();
+    const elementsArray = [...(ev?.target?.elements ?? [])];
+    const formData = elementsArray.reduce((acc, elem) => {
+      if (elem.id) acc[elem.id] = elem.value;
+      return acc;
+    }, {});
+    console.log('formData', formData);
+    console.log("devConvert", formData);
+    dispatch(setFormData(formData));
+    Object.keys(formData).map((item, index) => { console.log(index, item) });
+  }
+
+
+  function mapkey() {
+    let map = new Map();
+    let recipeMap = new Map([
+      ['cucumber.sector', 500],
+      ['tomatoes', 350],
+      ['onion', 50],
+      ['onion2', 50]
+    ]);
+
+    map.set('1', 'str1');   // a string key
+    map.set(1, 'num1');     // a numeric key
+    map.set(true, 'bool1'); // a boolean key
+
+    // remember the regular Object? it would convert keys to string
+    // Map keeps the type, so these two are different:
+    alert(map.get(1)); // 'num1'
+    alert(map.get('1')); // 'str1'
+
+    alert(map.size); // 3
+    alert(recipeMap); // 3
+  }
+
+
 
   return (
     <form
       className="flex w-full flex-wrap m-4"
-      onChange={() => formik.validateForm}
-      onSubmit={formik.handleSubmit}
+      // onChange={(e) => formik.validateForm}
+      // onSubmit={formik.handleSubmit}
+      onChange={(e) => formik.validateForm}
+      // onSubmit={SaveForm}
+      onSubmit={mapkey}
     >
-      {props.formMap.map((maptype, indexSection) => (
+      {selectformmap?.map((maptype, indexSection) => (
         <section className="flex flex-wrap m-1 p-2 w-full" key={indexSection}>
           <h2 className="w-full">{maptype.header}</h2>
           {maptype?.section?.map((formItem: FormMapType, index) => (
@@ -55,11 +113,11 @@ const FormFormik: React.FC<Props> = (props) => {
                   {t(formItem.name)}
                 </label>
                 {formItem.model === 'absolute' ||
-                formItem.model === undefined ? (
+                  formItem.model === undefined ? (
                   <>
                     <input
                       id={formItem.id}
-                      list={formItem.id + 'suggestiom'}
+                      list={formItem.id + 'suggestion'}
                       name={formItem.id}
                       type={formItem.type}
                       onChange={formik.handleChange}
@@ -68,7 +126,7 @@ const FormFormik: React.FC<Props> = (props) => {
                       className={`${classes?.inpt} ` + formItem.class}
                     />
                     {formItem?.suggestions?.length && (
-                      <datalist id={formItem.id + 'suggestiom'}>
+                      <datalist id={formItem.id + 'suggestion'}>
                         {formItem?.suggestions?.map((suggestion, index) => (
                           <option key={index} value={suggestion} />
                         ))}
@@ -79,6 +137,7 @@ const FormFormik: React.FC<Props> = (props) => {
                   <select
                     id={formItem.id}
                     onChange={formik.handleChange}
+                    value={eval(formItem?.value)}
                     placeholder={formItem.name ?? ''}
                     className={`${classes?.inpt} ` + formItem.class}
                   >

@@ -84,6 +84,7 @@
     "react-component-export-image": "^1.0.6",
     "react-device-detect": "latest",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.44.3",
     "react-i18next": "^12.3.1",
     "react-icons": "^4.6.0",
     "react-indiana-drag-scroll": "^2.2.0",
@@ -104,6 +105,7 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "latest",
+    "@hookform/devtools": "^4.3.1",
     "@iconify/react": "^4.1.0",
     "@tauri-apps/cli": "^1.2.3",
     "@types/node": "18.11.2",
@@ -115,7 +117,7 @@
     "eslint-config-next": "^13.0.0",
     "postcss-preset-env": "latest",
     "tailwindcss": "latest",
-    "turbo": "^1.6.3",
+    "turbo": "^1.8.8",
     "typescript": "4.8.4"
   },
   "umd": "./dist/d3-interpolate.min.js",

@@ -24,12 +24,12 @@ const SensorItem: React.FC<Props> = (props) => {
       socket.once(
         props?.sensor?._id,
         (data: SensorWebsocketRealTimeDataType) => {
-          console.log('sensorsocket:', data);
+          console.log('SenItem sensorsocket:', data);
           setSensorData(data);
         },
       );
 
-    return () => {};
+    return () => { };
   }, [props.time]);
 
   return (

@@ -11,6 +11,8 @@ import analizeReducer from "./slices/analizeSlice";
 import userReducer from "./slices/userSlice";
 import chartReducer from "./slices/chartSlice";
 import socketReducer from "./slices/socketSlice";
+import formikReducer from "./slices/formikSlice";
+
 
 export function makeStore() {
   return configureStore({
@@ -26,6 +28,7 @@ export function makeStore() {
       analize: analizeReducer,
       chart: chartReducer,
       socket: socketReducer,
+      formik: formikReducer
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

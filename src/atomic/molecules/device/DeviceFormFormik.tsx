@@ -9,70 +9,105 @@ import FormFormik, {
 } from '../forms/FormFormik';
 import { DevicesReceiveType } from 'src/store/api/devicesApi';
 import DeviceForm from 'src/atomic/organisms/device/deviceForm';
-import Device from 'src/class/device';
-import { useAppSelector } from 'src/store/hooks';
+import Device, { Convert } from 'src/class/device';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
 import { selectSelectedDevice } from 'src/store/slices/devicesSlice';
-
-const dev = new Device();
+import {
+  selectFormData,
+  selectFormDataInit,
+  setFormMap,
+  setFormikDataInit,
+} from 'src/store/slices/formikSlice';
+import { ConvertSensorsFormType, SensorsFormType } from './formtype';
+import FormMeDevice from '../forms/FormMeDevice';
 
 const DeviceFormFormik = () => {
   const { t } = useTranslation();
-  const [formdata, setFormData] = useState<DevicesReceiveType | undefined>(
-    undefined,
-  );
-  const [formMap, setFormMap] = useState<ContainerFormMapType[] | undefined>(
-    undefined,
-  );
+  const dispatch = useAppDispatch();
+  const formdataRedux: DevicesReceiveType | undefined =
+    useAppSelector(selectFormData);
   const selectedDevice = useAppSelector(selectSelectedDevice);
+  const selectformdatainit = useAppSelector(selectFormDataInit);
 
-  function createData() {
-    setFormData(undefined);
+  async function handleInitFormMap() {
+    const dev = new Device();
+
+    if (selectedDevice?.type === 'Sensor Cotroller')
+      dispatch(
+        setFormMap(
+          await dev.createArraysByNumberAndName(
+            selectedDevice?.numberOfPorts ?? 0,
+            'sensors',
+          ),
+        ),
+      );
+    else if (selectedDevice?.type === 'Electrical panel')
+      dispatch(
+        setFormMap(
+          await dev.createArraysByNumberAndName(
+            selectedDevice?.numberOfPorts ?? 0,
+            'electricals',
+          ),
+        ),
+      );
+    else dispatch(setFormMap(dev.getFormMap()));
+  }
+
+  async function handleChangesPort() {
+    const dev = new Device();
+    if (formdataRedux?.type === 'Sensor Cotroller')
+      dispatch(
+        setFormMap(
+          await dev.createArraysByNumberAndName(
+            formdataRedux?.numberOfPorts ?? 0,
+            'sensors',
+          ),
+        ),
+      );
+    else if (formdataRedux?.type === 'Electrical panel')
+      dispatch(
+        setFormMap(
+          await dev.createArraysByNumberAndName(
+            formdataRedux?.numberOfPorts ?? 0,
+            'electricals',
+          ),
+        ),
+      );
+  }
+
+  useEffect(() => {
+    // handleInitFormMap();
+    dispatch(setFormMap([]));
+    dispatch(setFormikDataInit({}));
     setTimeout(() => {
-      setFormMap(dev.getFormMap());
-      setFormData(selectedDevice);
+      handleInitFormMap();
+      dispatch(setFormikDataInit(selectedDevice));
     }, 50);
-  }
-
-  const device: DevicesReceiveType = {
-    address: {
-      multiPort: 0,
-      sMultiPort: 0,
-    },
-  };
-
-  async function createSensors() {
-    setFormMap(await dev.createSensorByNumber(formdata?.numberOfPorts ?? 0));
-    // console.log(dev.createSensorByNumber(formdata?.numberOfPorts ?? 0));
-  }
-  useEffect(() => {
-    console.log(formdata);
-    createSensors();
-  }, [formdata, selectedDevice]);
-
-  useEffect(() => {
-    createData();
   }, [selectedDevice]);
 
-  useEffect(() => {}, [selectedDevice]);
+  useEffect(() => {
+    console.log('port changes');
+    handleChangesPort();
+    const device: SensorsFormType = selectedDevice as SensorsFormType
+
+    formdataRedux && setFormikDataInit(selectedDevice);
+  }, [formdataRedux?.numberOfPorts, formdataRedux?.type]);
+  // setFormData(undefined);
+  // setFormMap(dev.getFormMap());
+  // await dev.createSensorByNumber(selectedDevice?.numberOfPorts ?? 0),
+
   return (
-    <div className="flex flex-wrap min-w-[800px] mx-2 m-4 p-2 border border-[var(--border-color)] rounded-md">
-      <div> {selectedDevice?.title}</div>
-      {formMap && formdata ? (
-        <FormFormik
-          setFormData={setFormData}
-          formMap={[...formMap]}
-          // selectedForm={{
-          //   ...selectedDevice,
-          // }}
-          initialValues={{
-            ...formdata,
-          }}
-        />
-      ) : (
-        <>
-          <div className="flex w-full flex-wrap m-4 min-w-full min-h-[400px]"></div>
-        </>
-      )}
+    <div className="flex flex-wrap items-start min-w-[800px] mx-2 -mt-1 p-2 border border-[var(--border-color)] rounded-md">
+      {/* <div
+        className={`${selectedDevice?.title ? 'flex w-full justify-center' : 'hidden'
+          }`}
+      >
+        {selectedDevice?.title}-{selectedDevice?._id}
+      </div> */}
+
+      {/* {selectformdatainit && <FormFormik />} */}
+      {<FormMeDevice />}
+
     </div>
   );
 };
@@ -220,3 +255,8 @@ const DeviceWholeData: ContainerFormMapType[] = [
     ],
   },
 ];
+
+
+
+
+

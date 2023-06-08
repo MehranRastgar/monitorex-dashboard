@@ -20,34 +20,34 @@ const SensorUnit: React.FC<Props> = (props) => {
   useEffect(() => {
     // if (props?.sensor?._id !== undefined)
     //   setSensorData(socketObj?.[props?.sensor?._id]);
+    let soId: any
     if (props?.sensor?._id)
-      socket.on(props?.sensor?._id, (data: SensorWebsocketRealTimeDataType) => {
-        console.log('sensorsocket:', data);
+      soId = socket.on(props?.sensor?._id, (data: SensorWebsocketRealTimeDataType) => {
+        console.log('Sen Unit sensorsocket:', data);
         setSensorData(data);
       });
 
-    return () => {};
+    return () => {
+      socket.off(props?.sensor?._id)
+    };
   }, [props.time]);
 
   return (
     <section
       className={
         'flex flex-wrap items-center justify-center border-[var(--border-color)] border-b h-[4vh] w-full text-[1.2vw] xl:text-xl overflow-x-auto overflow-y-hidden ' +
-        `${
-          sensorData?.value === 200000
-            ? 'bg-[var(--dev-bgc-deactive)] text-[var(--text-color)]'
-            : `${
-                props?.sensor?.maxAlarm &&
-                sensorData?.value &&
-                sensorData?.value >= props?.sensor?.maxAlarm
-                  ? 'bg-[var(--max-color)]'
-                  : `${
-                      props?.sensor?.minAlarm &&
-                      sensorData?.value &&
-                      sensorData?.value <= props?.sensor?.minAlarm &&
-                      'bg-[var(--min-color)]'
-                    }`
-              }`
+        `${sensorData?.value === 200000
+          ? 'bg-[var(--dev-bgc-deactive)] text-[var(--text-color)]'
+          : `${props?.sensor?.maxAlarm &&
+            sensorData?.value &&
+            sensorData?.value >= props?.sensor?.maxAlarm
+            ? 'bg-[var(--max-color)]'
+            : `${props?.sensor?.minAlarm &&
+            sensorData?.value &&
+            sensorData?.value <= props?.sensor?.minAlarm &&
+            'bg-[var(--min-color)]'
+            }`
+          }`
         }`
       }
     >
@@ -61,15 +61,15 @@ const SensorUnit: React.FC<Props> = (props) => {
             : sensorData?.value ?? '--'}
         </div>
         {props?.sensor?.maxAlarm &&
-        sensorData?.value &&
-        sensorData?.value >= props?.sensor?.maxAlarm ? (
+          sensorData?.value &&
+          sensorData?.value >= props?.sensor?.maxAlarm ? (
           <div>max</div>
         ) : (
           <></>
         )}
         {props?.sensor?.minAlarm &&
-        sensorData?.value &&
-        sensorData?.value <= props?.sensor?.minAlarm ? (
+          sensorData?.value &&
+          sensorData?.value <= props?.sensor?.minAlarm ? (
           <div>min</div>
         ) : (
           <></>

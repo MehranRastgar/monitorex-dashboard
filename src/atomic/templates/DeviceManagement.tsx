@@ -82,7 +82,7 @@ export default function DeviceManagement() {
   return (
     <>
       <section className="flex flex-wrap">
-        <aside className="flex flex-wrap lg:w-1/3 w-full ">
+        <aside className="flex flex-wrap h-fit  lg:w-1/3 w-full ">
           <DeviceList />
           <div className="w-full">
             <ThemeButton
