@@ -148,6 +148,9 @@ export const devicesSlice = createSlice({
     setErrorMessage: (state, action: PayloadAction<string>) => {
       state.errorMessage = action.payload;
     },
+    setPutStatus: (state, action: PayloadAction<ApiFetchStatus>) => {
+      state.putStatus = action.payload;
+    },
   },
 
   // The `extraReducers` field lets the slice handle actions defined elsewhere,
@@ -157,6 +160,7 @@ export const devicesSlice = createSlice({
     builder
       .addCase(putDeviceAsync.pending, (state) => {
         state.status = "request";
+        state.putStatus = 'request'
       })
       .addCase(
         putDeviceAsync.fulfilled,
@@ -165,9 +169,13 @@ export const devicesSlice = createSlice({
             state.status = "success";
             state.selectedDevice = action.payload.data as DevicesReceiveType;
             state.errorMessage = "success";
+            state.putStatus = 'success'
+
           } else {
             state.status = "faild";
             state.errorMessage = action.payload?.message;
+            state.putStatus = 'faild'
+
           }
 
           // state.categories = action?.payload?.[index] ?? [];
@@ -176,6 +184,8 @@ export const devicesSlice = createSlice({
       .addCase(putDeviceAsync.rejected, (state, action: PayloadAction<any>) => {
         state.status = "rejected";
         state.errorMessage = "action.payload?.message";
+        state.putStatus = 'rejected'
+
         // state.errorMessage = "error rejected ";
 
         ////console.log(action.payload);
@@ -215,6 +225,7 @@ export const {
   setDevicesStatus,
   setDevicesAlarms,
   setErrorMessage,
+  setPutStatus
 } = devicesSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
@@ -235,6 +246,8 @@ export const selectAmountOfDisconnectSensors = (state: AppState) =>
   state.devices.amountOfDisconnectSensors;
 export const selectErrorMessage = (state: AppState) =>
   state.devices.errorMessage;
+export const selectPutStatus = (state: AppState) =>
+  state.devices.putStatus;
 // export const selectSensorsHasWork = (state: AppState) =>
 //   state.devices.sensorHasWork;
 

@@ -27,7 +27,10 @@ export default class Device {
 
     getDeviceData(): DeviceType {
         let dev: DeviceType = {
-            address: { ... this?.device?.address },
+            address: {
+                ... this?.device?.address ?? { multiPort: 1, sMultiPort: 1 }
+
+            },
             sensors: [...this?.device?.sensors ?? [{
                 title: '',
                 type: '',
@@ -36,6 +39,7 @@ export default class Device {
                 maxAlarm: undefined,
                 minAlarm: undefined
             }]],
+            type: this.device.type,
             title: this.device.title,
             numberOfPorts: this?.device?.sensors?.length ?? 1,
             factors: [...this?.device?.factors ?? []],
@@ -311,7 +315,7 @@ export interface DeviceType {
     sensorLastSerie?: SensorLastSerie[];
     electricalId?: string;
     electricalPort?: number;
-    electricals?: any[];
+    electricals?: ElectricalPanelType[];
 }
 
 export interface Address {
@@ -332,7 +336,12 @@ export interface SensorLastSerie {
     sensorId?: string;
     _id?: string;
 }
-
+export interface ElectricalPanelType {
+    _id?: string;
+    deviceName?: string;
+    deviceRelationId?: string;
+    lastStatus?: boolean;
+}
 export interface MetaField {
     incremental?: number;
     value?: number;

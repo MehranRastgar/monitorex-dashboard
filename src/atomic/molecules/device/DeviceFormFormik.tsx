@@ -98,16 +98,7 @@ const DeviceFormFormik = () => {
 
   return (
     <div className="flex flex-wrap items-start min-w-[800px] mx-2 -mt-1 p-2 border border-[var(--border-color)] rounded-md">
-      {/* <div
-        className={`${selectedDevice?.title ? 'flex w-full justify-center' : 'hidden'
-          }`}
-      >
-        {selectedDevice?.title}-{selectedDevice?._id}
-      </div> */}
-
-      {/* {selectformdatainit && <FormFormik />} */}
       {<FormMeDevice />}
-
     </div>
   );
 };

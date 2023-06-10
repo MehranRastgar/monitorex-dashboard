@@ -88,7 +88,6 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
             </ThemeButton>
           </div>
           {/* <div className="flex flex-wrap justify-self-auto min-w-full m-1 border border-[var(--border-color)]"> */}
-
           <ScrollContainer
             vertical={false}
             hideScrollbars={false}
@@ -96,12 +95,17 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
           >
             {groupOrDevice === 'device' && (
               <div className={groupOrDevice === 'device' ? 'flex' : 'hidden'}>
-                {selectDevices.map((dev, index) => (
+                {selectDevices !== null ? <>{selectDevices.map((dev, index) => (
                   <DeviceUnit key={index.toString()} index={index} />
-                ))}
+                ))}</> : (
+                  <>
+                    <section className="flex flex-wrap items-center border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4">
+                      <h1 className='w-full text-center text-xl'>there is no device</h1>
+                    </section>
+                  </>
+                )}
               </div>
             )}
-
             {groupOrDevice === 'group' && (
               <div className={groupOrDevice === 'group' ? 'flex' : 'hidden'}>
                 {group !== null ? (
@@ -112,14 +116,15 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
                   </>
                 ) : (
                   <>
-                    <section className="flex flex-wrap border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4"></section>
+                    <section className="flex flex-wrap items-center border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4">
+                      <h1 className='w-full text-center text-xl'>there is no group</h1>
+                    </section>
                   </>
                 )}
               </div>
             )}
           </ScrollContainer>
           {/* </div> */}
-
           {/* <div className="flex flex-wrap justify-self-auto min-w-full m-1 border border-[var(--border-color)]">
             <div className="flex w-full md:w-1/2 lg:w-1/2">
               <GroupListComponent type="group" />
