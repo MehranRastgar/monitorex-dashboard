@@ -55,10 +55,10 @@ export const signInAction = createAsyncThunk(
     const response:
       | UserType
       | {
-          error: {
-            errorCode: any;
-          };
-        } = await signIn(signInReq.userName, signInReq.password);
+        error: {
+          errorCode: any;
+        };
+      } = await signIn(signInReq.userName, signInReq.password);
     ////console.log("response thunk signInsignInsignIn", response);
     // The value we return becomes the `fulfilled` action payload
     return response;
@@ -69,10 +69,10 @@ export const signInCheck = createAsyncThunk('user/checkSignIn', async () => {
   const response:
     | UserType
     | {
-        error: {
-          errorCode: any;
-        };
-      } = await checkSignIn(String(localStorage?.getItem('access_token')));
+      error: {
+        errorCode: any;
+      };
+    } = await checkSignIn(String(localStorage?.getItem('access_token')));
   ////console.log("response thunk", response);
   return response;
 });
@@ -83,13 +83,13 @@ export const updateUserData = createAsyncThunk(
     const response:
       | UserType
       | {
-          error: {
-            errorCode: any;
-          };
-        } = await PatchUserApi(
-      String(localStorage?.getItem('access_token')),
-      userInfo,
-    );
+        error: {
+          errorCode: any;
+        };
+      } = await PatchUserApi(
+        String(localStorage?.getItem('access_token')),
+        userInfo,
+      );
     return response;
   },
 );
@@ -100,13 +100,13 @@ export const createUser = createAsyncThunk(
     const response:
       | UserType
       | {
-          error: {
-            errorCode: any;
-          };
-        } = await CreateUserApi(
-      String(localStorage?.getItem('access_token')),
-      userInfo,
-    );
+        error: {
+          errorCode: any;
+        };
+      } = await CreateUserApi(
+        String(localStorage?.getItem('access_token')),
+        userInfo,
+      );
     return response;
   },
 );
@@ -137,7 +137,7 @@ export const userSlice = createSlice({
     setSignInFlag: (state, action: PayloadAction<UserSignInStatus>) => {
       state.status = action.payload;
     },
-    refreshToken: (state) => {},
+    refreshToken: (state) => { },
     setUsersData: (state, action: PayloadAction<UserType>) => {
       state.ownUser = action.payload;
     },
@@ -160,6 +160,9 @@ export const userSlice = createSlice({
 
     updateGroupInUserData: (state, action: PayloadAction<GroupItemType>) => {
       state.selectedUser = action.payload;
+    },
+    setUserUpdateFlag: (state, action: PayloadAction<ApiFlag>) => {
+      state.updateFlag = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -258,6 +261,7 @@ export const {
   setAllUsersData,
   setSelectedUser,
   addGroupToUserData,
+  setUserUpdateFlag
 } = userSlice.actions;
 export const selectOwnUser = (state: AppState) => state.user.ownUser;
 export const selectAllUsersData = (state: AppState) => state.user.users;

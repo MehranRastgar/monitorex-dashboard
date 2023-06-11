@@ -1578,6 +1578,13 @@
   resolved "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   integrity sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==
 
+"@iconify-json/mdi-light@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@iconify-json/mdi-light/-/mdi-light-1.1.6.tgz#8f9c3b5d3d4b8460b5d81b51f21e5420700a8517"
+  integrity sha512-rEw60ImpDd1AWZso5EnRu0WtJnwp4ZkVLt56tpSKfXH+VH0Tb/fl766nZnbFOBrhyowPhEJEEIle9u4VklBnZg==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify/react@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@iconify/react/-/react-4.1.0.tgz#5ea86acae6e209a2f5b1b52922ab85d0d22f9b45"
@@ -1585,7 +1592,14 @@
   dependencies:
     "@iconify/types" "^2.0.0"
 
-"@iconify/types@^2.0.0":
+"@iconify/tailwind@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@iconify/tailwind/-/tailwind-0.1.3.tgz#01f1d04753dfdecec5f70ff64655f61fcc9fbdd5"
+  integrity sha512-uVV49QtR9cZ9VLxrMSeW1E6iXWeBlpQ0z4aWx7B5WvGEE5OvCjloNYYqwZbZ/W+EsTcApzSm6szqcCVeb9pxDw==
+  dependencies:
+    "@iconify/types" "^2.0.0"
+
+"@iconify/types@*", "@iconify/types@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@iconify/types/-/types-2.0.0.tgz#ab0e9ea681d6c8a1214f30cd741fe3a20cc57f57"
   integrity sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==

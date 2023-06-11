@@ -13,7 +13,7 @@ export default function SensorsTable() {
   // const querySensors = useQuery("sensors", GetSensors);
   const sensors = useAppSelector(selectSensorsData);
   // const sensorsStatus = useAppSelector(selectSensorsStatus)
-  function handleClick() {}
+  function handleClick() { }
   return (
     <>
       <PageSizeCustomOptions rowsData={sensors !== undefined ? sensors : []} />
@@ -61,6 +61,7 @@ export interface SensorWebsocketRealTimeDataType {
 }
 export interface SensorsReceiveTpe {
   resolution?: string;
+  isRealTime?: boolean;
   _id?: string;
   title?: string;
   multiport?: number;
@@ -162,12 +163,11 @@ export function PageSizeCustomOptions({
       headerName: t("average") ?? "average",
       width: 80,
       valueGetter: (params: GridValueGetterParams) =>
-        `${
-          params?.row?.sensorLastSerie?.metaField?.average
-            ? Number(params?.row?.sensorLastSerie?.metaField?.average).toFixed(
-                2
-              )
-            : ""
+        `${params?.row?.sensorLastSerie?.metaField?.average
+          ? Number(params?.row?.sensorLastSerie?.metaField?.average).toFixed(
+            2
+          )
+          : ""
         }`,
     },
     {
@@ -189,8 +189,7 @@ export function PageSizeCustomOptions({
       headerName: t("address") ?? "address",
       width: 80,
       valueGetter: (params: GridValueGetterParams) =>
-        `${params.row.superMultiport?.toString() || ""}_${
-          params?.row?.multiport?.toString() || ""
+        `${params.row.superMultiport?.toString() || ""}_${params?.row?.multiport?.toString() || ""
         }_${params.row.port?.toString() || ""}`,
     },
     {

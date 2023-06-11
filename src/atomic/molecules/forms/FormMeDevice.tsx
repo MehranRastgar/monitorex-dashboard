@@ -21,7 +21,7 @@ import { GetDevices } from 'src/api/devices';
 
 
 
-let renderCount = 0
+// let renderCount = 0
 
 interface Props {
   // validationSchema?: object;
@@ -38,14 +38,15 @@ const FormMeDevice: React.FC<Props> = (props) => {
   const queryDevices = useQuery('devices', GetDevices);
   const statusDevices = useAppSelector(selectPutStatus)
   const [sensorType, setSensorType] = useState('')
-  const [changes, setChanges] = useState('')
+  const [changes, setChanges] = useState<boolean>(false)
   const devd = new Device({})
   const form = useForm<DeviceType>({
     defaultValues: {
       ...devd.getDeviceData()
     }
   })
-  const { register, control, setValue, handleSubmit, formState } = form;
+
+  const { register, control, setValue, handleSubmit, formState, trigger } = form;
   const { errors, } = formState;
   function onSubmit(data: DeviceType) {
     // e.preventDefault()
@@ -76,6 +77,9 @@ const FormMeDevice: React.FC<Props> = (props) => {
       control
     },
   )
+
+
+
   useEffect(() => {
     console.log('triged')
     if (form.getValues().type === 'Sensor Cotroller') {
@@ -86,7 +90,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
       setValue('numberOfPorts', selectformdatainit?.electricals?.length ?? 0)
       setValue('sensors', [])
     }
-  }, [changes]);
+  }, [changes])
 
   useEffect(() => {
     if (statusDevices === 'success') {
@@ -95,16 +99,18 @@ const FormMeDevice: React.FC<Props> = (props) => {
     }
   }, [statusDevices]);
   useEffect(() => {
-    // console.log(formik.values);
     const dev = new Device(selectformdatainit as DevicesReceiveType)
     form.reset(dev.getDeviceData())
     setValue('numberOfPorts', selectformdatainit?.sensors?.length ?? 0)
   }, [selectformdatainit]);
-  renderCount++
+  // renderCount++
   return (
-    <div>
-      <h1>count {renderCount / 2}</h1>
+    <div >
+
       <form
+        onChange={() => {
+          setChanges(value => !value)
+        }}
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
@@ -145,10 +151,10 @@ const FormMeDevice: React.FC<Props> = (props) => {
             <p className='text-red-300 tex-xs'>{errors?.address?.multiPort?.message && '!' + errors?.address?.multiPort?.message}</p>
           </div>
           <div className={'flex-wrap mx-2 '} >
-            <label className={classes.label} htmlFor='type'>MPort</label>
+            <label className={classes.label} htmlFor='type'>type</label>
             <select className={classes.inpt}   {...register(`type` as const, {
               validate: (feildvalue) => {
-                setChanges(feildvalue ?? '')
+                // setChanges(feildvalue ?? '')
                 if (feildvalue === 'Sensor Cotroller' || feildvalue === 'Electrical panel')
                   return true
                 else return false
@@ -173,7 +179,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
                   </div>
                   <div className={'flex-wrap mx-2 '} >
                     <label className={classes.label} htmlFor={`sensors.${index}.type`}>{t('type')}</label>
-                    <input className={classes.inpt} type='text' {...register(`sensors.${index}.type` as const, { required: { value: true, message: t('type is required') } })} />
+                    <input className={classes.inpt} type='text' {...register(`sensors.${index}.type` as const, { required: { value: true, message: 'type required' } })} />
                     <p className='text-red-300 tex-xs'>{errors?.sensors?.[index]?.type?.message && '!' + errors?.sensors?.[index]?.type?.message}</p>
                   </div>
                   <div className={'flex-wrap mx-2 '} >
@@ -201,12 +207,12 @@ const FormMeDevice: React.FC<Props> = (props) => {
           </div>
         </section>}
         {form.getValues().type === 'Electrical panel' && <section className="flex flex-wrap border-b m-1 p-2 w-full" >
-          <h1 className='flex w-full mb-4'>list of Electricals</h1>
-          <div className={''} >
+          <h1 className='flex w-fit mb-4'>list of Electricals</h1>
+          <div className={'flex flex-wrap'} >
             {elecFields?.fields?.map((field, index) => {
               return (
-                <div className={'flex flex-wrap'} key={field.id}>
-                  <div className={'flex-wrap mx-2 '} >
+                <div className={'flex flex-wrap '} key={field.id}>
+                  <div className={'flex-wrap mx-2 w-fit'} >
                     <label className={classes.label} htmlFor={`electricals.${index}.title`}>{t('title')}-{index + 1}</label>
                     <input className={classes.inpt} type='text' {...register(`electricals.${index}.deviceName` as const, { required: { value: true, message: t('title is required') } })} />
                     <p className='text-red-300 tex-xs'>{errors?.electricals?.[index]?.deviceName?.message && '!' + errors?.electricals?.[index]?.deviceName?.message}</p>
@@ -216,7 +222,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
               )
             }
             )}
-            <button type='button' onClick={() => elecFields.append({ deviceName: '' })} className='h-fit'>{t('Add Electrical +')}</button>
+            <button type='button' onClick={() => elecFields.append({ deviceName: '' })} className='h-fit w-full'>{t('Add Electrical +')}</button>
           </div>
         </section>}
         {form.getValues().type === 'Sensor Cotroller' && <section className="flex flex-wrap border-b m-1 p-2 w-full" >
@@ -259,7 +265,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
           </ThemeButton>}
         </div>
       </form>
-      <DevTool control={control} />
+      {/* <DevTool control={control} /> */}
     </div >
   );
 };

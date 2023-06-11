@@ -57,9 +57,9 @@ export type TableInstanceWithHooks<T extends object> = TableInstance<T> &
 export interface ColumnInstance<
   D extends Record<string, unknown> = Record<string, unknown>,
 > extends UseFiltersColumnProps<D>,
-    UseGroupByColumnProps<D>,
-    UseResizeColumnsColumnProps<D>,
-    UseSortByColumnProps<D> {}
+  UseGroupByColumnProps<D>,
+  UseResizeColumnsColumnProps<D>,
+  UseSortByColumnProps<D> { }
 
 interface Props {
   hasPagination?: boolean;
@@ -116,39 +116,37 @@ const ReactTable: React.FC<Props> = (props) => {
         )}
         {/* {queryDevices.data[0].DeviceUniqueName} */}
         <div
-          className={`flex flex-wrap w-full overflow-y-scroll ${
-            props?.tHeight !== undefined ? ` ${props?.tHeight} ` : ' h-[15rem] '
-          } `}
+          className={`flex flex-wrap w-full overflow-y-scroll ${props?.tHeight !== undefined ? ` ${props?.tHeight} ` : ' h-[15rem] '
+            } `}
         >
           <div className="w-full">
             <table className={classes.table} {...getTableProps()}>
               <thead>
                 {headerGroups?.map((headerGroup, indexOne) => (
                   <tr
-                    key={indexOne}
+                    key={indexOne + 'headerGroups'}
                     {...(headerGroup?.getHeaderGroupProps() as HeaderGroupPropGetter<any>)}
                   >
+
                     {headerGroup.headers.map((columns: any, colIndex) => (
-                      <>
-                        {columns?.getSortByToggleProps() !== undefined && (
-                          <th
-                            key={colIndex}
-                            className=" border  p-1"
-                            {...columns.getHeaderProps(
-                              columns.getSortByToggleProps() as HeaderPropGetter<object>,
-                            )}
-                          >
-                            {columns.render('Header')}
-                            <span className="text-xs mx-1">
-                              {columns.isSorted
-                                ? columns.isSortedDesc
-                                  ? '▼'
-                                  : '▲'
-                                : ''}
-                            </span>
-                          </th>
+                      // {columns?.getSortByToggleProps() !== undefined && (
+                      <th
+                        key={colIndex + 'colindex'}
+                        className=" border  p-1"
+                        {...columns.getHeaderProps(columns?.getSortByToggleProps() !== undefined &&
+                          columns.getSortByToggleProps() as HeaderPropGetter<object>,
                         )}
-                      </>
+                      >
+                        {columns.render('Header')}
+                        <span className="text-xs mx-1">
+                          {columns.isSorted
+                            ? columns.isSortedDesc
+                              ? '▼'
+                              : '▲'
+                            : ''}
+                        </span>
+                      </th>
+                      // )}
                     ))}
                   </tr>
                 ))}
@@ -172,10 +170,10 @@ const ReactTable: React.FC<Props> = (props) => {
                                 console.log('clicked', row.original._id);
                                 props?.setSelectedRow(row.original._id);
                               }}
-                              key={indexw}
+                              key={indexw + 'index-xw'}
                               className={
                                 'p-1 border' &&
-                                row.original._id === props.selectedRow
+                                  row.original._id === props.selectedRow
                                   ? classes.table_selected
                                   : ''
                               }
@@ -194,7 +192,7 @@ const ReactTable: React.FC<Props> = (props) => {
                       prepareRow(row);
                       return (
                         <tr
-                          key={index}
+                          key={index + "row-index"}
                           {...(row.getRowProps() as HeaderGroupPropGetter<any>)}
                         >
                           {row.cells.map((cell, indexw) => (
@@ -203,10 +201,10 @@ const ReactTable: React.FC<Props> = (props) => {
                                 console.log('clicked', row.original._id);
                                 props?.setSelectedRow(row.original._id);
                               }}
-                              key={indexw}
+                              key={indexw + 'indexw-prepare'}
                               className={
                                 'p-1 border' &&
-                                row.original._id === props.selectedRow
+                                  row.original._id === props.selectedRow
                                   ? classes.table_selected
                                   : ''
                               }

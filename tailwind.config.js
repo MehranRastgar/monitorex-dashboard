@@ -1,3 +1,5 @@
+const { addDynamicIconSelectors } = require('@iconify/tailwind');
+
 module.exports = {
   content: [
     "./src/components/**/*.tsx",
@@ -177,5 +179,6 @@ module.exports = {
     require("tailwindcss"),
     require("autoprefixer"),
     require("postcss"),
+    addDynamicIconSelectors(),
   ],
 };

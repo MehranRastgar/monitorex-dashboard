@@ -12,34 +12,11 @@ function Settings() {
   const [groupOrDevice, setGroupOrDevice] = useState<'user' | 'device'>(
     'device',
   );
-  useEffect(() => {}, [,]);
+  useEffect(() => { }, [,]);
 
   return (
     <Layout>
-      <section>
-        {/* <BasicTabs value={value} setValue={setValue} /> */}
-        <div className="flex w-full justify-center">
-          <ThemeButton
-            className="mx-1"
-            onClick={() => setGroupOrDevice('device')}
-            type={groupOrDevice === 'device' ? 'activate' : 'deactivate'}
-          >
-            {t('devices')}
-          </ThemeButton>
-          <></>
-          <ThemeButton
-            className="mx-1"
-            onClick={() => setGroupOrDevice('user')}
-            type={groupOrDevice === 'user' ? 'activate' : 'deactivate'}
-          >
-            {t('users')}
-          </ThemeButton>
-        </div>
-        <Box sx={{ p: 3 }}>
-          {groupOrDevice === 'device' ? <DeviceManagement /> : <></>}
-          {groupOrDevice === 'user' ? <UserManagement /> : <></>}
-        </Box>
-      </section>
+      <ManagementRouting />
     </Layout>
   );
 }
@@ -57,6 +34,7 @@ import DeviceList from '../src/atomic/organisms/device/DeviceList';
 import DeviceManagement from '../src/atomic/templates/DeviceManagement';
 import SensorList from '../src/atomic/organisms/sensor/SensorList';
 import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
+import ManagementRouting from 'src/atomic/templates/ManagementRouting';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -67,7 +45,7 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-  useEffect(() => {}, [value, index]);
+  useEffect(() => { }, [value, index]);
 
   return (
     <>

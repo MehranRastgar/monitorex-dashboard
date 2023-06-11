@@ -31,6 +31,8 @@ import {
   selectAllUsersData,
   setSelectedUser,
 } from "../../../store/slices/userSlice";
+import ReactTable from "src/atomic/molecules/Table/ReactTable";
+import { GetUsers } from "src/api/users";
 
 export default function UserList({ moreItems }: { moreItems?: boolean }) {
   const { t } = useTranslation();
@@ -38,87 +40,60 @@ export default function UserList({ moreItems }: { moreItems?: boolean }) {
   const [selectionModel, setSelectionModel] =
     React.useState<GridSelectionModel>([]);
   const users = useAppSelector(selectAllUsersData);
-  const columns: GridColDef[] = [
-    {
-      field: "_id",
-      headerName: "id",
-      width: 50,
-    },
-    {
-      field: "username",
-      headerName: t("username") ?? "username",
-      width: 150,
-    },
-    {
-      field: "isAdmin",
-      headerName: t("isAdmin") ?? "isAdmin",
-      width: 150,
-    },
-  ];
-  const columnsMore: GridColDef[] = [
-    {
-      field: "_id",
-      headerName: "id",
-      width: 50,
-    },
-    {
-      field: "title",
-      headerName: t("title") ?? "title",
-      width: 150,
-    },
-    {
-      field: "type",
-      headerName: t("type") ?? "type",
-      width: 150,
-    },
-    {
-      field: "sensors",
-      headerName: t("sensors") ?? "type",
-      width: 150,
-      valueGetter: (params: GridValueGetterParams) =>
-        params.row?.sensors?.map((sensor: SensorsReceiveTpe, index: number) => {
-          return sensor?.title;
-        }),
-    },
-    {
-      field: "unit",
-      headerName: t("unit") ?? "unit",
-      width: 150,
-      valueGetter: (params: GridValueGetterParams) =>
-        params.row?.sensors?.map((sensor: SensorsReceiveTpe, index: number) => {
-          return sensor?.unit;
-        }),
-    },
-    {
-      field: "numberOfPorts",
-      headerName: t("numberOfPorts") ?? "numberOfPorts",
-      width: 150,
-    },
-  ];
+  const queryUsers = useQuery('users', GetUsers);
+  const [selectedRow, setSelectedRow] = React.useState<string>('');
+
+  const data = React.useMemo(
+    () =>
+      queryUsers.isSuccess === true
+        ? queryUsers.data
+        : [{ title: 'no data' }],
+    [queryUsers?.data],
+  );
+  const columns = React.useMemo(
+    () => [
+      {
+        Header: 'N',
+        id: 'index',
+        accessor: (_row: any, i: number) => i + 1,
+      },
+      {
+        Header: 'user name',
+        accessor: 'username',
+      },
+      {
+        Header: 'email',
+        accessor: 'email',
+      },
+      {
+        Header: 'family',
+        accessor: 'family',
+      },
+    ],
+
+    [],
+  );
   React.useEffect(() => {
-    const indexindata = users.findIndex((it) => it._id === selectionModel[0]);
+    const indexindata = users.findIndex((it) => it._id === selectedRow);
     dispatch(setSelectedUser(users?.[indexindata]));
-  }, [selectionModel]);
+  }, [selectedRow]);
 
   return (
     <>
-      <Box className={"select-none"}>
-        <Box sx={{ p: 1 }}>
-          <Item>
-            <div className="font-Vazir-Medium text-[20px]">{t("list")}</div>
-          </Item>
-        </Box>
-        <Box sx={{ p: 1 }}>
-          {/* {selectionModel?.[0]} */}
-          <ListDataGrid
-            RowsData={users ?? []}
-            columns={moreItems ? columnsMore : columns}
-            title={"users"}
-            selectionModel={selectionModel}
-            setSelectionModel={setSelectionModel}
+      <section className="flex items-start flex-wrap h-[20rem] max-w-[20rem] w-[20rem] mb-[4rem]">
+        <span className="mx-4 "> {t('users')}</span>
+        {queryUsers.isSuccess === true && (
+          <ReactTable
+            hasSearch={true}
+            hasPagination={true}
+            setSelectedRow={setSelectedRow}
+            tHeight=" h-[15rem] "
+            columns={columns}
+            data={data}
+            selectedRow={selectedRow}
           />
-        </Box>
-      </Box>
+        )}
+      </section>
     </>
   );
 }
@@ -126,21 +101,21 @@ export default function UserList({ moreItems }: { moreItems?: boolean }) {
 export interface factors {
   factorName: string;
   factorPosition:
-    | 1
-    | 2
-    | 3
-    | 4
-    | 5
-    | 6
-    | 7
-    | 8
-    | 9
-    | 10
-    | 12
-    | 13
-    | 14
-    | 15
-    | 16;
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 12
+  | 13
+  | 14
+  | 15
+  | 16;
   factorValue: number;
 }
 export interface deviceAddress {

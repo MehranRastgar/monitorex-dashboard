@@ -28,77 +28,18 @@ const DeviceFormFormik = () => {
     useAppSelector(selectFormData);
   const selectedDevice = useAppSelector(selectSelectedDevice);
   const selectformdatainit = useAppSelector(selectFormDataInit);
-
-  async function handleInitFormMap() {
-    const dev = new Device();
-
-    if (selectedDevice?.type === 'Sensor Cotroller')
-      dispatch(
-        setFormMap(
-          await dev.createArraysByNumberAndName(
-            selectedDevice?.numberOfPorts ?? 0,
-            'sensors',
-          ),
-        ),
-      );
-    else if (selectedDevice?.type === 'Electrical panel')
-      dispatch(
-        setFormMap(
-          await dev.createArraysByNumberAndName(
-            selectedDevice?.numberOfPorts ?? 0,
-            'electricals',
-          ),
-        ),
-      );
-    else dispatch(setFormMap(dev.getFormMap()));
-  }
-
-  async function handleChangesPort() {
-    const dev = new Device();
-    if (formdataRedux?.type === 'Sensor Cotroller')
-      dispatch(
-        setFormMap(
-          await dev.createArraysByNumberAndName(
-            formdataRedux?.numberOfPorts ?? 0,
-            'sensors',
-          ),
-        ),
-      );
-    else if (formdataRedux?.type === 'Electrical panel')
-      dispatch(
-        setFormMap(
-          await dev.createArraysByNumberAndName(
-            formdataRedux?.numberOfPorts ?? 0,
-            'electricals',
-          ),
-        ),
-      );
-  }
-
   useEffect(() => {
-    // handleInitFormMap();
-    dispatch(setFormMap([]));
-    dispatch(setFormikDataInit({}));
-    setTimeout(() => {
-      handleInitFormMap();
-      dispatch(setFormikDataInit(selectedDevice));
-    }, 50);
+    dispatch(setFormikDataInit(selectedDevice));
   }, [selectedDevice]);
-
   useEffect(() => {
     console.log('port changes');
-    handleChangesPort();
     const device: SensorsFormType = selectedDevice as SensorsFormType
-
     formdataRedux && setFormikDataInit(selectedDevice);
   }, [formdataRedux?.numberOfPorts, formdataRedux?.type]);
-  // setFormData(undefined);
-  // setFormMap(dev.getFormMap());
-  // await dev.createSensorByNumber(selectedDevice?.numberOfPorts ?? 0),
 
   return (
     <div className="flex flex-wrap items-start min-w-[800px] mx-2 -mt-1 p-2 border border-[var(--border-color)] rounded-md">
-      {<FormMeDevice />}
+      <FormMeDevice />
     </div>
   );
 };

@@ -1,14 +1,16 @@
 import { GroupItemType, UserType } from 'src/types/types';
 
 export default class User {
-  OwnUser: UserType;
-
-  constructor(OwnUser: UserType) {
-    this.OwnUser = OwnUser;
+  OwnUser?: UserType;
+  AllUsers: UserType[] = [];
+  constructor(OwnUser?: UserType) {
+    this.OwnUser = OwnUser ?? undefined;
   }
-
-  async quertAdder(OwnUser: UserType) {}
-  async queryRemover() {}
+  setAllUsers(AllUsers: UserType[]) {
+    this.AllUsers = AllUsers
+  }
+  async quertAdder(OwnUser: UserType) { }
+  async queryRemover() { }
 
   async addNewGroup(NewGroup: GroupItemType) {
     // const userD = await JSON.parse(localStorage.getItem('user') ?? '');
@@ -45,4 +47,53 @@ export default class User {
     }
     return this.OwnUser;
   }
+  getUserData(): UserType {
+    let dev: UserType = {
+      name: this.OwnUser?.name,
+      family: this.OwnUser?.family,
+      isAdmin: this.OwnUser?.isAdmin,
+      groups: [...this.OwnUser?.groups ?? []],
+      password: this.OwnUser?.password,
+      nationalId: this.OwnUser?.nationalId,
+      personalId: this.OwnUser?.personalId,
+      username: this.OwnUser?.username,
+      accessControll: {
+        ...this.OwnUser?.accessControll ?? {
+          devices: 'read',
+          profile: 'read',
+          reports: 'read',
+          users: 'read'
+        }
+      },
+      _id: this.OwnUser?._id
+
+    }
+
+    return dev;
+  }
+  getNewUser(): UserType {
+    let dev: UserType = {
+      name: '',
+      family: '',
+      isAdmin: false,
+      groups: [...[]],
+      password: '',
+      nationalId: '',
+      personalId: '',
+      username: 'new-user',
+      accessControll: {
+        ...  {
+          devices: 'read',
+          profile: 'read',
+          reports: 'read',
+          users: 'read'
+        }
+      },
+      // _id: this.OwnUser?._id
+
+    }
+
+    return dev;
+  }
+
 }

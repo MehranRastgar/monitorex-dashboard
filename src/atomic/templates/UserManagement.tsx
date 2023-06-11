@@ -29,18 +29,22 @@ import {
   setUsersData,
 } from '../../store/slices/userSlice';
 import { setUserAgent } from 'react-device-detect';
-import UserAdministrator from '../organisms/user/UserAdministrator';
 import { UserType } from '../../types/types';
 import ThemeButton from '../atoms/ThemeButton/ThemeButton';
+import UserFormMolecule from '../molecules/user/UserFormMolecule';
+import FormMeUser from '../molecules/forms/FormMeUser';
+import { setFormData, setFormikDataInit } from 'src/store/slices/formikSlice';
+import User from 'src/class/user';
 
 export default function UserManagement() {
   const queryUsers = useQuery('users', GetUsers);
-  const selectedDevice = useAppSelector(selectSelectedDevice);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   function newUser() {
-    dispatch(setSelectedUser({}));
+    const userd = new User()
+    dispatch(setSelectedUser(userd.getNewUser()));
+    // dispatch(setSelected)
   }
   // function newFromSelectedDevice() {
   //   const sensors: SensorsReceiveTpe[] = [];
@@ -74,8 +78,12 @@ export default function UserManagement() {
   //     })
   //   );
   // }
-
   React.useEffect(() => {
+    dispatch(setFormikDataInit({}))
+    dispatch(setFormData({}))
+  }, [])
+  React.useEffect(() => {
+    dispatch(setFormikDataInit({}))
     if (queryUsers.status === 'success' && queryUsers?.data !== undefined) {
       const dataUser: UserType[] = queryUsers.data;
       dispatch(setAllUsersData(dataUser));
@@ -84,19 +92,24 @@ export default function UserManagement() {
   }, [queryUsers.isFetching, queryUsers.isSuccess]);
 
   return (
-    <>
-      <UserList />
-      <ThemeButton
-        type={'explore'}
-        className="m-4 "
-        onClick={() => {
-          newUser();
-        }}
-      >
-        {t('new user')}
-      </ThemeButton>
-      <UserAdministrator />
-    </>
+    <div className='flex flex-wrap'>
+      <div>
+        <UserList />
+        <ThemeButton
+          type={'explore'}
+          className="m-4 "
+          onClick={() => {
+            newUser();
+          }}
+        >
+          {t('new user')}
+        </ThemeButton></div>
+      {/* <UserAdministrator /> */}
+      {/* <UserFormMolecule /> */}
+
+      <FormMeUser />
+
+    </div>
   );
 }
 // { xs: 0.3, sm: 0.5, md: 1, lg: 2, xl: 3 }
