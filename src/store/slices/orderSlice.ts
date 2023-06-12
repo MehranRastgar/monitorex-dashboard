@@ -19,14 +19,14 @@ export const updateCartPrices = createAsyncThunk(
     const response:
       | UpdatePriceRespons[]
       | {
-          error: {
-            errorCode: any;
-          };
-        } = await getCartPrices(
-      orderReq,
-      String(localStorage?.getItem("accessToken")),
-      String(localStorage?.getItem("user-id"))
-    );
+        error: {
+          errorCode: any;
+        };
+      } = await getCartPrices(
+        orderReq,
+        String(localStorage?.getItem("accessToken")),
+        String(localStorage?.getItem("user-id"))
+      );
 
     // The value we return becomes the `fulfilled` action payload
     return response;
@@ -39,15 +39,15 @@ export const getOrders = createAsyncThunk(
     const response:
       | Order[]
       | {
-          error: {
-            errorCode: any;
-          };
-        } = await getOrdersApi(
-      perpage,
-      page,
-      String(localStorage?.getItem("accessToken")),
-      String(localStorage?.getItem("user-id"))
-    );
+        error: {
+          errorCode: any;
+        };
+      } = await getOrdersApi(
+        perpage,
+        page,
+        String(localStorage?.getItem("accessToken")),
+        String(localStorage?.getItem("user-id"))
+      );
 
     // The value we return becomes the `fulfilled` action payload
     return response;
@@ -59,14 +59,14 @@ export const getOrderById = createAsyncThunk(
     const response:
       | Order
       | {
-          error: {
-            errorCode: any;
-          };
-        } = await getOrderByIdApi(
-      orderId,
-      String(localStorage?.getItem("accessToken")),
-      String(localStorage?.getItem("user-id"))
-    );
+        error: {
+          errorCode: any;
+        };
+      } = await getOrderByIdApi(
+        orderId,
+        String(localStorage?.getItem("accessToken")),
+        String(localStorage?.getItem("user-id"))
+      );
 
     // The value we return becomes the `fulfilled` action payload
     return response;
@@ -80,14 +80,14 @@ export interface OrderState {
   status: "success" | "loading" | "403" | "401" | "unknownError";
   token: "loading" | string;
   updateFlag:
-    | "idle"
-    | "request"
-    | "success"
-    | "pending"
-    | "403"
-    | "401"
-    | "unknownError"
-    | "faild";
+  | "idle"
+  | "request"
+  | "success"
+  | "pending"
+  | "403"
+  | "401"
+  | "unknownError"
+  | "faild";
 }
 
 const initialState: OrderState = {
@@ -168,7 +168,7 @@ export const orderSlice = createSlice({
   },
 });
 
-export const {} = orderSlice.actions;
+export const { } = orderSlice.actions;
 
 export const selectUserInfo = (state: AppState) => state.client.value;
 

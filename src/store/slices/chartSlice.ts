@@ -12,6 +12,7 @@ import {
 import type { AppState, AppThunk } from "../store";
 export interface ChartState {
   chartSettings: chartSettingsType;
+  chartOptions: object;
 }
 
 export interface chartSettingsType {
@@ -24,6 +25,7 @@ const initialState: ChartState = {
     garanularity: 1,
     theme: "dark",
   },
+  chartOptions: {}
 };
 
 export const chartSlice = createSlice({
@@ -34,9 +36,19 @@ export const chartSlice = createSlice({
     setChartSettings: (state, action: PayloadAction<chartSettingsType>) => {
       state.chartSettings = action.payload;
     },
+    setChartOptions: (state, action: PayloadAction<object>) => {
+      state.chartOptions = action.payload;
+    }
   },
+
 });
 
-export const selectChartSettings = (state: AppState) => state.user.signInFlag;
-export const { setChartSettings } = chartSlice.actions;
+export const { setChartSettings, setChartOptions } = chartSlice.actions;
+export const selectChartSettings = (state: AppState) => state.chart.chartSettings;
+export const selectChartOptions = (state: AppState) => state.chart.chartOptions;
+
+
+
+
 export default chartSlice.reducer;
+

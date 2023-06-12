@@ -288,7 +288,6 @@ function Layout({ children }: { children: any }) {
           {allert}
         </Alert>
       </Snackbar>
-
       {isLoading ? (
         <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-transparent top-0 left-0 h-[100%] w-[100%]">
           <div className="flex flex-wrap h-fit">
@@ -317,9 +316,8 @@ function Layout({ children }: { children: any }) {
         <Sidebar />
         <div className={classes.main}>
           <div
-            className={`${classes.main__content} ${
-              !sidebarCtx.isOpen ? classes.close_sidebar : ""
-            } main_wrapper`}
+            className={`${classes.main__content} ${!sidebarCtx.isOpen ? classes.close_sidebar : ""
+              } main_wrapper`}
           >
             {/* <Outlet /> */}
             {children}

@@ -9,15 +9,15 @@ import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 import { useTranslation } from 'react-i18next';
 import GroupTable from '../Group/GroupTable';
 
-interface Props {}
+interface Props { }
 const DeviceMA: React.FC<Props> = () => {
   const { t } = useTranslation();
   const [groupOrDevice, setGroupOrDevice] = React.useState<'group' | 'device'>(
     'device',
   );
   return (
-    <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] pt-10 p-2  rounded-md">
-      <div className="flex w-full justify-center mb-8">
+    <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] pt-2 p-2 overflow-auto rounded-md">
+      <div className="flex w-full justify-center mb-2">
         <ThemeButton
           onClick={() => setGroupOrDevice('device')}
           type={groupOrDevice === 'device' ? 'activate' : 'deactivate'}
@@ -31,7 +31,9 @@ const DeviceMA: React.FC<Props> = () => {
           {t('groups')}
         </ThemeButton>
       </div>
-      {groupOrDevice === 'device' ? <DeviceTable /> : <GroupTable />}
+      <div className="flex w-full justify-center mb-1">
+        {groupOrDevice === 'device' ? <DeviceTable /> : <GroupTable />}
+      </div>
     </div>
   );
 };

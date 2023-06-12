@@ -31,7 +31,7 @@ function Settings() {
   const dispatch = useAppDispatch();
   const selectedUser = useAppSelector(selectSelectedUser);
 
-  useEffect(() => {}, [userOwn]);
+  useEffect(() => { }, [userOwn]);
   const [state, setState] = useState<any>();
   const [values, setValues] = useState<string[]>([]);
 
@@ -41,11 +41,14 @@ function Settings() {
     }
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   return (
     <Layout>
-      <section>
+      <img style={{
+        backgroundImage: "var(--background-image-2)"
+      }} className="fixed z-[-1] top-0 right-0 w-[100vw] h-[100vh]"></img>
+      <section >
         <h1 className="text-xl">{t("profile")}</h1>
         <Item>
           {userOwn?.isSuccess && (
@@ -56,8 +59,7 @@ function Settings() {
             />
           )}
         </Item>
-        <h1 className="text-xl">{t("chart")}</h1>
-        <h1 className="text-xl">{t("theme")}</h1>
+
       </section>
     </Layout>
   );
@@ -206,7 +208,7 @@ interface TabPanelProps {
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
-  useEffect(() => {}, [value, index]);
+  useEffect(() => { }, [value, index]);
 
   return (
     <>
@@ -242,7 +244,7 @@ function BasicTabs() {
     setValue(newValue);
   };
 
-  useEffect(() => {}, [value]);
+  useEffect(() => { }, [value]);
 
   return (
     <Box sx={{ width: "100%" }}>

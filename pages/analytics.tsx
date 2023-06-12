@@ -12,7 +12,6 @@ import ButtonRegular from '../src/atomic/atoms/ButtonA/ButtonRegular';
 import Item from '../src/atomic/atoms/Item/Item';
 import GaugeDevice from '../src/atomic/molecules/AmChart/GaugeDevice';
 import { SensorSelectedForReport } from '../src/atomic/molecules/SelectDevice/SelectDevice';
-import DateTimeAnalytic from '../src/atomic/organisms/analytics/DateTimeAnalytic';
 import MultiReportChartContainer from '../src/atomic/organisms/analytics/MultiReportChartContainer';
 import DeviceList from '../src/atomic/organisms/device/DeviceList';
 import DeviceSummary from '../src/atomic/organisms/device/deviceSummary';
@@ -39,7 +38,16 @@ import {
   updateUserData,
 } from '../src/store/slices/userSlice';
 import { GroupItemType, UserType } from '../src/types/types';
-
+import { selectCalendarMode } from 'src/store/slices/themeSlice';
+import dynamic from "next/dynamic";
+const MultiAxisChart = dynamic(
+  () => import("src/atomic/organisms/HighCharts/MultiAxisChart"),
+  { ssr: true }
+);
+const DateTimeAnalytic = dynamic(
+  () => import("../src/atomic/organisms/analytics/DateTimeAnalytic"),
+  { ssr: false }
+);
 export default function Analytics() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -51,7 +59,7 @@ export default function Analytics() {
   const startDate = useAppSelector(selectStartDate);
   const endDate = useAppSelector(selectEndDate);
   const userData = useAppSelector(selectOwnUser);
-
+  const selectLocale = useAppSelector(selectCalendarMode)
   const dispatch = useAppDispatch();
   const queryDevices = useQuery('devices', GetDevices);
 
@@ -93,7 +101,7 @@ export default function Analytics() {
             groupTitle: name,
             sensors: [...selectedSensorsSlice],
             timeRange: time,
-          }),
+          }) ?? {},
         ),
       );
   };
@@ -127,15 +135,17 @@ export default function Analytics() {
     <Layout>
       <section className="flex flex-wrap justify-center">
         <DeviceMA />
-        <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 m-2 rounded-md">
-          <DateTimeAnalytic />
+        <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
+          {selectLocale === 'fa' ?
+            <DateTimeAnalytic key={selectLocale} localeT={'fa'} /> :
+            <DateTimeAnalytic key={selectLocale} localeT={'en'} />}
           <div className="flex justify-center w-full">
             <div className="flex h-fit  justify-center mx-4 my-2">
               <ThemeButton
                 disabled={
                   selectedSensorsSlice === undefined ||
-                  selectedSensorsSlice?.length === 0 ||
-                  startDate === undefined
+                    selectedSensorsSlice?.length === 0 ||
+                    startDate === undefined
                     ? true
                     : false
                 }
@@ -153,8 +163,8 @@ export default function Analytics() {
               <ThemeButton
                 disabled={
                   selectedSensorsSlice === undefined ||
-                  selectedSensorsSlice?.length === 0 ||
-                  startDate === undefined
+                    selectedSensorsSlice?.length === 0 ||
+                    startDate === undefined
                     ? true
                     : false
                 }
@@ -172,7 +182,6 @@ export default function Analytics() {
             </div>
           </div>
         </div>
-
         <Modal
           open={open}
           onClose={() => setOpen(false)}
@@ -185,8 +194,9 @@ export default function Analytics() {
           />
         </Modal>
       </section>
-      <section className="my-2">
-        <MultiReportChartContainer />
+      <section className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
+        <MultiAxisChart chartSettings={{}} />
+        {/* <MultiReportChartContainer /> */}
       </section>
     </Layout>
   );

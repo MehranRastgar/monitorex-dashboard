@@ -7,11 +7,13 @@ import type { Theme } from "../../types/types";
 export interface ThemeState {
   value: Theme;
   status: "idle" | "loading" | "failed";
+  calendar: 'en' | 'fa'
 }
 
 const initialState: ThemeState = {
   value: { DeviceType: "mobile" },
   status: "idle",
+  calendar: 'fa'
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -45,7 +47,10 @@ export const themeSlice = createSlice({
       // immutable state based off those changes
       state.value.DeviceType = action.payload;
     },
-
+    setCalendar(state,
+      action: PayloadAction<'en' | 'fa'>) {
+      state.calendar = action.payload;
+    }
     // decrement: (state) => {
     //   state.value -= 1
     // },
@@ -69,13 +74,15 @@ export const themeSlice = createSlice({
   // },
 });
 
-export const { setDeviceType } = themeSlice.actions;
+export const { setDeviceType, setCalendar } = themeSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectDeviceType = (state: AppState) =>
   state.theme.value.DeviceType;
+export const selectCalendarMode = (state: AppState) =>
+  state.theme.calendar;
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 // export const incrementIfOdd =

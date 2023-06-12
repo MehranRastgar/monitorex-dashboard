@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "var(--blur-bg)",
+  backgroundColor: "var(--blur-bg-bl)",
   backdropFilter: "blur( 8px )",
   "-webkit-backdrop-filter": "blur( 8px )",
   ...theme.typography.body2,

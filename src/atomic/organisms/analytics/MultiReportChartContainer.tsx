@@ -43,12 +43,12 @@ export default function MultiReportChartContainer() {
   return (
     <>
       <div ref={componentRef}>
-        <Item className="p-4">
-          {/* <ReportHeader /> */}
-          <MultiLineChart id={"multilineChart-1"} />
-          <DataOfReport />
-          <PrintPreview />
-        </Item>
+        {/* <Item className="p-4"> */}
+        {/* <ReportHeader /> */}
+        <MultiLineChart id={"multilineChart-1"} />
+        <DataOfReport />
+        <PrintPreview />
+        {/* </Item> */}
       </div>
     </>
   );

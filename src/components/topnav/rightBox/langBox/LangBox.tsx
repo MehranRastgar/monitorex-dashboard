@@ -45,9 +45,8 @@ function LangBox() {
         <Icon icon="ep:arrow-down-bold" width="10" />
       </div>
       <div
-        className={`${classes.lang_menu} ${
-          showLangBox ? classes.show : 'hidden'
-        }`}
+        className={`${classes.lang_menu} ${showLangBox ? classes.show : 'hidden'
+          }`}
       >
         <div
           onClick={() => {

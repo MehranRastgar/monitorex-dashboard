@@ -5,17 +5,25 @@ import {
   Select,
   TextField,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import classes from './formik.module.scss';
+
 import { setSelectedDevice } from '../../../store/slices/devicesSlice';
 import {
+  createUser,
   selectSelectedUser,
   setSelectedUser,
+  updateUserData,
 } from '../../../store/slices/userSlice';
 import { UserType } from '../../../types/types';
 import ButtonRegular from '../../atoms/ButtonA/ButtonRegular';
+import User from 'src/class/user';
+import { useForm } from 'react-hook-form';
+import { selectFormDataInit } from 'src/store/slices/formikSlice';
+import FormThemeButton from 'src/atomic/atoms/ThemeButton/FormThemeButton';
 
 interface UserFormProps {
   user: UserType;
@@ -24,81 +32,119 @@ interface UserFormProps {
 }
 
 const UserForm: React.FC<UserFormProps> = ({ user, onSave, isAdmin }) => {
-  const [formValues, setFormValues] = useState<any>(user);
   const { t } = useTranslation();
-  const selectedUser = useAppSelector(selectSelectedUser);
   const dispatch = useAppDispatch();
+  const selectformdatainit = useAppSelector(selectFormDataInit) as UserType
+  const selectedUser = useAppSelector(selectSelectedUser);
 
-  // Create fields array from JSON file or User interface
-  const fields = [
-    // { name: "_id", label: "ID", type: "text", size: 250 },
-    { name: 'username', label: 'username', type: 'text' },
-    { name: 'password', label: 'password', type: 'password' },
-    { name: 'name', label: 'Name', type: 'text' },
-    { name: 'family', label: 'Family', type: 'text' },
-    {
-      name: 'isAdmin',
-      label: 'isAdmin',
-      type: 'select',
-      options: ['true', 'false'],
-    },
-    { name: 'email', label: 'Email', type: 'email', size: 250 },
-    { name: 'phoneNumber', label: 'Phone Number', type: 'tel' },
-  ];
+  // const sformdata = useMemo(() => {
+  //   const userd = new User({})
+  //   return userd.getNewUser()
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormValues((prevState: any) => ({ ...prevState, [name]: value }));
+  // }, [selectedUser])
+
+  const form = useForm<UserType>({
+    defaultValues: {
+      ...selectedUser
+    }
+  })
+  const { register, control, setValue, handleSubmit, formState } = form;
+  const { errors } = formState;
+
+  const onSubmit = (userFormData: UserType) => {
+    if (userFormData._id !== undefined) {
+      dispatch(updateUserData(userFormData));
+    } else {
+      const user: UserType = { ...userFormData };
+      dispatch(createUser(user));
+    }
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    onSave(formValues);
-  };
+  const getUser = async () => {
+    const usr = localStorage.getItem('user')
+    if (usr) {
+      const userd = await JSON.parse(usr)
+      console.log('local storage', userd,)
+      form.reset(userd)
+      dispatch(setSelectedUser(userd))
+    }
+  }
   useEffect(() => {
-    setFormValues(selectedUser ?? {});
-  }, [selectedUser]);
-  useEffect(() => {}, [formValues]);
+    getUser()
+    // form.reset(selectedUser)
+    // console.log('selectedUser', selectedUser)
+  }, []);
 
   return (
-    <form className="flex flex-wrap" onSubmit={handleSubmit}>
-      {fields.map(({ name, label, type, options, size }) => (
-        <div className="m-2" key={name}>
-          {type !== 'select' ? (
-            <>
-              {/* <label htmlFor={name}>{t(label)}</label> */}
-              <TextField
-                value={formValues?.[name] ?? ''}
-                // id={idPrefix + `sensor?.[${index}]?.name`}
-                variant="filled"
-                onChange={(e) => {
-                  dispatch(
-                    setSelectedUser({
-                      ...selectedUser,
-                      [name]: e.target.value,
-                    }),
-                  );
-                }}
-                sx={{
-                  ...style,
-                  width: size ?? 180,
-                }}
-                type={type}
-                label={t(label)}
-              />
-            </>
-          ) : (
-            <></>
-          )}
+    <div
+      id={'userId'}
+      key={'userId'}
+      className="flex flex-wrap items-start min-w-[800px] mx-2 -mt-1 p-2   rounded-md">
+      {selectedUser?.username && <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+      >
+        <section className="flex flex-wrap  m-1 p-2 w-full" >
+          <div className='flex w-full mb-4'>
+            <h1 className='w-full'>user info</h1>
+            <span className='flex justify-end text-end'>{selectedUser?._id}</span></div>
+          <div className={'flex-wrap mx-2 '} >
+            <label className={classes.label} htmlFor='username'>{t('user name')}</label>
+            <input className={classes.inpt} type='text' {...register('username', { required: { value: true, message: t('username is required') } })} />
+            <p className='text-red-300 tex-xs'>{errors?.username?.message && '!' + errors?.username?.message}</p>
+          </div>
+          <div className={'flex-wrap mx-2 '} >
+            <label className={classes.label} htmlFor='password'>{t('password')}</label>
+            <input className={classes.inpt} type='password' {...register('password',)} />
+            <p className='text-red-300 tex-xs'>{errors?.password?.message && '!' + errors?.password?.message}</p>
+          </div>
+          <div className={'flex-wrap mx-2 '} >
+            <label className={classes.label} htmlFor='email'>{t('email')}</label>
+            <input className={classes.inpt} type='email' {...register('email', { required: { value: true, message: t('email is required') } })} />
+            <p className='text-red-300 tex-xs'>{errors?.username?.message && '!' + errors?.username?.message}</p>
+          </div>
+
+        </section>
+        <section className="flex flex-wrap border-b m-1 p-2 w-full" >
+          <div className={'flex-wrap mx-2 '} >
+            <label className={classes.label} htmlFor='family'>{t('family')}</label>
+            <input className={classes.inpt} type='text' {...register('family',)} />
+            <p className='text-red-300 tex-xs'>{errors?.family?.message && '!' + errors?.family?.message}</p>
+          </div>
+          <div className={'flex-wrap mx-2 '} >
+            <label className={classes.label} htmlFor='name'>{t('name')}</label>
+            <input className={classes.inpt} type='text' {...register('name',)} />
+            <p className='text-red-300 tex-xs'>{errors?.name?.message && '!' + errors?.name?.message}</p>
+          </div>
+          <div className={'flex-wrap mx-2 '} >
+            <label className={classes.label} htmlFor='nationalId'>{t('nationalId')}</label>
+            <input className={classes.inpt} type='text' {...register('nationalId',)} />
+            <p className='text-red-300 tex-xs'>{errors?.nationalId?.message && '!' + errors?.nationalId?.message}</p>
+          </div>
+        </section>
+        <div className="flex w-full justify-around mt-4 h-fit">
+          {selectedUser?._id ? <FormThemeButton
+            className="flex m-2  h-fit" type="submit">
+            {t('update')}
+          </FormThemeButton>
+            :
+            <FormThemeButton
+              className="flex m-2  h-fit" type="submit">
+              {t('create')}
+            </FormThemeButton>}
+          {/* {selectedUser?._id && selectedUser.username !== 'admin' && <ThemeButton
+            type="reject"
+            className="m-2 h-fit"
+            onClick={(e) => {
+              dispatch(removeDeviceAsync(selectedUser));
+            }}
+          >
+            {t('remove') + ' ' + t('profile')}
+          </ThemeButton>} */}
         </div>
-      ))}
-      <div className="flex w-full">{isAdmin && <UserPermissions />}</div>
-      <div className="flex w-full my-4 m-2">
-        <ThemeButton className="m-4" type="submit">
-          {t('save')}
-        </ThemeButton>
-      </div>
-    </form>
+      </form>}
+      {/* <DevTool control={control} /> */}
+    </div >
   );
 };
 
@@ -117,7 +163,7 @@ const UserPermissions: React.FC = () => {
     { name: 'users', label: 'users', type: 'text', size: 150 },
   ];
 
-  useEffect(() => {}, [selectedUser]);
+  useEffect(() => { }, [selectedUser]);
 
   return (
     <>

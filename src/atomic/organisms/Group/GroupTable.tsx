@@ -162,55 +162,54 @@ const GroupTable: React.FC<Props> = (props) => {
   }, [selectedRow]);
 
   return (
-    <>
-      {/* {queryDevices.data[0].DeviceUniqueName} */}
-      <div className="flex justify-center flex-wrap h-[25rem] ">
-        <section className="flex items-start flex-wrap h-[20rem] max-w-[30rem] w-[30rem]">
-          <span className="mx-4 "> {t('devices')}</span>
-          {data !== undefined && (
-            <ReactTable
-              hasSearch={true}
-              hasPagination={true}
-              setSelectedRow={setSelectedRow}
-              tHeight="h-[15rem]"
-              columns={columns}
-              data={data}
-              selectedRow={selectedRow}
-            />
-          )}
-        </section>
-        <section className="flex items-start flex-wrap h-[20rem] max-w-[30rem] w-[30rem]">
-          <span className="mx-4 mb-[23px]"> {t('sensors')}</span>
-          <span className="mx-4 mb-[23px]">
+    <div className="flex justify-center flex-wrap min-h-[25rem] ">
+      <section className="flex items-start flex-wrap h-[20rem] max-w-[30rem] w-[30rem]  mb-[4rem]">
+        <span className="mx-4 "> {t('devices')}</span>
+        {data !== undefined && (
+          <ReactTable
+            hasSearch={true}
+            hasPagination={true}
+            setSelectedRow={setSelectedRow}
+            tHeight="h-[15rem]"
+            columns={columns}
+            data={data}
+            selectedRow={selectedRow}
+          />
+        )}
+      </section>
+      <section className="flex items-start flex-wrap h-[20rem] max-w-[30rem] w-[30rem] ">
+        <div className="mx-4 "> {t('sensors')}</div>
+        <div className='flex'>
+          <div className="mx-4 ">
             {' '}
             {t('group')}: {groupA?.groupTitle}
-          </span>
-          <aside className="flex items-center h-fit m-1">
+          </div>
+          <div className="flex items-center h-fit m-1">
             <button
               onClick={() => {
                 handleRemoveGp(groupA?._id);
               }}
-              className="mx-2 border p-1 rounded-lg button-remove"
+              className="mx-2 border p-1 rounded-lg button-remove h-fit"
               type="button"
               disabled={undefined === groupA?._id}
             >
               {t('delete') + ' ' + t('group')}
             </button>
-          </aside>
-          {selectedSensorRedux !== undefined && (
-            <ReactTable
-              hasSearch={false}
-              hasPagination={false}
-              setSelectedRow={setSelectedRow}
-              tHeight="h-[15rem]"
-              columns={columnsSensor}
-              data={selectedSensorRedux}
-              selectedRow={selectedRow}
-            />
-          )}
-        </section>
-      </div>
-    </>
+          </div>
+        </div>
+        {selectedSensorRedux !== undefined && (
+          <ReactTable
+            hasSearch={false}
+            hasPagination={false}
+            setSelectedRow={setSelectedRow}
+            tHeight="h-[15rem]"
+            columns={columnsSensor}
+            data={selectedSensorRedux}
+            selectedRow={selectedRow}
+          />
+        )}
+      </section>
+    </div>
   );
 };
 

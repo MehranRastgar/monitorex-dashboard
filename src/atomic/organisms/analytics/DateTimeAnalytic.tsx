@@ -21,6 +21,8 @@ import {
 import SelectDevicesForAnalize from '../SelectDevicesForAnalize';
 import { useTranslation } from 'react-i18next';
 import ButtonRegular from '../../atoms/ButtonA/ButtonRegular';
+import { selectCalendarMode } from 'src/store/slices/themeSlice';
+import { Icon } from '@iconify/react';
 
 const dateTimeStartProps = {
   label: 'startDate',
@@ -29,14 +31,19 @@ const dateTimeEndProps = {
   label: 'endDate',
 };
 const locales = ['en', 'fa'] as const;
-export default function DateTimeAnalytic() {
+export default function DateTimeAnalytic({ localeT }: { localeT: 'en' | 'fa' }) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const selectSD = useAppSelector(selectStartDate);
   const selectED = useAppSelector(selectEndDate);
-  const [locale, setLocale] = useState<(typeof locales)[number]>('fa');
+  const [locale, setLocale] = useState<(typeof locales)[number]>(localeT);
   const [value, setValue] = useState<Dayjs | null>(null);
   const [value2, setValue2] = useState<Dayjs | null>(dayjs());
+  const selectLocale = useAppSelector(selectCalendarMode)
+
+
+
+
   useEffect(() => {
     if (value !== null) {
       let publishDate = new Date(1000 * dayjs(value).unix());
@@ -65,6 +72,8 @@ export default function DateTimeAnalytic() {
   return (
     <>
       <section className="flex flex-wrap m-2 justify-center scale-75 lg:scale-100 ">
+        <div className='flex w-full justify-center mb-2 '><p className='border rounded-md p-2'>{selectLocale === 'fa' ?
+          <div className='flex'><Icon icon="bx:calendar" width="20" /><span className='mx-2'>شمسی</span></div> : <div className='flex'><span className='mx-2'>Julian</span><Icon icon="bx:calendar" width="20" /></div>}</p></div>
         <div className="flex">
           <div>
             <DateTimePickerComponent

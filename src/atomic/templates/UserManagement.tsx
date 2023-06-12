@@ -92,24 +92,26 @@ export default function UserManagement() {
   }, [queryUsers.isFetching, queryUsers.isSuccess]);
 
   return (
-    <div className='flex flex-wrap'>
-      <div>
+    <section className="flex flex-wrap w-full">
+      <aside className="flex flex-wrap h-fit  lg:w-1/3 w-full ">
         <UserList />
-        <ThemeButton
-          type={'explore'}
-          className="m-4 "
-          onClick={() => {
-            newUser();
-          }}
-        >
-          {t('new user')}
-        </ThemeButton></div>
-      {/* <UserAdministrator /> */}
-      {/* <UserFormMolecule /> */}
+        <div className="w-full">
+          <ThemeButton
+            type={'explore'}
+            className="m-4 "
+            onClick={() => {
+              newUser();
+            }}
+          >
+            {t('new user')}
+          </ThemeButton>
+        </div>
+      </aside>
+      <aside className='flex flex-wrap justify-start lg:w-1/3 w-full'>
 
-      <FormMeUser />
-
-    </div>
+        <FormMeUser />
+      </aside>
+    </section>
   );
 }
 // { xs: 0.3, sm: 0.5, md: 1, lg: 2, xl: 3 }
