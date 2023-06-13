@@ -8,13 +8,13 @@ import classes from "./multiChart.module.scss";
 import darkUnica from 'highcharts/themes/dark-unica';
 import { SensorsReportType, selectSensorReports } from "src/store/slices/analizeSlice";
 import HighchartsData from "src/class/chart";
+import { selectCalendarMode } from "src/store/slices/themeSlice";
 
 if (typeof Highcharts === "object") {
 	HighchartsExporting(Highcharts);
 }
-// if (typeof Highcharts === "object") {
-// 	darkUnica(Highcharts);
-// }
+
+
 
 const customTheme = {
 	colors: ['#ffff', '#F44336', '#2196F3', '#FFC107', '#9C27B0'],
@@ -92,9 +92,10 @@ interface Props {
 // const myChart = new Chart()
 const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 	const chartOption = useAppSelector(selectChartOptions)
-	const chartRef = useRef<any>(null);
+	// const chartRef = useRef<any>(null);
 	const selectDataOFChart = useAppSelector(selectSensorReports);
 	const [state, setState] = useState<any>();
+	const selectLocale = useAppSelector(selectCalendarMode)
 
 
 	useEffect(() => {
@@ -115,26 +116,46 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 
 	function getdata() {
 		if (selectDataOFChart?.length) {
-			const chartData = new HighchartsData(selectDataOFChart).getChartData();
-			setState(chartData)
+			const chartData = new HighchartsData([])
+			chartData.dateJalali = selectLocale === 'fa'
+			// const chartData = new HighchartsData(selectDataOFChart).getChartData();
+			setState(chartData.sumOfdata(selectDataOFChart))
 		}
 	}
 
+	const chartRef = useRef<typeof HighchartsReact>(null);
 
+	// useEffect(() => {
+	// 	// Convert the UTC timestamps to Jalali dates for the tooltip format
+	// 	if (chartRef.current) {
+	// 		Highcharts.Point.prototype.jalali = function () {
+	// 			return jMoment(this.x).format('jYYYY-jMM-jDD HH:mm:ss');
+	// 		};
+
+	// 		const chart = chartRef.current.chart;
+	// 		chart.update({
+	// 			tooltip: {
+	// 				pointFormat: '<b>{point.y}</b> at {point.jalali:%Y-%m-%d %H:%M:%S}'
+	// 			}
+	// 		});
+	// 	}
+	// }, [chartRef]);
 
 	useEffect(() => {
 		console.log('how many time')
 		getdata()
 
-	}, [selectDataOFChart]);
+	}, [selectDataOFChart, selectLocale]);
 
 	return <figure className='flex justify-center w-[100vw] h-[40vw]'>
 		<div className="" style={{ width: '1px', height: '100%', position: 'inherit' }}></div>
-		{Highcharts && customTheme && state &&
+		{Highcharts && customTheme && state?.chartOptions &&
 			<HighchartsReact
 				id={'chartReact'}
 				highcharts={Highcharts}
-				options={state}
+				options={state?.chartOptions}
+				// constructorType={"stockChart"}
+
 				// theme={{ ...customTheme }}
 				containerProps={{ className: 'w-[100%] ' }}
 				ref={chartRef}
