@@ -10,6 +10,7 @@ i18n
     resources: {
       en: {
         translation: {
+          chartSettings: "Chart Settings",
           new_device: 'new device',
           electricalboard: 'electrical boards',
           real_time_view: 'real time view',
@@ -150,6 +151,7 @@ i18n
       },
       fa: {
         translation: {
+          chartSettings: "تنظیمات نمودار",
           sensor: 'سنسور',
           pcs: 'عدد',
           next: 'بعدی',

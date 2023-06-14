@@ -180,7 +180,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
                   <div className={'flex-wrap mx-2 '} >
                     <label className={classes.label} htmlFor={`sensors.${index}.type`}>{t('type')}</label>
                     <input className={classes.inpt} type='text' {...register(`sensors.${index}.type` as const, { required: { value: true, message: 'type required' } })} />
-                    <p className='text-red-300 tex-xs'>{errors?.sensors?.[index]?.type?.message && '!' + errors?.sensors?.[index]?.type?.message}</p>
+                    <p className='text-red-300 tex-xs'>{errors?.sensors?.[index]?.type && '!' + 'type is required'}</p>
                   </div>
                   <div className={'flex-wrap mx-2 '} >
                     <label className={classes.label} htmlFor={`sensors.${index}.unit`}>{t('unit')}</label>

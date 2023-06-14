@@ -117,7 +117,8 @@ const GroupTable: React.FC<Props> = (props) => {
       const user = new User(userOwn.data);
       const ss = await user.removeGroup(gpId);
       // console.log(ss);
-      dispatch(updateUserData(ss));
+      if (ss)
+        dispatch(updateUserData(ss));
     }
   }
 

@@ -1,14 +1,23 @@
 import { useEffect, useRef, useState } from "react";
-import Highcharts from "highcharts";
+// import Highcharts from "highcharts";
+import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official"
 import HighchartsExporting from "highcharts/modules/exporting";
 import { useAppSelector } from "src/store/hooks";
 import { selectChartOptions } from "src/store/slices/chartSlice";
 import classes from "./multiChart.module.scss";
 import darkUnica from 'highcharts/themes/dark-unica';
-import { SensorsReportType, selectSensorReports } from "src/store/slices/analizeSlice";
-import HighchartsData from "src/class/chart";
+import { SensorsReportType, selectSensorReports, selectStatusReportApi } from "src/store/slices/analizeSlice";
+import HighchartsData, { ChartSettingsType } from "src/class/chart";
 import { selectCalendarMode } from "src/store/slices/themeSlice";
+import { LoadingTwo } from "src/components/loader/default";
+import ThemeButton from "src/atomic/atoms/ThemeButton/ThemeButton";
+import { Icon } from "@iconify/react";
+import classNames from 'classnames';
+import MultiChartSettings from "./MultiChartSettings";
+import { Modal } from "@mui/material";
+import { selectOwnUser } from "src/store/slices/userSlice";
+import moment from "moment-jalaali";
 
 if (typeof Highcharts === "object") {
 	HighchartsExporting(Highcharts);
@@ -93,30 +102,38 @@ interface Props {
 const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 	const chartOption = useAppSelector(selectChartOptions)
 	// const chartRef = useRef<any>(null);
+	const userData = useAppSelector(selectOwnUser)
+
 	const selectDataOFChart = useAppSelector(selectSensorReports);
+	const statusReportApi = useAppSelector(selectStatusReportApi);
 	const [state, setState] = useState<any>();
+	const [settingsModal, setSettingsModal] = useState<boolean>(false);
 	const selectLocale = useAppSelector(selectCalendarMode)
 
 
-	useEffect(() => {
-		const chart = chartRef?.current?.chart;
+	// useEffect(() => {
+	// 	const chart = chartRef?.current?.chart;
 
-		const resizeHandler = () => {
-			chart.reflow();
-		};
+	// 	const resizeHandler = () => {
+	// 		chart.reflow();
+	// 	};
 
-		window.addEventListener('resize', resizeHandler);
+	// 	window.addEventListener('resize', resizeHandler);
 
-		return () => {
-			window.removeEventListener('resize', resizeHandler);
-		};
-	}, []);
+	// 	return () => {
+	// 		window.removeEventListener('resize', resizeHandler);
+	// 	};
+	// }, []);
 
 
 
-	function getdata() {
+	function getdata(chartsettings?: ChartSettingsType) {
 		if (selectDataOFChart?.length) {
+			setState({})
 			const chartData = new HighchartsData([])
+			chartData.settingsDefault()
+			console.log(chartsettings)
+			if (chartsettings !== undefined) chartData.setSettings(chartsettings)
 			chartData.dateJalali = selectLocale === 'fa'
 			// const chartData = new HighchartsData(selectDataOFChart).getChartData();
 			setState(chartData.sumOfdata(selectDataOFChart))
@@ -125,42 +142,63 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 
 	const chartRef = useRef<typeof HighchartsReact>(null);
 
-	// useEffect(() => {
-	// 	// Convert the UTC timestamps to Jalali dates for the tooltip format
-	// 	if (chartRef.current) {
-	// 		Highcharts.Point.prototype.jalali = function () {
-	// 			return jMoment(this.x).format('jYYYY-jMM-jDD HH:mm:ss');
-	// 		};
+	useEffect(() => {
+		// Convert the UTC timestamps to Jalali dates for the tooltip format
+		if (chartRef.current) {
+			// Highcharts.Point.prototype.jalali = function () {
+			// 	return moment(this.x).format('jYYYY-jMM-jDD HH:mm:ss');
+			// };
 
-	// 		const chart = chartRef.current.chart;
-	// 		chart.update({
-	// 			tooltip: {
-	// 				pointFormat: '<b>{point.y}</b> at {point.jalali:%Y-%m-%d %H:%M:%S}'
-	// 			}
-	// 		});
-	// 	}
-	// }, [chartRef]);
-
+			const chart = chartRef.current.chart;
+			chart.update({
+				tooltip: {
+					pointFormat: '<b>{point.y}</b> at {point.jalali:%Y-%m-%d %H:%M:%S}'
+				}
+			});
+		}
+	}, [chartRef]);
+	// const addCustomButton = (chart: any) => {
+	// 	chart.renderer.button('Custom Button', 10, 10, () => {
+	// 		alert('Custom button clicked!');
+	// 	}, null, null, null, null, classNames('my-custom-button-class', 'hover:rotate-90')).add();
+	// };
 	useEffect(() => {
 		console.log('how many time')
-		getdata()
+		getdata(userData?.chartSettings as ChartSettingsType)
 
-	}, [selectDataOFChart, selectLocale]);
+	}, [selectDataOFChart, selectLocale, userData?.chartSettings]);
 
-	return <figure className='flex justify-center w-[100vw] h-[40vw]'>
-		<div className="" style={{ width: '1px', height: '100%', position: 'inherit' }}></div>
-		{Highcharts && customTheme && state?.chartOptions &&
-			<HighchartsReact
-				id={'chartReact'}
-				highcharts={Highcharts}
-				options={state?.chartOptions}
-				// constructorType={"stockChart"}
+	return <section className="flex flex-wrap w-full">
+		<Modal
+			open={settingsModal}
+			onClose={() => setSettingsModal(false)}
+			aria-labelledby="modal-modal-title"
+			aria-describedby="modal-modal-description"
+			className="flex w-full justify-center items-center "
+		>
+			<MultiChartSettings />
 
-				// theme={{ ...customTheme }}
-				containerProps={{ className: 'w-[100%] ' }}
-				ref={chartRef}
-			/>}
-	</figure>
+		</Modal>
+
+		<figure className='flex justify-center w-[100vw] h-[38vw]'>
+			<div className="absolute w-full justify-start px-16 z-[80]"><ThemeButton onClick={() => {
+				setSettingsModal(val => !val)
+			}} className=" hover:rotate-90 "><Icon icon="ic:outline-settings" width="30" /></ThemeButton></div>
+			<div className="" style={{ width: '1px', height: '100%', position: 'inherit' }}></div>
+			{Highcharts && customTheme && state?.chartOptions && statusReportApi === 'success' &&
+				<HighchartsReact
+					id={'chartReact'}
+					highcharts={Highcharts}
+					options={state?.chartOptions}
+					constructorType={"stockChart"}
+					// callback={addCustomButton}
+					// theme={{ ...customTheme }}
+					containerProps={{ className: 'w-[100%] ' }}
+					ref={chartRef}
+				/>}
+			{statusReportApi === 'loading' && <div className="flex flex-wrap text-2xl w-full h-full justify-center"><LoadingTwo />
+				<h1 className="flex w-full justify-center">loading...</h1></div>}
+		</figure ></section>
 }
 
 export default MultiAxisChart;
@@ -436,22 +474,7 @@ const testchart = {
 			}
 		}
 
-	}, { // Tertiary yAxis
-		gridLineWidth: 0,
-		title: {
-			text: 'Sea-Level Pressure',
-			style: {
-				color: 'blue'
-			}
-		},
-		labels: {
-			format: '{value} mb',
-			style: {
-				color: 'brown'
-			}
-		},
-		opposite: true
-	}],
+	},],
 	tooltip: {
 		shared: true
 	},
@@ -468,7 +491,7 @@ const testchart = {
 	},
 	// series: [{
 	// 	name: 'Rainfall',
-	// 	type: 'column',
+	// 	type: 'spline',
 	// 	yAxis: 1,
 	// 	data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
 	// 	tooltip: {
@@ -580,7 +603,7 @@ const testchart = {
 			]
 		}, {
 			name: 'Winter 2020-2021',
-			yAxis: 2,
+			yAxis: 1,
 			data: [
 				[Date.UTC(1970, 10, 14), 0],
 				[Date.UTC(1970, 11, 6), 0.35],

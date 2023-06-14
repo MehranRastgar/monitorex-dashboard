@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { SensorsReceiveTpe } from '../components/pages/sensors/sensorsTable';
+import { ChartSettingsType } from 'src/class/chart';
 
 export interface GetProductsArray {
   info: Info | null | undefined;
@@ -369,6 +370,7 @@ export interface UserType {
   };
   isAdmin?: isAdminType;
   access_token?: string;
+  chartSettings?: ChartSettingsType;
 }
 
 export interface GroupItemType {
