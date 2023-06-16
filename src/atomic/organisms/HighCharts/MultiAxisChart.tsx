@@ -232,11 +232,10 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 					options={state?.chartOptions}
 					constructorType={"stockChart"}
 					// callback={addCustomButton}
-					key={JSON.stringify(userData.chartSettings)}
+					key={JSON.stringify(userData?.chartSettings)}
 					containerProps={{ className: 'w-[100%] ' }}
 				// ref={chartRef}
 				/>}
-
 			{statusReportApi === 'loading' && <div className="flex flex-wrap text-2xl w-full h-full justify-center"><LoadingTwo />
 				<h1 className="flex w-full justify-center">loading...</h1></div>}
 		</figure ></section>

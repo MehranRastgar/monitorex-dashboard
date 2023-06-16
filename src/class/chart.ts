@@ -62,7 +62,7 @@ export default class HighchartsData {
 	constructor(private reportData: SensorsReportType[]) {
 		// this.processData();
 	}
-
+	//=============================================================================================
 	public settingsDefault(): ChartSettingsType {
 		const chartSettings: ChartSettingsType = {
 			chartMode: 'line',
@@ -80,6 +80,7 @@ export default class HighchartsData {
 		this.chartSettings = chartSettings
 		return chartSettings
 	}
+	//=============================================================================================
 	public setSettings(setting: ChartSettingsType) {
 		this.chartSettings = {
 			...
@@ -96,7 +97,7 @@ export default class HighchartsData {
 			}, ...setting
 		}
 	}
-
+	//=============================================================================================
 	public removeCustomTheme() {
 		this.chartSettings = {
 			...this.chartSettings,
@@ -105,7 +106,7 @@ export default class HighchartsData {
 			lineColors: undefined,
 		}
 	}
-
+	//=============================================================================================
 	myXAxisFormater = (color: string) => {
 		return function (props: any): any {
 			const vals = props.value;
@@ -113,15 +114,13 @@ export default class HighchartsData {
 			return `<b style="color:${color}"'>${val}</b>`
 		}
 	}
-
+	//=============================================================================================
 	getTooltipFormatter = (color?: string, textColor?: string) => {
-
 		return function (this: ChartTooltipOptions): any {
 			interface ChartTooltipOptions extends Highcharts.TooltipOptions {
 				points?: any;
 				x?: any;
 			}
-
 			const weekDays = ['یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنج شنبه', 'جمعه', 'شنبه',]
 			const val = Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, (this as ChartTooltipOptions).x);
 			const weekd = weekDays?.[(parseInt(Highcharts.dateFormat(`%w`, (this as ChartTooltipOptions).x)))]
@@ -135,7 +134,7 @@ export default class HighchartsData {
 			);
 		}
 	}
-
+	//=============================================================================================
 	// private processDataAlt() {
 	// 	console.time('how many processData')
 	// 	this.reportData.forEach((report) => {
@@ -183,7 +182,7 @@ export default class HighchartsData {
 	// 	this.chartTitle = this.yAxisTitles.join(', ');
 	// 	console.timeEnd('how many processData')
 	// }
-
+	//=============================================================================================
 	public getChartData() {
 		console.log('how many getChartData', this.chartSettings)
 
@@ -233,9 +232,7 @@ export default class HighchartsData {
 		console.log(CHartdata)
 		return CHartdata
 	}
-
-
-
+	//=============================================================================================
 	private makeData(data: Datum[]) {
 		const localOffset = new Date().getTimezoneOffset();
 		const offsetSeconds = localOffset * -60 * 1000;
@@ -244,21 +241,19 @@ export default class HighchartsData {
 
 		data.map((item, index) => {
 			if (item?.x !== undefined && index % Granolarity[this.divideBy] === 0)
-				if (item?.y !== undefined || this?.continues)
+				if (item?.y !== undefined || !this?.chartSettings?.continues)
 					arr.push([
 						this.dateJalali ? new Date(moment(item?.x).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(item?.x).getTime() + offsetSeconds,
 						item?.y ?? null,
 					]);
 		});
-
-		//console.log("len of array", arr.length);
-		// console.log('arr', arr)
-
 		return arr;
 	}
+	//=============================================================================================
 	makeMultiAxis() {
 		const arr: any[] = [];
 	}
+	//=============================================================================================
 	//make a function to get date and time
 	public sumOfdata(data: SensorsReportType[]) {
 		console.time('how many sumOfdata')
@@ -314,7 +309,7 @@ export default class HighchartsData {
 							lineWidth: this.chartSettings.justPoint ? 0 : this.chartSettings?.lineDiameter ?? 2,
 							marker: {
 								enabled: this.chartSettings.justPoint,
-								radius: 2,
+								radius: 3,
 							},
 							id: sens.sensor?._id,
 							type: this.chartSettings.chartMode,
@@ -607,8 +602,6 @@ export default class HighchartsData {
 
 		return dataTO
 	}
-
-
 	public testchart = {
 		chart: {
 			backgroundColor: this.chartSettings?.bgColor?.[0],
@@ -679,6 +672,7 @@ export default class HighchartsData {
 				}
 			}
 		}
+		//=============================================================================================
 		// {
 		// 	date: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
 		// 		'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -819,9 +813,8 @@ export default class HighchartsData {
 			}]
 		},
 	}
-
 }
-
+//=============================================================================================
 // export default class Chart {
 // 	private multiAxis: boolean = true
 // 	private justPoint: boolean = false
