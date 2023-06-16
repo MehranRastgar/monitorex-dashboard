@@ -42,7 +42,7 @@ import { selectCalendarMode } from 'src/store/slices/themeSlice';
 import dynamic from "next/dynamic";
 const MultiAxisChart = dynamic(
   () => import("src/atomic/organisms/HighCharts/MultiAxisChart"),
-  { ssr: true }
+  { ssr: false }
 );
 const DateTimeAnalytic = dynamic(
   () => import("../src/atomic/organisms/analytics/DateTimeAnalytic"),

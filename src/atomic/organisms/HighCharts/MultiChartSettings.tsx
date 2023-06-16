@@ -18,22 +18,28 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 	const dispatch = useAppDispatch()
 	const form = useForm<ChartSettingsType>({
 		defaultValues: {
-			...userData.chartSettings as ChartSettingsType
+			...userData?.chartSettings as ChartSettingsType
 		}
 	})
 	const { register, control, setValue, handleSubmit, formState } = form;
 	const { errors } = formState;
 
-	const { fields, append, remove } = useFieldArray(
+	const { fields, append, remove } = useFieldArray<any>(
 		{
 			name: 'lineColors',
 			control
 		},
 	)
 
-	const bgcolor = useFieldArray(
+	const bgcolor = useFieldArray<any>(
 		{
 			name: 'bgColor',
+			control
+		},
+	)
+	const textcolor = useFieldArray<any>(
+		{
+			name: 'textColor',
 			control
 		},
 	)
@@ -88,6 +94,11 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 						<input className={classes.inpt} type='checkbox' {...register('multiAxis')} />
 						{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
 					</div>
+					<div className={'flex-wrap mx-2 '} >
+						<label className={classes.label} htmlFor='lineDiameter'>{t('line Diameter')}</label>
+						<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('lineDiameter')} />
+						{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
+					</div>
 					{/* <div className={'flex-wrap mx-2 '} >
 						<label className={classes.label} htmlFor='bgColor'>{t('bgColor')}</label>
 						<input className={classes.inpt} type='color' {...register('bgColor')} />
@@ -111,22 +122,36 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 						)}</div>
 					<button type='button' onClick={() => append('#606')} className='h-fit'>{t('Add Color +')}</button>
 				</section>
-				<section className="flex flex-wrap  m-1 p-2 w-full" >
-					<h1 className='flex w-full m-1'>bg color</h1>
-					<div className={'flex flex-wrap'} >
+				<section className="flex flex-wrap  m-1 p-2 w-fit" >
 
+					<div className={'flex flex-wrap'} >
 						{bgcolor?.fields?.map((field, index) => {
 							return (
 								<div className={'flex flex-wrap'} key={field.id}>
 									<div className={'flex-wrap mx-2 '} >
-										<label className={classes.label} htmlFor={`bgColor.${index}`}>{t('color')}</label>
+										<label className={classes.label} htmlFor={`bgColor.${index}`}>{t('bg color')}</label>
 										<input className={classes.inpt} type='color' {...register(`bgColor.${index}` as const, { required: { value: true, message: t('bg is required') } })} />
 										<p className='text-red-300 tex-xs'>{errors?.bgColor?.[index]?.message && '!' + errors?.bgColor?.[index]?.message}</p>
 										{index > -1 && <button type='button' onClick={() => bgcolor.remove(index)} className='h-fit bg-white  text-[red] px-1 m-2 rounded-md text-[8px]'>{t('remove')}</button>}
 									</div></div>)
 						}
 						)}</div>
-					{bgcolor?.fields.length === 0 && <button type='button' onClick={() => bgcolor.append('#ffff')} className='h-fit'>{t('Add Color +')}</button>}
+					{bgcolor?.fields.length === 0 && <button type='button' onClick={() => bgcolor.append('#ffff')} className='h-fit'>{t('Add BG Color +')}</button>}
+				</section>
+				<section className="flex flex-wrap  m-1 p-2 w-fit" >
+					<div className={'flex flex-wrap'} >
+						{textcolor?.fields?.map((field, index) => {
+							return (
+								<div className={'flex flex-wrap'} key={field.id}>
+									<div className={'flex-wrap mx-2 '} >
+										<label className={classes.label} htmlFor={`textColor.${index}`}>{t('text color')}</label>
+										<input className={classes.inpt} type='color' {...register(`textColor.${index}` as const, { required: { value: true, message: t('text Color is required') } })} />
+										<p className='text-red-300 tex-xs'>{errors?.textColor?.[index]?.message && '!' + errors?.textColor?.[index]?.message}</p>
+										{index > -1 && <button type='button' onClick={() => textcolor.remove(index)} className='h-fit bg-white  text-[red] px-1 m-2 rounded-md text-[8px]'>{t('remove')}</button>}
+									</div></div>)
+						}
+						)}</div>
+					{textcolor?.fields.length === 0 && <button type='button' onClick={() => textcolor.append('#ffff')} className='h-fit'>{t('Add text Color +')}</button>}
 				</section>
 			</div>
 			<div className="flex w-full justify-around mt-1 h-fit">
