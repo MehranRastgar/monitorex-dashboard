@@ -95,6 +95,11 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 						{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
 					</div>
 					<div className={'flex-wrap mx-2 '} >
+						<label className={classes.label} htmlFor='grid'>{t('grid')}</label>
+						<input className={classes.inpt} type='checkbox' {...register('grid')} />
+						{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
+					</div>
+					<div className={'flex-wrap mx-2 '} >
 						<label className={classes.label} htmlFor='lineDiameter'>{t('line Diameter')}</label>
 						<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('lineDiameter')} />
 						{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}

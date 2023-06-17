@@ -21,6 +21,8 @@ export interface AnalizeState {
   statusReportApi: statusApiType;
   selectedGroup?: number; ///////
   selectionType?: 'device' | 'group';
+  TableColumns?: object[],
+  TableDatas?: object[]
 }
 export interface SensorsReportType {
   _id?: string;
@@ -75,6 +77,10 @@ export const analizeSlice = createSlice({
   reducers: {
     setSelectedGroupNumber: (state, action: PayloadAction<number>) => {
       state.selectedGroup = action.payload;
+    },
+    setTable: (state, action: PayloadAction<{ TableColumns: object[], TableDatas: object[] }>) => {
+      state.TableColumns = action.payload.TableColumns;
+      state.TableDatas = action.payload.TableDatas;
     },
     setSelectedDeviceNumber: (state, action: PayloadAction<number>) => {
       state.selectedDeviceNumber = action.payload;
@@ -147,6 +153,7 @@ export const analizeSlice = createSlice({
     builder
       .addCase(reportSensorsAsync.pending, (state) => {
         state.statusReportApi = 'loading';
+        state.sensorsReport = []
       })
       .addCase(
         reportSensorsAsync.fulfilled,
@@ -184,6 +191,7 @@ export const {
   removeSelectedSensors,
   setSelectionType,
   setSelectedSensorsAdvanced,
+  setTable
 } = analizeSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
@@ -209,7 +217,10 @@ export const selectDeviceNumber = (state: AppState) =>
   state.analize.selectedDeviceNumber;
 export const selectSelectionType = (state: AppState) =>
   state.analize.selectionType;
-
+export const selectTableColumns = (state: AppState) =>
+  state.analize.TableColumns;
+export const selectTableDatas = (state: AppState) =>
+  state.analize.TableDatas;
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 // export const incrementIfOdd =

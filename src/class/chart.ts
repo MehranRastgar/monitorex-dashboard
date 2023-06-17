@@ -2,6 +2,7 @@ import { Datum, SensorsReportType } from "src/store/slices/analizeSlice";
 import moment from 'moment-jalaali';
 
 import Highcharts from "highcharts";
+import { GridColDef } from "@mui/x-data-grid";
 interface ChartTooltipOptions extends Highcharts.TooltipOptions {
 	points?: any;
 	x?: any;
@@ -17,6 +18,7 @@ export interface ChartSettingsType {
 	chartMode: 'spline' | 'line' | 'column';
 	multiAxis: boolean;
 	justPoint: boolean;
+	grid?: boolean;
 	lineAccesibility?: LineAccesibleType;
 	lineStyleUseDifferent: boolean;
 	divideBy: number;
@@ -267,8 +269,17 @@ export default class HighchartsData {
 
 					if (!(arrAxisY.findIndex(item => item?.unit === sens?.sensor?.unit) >= 0))
 						arrAxisY.push({
+							gridLineDashStyle: (() => {
+								if (this.chartSettings.grid)
+									return 'longdash'
+								else return 'none'
+							})(),
+							gridLineWidth: (() => {
+								if (this.chartSettings.grid)
+									return 1
+								else return 0
+							})(),
 							unit: sens.sensor?.unit,
-
 							// Primary yAxis
 							labels: {
 								format: "{value}" + ' ' + sens.sensor?.unit,
@@ -333,7 +344,16 @@ export default class HighchartsData {
 					arrAxisY = [...[{
 						unit: sens.sensor?.unit,
 						// Primary yAxis
-
+						gridLineDashStyle: (() => {
+							if (this.chartSettings.grid)
+								return 'longdash'
+							else return 'none'
+						})(),
+						gridLineWidth: (() => {
+							if (this.chartSettings.grid)
+								return 1
+							else return 0
+						})(),
 						labels: {
 							format: "{value}" + sens.sensor?.unit,
 
@@ -560,11 +580,11 @@ export default class HighchartsData {
 				legend: {
 					itemHiddenStyle: { color: "var(--dev-bgc-disable)" },
 					itemHoverStyle: { color: "var(--dev-bgc-selected)" },
-					itemStyle: { color: "var(--text-color)" },
+					itemStyle: { color: this.chartSettings?.textColor?.[0] ?? "var(--text-color)" },
 					enabled: true,
 					align: "left",
 					alignColumns: true,
-					backgroundColor: "var(--bgc)",
+					backgroundColor: this.chartSettings?.bgColor?.[0] ?? "var(--bgc)",
 					floating: false,
 				},
 				series: [...arrSeries],
@@ -578,6 +598,9 @@ export default class HighchartsData {
 				},
 				xAxis:
 				{
+					// minorTickInterval: 'auto',
+					// startOnTick: false,
+					// endOnTick: false,
 					type: 'datetime',
 					labels: {
 						formatter: this.myXAxisFormater(this.chartSettings?.textColor?.[0] ?? 'var(--text-color)')
@@ -591,9 +614,14 @@ export default class HighchartsData {
 					},
 				},
 				tooltip: {
+					style: {
+						color: this.chartSettings?.textColor?.[0] ?? 'var(--text-color)',
+					},
+					backgroundColor: this.chartSettings?.bgColor?.[0] ?? 'var(--bgc)',
 					formatter: this.getTooltipFormatter(this.chartSettings?.bgColor?.[0], this.chartSettings?.textColor?.[0]),
 					split: true
 				},
+
 			},
 
 		}
@@ -769,7 +797,9 @@ export default class HighchartsData {
 
 				'rgba(255,255,255,0.25)'
 		},
-
+		exporting: {
+			enabled: false,
+		},
 		responsive: {
 			rules: [{
 				condition: {
@@ -813,6 +843,111 @@ export default class HighchartsData {
 			}]
 		},
 	}
+
+	//=============================================================================================
+	private makeColumns() {
+
+	}
+	//=============================================================================================
+	private makeDataTable(dataR: SensorsReportType[] | undefined) {
+		const arr: object[] = [];
+		const columnsMakes: GridColDef[] = [
+			{
+				field: "index",
+				headerName: "row",
+				width: 80,
+			},
+		];
+		if (dataR === undefined) {
+			return;
+		}
+
+		// dataR?.findInex[0]?.data?.length
+		dataR?.[0]?.data?.map((sensorxy, index) => {
+			if (index % 1 === 0) {
+				const obj = Object.create({
+					index: index,
+				});
+				dataR?.map((ite, ind) => {
+					obj[ite._id ?? "noname"] =
+						ite.data?.[index]?.y ?? "no data";
+					const date = new Date(ite?.data?.[index]?.x ?? "");
+					obj["date"] = this.dateJalali ? new Date(moment(ite?.data?.[index]?.x).format('jYYYY-jMM-jDD HH:mm:ss')).toLocaleDateString() : date.toLocaleDateString();
+					obj["time"] = date.toLocaleTimeString();
+				});
+				arr.push(obj);
+			}
+		});
+		columnsMakes.push({
+			field: "date",
+			headerName: "date",
+			width: 150,
+		});
+		columnsMakes.push({
+			field: "time",
+			headerName: "time",
+			width: 150,
+		});
+		dataR?.map((item, index) => {
+			if (item?.data !== undefined && item?.data?.length > 0) {
+				columnsMakes.push({
+					field: item?.sensor?.title?.toString() ?? "noname",
+					headerName: item?.sensor?.title?.toString(),
+					width: 150,
+				});
+			}
+		});
+		console.log(arr)
+		return arr ?? []
+		// setCulu(columnsMakes);
+	}
+	//=============================================================================================
+
+	public makeDataForTable(dataOfReport: SensorsReportType[]): {
+		data: object[];
+		columns: {
+			Header: string,
+			id?: string,
+			accessor: string
+		}[];
+	} {
+		console.log(dataOfReport)
+		let data: any[] = []
+		const columns: {
+			Header: string,
+			id?: string,
+			accessor: any
+		}[] = [
+				{
+					Header: 'N',
+					id: 'index',
+					accessor: (_row: any, i: number) => i + 1,
+				}
+			]
+		dataOfReport?.map((eachsens, index) => {
+			columns.push(
+				{
+					Header: eachsens?.sensor?.title ?? 'unnamed',
+					accessor: eachsens?._id ?? index.toString()
+				}
+			)
+		})
+		columns.push({
+			Header: 'date',
+			accessor: 'date'
+		})
+		columns.push({
+			Header: 'time',
+			accessor: 'time'
+		})
+
+		return {
+			data: [...this.makeDataTable(dataOfReport ?? []) ?? []],
+			columns: columns
+		}
+	}
+	//=============================================================================================
+
 }
 //=============================================================================================
 // export default class Chart {

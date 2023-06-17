@@ -13,7 +13,7 @@ import darkBlue from 'highcharts/themes/dark-blue';
 import darkGreen from 'highcharts/themes/dark-green';
 import darkUnica from 'highcharts/themes/dark-unica';
 import gray from 'highcharts/themes/gray';
-import { SensorsReportType, selectSensorReports, selectStatusReportApi } from "src/store/slices/analizeSlice";
+import { SensorsReportType, selectSensorReports, selectStatusReportApi, selectTableColumns, selectTableDatas } from "src/store/slices/analizeSlice";
 import HighchartsData, { ChartSettingsType } from "src/class/chart";
 import { selectCalendarMode } from "src/store/slices/themeSlice";
 import { LoadingTwo } from "src/components/loader/default";
@@ -27,15 +27,17 @@ import moment from "moment-jalaali";
 import { randomNumberBetween } from "@mui/x-data-grid/utils/utils";
 import dynamic from "next/dynamic";
 
-
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+// import "jspdf-autotable";
 if (typeof Highcharts === "object") {
 	HighchartsExporting(Highcharts);
 }
 
 
-if (typeof Highcharts === "object") {
-	darkUnica(Highcharts);
-}
+// if (typeof Highcharts === "object") {
+// 	darkUnica(Highcharts);
+// }
 const customTheme = {
 	colors: ['#ffff', '#F44336', '#2196F3', '#FFC107', '#9C27B0'],
 	chart: {
@@ -120,7 +122,8 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 	const [state, setState] = useState<any>();
 	const [settingsModal, setSettingsModal] = useState<boolean>(false);
 	const selectLocale = useAppSelector(selectCalendarMode)
-
+	// const selectColumns = useAppSelector(selectTableColumns)
+	// const selectDatas = useAppSelector(selectTableDatas)
 
 	// const [key, setKey] = useState<any>(0); // use key to force chart to update
 	// const [theme, setTheme] = useState<any>('darkGreen');
@@ -174,9 +177,55 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 			// const chartData = new HighchartsData(selectDataOFChart).getChartData();
 			setState(chartData.sumOfdata(selectDataOFChart))
 
-		}
+		} else { setState(undefined) }
 	}
 
+
+	const chartRef = useRef<HTMLDivElement>(null);
+
+	function handleGeneratePDF() {
+		const chart = chartRef.current;
+
+		if (chart) {
+			html2canvas(chart).then((canvas) => {
+				const imgData = canvas.toDataURL('image/png');
+				const doc: any = new jsPDF('landscape', 'pt', 'a4');
+				// doc.
+				const imgWidth = doc.internal.pageSize.getWidth();
+				const imgHeight = canvas.height * imgWidth / canvas.width;
+				doc?.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+				doc.save('chart.pdf');
+			});
+		}
+	}
+	function handleGeneratePNG() {
+		const chart = chartRef.current;
+
+		if (chart) {
+			const pixelRatio = window.devicePixelRatio || 1;
+			const canvasWidth = chart.offsetWidth * pixelRatio;
+			const canvasHeight = chart.offsetHeight * pixelRatio;
+			html2canvas(chart, { scale: pixelRatio }).then((canvas) => {
+				const imgData = canvas.toDataURL('image/png');
+				const img = new Image();
+				img.src = imgData;
+				img.onload = () => {
+					const pngCanvas = document.createElement('canvas');
+					pngCanvas.width = canvasWidth;
+					pngCanvas.height = canvasHeight;
+					const ctx = pngCanvas.getContext('2d');
+					if (ctx) {
+						ctx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
+						const pngData = pngCanvas.toDataURL('image/png');
+						const downloadLink = document.createElement('a');
+						downloadLink.href = pngData;
+						downloadLink.download = 'form-and-table.png';
+						downloadLink.click();
+					}
+				};
+			});
+		}
+	}
 	// const chartRef = useRef<typeof HighchartsReact>(null);
 
 	// useEffect(() => {
@@ -206,8 +255,7 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 
 	}, [selectDataOFChart, selectLocale, userData?.chartSettings]);
 
-	return <section className="flex flex-wrap w-full">
-
+	return <section className="flex mt-10 flex-wrap w-full">
 		<Modal
 			open={settingsModal}
 			onClose={() => setSettingsModal(false)}
@@ -217,14 +265,34 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 		>
 			<MultiChartSettings />
 		</Modal>
-
-		<figure className='flex justify-center w-[100vw] h-[38vw]'>
-			<div className="absolute -translate-y-[40px] w-fit justify-start px-16 z-[80]"><ThemeButton onClick={() => {
+		<div className="absolute -translate-y-[40px] w-fit justify-start z-[80]">
+			<ThemeButton onClick={() => {
 				setSettingsModal(val => !val)
-			}} className="  hover:rotate-180 w-fit justify-center items-center flex">
+			}} className=" -mx-2  hover:rotate-180 w-fit justify-center items-center flex">
 				<div className="w-[30px] rounded-full h-[30px] flex justify-center items-center bg-white text-black">
 					<Icon icon="ic:outline-settings" width="30" color="black" /></div>
-			</ThemeButton></div>
+			</ThemeButton>
+			<button
+				className='hover:rotate-12 mx-2 w-[32px] h-[32px] text-[#f13232]'
+				onClick={() => {
+					handleGeneratePDF();
+				}}
+			>
+				<Icon icon="uiw:file-pdf" height="32" />
+				{/* {t(props?.downloadAsExcel)} */}
+			</button>
+			<button
+				className='hover:rotate-12 mx-2 w-[32px] h-[32px] text-[#32f185]'
+				onClick={() => {
+					handleGeneratePNG();
+				}}
+			>
+				<Icon icon="teenyicons:png-outline" height="32" />
+				{/* {t(props?.downloadAsExcel)} */}
+			</button>
+		</div>
+		<figure id='chart-analytics' ref={chartRef} className='flex justify-center w-[100vw] h-[38vw]'>
+
 			<div className="" style={{ width: '1px', height: '100%', position: 'inherit' }}></div>
 			{Highcharts && customTheme && state?.chartOptions && statusReportApi === 'success' &&
 				<HighchartsReact
@@ -238,7 +306,11 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 				/>}
 			{statusReportApi === 'loading' && <div className="flex flex-wrap text-2xl w-full h-full justify-center"><LoadingTwo />
 				<h1 className="flex w-full justify-center">loading...</h1></div>}
-		</figure ></section>
+			{state === undefined && statusReportApi !== 'loading' && statusReportApi !== 'success' && <div className="flex flex-wrap text-2xl items-center w-full h-full justify-center">
+				<h1 className="flex w-full h-full justify-center">No Data</h1></div>}
+		</figure >
+
+	</section>
 }
 
 export default MultiAxisChart;

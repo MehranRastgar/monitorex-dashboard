@@ -40,6 +40,9 @@ import {
 import { GroupItemType, UserType } from '../src/types/types';
 import { selectCalendarMode } from 'src/store/slices/themeSlice';
 import dynamic from "next/dynamic";
+import DataOfReport from 'src/atomic/organisms/analytics/DataOfReport';
+import { PrintPreview } from 'src/atomic/organisms/Print/PrintPreview';
+import TableDataOfReport from 'src/atomic/organisms/DataTables/TableDataOfReport';
 const MultiAxisChart = dynamic(
   () => import("src/atomic/organisms/HighCharts/MultiAxisChart"),
   { ssr: false }
@@ -197,6 +200,9 @@ export default function Analytics() {
       <section className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
         <MultiAxisChart chartSettings={{}} />
         {/* <MultiReportChartContainer /> */}
+      </section>
+      <section className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
+        <TableDataOfReport />
       </section>
     </Layout>
   );
