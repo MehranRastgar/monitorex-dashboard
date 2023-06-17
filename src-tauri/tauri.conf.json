@@ -7,11 +7,11 @@
   },
   "package": {
     "productName": "Monitorex",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "tauri": {
     "allowlist": {
-      "all": false
+      "all": true
     },
     "bundle": {
       "active": true,
@@ -50,7 +50,8 @@
       "csp": null
     },
     "updater": {
-      "active": false
+      "active": false,
+      "pubkey":"mehranhastamvamibasham"
     },
     "windows": [
       {
