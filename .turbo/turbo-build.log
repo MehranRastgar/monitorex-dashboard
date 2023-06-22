@@ -1,5 +1,5 @@
 $ NODE_ENV='production' next build
-info  - Loaded env from G:\gh\scada\adminpanel\monitorex-dashboard\.env.local
+info  - Loaded env from D:\GH\monitorex-dashboard\.env.local
 warn  - Invalid next.config.js options detected: 
   - The value at .images has an unexpected property, images, which is not in the list of allowed properties (remotePatterns, unoptimized, contentSecurityPolicy, dangerouslyAllowSVG, deviceSizes, disableStaticImages, domains, formats, imageSizes, loader, loaderFile, minimumCacheTTL, path).
 
@@ -204,6 +204,11 @@ info  - Creating an optimized production build...
 Browserslist: caniuse-lite is outdated. Please run:
   npx browserslist@latest --update-db
   Why you should do it regularly: https://github.com/browserslist/browserslist#browsers-data-updating
+Warning: A null PostCSS plugin was provided. This entry will be ignored.
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+warn  - Failed to download the stylesheet for https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap. Skipped optimizing this font.
 info  - Compiled successfully
 info  - Collecting page data...
 info  - Generating static pages (0/12)
@@ -214,11 +219,11 @@ info  - Generating static pages (12/12)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ○ / (744 ms)                             139 kB          614 kB
+┌ ○ / (884 ms)                             139 kB          614 kB
 ├   └ css/b2250e04b125806b.css             2.79 kB
 ├   /_app                                  0 B             141 kB
 ├ ○ /404                                   421 B           226 kB
-├ ○ /analytics (620 ms)                    33.4 kB         891 kB
+├ ○ /analytics                             33.4 kB         891 kB
 ├   └ css/84b837e3c6a94fe8.css             3.21 kB
 ├ λ /api/sendotp                           0 B             141 kB
 ├ λ /api/signin                            0 B             141 kB
@@ -228,11 +233,11 @@ Route (pages)                              Size     First Load JS
 ├   └ css/7f2473089fa11a90.css             2.06 kB
 ├ ○ /login                                 2.83 kB         172 kB
 ├   └ css/ca9dc42df1f7aa5f.css             1.22 kB
-├ ○ /management                            7.71 kB         769 kB
+├ ○ /management (780 ms)                   7.71 kB         769 kB
 ├   └ css/07711f2af3d7c893.css             3.07 kB
 ├ ○ /routes                                3.44 kB         229 kB
 ├   └ css/643d0c11365bc541.css             3.04 kB
-├ ○ /sensors                               2.89 kB         228 kB
+├ ○ /sensors (314 ms)                      2.89 kB         228 kB
 ├   └ css/0eb90f579ed41931.css             2.07 kB
 ├ ○ /settings                              3.27 kB         765 kB
 ├   └ css/44b9d55f7b1e6d80.css             3.07 kB

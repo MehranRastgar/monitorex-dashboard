@@ -20,9 +20,11 @@
   flex: content;
   border: 1px solid var(--border-color);
   padding: 1px;
-  max-height: 30px;
-  line-height: 35px;
-  height: 10px;
+  line-height: 25px;
+  max-height: 35px;
+  height: 35px;
+  // height: 25px;
+  // max-height: 25px;
 }
 
 .table th {
@@ -41,13 +43,13 @@
 
 .table tr:nth-child(odd) {
   background-color: var(--table-odd);
-  height: 25px;
-  max-height: 25px;
+  height: 20px;
+  max-height: 20px;
 }
 .table tr:nth-child(even) {
   background-color: var(--table-even);
-  height: 25px;
-  max-height: 25px;
+  height: 20px;
+  max-height: 20px;
 }
 
 .table tr:hover {
@@ -58,29 +60,42 @@
   color: var(--hover-table-color);
 }
 .table_selected {
-  // background-color: var(--dev-bgc-selected);
+  
   background-color: var(--selected-table-bg);
   box-shadow: var(--selected-table-shadow);
   color: var(--selected-table-color);
-}
-.table_dense {
-  flex: content;
-  border: 1px solid var(--border-color);
-  padding: 1px;
-  max-height: 30px;
-  line-height: 15px;
-  height: 8px;
 }
 
 .table th {
   padding-top: 8px;
   padding-bottom: 4px;
   text-align: center;
-  // background-color: var(--bgc);
-  // color: var(--text-color);
   position: sticky;
   top: 0;
 }
+/* Denser table rows */
+.table_dense td {
+  line-height: 12px;
+  max-height: 16px;
+  height: 16px;
+  flex: content;
+  border:0px solid var(--border-color);
+  padding: 0px;
+  font: 1.0em sans-serif;
+}
+
+.table_dense tr:nth-child(odd) {
+  height: 20px;
+  max-height: 20px;
+}
+
+.table_dense tr:nth-child(even) {
+  height: 20px;
+  max-height: 20px;
+  
+}
+
+
 
 
 .inpt {
@@ -89,12 +104,12 @@
   line-height: 1.5;
   padding: 5px 10px;
   transition: box-shadow 100ms ease-in, border 100ms ease-in,
-    background-color 100ms ease-in;
+  background-color 100ms ease-in;
   border: 2px solid var(--border-color);
   color: var(--text-color);
   background: var(--table-odd);
   display: block;
-  height: 36px;
+  height: 42px;
 }
 
 .label {

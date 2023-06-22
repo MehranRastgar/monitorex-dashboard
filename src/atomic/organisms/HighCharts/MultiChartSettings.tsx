@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "src/store/hooks";
 import { selectOwnUser, setUsersData, updateUserData } from "src/store/slices/userSlice";
 import { UserType } from "src/types/types";
 import classes from './formik.module.scss';
+import classes2 from './multiChart.module.scss';
+
 import { ChartSettingsType } from "src/class/chart";
 import { setChartSettings } from "src/store/slices/chartSlice";
 import FormThemeButton from "src/atomic/atoms/ThemeButton/FormThemeButton";
@@ -101,9 +103,25 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 					</div>
 					<div className={'flex-wrap mx-2 '} >
 						<label className={classes.label} htmlFor='lineDiameter'>{t('line Diameter')}</label>
-						<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('lineDiameter')} />
+						<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('lineDiameter' as const, { required: { value: true, message: t('diameter is required') } })} />
+						<p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p>
+					</div>
+					<div className={'flex-wrap mx-2 '} >
+						<label className={classes.label} htmlFor='xAxisRotation'>{t('X axis angle')}</label>
+						<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('xAxisRotation')} />
 						{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
 					</div>
+					<div className={'flex-wrap mx-2 '} >
+						<label className={classes.label + ' '} htmlFor=''>{t('X axis time')}</label>
+						<input className={classes.inpt + ' '} type='checkbox' step="any" {...register('xAxisTimeValue')} />
+						{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
+					</div>
+
+					{/* <fieldset className={classes2.checkbox_switch}>
+						<legend className={classes.legend_left}>Location</legend>
+						<input type="checkbox" id="checkbox-3" />
+						<label htmlFor="checkbox-3" title="Turn Location on/off" className={classes.checkbox_right}></label>
+					</fieldset> */}
 					{/* <div className={'flex-wrap mx-2 '} >
 						<label className={classes.label} htmlFor='bgColor'>{t('bgColor')}</label>
 						<input className={classes.inpt} type='color' {...register('bgColor')} />

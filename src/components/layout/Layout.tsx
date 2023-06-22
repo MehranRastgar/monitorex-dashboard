@@ -288,7 +288,7 @@ function Layout({ children }: { children: any }) {
           {allert}
         </Alert>
       </Snackbar>
-      {isLoading ? (
+      {isLoading || selectsigninflag === 'loading' || selectsigninflag === 'pending' ? (
         <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-transparent top-0 left-0 h-[100%] w-[100%]">
           <div className="flex flex-wrap h-fit">
             <div className="flex h-fit justify-center w-full">

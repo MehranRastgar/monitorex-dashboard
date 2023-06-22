@@ -27,6 +27,8 @@ export interface ChartSettingsType {
 	bgColor?: string[];
 	lineColors?: string[];
 	textColor?: string[];
+	xAxisRotation?: number
+	xAxisTimeValue?: boolean
 }
 type LineAccesibleType = 'Dash' | 'DashDot' | 'Dot' | 'LongDash' | 'LongDashDot' | 'LongDashDotDot' | 'ShortDash' | 'ShortDashDot' | 'ShortDashDotDot' | 'ShortDot' | 'Solid'
 
@@ -61,6 +63,8 @@ export default class HighchartsData {
 	private continues: boolean = true
 	private chartBGC: string = "var(--bgc)"
 
+	public startDate: string = ''
+	public endDate: string = ''
 	constructor(private reportData: SensorsReportType[]) {
 		// this.processData();
 	}
@@ -109,11 +113,14 @@ export default class HighchartsData {
 		}
 	}
 	//=============================================================================================
-	myXAxisFormater = (color: string) => {
+	myXAxisFormater = (color: string, timeIsShow?: boolean) => {
 		return function (props: any): any {
 			const vals = props.value;
-			const val = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', vals);
-			return `<b style="color:${color}"'>${val}</b>`
+			const val = Highcharts.dateFormat('%Y-%m-%d', vals);
+			const val2 = Highcharts.dateFormat('%H:%M:%S', vals);
+			const stringssss = `<b  style="color:${color}; fontSize: 1em;">${val}</b>
+			${timeIsShow ? `<b style="color:${color}; fontSize: 1em;">${val2}</b>` : ""}`
+			return stringssss
 		}
 	}
 	//=============================================================================================
@@ -200,6 +207,14 @@ export default class HighchartsData {
 				text: this.chartTitle,
 			},
 			xAxis: {
+				allowOverlap: false,
+				// style: {
+				// 	display: 'flex',
+				// 	justifyContent: 'center',
+				// 	alignItems: 'center',
+				// 	backgroundColor: 'red',
+				// 	padding: '5px'
+				// },
 				categories: this.categories,
 				// type: 'datetime',
 				// dateTimeLabelFormats: { // don't display the year
@@ -238,9 +253,13 @@ export default class HighchartsData {
 	private makeData(data: Datum[]) {
 		const localOffset = new Date().getTimezoneOffset();
 		const offsetSeconds = localOffset * -60 * 1000;
-
 		const arr: any[] = [];
-
+		// const startDate = new Date(this.startDate).toISOString()
+		// const endDate = new Date(this.endDate).toISOString()
+		// arr.push([
+		// 	this.dateJalali ? new Date(moment(startDate).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(startDate).getTime() + offsetSeconds,
+		// 	0,
+		// ]);
 		data.map((item, index) => {
 			if (item?.x !== undefined && index % Granolarity[this.divideBy] === 0)
 				if (item?.y !== undefined || !this?.chartSettings?.continues)
@@ -249,6 +268,10 @@ export default class HighchartsData {
 						item?.y ?? null,
 					]);
 		});
+		// arr.push([
+		// 	this.dateJalali ? new Date(moment(endDate).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(endDate).getTime() + offsetSeconds,
+		// 	0,
+		// ]);
 		return arr;
 	}
 	//=============================================================================================
@@ -287,7 +310,7 @@ export default class HighchartsData {
 									if (this.chartSettings && this.chartSettings.lineColors && this.chartSettings.lineColors[index]) {
 										return {
 											color: this.chartSettings.lineColors[index],
-											fontSize: '1.2em',
+											fontSize: '1.0em',
 											fontFamily: 'cursive'
 										};
 									} else {
@@ -302,13 +325,13 @@ export default class HighchartsData {
 								style: (() => {
 									if (this.chartSettings && this.chartSettings.lineColors && this.chartSettings.lineColors[index]) {
 										return {
-											fontSize: '1.2em',
+											fontSize: '1.0em',
 											fontFamily: 'cursive',
 											color: this.chartSettings.lineColors[index],
 										};
 									} else {
 										return {
-											fontSize: '1.2em',
+											fontSize: '1.0em',
 										};
 									}
 								})(),
@@ -329,6 +352,7 @@ export default class HighchartsData {
 							dashStyle: this.chartSettings.lineStyleUseDifferent ? this.lineStylesArray[index] : undefined,
 							// pointInterval: 6e4, // one hour
 							// relativeXValue: true,
+
 							data: [...this.makeData(sens?.data)],
 							// tooltip: {
 							// 	pointFormat: '<span style="color:{point.color}">●</span>' +
@@ -603,7 +627,20 @@ export default class HighchartsData {
 					// endOnTick: false,
 					type: 'datetime',
 					labels: {
-						formatter: this.myXAxisFormater(this.chartSettings?.textColor?.[0] ?? 'var(--text-color)')
+
+						allowOverlap: false,
+						rotation: this.chartSettings?.xAxisRotation ?? 0,
+
+						formatter: this.myXAxisFormater(this.chartSettings?.textColor?.[0] ?? 'var(--text-color)', this.chartSettings?.xAxisTimeValue),
+						style: {
+							display: 'flex flex-wrap',
+							justifyContent: 'center',
+							alignItems: 'center',
+							// backgroundColor: 'red',
+							padding: 5,
+							margin: 5,
+							// border: '1px solid black'
+						},
 					}
 				},
 				subtitle: {
@@ -620,6 +657,15 @@ export default class HighchartsData {
 					backgroundColor: this.chartSettings?.bgColor?.[0] ?? 'var(--bgc)',
 					formatter: this.getTooltipFormatter(this.chartSettings?.bgColor?.[0], this.chartSettings?.textColor?.[0]),
 					split: true
+				},
+				plotOptions: {
+					series: {
+
+						showInLegend: true,
+						accessibility: {
+							exposeAsGroupOnly: true,
+						},
+					},
 				},
 
 			},
@@ -688,7 +734,14 @@ export default class HighchartsData {
 
 		xAxis:
 		{
+			allowOverlap: false,
 			type: 'datetime',
+			style: {
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				padding: '5px'
+			},
 			labels: {
 
 				formatter: function (props: any): any {
@@ -696,7 +749,7 @@ export default class HighchartsData {
 					// this.chartSettings?.textColor?.[0]
 					const vals = props.value;
 					const val = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', vals);
-					return val
+					return 'me'
 				}
 			}
 		}

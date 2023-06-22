@@ -6,7 +6,7 @@ import ScrollContainer from 'react-indiana-drag-scroll';
 import { SensorWebsocketRealTimeDataType } from '../../components/pages/sensors/sensorsTable';
 import { socket } from '../../components/socketio';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectGroupNumber } from '../../store/slices/analizeSlice';
+import { selectGroupNumber, setSelectedGroupNumber } from '../../store/slices/analizeSlice';
 import { selectDevicesData } from '../../store/slices/devicesSlice';
 import { addNewRecordToSocket } from '../../store/slices/socketSlice';
 import { selectUserGroups } from '../../store/slices/userSlice';
@@ -23,6 +23,7 @@ import LiveChart from '../organisms/Charts/LiveChart';
 import ThemeButton from '../atoms/ThemeButton/ThemeButton';
 import GroupUnit from '../molecules/device/GroupUnit';
 import { useTranslation } from 'react-i18next';
+import LiveSensorValue from '../organisms/LiveDataGrid/LiveSensorValue';
 
 interface Props {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -73,15 +74,24 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
     <>
       <section className="flex justify-center min-w-full -mt-6">
         <div className="mt-10 m-1 flex justify-center flex-wrap min-w-full">
-          <div className="flex w-full justify-center">
+          <div className="flex w-full justify-center m-10">
             <ThemeButton
-              onClick={() => setGroupOrDevice('device')}
+              onClick={() => {
+                setGroupOrDevice('device')
+                dispatch(setSelectedGroupNumber(undefined))
+              }
+              }
+
               type={groupOrDevice === 'device' ? 'activate' : 'deactivate'}
             >
               {t('devices')}
             </ThemeButton>
             <ThemeButton
-              onClick={() => setGroupOrDevice('group')}
+              onClick={() => {
+                setGroupOrDevice('group')
+                dispatch(setSelectedGroupNumber(undefined))
+
+              }}
               type={groupOrDevice === 'group' ? 'activate' : 'deactivate'}
             >
               {t('groups')}
@@ -91,10 +101,12 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
           <ScrollContainer
             vertical={false}
             hideScrollbars={false}
-            className="overflow-y-hidden flex border border-[var(--border-color)]"
+            className="overflow-y-hidden flex border border-[var(--border-color)] rounded-md w-full m-0 p-2"
           >
             {groupOrDevice === 'device' && (
-              <div className={groupOrDevice === 'device' ? 'flex' : 'hidden'}>
+              <div
+
+                className={groupOrDevice === 'device' ? 'flex p-2 ' : 'hidden'}>
                 {selectDevices !== null ? <>{selectDevices.map((dev, index) => (
                   <DeviceUnit key={index.toString()} index={index} />
                 ))}</> : (
@@ -133,11 +145,12 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               <GroupListComponent type="device" />
             </div>
           </div> */}
-          <div className="flex justify-center min-w-full m-1 border border-[var(--border-color)] p-2">
+          <div className="flex justify-center min-w-full rounded-md border border-[var(--border-color)] p-2 m-3">
             <LiveChart />
           </div>
-          <div className="min-w-full min-h-[40vh] m-1 border border-[var(--border-color)]">
-            {showdiv ? <LiveDataGrid /> : <>loading</>}
+          <div className="min-w-full min-h-[40vh] rounded-md m-1 border border-[var(--border-color)]">
+            <LiveSensorValue />
+            {/* {showdiv ? <LiveDataGrid /> : <>loading</>} */}
           </div>
           {/* <div className="min-w-full max-h-[50vh] m-1 border border-[var(--border-color)] overflow-auto">
             <SensorsSummary />
@@ -161,7 +174,6 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
         </div>
 
         {/* 
-
         <div className="flex flex-wrap w-1/4">
           <GroupListComponent />
           <section className="flex w-[400PX] overflow-x-auto justify-end h-[300px]">

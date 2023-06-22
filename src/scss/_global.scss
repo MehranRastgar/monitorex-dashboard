@@ -46,6 +46,7 @@ html {
   --dev-bgc-deactive: rgb(121, 121, 121);
   --dev-bgc-selected: rgba(22, 207, 62, 0.7);
   --text-ultimate-color: rgb(36, 151, 189);
+  --device-item: linear-gradient(to bottom, #d3d9e2, #c6c6ce, #d5bff7, #d0c3d4, #e5a1dc);
   /* ****Font family**** */
   --fontFamily: 'Poppins', 'Roboto', sans-serif;
   --button-primary: rgba(17, 162, 211, 0.801);
@@ -86,9 +87,11 @@ html[theme='dark'] {
   --card-bgc: #27241c;
   --text-color: #ffffff;
   --header-text-color: #ffd369;
-  --border-color: #06b89a;
+  --border-color: #064096;
   --dev-bgc: #393e46cf;
   --input-placeholder: #cbd4e23a;
+  // --device-item: linear-gradient(to bottom, #051937, #232b68, #5a3696, #9e35b9, #eb12cf);
+  --device-item:   linear-gradient(to bottom, #051937, #00456e, #12595f, #1e455f, #14223b);
   //light theme status
 
   // --background-image: url("../assets/images/darkbg.jpg");

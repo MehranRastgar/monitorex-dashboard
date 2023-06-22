@@ -75,7 +75,7 @@ export const analizeSlice = createSlice({
 
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setSelectedGroupNumber: (state, action: PayloadAction<number>) => {
+    setSelectedGroupNumber: (state, action: PayloadAction<number | undefined>) => {
       state.selectedGroup = action.payload;
     },
     setTable: (state, action: PayloadAction<{ TableColumns: object[], TableDatas: object[] }>) => {

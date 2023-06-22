@@ -75,17 +75,17 @@ body {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #810e0e;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(97, 96, 96);
+  background: rgb(184, 8, 8);
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(78, 40, 40);
+  background: rgb(153, 153, 153);
 }
 a:link {
   scroll-behavior: auto !important;
@@ -338,7 +338,7 @@ a:link {
 }
 
 .product-slider-one-container::-webkit-scrollbar-thumb {
-  background: #500c6d;
+  background: #e3d8e7;
   border-radius: 5px;
 }
 
@@ -1001,3 +1001,71 @@ a:link {
 .button-82-pushable:focus:not(:focus-visible) {
   outline: none;
 }
+
+
+
+.led-flow-board {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 20px 0;
+}
+
+.led-flow-board-text {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  font-size: 16px;
+  color: white;
+}
+
+.led-flow-board-container {
+  display: flex;
+  justify-content: flex-end;
+  overflow-x: hidden;
+  width: 100%;
+  height: 50px;
+}
+
+.led-flow-board-container div {
+  width: 20px;
+  height: 20px;
+  margin: 0 2px;
+  border-radius: 50%;
+  background-color: #444;
+}
+
+.led-flow-board-1 {
+  animation: led-flow-animation 2s linear infinite;
+}
+
+.led-flow-board-2 {
+  animation: led-flow-animation 2s linear 0.1s infinite;
+}
+
+.led-flow-board-3 {
+  animation: led-flow-animation 2s linear 0.2s infinite;
+}
+
+/* ... */
+
+.led-flow-board-40 {
+  animation: led-flow-animation 2s linear 0.39s infinite;
+}
+
+@keyframes led-flow-animation {
+  0% {
+    transform: translateX(0);
+    background-color: #444;
+  }
+  50% {
+    transform: translateX(22px);
+    background-color: #00ff00;
+  }
+  100% {
+    transform: translateX(44px);
+    background-color: #444;
+  }
+}
+

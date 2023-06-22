@@ -5,14 +5,15 @@ import {
   SensorWebsocketRealTimeDataType,
 } from 'src/components/pages/sensors/sensorsTable';
 import { socket } from 'src/components/socketio';
-import { useAppSelector } from 'src/store/hooks';
-import { selectSocketObject, socketObType } from 'src/store/slices/socketSlice';
+import { useAppDispatch, useAppSelector } from 'src/store/hooks';
+import { addNewRecordToSocket, selectSocketObject, socketObType } from 'src/store/slices/socketSlice';
 interface Props {
   index: number;
   sensor: SensorsReceiveTpe;
   time?: string;
 }
 const SensorUnit: React.FC<Props> = (props) => {
+  const dispatch = useAppDispatch()
   const socketObj: socketObType = useAppSelector(selectSocketObject);
   const [sensorData, setSensorData] = useState<
     SensorWebsocketRealTimeDataType | undefined
@@ -26,6 +27,7 @@ const SensorUnit: React.FC<Props> = (props) => {
       soId = socket.on(props?.sensor?._id, (data: SensorWebsocketRealTimeDataType) => {
         console.log('Sen Unit sensorsocket:', data);
         setSensorData(data);
+        dispatch(addNewRecordToSocket(data))
       });
 
     return () => {

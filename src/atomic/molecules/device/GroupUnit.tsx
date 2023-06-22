@@ -81,31 +81,33 @@ const GroupUnit: React.FC<Props> = (props) => {
 
   return (
     <section
+      onClick={() => {
+        console.log(group, props.index);
+        if (group) {
+          GetReport(group);
+          if (props?.index !== undefined)
+            dispatch(setSelectedGroupNumber(props.index));
+          dispatch(setSelectedSensors(group.sensors));
+        }
+      }}
+      style={{
+        backgroundImage: "var(--device-item)"
+      }}
       className={
-        'flex flex-wrap border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4 ' +
-        `${
-          props.index === selectGPnumber
-            ? '   shadow-xl shadow-green-500 border'
-            : ' '
+        'm-1 flex flex-wrap rounded-md h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4' +
+        `${props.index === selectGPnumber
+          ? '  border-[var(--text-color)] border border-b-0'
+          : ' '
         }`
       }
     >
-      <ul className="text-[1.2vw] xl:text-xl  w-full h-[6vh] justify-center items-center border-b border-[var(--border-color)]">
+      <ul className="cursor-pointer text-[1.2vw] xl:text-xl  w-full h-[6vh] justify-center items-center border-b border-[var(--border-color)]">
         <li
-          onClick={() => {
-            console.log(group, props.index);
-            if (group) {
-              GetReport(group);
-              if (props?.index !== undefined)
-                dispatch(setSelectedGroupNumber(props.index));
-              dispatch(setSelectedSensors(group.sensors));
-            }
-          }}
-          className={`cursor-pointer flex w-full h-[6vh] justify-center items-center border-b border-[var(--border-color)] ${
-            props.index === selectGPnumber
-              ? 'bg-[var(--selected-table-bg)]'
-              : ' '
-          } `}
+
+          className={`cursor-pointer flex w-full h-[6vh] justify-center items-center border-b border-[var(--border-color)] ${props.index === selectGPnumber
+            ? ''
+            : ' '
+            } `}
         >
           <div className="text-center justify-center w-full p-3 text-[1.8vw] xl:text-xl">
             {group?.groupTitle}
@@ -123,6 +125,8 @@ const GroupUnit: React.FC<Props> = (props) => {
           ))}
         </li>
       </ul>
+      {props.index === selectGPnumber && <div className='translate-y-[16.5vh] bg-green-500 rounded-b-md h-[1vh] w-full'></div>}
+
     </section>
   );
 };

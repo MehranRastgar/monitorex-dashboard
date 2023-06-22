@@ -45,3 +45,222 @@
     }
   }
 }
+$golden-ratio: 1.618;
+
+$checkbox-config: (
+  height: 1.3rem,
+  width: 2.3rem,
+  color: black,
+  color-active: #808B8D,
+  color-checked: #00AC64,
+  border: 1.3rem / 6.667,
+  text-on: 'On',
+  text-off: 'Off',
+  breakpoint: 25rem,
+  transition: all 0.2s ease
+);
+
+// Functions
+@function check-config($key) {
+  @return map-get($checkbox-config, $key);
+}
+
+@function power($x, $n) {
+    $ret: 1;
+    @if $n >= 0 {
+        @for $i from 1 through $n {
+            $ret: $ret * $x;
+        } 
+    } @else {
+        @for $i from $n to 0 {
+            $ret: $ret / $x;
+        }
+    }
+    @return $ret;
+}
+
+@function golden-ratio($value: 1, $unit: false) {  
+  @return power($golden-ratio, $value)#{if($unit, $unit, '')};
+}
+
+// Mixins
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin bp($breakpoint: check-config(breakpoint), $min-or-max: min) { 
+  @media screen and (#{$min-or-max}-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin abs($top: 0, $right: $top, $bottom: $top, $left: $top, $z-index: null) {
+  position: absolute;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+  @if $z-index != null { z-index: $z-index; }
+}
+
+@mixin reset-space($border: false) {
+  margin: 0; 
+  padding: 0; 
+  @if $border { border: 0; }
+}
+
+@mixin size($width:100%, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+// Placeholders
+%hide-fake {
+  @include size(0);
+  @include abs(-9999px, -9999px, null, null);
+  overflow: hidden;
+}
+
+// Resets
+.my-class *, .my-class *:after, .my-class *:before { 
+  box-sizing: border-box; 
+}
+
+// CHECKBOX STYLES
+.checkbox_switch {
+  @include clearfix;
+  @include reset-space(true);
+  margin-bottom: $golden-ratio * 1.4rem;
+  
+  .checkbox_right {
+    float: right;
+  }
+  
+  legend {
+    @include reset-space;
+    display: block;
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: check-config(height);
+    margin-bottom: golden-ratio(1, rem);
+    
+    &.legend-left {
+      margin: 0 #{$golden-ratio}rem 0 0;
+      float: left;
+    }
+  }
+  
+  input[type="checkbox"] {
+    @extend %hide-fake;
+    
+    & + label {
+      user-select: none;
+      line-height: check-config(height);
+           
+      &:before {
+        width: check-config(width);
+        height: check-config(height);
+        font-family: Arial, sans-serif;
+        display: inline-block;
+        content: '•';
+        transition: check-config(transition);
+        text-align: left;
+        font-size: 2.25rem;
+        line-height: 1rem;
+        float: left;
+        overflow: hidden;
+        color: check-config(color);
+        border: check-config(border) solid check-config(color);
+        border-radius: check-config(height) / 2;
+        margin: auto 0;
+        
+        @include bp { margin-right: 0.5rem; }
+      }
+      
+      // On / Off text
+      &:after {
+        display: none;
+        
+        @include bp {
+          content: check-config(text-off);
+          width: 1.75rem;
+          display: inline-block;
+        }
+      }
+    }
+ 
+    // Checked colors
+    &:checked + label {
+      &:before {
+        border-color: check-config(color-checked);
+        background: check-config(color-checked);
+        text-align: right;
+        color: white;
+      }
+      
+      &:after { content: check-config(text-on); }
+    }
+    
+    // Active colors
+    &, &:checked {
+      & + label:active:before {
+        border-color: check-config(color-active);
+        background: check-config(color-active);  
+        color: white;        
+      }
+    }
+  }
+}
+
+// Base styles
+// :root {
+//   font-size: 16px;
+//   line-height: golden-ratio(); 
+//   font-family: Open sans, sans-serif;
+//   color: black;
+  
+//   @include bp { font-size: 18px; }
+// }
+
+// body {
+//   max-width: 25rem;
+//   margin: 3rem auto;
+// }
+
+// fieldset {
+//   @include reset-space(true);
+//   padding: 1rem;
+  
+//   legend {
+//     @include reset-space;
+//     font-size: 2rem;
+//     margin-bottom: 1rem;
+//     font-weight: 300;
+//     display: block;
+//   }
+// }
+
+// a {
+//   text-decoration: none;
+//   font-weight: 500;
+//   color: inherit;
+//   transition: check-config(transition);
+  
+//   &:hover {
+//     text-decoration: underline;
+//     color: check-config(color-checked);
+//   }
+// }
+
+// small.cretits {
+//   margin-top: golden-ratio(2, rem);
+//   display: block;
+//   font-size: 0.75rem;
+//   display: block;
+//   font-weight: 300;
+//   color: rgba(black, 0.8);
+// }

@@ -1,0 +1,26 @@
+.container {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  background-color: #ff0000;
+}
+
+.hole {
+  // position: absolute;
+  z-index: 10;
+  top: 2px;
+  left: 2px;
+  width: 5px;
+  height: 5px;
+  // background-color: #000000;
+  -webkit-mask-image: radial-gradient(circle 2px at center, transparent 2px, #000 0);
+  mask-image: radial-gradient(circle 2px at center, transparent 2px, #000 0);
+}
+
+.patt{
+background: transparent;  
+z-index: 10;  
+background-image: linear-gradient(#33292931 4px, #000000 4px);
+background-size: 8px 8px;
+// background-color: #47d3ff;
+}

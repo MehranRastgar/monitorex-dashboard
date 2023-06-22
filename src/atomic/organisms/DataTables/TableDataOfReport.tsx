@@ -101,7 +101,7 @@ const TableDataOfReport: React.FC<Props> = () => {
 
   return (
     <>
-      <section className="flex items-start flex-wrap h-[auto]  mb-[1rem]">
+      <section className="flex items-start flex-wrap h-[auto] min-h-[600px] mb-[1rem]">
         <span className="mx-4 "> {t('sensors')}</span>{columns.length}
         {statusReportApi === 'success' && columns.length > 1 && (
           < ReactTable

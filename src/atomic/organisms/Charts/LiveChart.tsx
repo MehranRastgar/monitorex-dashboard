@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import { GroupItemType } from "../../../types/types";
 import XYChartJS from "../ChartJs/XYchartJS";
+import LedFlowBoard from "src/atomic/molecules/Led/LedFlowBoard ";
 // import BarchartLive from "../../molecules/AmChart/BarchartLive";
 // const XYChart = dynamic(() => import("../../molecules/AmChart/XYChart"), {
 //   ssr: false,
@@ -95,7 +96,10 @@ const LiveBlink: React.FC<PropsBlink> = (props) => {
   return (
     <>
       <section className="flex w-full items-start justify-end bg-[var(--sidebar)] p-1">
-        <div className="flex w-full m-4 font-Vazir-Medium">
+        <LedFlowBoard text={GpNumber !== undefined && selectUserGr !== undefined ? selectUserGr?.[GpNumber]?.groupTitle : ''} />
+        {/* <div>
+        </div>
+        <div className="flex w-full m-4 font-Vazir-Medium ">
           {GpNumber !== undefined && selectUserGr !== undefined
             ? selectUserGr?.[GpNumber]?.groupTitle
             : ""}
@@ -103,11 +107,10 @@ const LiveBlink: React.FC<PropsBlink> = (props) => {
         <div className="items-center flex m-2">
           Live
           <div
-            className={`flex items-center m-2 rounded-full w-[10px] h-[10px] ${
-              blink ? "bg-red-600 " : "bg-gray-600 "
-            }`}
+            className={`flex items-center m-2 rounded-full w-[10px] h-[10px] ${blink ? "bg-red-600 " : "bg-gray-600 "
+              }`}
           ></div>
-        </div>
+        </div> */}
       </section>
     </>
   );

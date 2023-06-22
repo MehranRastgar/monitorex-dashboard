@@ -13,7 +13,7 @@ import darkBlue from 'highcharts/themes/dark-blue';
 import darkGreen from 'highcharts/themes/dark-green';
 import darkUnica from 'highcharts/themes/dark-unica';
 import gray from 'highcharts/themes/gray';
-import { SensorsReportType, selectSensorReports, selectStatusReportApi, selectTableColumns, selectTableDatas } from "src/store/slices/analizeSlice";
+import { SensorsReportType, selectEndDate, selectSensorReports, selectStartDate, selectStatusReportApi, selectTableColumns, selectTableDatas } from "src/store/slices/analizeSlice";
 import HighchartsData, { ChartSettingsType } from "src/class/chart";
 import { selectCalendarMode } from "src/store/slices/themeSlice";
 import { LoadingTwo } from "src/components/loader/default";
@@ -122,6 +122,8 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 	const [state, setState] = useState<any>();
 	const [settingsModal, setSettingsModal] = useState<boolean>(false);
 	const selectLocale = useAppSelector(selectCalendarMode)
+	const startDate = useAppSelector(selectStartDate)
+	const endDate = useAppSelector(selectEndDate)
 	// const selectColumns = useAppSelector(selectTableColumns)
 	// const selectDatas = useAppSelector(selectTableDatas)
 
@@ -175,6 +177,8 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 			// chartData.removeCustomTheme();
 			chartData.dateJalali = selectLocale === 'fa'
 			// const chartData = new HighchartsData(selectDataOFChart).getChartData();
+			chartData.startDate = startDate ?? ''
+			chartData.endDate = endDate ?? ''
 			setState(chartData.sumOfdata(selectDataOFChart))
 
 		} else { setState(undefined) }
@@ -265,34 +269,35 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 		>
 			<MultiChartSettings />
 		</Modal>
-		<div className="absolute -translate-y-[40px] w-fit justify-start z-[80]">
+		<div className="absolute -translate-y-[40px] w-fit justify-start z-[80] scale-75">
 			<ThemeButton onClick={() => {
 				setSettingsModal(val => !val)
 			}} className=" -mx-2  hover:rotate-180 w-fit justify-center items-center flex">
 				<div className="w-[30px] rounded-full h-[30px] flex justify-center items-center bg-white text-black">
 					<Icon icon="ic:outline-settings" width="30" color="black" /></div>
 			</ThemeButton>
-			<button
-				className='hover:rotate-12 mx-2 w-[32px] h-[32px] text-[#f13232]'
-				onClick={() => {
-					handleGeneratePDF();
-				}}
-			>
-				<Icon icon="uiw:file-pdf" height="32" />
-				{/* {t(props?.downloadAsExcel)} */}
-			</button>
-			<button
-				className='hover:rotate-12 mx-2 w-[32px] h-[32px] text-[#32f185]'
-				onClick={() => {
-					handleGeneratePNG();
-				}}
-			>
-				<Icon icon="teenyicons:png-outline" height="32" />
-				{/* {t(props?.downloadAsExcel)} */}
-			</button>
+			{Highcharts && customTheme && state?.chartOptions && statusReportApi === 'success' &&
+				<>
+					<button
+						className='hover:rotate-12 mx-2 w-[32px] h-[32px] text-[#f13232]'
+						onClick={() => {
+							handleGeneratePDF();
+						}}
+					>
+						<Icon icon="uiw:file-pdf" height="32" />
+						{/* {t(props?.downloadAsExcel)} */}
+					</button>
+					<button
+						className='hover:rotate-12 mx-2 w-[32px] h-[32px] text-[#32f185]'
+						onClick={() => {
+							handleGeneratePNG();
+						}}
+					>
+						<Icon icon="teenyicons:png-outline" height="32" />
+						{/* {t(props?.downloadAsExcel)} */}
+					</button></>}
 		</div>
-		<figure id='chart-analytics' ref={chartRef} className='flex justify-center w-[100vw] h-[38vw]'>
-
+		<figure id='chart-analytics' ref={chartRef} className='flex justify-center w-[100vw] xl:h-[40vw] h-[50vw]'>
 			<div className="" style={{ width: '1px', height: '100%', position: 'inherit' }}></div>
 			{Highcharts && customTheme && state?.chartOptions && statusReportApi === 'success' &&
 				<HighchartsReact
@@ -309,7 +314,6 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 			{state === undefined && statusReportApi !== 'loading' && statusReportApi !== 'success' && <div className="flex flex-wrap text-2xl items-center w-full h-full justify-center">
 				<h1 className="flex w-full h-full justify-center">No Data</h1></div>}
 		</figure >
-
 	</section>
 }
 

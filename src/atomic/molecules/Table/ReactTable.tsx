@@ -136,8 +136,8 @@ const ReactTable: React.FC<Props> = (props) => {
 
   const { globalFilter, pageIndex, pageSize } = state;
   const pageSizeOptions = [10, 50, 100];
-
   const chartRef = useRef<HTMLDivElement>(document.getElementById('chart-analytics') as HTMLDivElement);
+  const [dense, setDense] = useState<boolean>(false);
 
   function handleGeneratePDF() {
 
@@ -172,19 +172,49 @@ const ReactTable: React.FC<Props> = (props) => {
     //PDF example
     if (fileType === "pdf") {
       const headerNames = columns.map((column: any) => column.exportValue);
-      const doc: any = new JsPDF();
+      const doc: any = new JsPDF('p', 'px', 'a4');
+      var cellStyles = {
+        height: 8, // Set the cell height to 12 pixels
+      };
+      // doc.// Set the starting position for the table
+      // var startX = 5;
+      // var startY = 5;
 
-      // doc.
+      // // Set the cell dimensions
+      // var cellWidth = 30;
+      // var cellHeight = 5;
+
+      // // Draw the table headers
+      // doc?.setFontSize(12);
+      // // doc?.setFontStyle("bold");
+      // for (var i = 0; i < headerNames.length; i++) {
+      //   doc.cell(startX + i * cellWidth, startY, cellWidth, 0, headerNames[i], i);
+      // }
+
+      // // Draw the table rows
+      // doc?.setFontSize(8);
+      // // doc?.setFontStyle("normal");
+      // for (var i = 0; i < data.length; i++) {
+      //   for (var j = 0; j < columns.length; j++) {
+      //     doc.cell(startX + j * cellWidth, 15 + (i + 1) * cellHeight, cellWidth, i !== 0 ? 25 : 25, data[i][j].toString(), i);
+      //   }
+      // }
+
       doc?.autoTable({
         head: [headerNames],
         body: data,
-        margin: { top: 20 },
+        margin: { top: 5 },
         styles: {
           lineColor: [0, 0, 0], lineWidth: 0.5,
-          minCellHeight: 9,
-          halign: "left",
+          minCellHeight: !dense ? 16 : 12,
+          height: 12,
+          halign: "center",
           valign: "center",
-          fontSize: 11,
+          fontSize: !dense ? 11 : 8,
+          cellPadding: 0.5,
+        },
+        bodyStyles: {
+          cellStyles: cellStyles,
         },
       });
 
@@ -201,25 +231,39 @@ const ReactTable: React.FC<Props> = (props) => {
       if (chart) {
         html2canvas(chart).then((canvas) => {
           const imgData = canvas.toDataURL('image/png');
-          const doc: any = new JsPDF('landscape', 'pt', 'a4');
+          const doc: any = new JsPDF('p', 'px', 'a4');
           // doc.
           const imgWidth = doc.internal.pageSize.getWidth();
           const imgHeight = canvas.height * imgWidth / canvas.width;
           doc?.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
           // doc.
           // doc.addPage();
+          var cellStyles = {
+            height: 8, // Set the cell height to 12 pixels
+          };
           doc?.autoTable({
             head: [headerNames],
             body: data,
+            margin: { top: 5 },
             startY: imgHeight + 20,
-            margin: { top: 20 },
             styles: {
               lineColor: [0, 0, 0], lineWidth: 0.5,
-              minCellHeight: 9,
-              halign: "left",
+              minCellHeight: !dense ? 16 : 12,
+              height: 12,
+              halign: "center",
               valign: "center",
-              fontSize: 11,
+              fontSize: !dense ? 11 : 8,
+              cellPadding: 0.5,
             },
+            bodyStyles: {
+              cellStyles: cellStyles,
+            }, willDrawCell: function (data: any) {
+              // check if the cell text is "no data"
+              if (data.cell.text == "no data") {
+                // change the fill color to red
+                doc.setFillColor(255, 0, 0);
+              }
+            }
           });
 
           doc.save(`${fileName}.pdf`);
@@ -244,7 +288,7 @@ const ReactTable: React.FC<Props> = (props) => {
 
   return (
     <>
-      <div className="flex flex-wrap w-full h-fit relative">
+      {props.columns.length && props.data.length ? <div className="flex flex-wrap w-full h-fit items-start relative">
         <div className='flex w-full'>
           {props?.hasSearch && (
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
@@ -267,7 +311,6 @@ const ReactTable: React.FC<Props> = (props) => {
               }}
             >
               <Icon icon="eos-icons:csv-file" height="32" />
-              {/* {t(props?.downloadAsExcel)} */}
             </button>
             <button
               className='text-[#49ed49] m-1 w-[32px] h-[32px] text-[var(--text-color)]'
@@ -276,7 +319,6 @@ const ReactTable: React.FC<Props> = (props) => {
               }}
             >
               <Icon icon="icon-park-twotone:excel" height="32" />
-              {/* {t(props?.downloadAsExcel)} */}
             </button>
             <button
               className='text-[#f13232] m-1 w-[32px] h-[32px] text-[var(--text-color)]'
@@ -285,15 +327,11 @@ const ReactTable: React.FC<Props> = (props) => {
               }}
             >
               <Icon icon="uiw:file-pdf" height="32" />
-              {/* {t(props?.downloadAsExcel)} */}
             </button>
-
           </div>}
         </div>
-
-        {/* {queryDevices.data[0].DeviceUniqueName} */}
         <div
-          className={`flex flex-wrap w-full overflow-y-scroll ${props?.tHeight !== undefined ? ` ${props?.tHeight} ` : ' h-[15rem] '
+          className={`flex h-full items-start flex-wrap w-full overflow-y-scroll ${props?.tHeight !== undefined ? ` ${props?.tHeight} ` : ' h-[15rem] '
             } `}
         >
           <div className="w-full">
@@ -338,15 +376,13 @@ const ReactTable: React.FC<Props> = (props) => {
                       prepareRow(row);
                       return (
                         <tr
+                          className={dense ? classes.table_dense : ""}
                           key={index}
                           {...(row.getRowProps() as HeaderGroupPropGetter<any>)}
                         >
                           {row.cells.map((cell, indexw) => (
                             <td
-                              onClick={() => {
-                                // console.log('clicked', row.original._id);
-                                props?.setSelectedRow(row.original._id);
-                              }}
+                              onClick={() => { props?.setSelectedRow(row.original._id) }}
                               key={indexw + 'index-xw'}
                               className={
                                 'p-1 border ' &&
@@ -369,6 +405,7 @@ const ReactTable: React.FC<Props> = (props) => {
                       prepareRow(row);
                       return (
                         <tr
+                          className={dense ? classes.table_dense : ""}
                           key={index + "row-index"}
                           {...(row.getRowProps() as HeaderGroupPropGetter<any>)}
                         >
@@ -433,9 +470,19 @@ const ReactTable: React.FC<Props> = (props) => {
                 </option>
               ))}
             </select>}
+            {props.isDense && <ThemeButton
+              className=" flex text-center mx-2 text-[12px] items-center"
+              type={dense ? 'explore' : 'deactivate'}
+              onClick={() => setDense(val => !val)}
+            // disabled={!canPreviousPage}
+            >
+              {t('dense')}
+            </ThemeButton>}
           </div>
         )}
-      </div>
+      </div> : <div className='flex w-full h-full items-ceneter justify-center text-4xl'>
+        No Data
+      </div>}
     </>
   );
 };
