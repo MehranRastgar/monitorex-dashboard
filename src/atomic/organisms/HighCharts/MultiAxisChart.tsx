@@ -270,7 +270,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 			aria-describedby="modal-modal-description"
 			className="flex w-full justify-center items-center "
 		>
-			<MultiChartSettings />
+			<MultiChartSettings closeFunction={setSettingsModal} />
 		</Modal>
 		<div className="absolute -translate-y-[40px] w-fit justify-start z-[80] scale-75">
 			<ThemeButton onClick={() => {

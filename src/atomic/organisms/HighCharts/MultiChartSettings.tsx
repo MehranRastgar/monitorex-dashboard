@@ -10,9 +10,10 @@ import classes2 from './multiChart.module.scss';
 import { ChartSettingsType } from "src/class/chart";
 import { setChartSettings } from "src/store/slices/chartSlice";
 import FormThemeButton from "src/atomic/atoms/ThemeButton/FormThemeButton";
+import { Icon } from "@iconify/react";
 
 interface Props {
-
+	closeFunction?: any
 }
 const MultiChartSettings: React.FC<Props> = (props) => {
 	const { t } = useTranslation()
@@ -51,14 +52,17 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 				...userData, chartSettings: { ...chartFormData }
 			}));
 		}
+		props?.closeFunction(false)
 	};
 
 
 	useEffect(() => {
 	}, []);
 	return <div className="flex flex-wrap items-start h-full w-full max-h-[500px] max-w-[600px] bg-[var(--bgc)] ">
-		<div className="w-full h-fit justify-start">
-			<h1 className="flex m-2">{(t('chartSettings'))}</h1>
+		<div className="flex w-full h-fit justify-start">
+			<h1 className="flex m-4 w-full">{(t('chartSettings'))}</h1>
+			<span className="flex m-4 text-red-500 cursor-pointer" onClick={() => { props?.closeFunction(false) }}><Icon width={20} icon="zondicons:close-outline" />
+			</span>
 		</div>
 		<form
 			className="flex flex-wrap items-start justify-start h-full"

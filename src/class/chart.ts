@@ -387,13 +387,13 @@ export default class HighchartsData {
 							style: {
 								fontFamily: 'cursive',
 								font: '1.2em',
-								color: `{series.color}`,
+								color: this.chartSettings?.lineColors?.[0] ?? 'var(--text-color)',
 							},
 						},
 						title: {
 							text: sens.sensor?.type,
 							style: {
-								color: `{series.color}`,
+								color: this.chartSettings?.lineColors?.[0] ?? 'var(--text-color)',
 								fontSize: '1.2em',
 								fontFamily: 'cursive',
 							},
@@ -916,8 +916,16 @@ export default class HighchartsData {
 			return;
 		}
 
-		// dataR?.findInex[0]?.data?.length
-		dataR?.[0]?.data?.map((sensorxy, index) => {
+		let eachSensorDataIsBigger: { index: number; len: number } = { index: 0, len: 0 }
+		dataR?.map((ws, inde) => {
+			if (ws?.data?.length !== undefined && ws?.data?.length > eachSensorDataIsBigger.len) {
+				eachSensorDataIsBigger = {
+					len: ws?.data?.length,
+					index: inde
+				}
+			}
+		})
+		dataR?.[eachSensorDataIsBigger.index]?.data?.map((sensorxy, index) => {
 			if (index % 1 === 0) {
 				const obj = Object.create({
 					index: index,
@@ -965,7 +973,7 @@ export default class HighchartsData {
 			accessor: string
 		}[];
 	} {
-		console.log(dataOfReport)
+		// console.log(dataOfReport)
 		let data: any[] = []
 		const columns: {
 			Header: string,
@@ -978,14 +986,24 @@ export default class HighchartsData {
 					accessor: (_row: any, i: number) => i + 1,
 				}
 			]
+
 		dataOfReport?.map((eachsens, index) => {
-			columns.push(
-				{
-					Header: eachsens?.sensor?.title ?? 'unnamed',
-					accessor: eachsens?._id ?? index.toString()
-				}
-			)
+			// columns.push(
+			// 	{
+			// 		Header: eachsens?.sensor?.title ?? 'unnamed',
+			// 		accessor: eachsens?._id ?? index.toString()
+			// 	}
+			// )
+			columns.push({
+				Header: eachsens?.sensor?.title ?? 'unnamed',
+				accessor: (_row: any, i: number) =>
+
+					dataOfReport?.[index].data?.find(item => item?.x === dataOfReport?.[0]?.data?.[i]?.x)?.y
+					// CreatedData?.[i]?.['63af0a208cddd72ced131b3a'] ??
+					?? 'null',
+			})
 		})
+		const CreatedData = [...this.makeDataTable(dataOfReport ?? []) ?? []]
 		columns.push({
 			Header: 'date',
 			accessor: 'date'
@@ -994,9 +1012,18 @@ export default class HighchartsData {
 			Header: 'time',
 			accessor: 'time'
 		})
+		// columns.push({
+		// 	Header: 'time2',
+		// 	accessor: (_row: any, i: number) =>
 
+		// 		dataOfReport?.[1].data?.find(item => item.x === dataOfReport?.[0].data[i].x)?.y
+		// 		// CreatedData?.[i]?.['63af0a208cddd72ced131b3a'] ??
+		// 		?? 'null',
+		// })
+		//(CreatedData?.[i])
+		console.log(CreatedData)
 		return {
-			data: [...this.makeDataTable(dataOfReport ?? []) ?? []],
+			data: CreatedData,
 			columns: columns
 		}
 	}

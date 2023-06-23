@@ -117,6 +117,7 @@ const ReactTable: React.FC<Props> = (props) => {
     prepareRow,
     pageOptions,
     preGlobalFilteredRows,
+    gotoPage,
     setGlobalFilter,
     setPageSize,
     state,
@@ -290,6 +291,7 @@ const ReactTable: React.FC<Props> = (props) => {
     <>
       {props.columns.length && props.data.length ? <div className="flex flex-wrap w-full h-fit items-start relative">
         <div className='flex w-full'>
+
           {props?.hasSearch && (
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
           )}
@@ -330,6 +332,63 @@ const ReactTable: React.FC<Props> = (props) => {
             </button>
           </div>}
         </div>
+        {props.hasPagination && props?.isDense && (
+          <div className="flex justify-center w-full h-10 mt-2 scale-75">
+            <ThemeButton
+              className=" flex text-center mx-2 text-[12px] items-center"
+              type={'activate'}
+              onClick={() => previousPage()}
+              disabled={!canPreviousPage}
+            >
+              {t('prev')}
+            </ThemeButton>
+            <span className="mx-2">
+              {pageIndex + 1} / {pageOptions?.length}
+            </span>
+            <ThemeButton
+              className=" flex text-center mx-2 text-[12px] items-center"
+              type={'activate'}
+              onClick={() => nextPage()}
+              disabled={!canNextPage}
+            >
+              {t('next')}
+            </ThemeButton>
+            {props?.rowNumbers && <select
+              className={classes.inpt}
+              value={pageSize}
+              onChange={(e) => {
+                setPageSize(Number(e.target.value));
+              }}
+            >
+              {pageSizeOptions?.map((size) => (
+                <option key={size} value={size}>
+                  Show {size} per Page
+                </option>
+              ))}
+            </select>}
+            {props?.rowNumbers && <select
+              className={classes.inpt + ' mx-2'}
+              value={pageIndex}
+              onChange={(e) => {
+                gotoPage(Number(e.target.value));
+              }}
+            >
+              {pageOptions?.map((size) => (
+                <option key={size} value={size}>
+                  Goto page {size + 1}
+                </option>
+              ))}
+            </select>}
+            {props.isDense && <ThemeButton
+              className=" flex text-center mx-2 text-[12px] items-center"
+              type={dense ? 'explore' : 'deactivate'}
+              onClick={() => setDense(val => !val)}
+            // disabled={!canPreviousPage}
+            >
+              {t('dense')}
+            </ThemeButton>}
+          </div>
+        )}
         <div
           className={`flex h-full items-start flex-wrap w-full overflow-y-scroll ${props?.tHeight !== undefined ? ` ${props?.tHeight} ` : ' h-[15rem] '
             } `}
@@ -467,6 +526,19 @@ const ReactTable: React.FC<Props> = (props) => {
               {pageSizeOptions?.map((size) => (
                 <option key={size} value={size}>
                   Show {size} per Page
+                </option>
+              ))}
+            </select>}
+            {props?.rowNumbers && <select
+              className={classes.inpt + ' mx-2'}
+              value={pageIndex}
+              onChange={(e) => {
+                gotoPage(Number(e.target.value));
+              }}
+            >
+              {pageOptions?.map((size) => (
+                <option key={size} value={size}>
+                  Goto page {size + 1}
                 </option>
               ))}
             </select>}
