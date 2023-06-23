@@ -36,7 +36,7 @@ type LineAccesibleType = 'Dash' | 'DashDot' | 'Dot' | 'LongDash' | 'LongDashDot'
 export default class HighchartsData {
 	private chartTheme: object = {}
 	private lineStylesArray: LineAccesibleType[] = ['Solid', 'Dot', 'Dash', 'DashDot', 'LongDash', 'LongDashDot', 'LongDashDotDot', 'ShortDash', 'ShortDashDot', 'ShortDashDotDot', 'ShortDot',]
-	private chartSettings: ChartSettingsType = {
+	public chartSettings: ChartSettingsType = {
 		chartMode: 'line',
 		multiAxis: true,
 		continues: false,
@@ -47,7 +47,9 @@ export default class HighchartsData {
 		lineColors: [],
 		bgColor: [],
 		textColor: [],
-		lineDiameter: 2
+		lineDiameter: 2,
+		xAxisRotation: 0
+
 	}
 
 	private series: { name: string; data: Datum[] }[] = [];
@@ -81,7 +83,8 @@ export default class HighchartsData {
 			lineColors: [],
 			bgColor: [],
 			textColor: [],
-			lineDiameter: 2
+			lineDiameter: 2,
+			xAxisRotation: 0
 		}
 		this.chartSettings = chartSettings
 		return chartSettings
@@ -554,7 +557,8 @@ export default class HighchartsData {
 		// const jalaliDate = moment(gregorianDate).format('jYYYY-jMM-jDD HH:mm:ss');
 
 		// this.categories = Array.from(new Set([arrSeries?.[0]?.data?.map((x: number[]) => moment(new Date(x?.[0]), 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD'))]))
-		// console.log('categories', new Date(jalaliDate).getTime())
+		console.log('this.chartSettings?.xAxisRotation', this.chartSettings?.xAxisRotation)
+
 		let dataTO: any = {
 			chartOptions: {
 				...this.testchart,
@@ -589,7 +593,6 @@ export default class HighchartsData {
 						scrollPositionX: 1
 					}
 				},
-
 				colors:
 					this.chartSettings?.lineColors?.length ? [...this.chartSettings?.lineColors] : [
 						"var(--chart-color-1)",
@@ -627,10 +630,8 @@ export default class HighchartsData {
 					// endOnTick: false,
 					type: 'datetime',
 					labels: {
-
 						allowOverlap: false,
-						rotation: this.chartSettings?.xAxisRotation ?? 0,
-
+						rotation: parseInt(this.chartSettings.xAxisRotation?.toString() ?? '0'),
 						formatter: this.myXAxisFormater(this.chartSettings?.textColor?.[0] ?? 'var(--text-color)', this.chartSettings?.xAxisTimeValue),
 						style: {
 							display: 'flex flex-wrap',
@@ -730,29 +731,29 @@ export default class HighchartsData {
 			style: {
 				color: this.chartSettings?.textColor?.[0] ?? 'cyan',
 			},
-		},
-
-		xAxis:
-		{
-			allowOverlap: false,
-			type: 'datetime',
-			style: {
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				padding: '5px'
-			},
-			labels: {
-
-				formatter: function (props: any): any {
-					// eslint-disable-next-line no-use-before-define
-					// this.chartSettings?.textColor?.[0]
-					const vals = props.value;
-					const val = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', vals);
-					return 'me'
-				}
-			}
 		}
+
+		// xAxis:
+		// {
+		// 	allowOverlap: false,
+		// 	type: 'datetime',
+		// 	style: {
+		// 		display: 'flex',
+		// 		justifyContent: 'center',
+		// 		alignItems: 'center',
+		// 		padding: '5px'
+		// 	},
+		// 	labels: {
+
+		// 		formatter: function (props: any): any {
+		// 			// eslint-disable-next-line no-use-before-define
+		// 			// this.chartSettings?.textColor?.[0]
+		// 			const vals = props.value;
+		// 			const val = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', vals);
+		// 			return 'me'
+		// 		}
+		// 	}
+		// }
 		//=============================================================================================
 		// {
 		// 	date: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',

@@ -32,9 +32,8 @@ const LiveSensorValue: React.FC<Props> = (props) => {
     return (<section>
         {Object.keys(SocketObject)?.map((sensor, index) =>
             <div className="flex flex-wrap" key={index}>:
-
-                {/* <ExcelShape {...{ width: '200', height: '80', color: 'red' }} /> */}
-                {/* {Object.values(SocketObject)[index].value} */}
+                {/* <ExcelShape {...{ width: '200', height: '80', color: 'red' }} />
+                {Object.values(SocketObject)[index].value} */}
                 <div className="flex border p-2"> {SocketObject[sensor].value}</div>
                 <div className="flex border p-2"> {SocketObject[sensor].createdAt}</div>
                 <div className="flex border p-2"> {SocketObject[sensor].sensorTitle}</div>

@@ -112,7 +112,7 @@ interface Props {
 	chartSettings: object
 }
 // const myChart = new Chart()
-const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
+const MultiAxisChart: React.FC<Props> = (props) => {
 	const chartOption = useAppSelector(selectChartOptions)
 	// const chartRef = useRef<any>(null);
 	const userData = useAppSelector(selectOwnUser)
@@ -124,6 +124,8 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 	const selectLocale = useAppSelector(selectCalendarMode)
 	const startDate = useAppSelector(selectStartDate)
 	const endDate = useAppSelector(selectEndDate)
+	const [chartSettings, setChartSettings] = useState<any>();
+
 	// const selectColumns = useAppSelector(selectTableColumns)
 	// const selectDatas = useAppSelector(selectTableDatas)
 
@@ -180,6 +182,7 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 			chartData.startDate = startDate ?? ''
 			chartData.endDate = endDate ?? ''
 			setState(chartData.sumOfdata(selectDataOFChart))
+			setChartSettings(chartData.chartSettings)
 
 		} else { setState(undefined) }
 	}
@@ -259,7 +262,7 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 
 	}, [selectDataOFChart, selectLocale, userData?.chartSettings]);
 
-	return <section className="flex mt-10 flex-wrap w-full">
+	return <section className={`flex mt-5 flex-wrap w-full `}>
 		<Modal
 			open={settingsModal}
 			onClose={() => setSettingsModal(false)}
@@ -297,7 +300,9 @@ const MultiAxisChart: React.FC<Props> = ({ chartSettings }) => {
 						{/* {t(props?.downloadAsExcel)} */}
 					</button></>}
 		</div>
-		<figure id='chart-analytics' ref={chartRef} className='flex justify-center w-[100vw] xl:h-[40vw] h-[50vw]'>
+		<figure id='chart-analytics' ref={chartRef}
+			key={JSON.stringify(chartSettings)}
+			className={`flex justify-center w-[100vw]  ${chartSettings?.xAxisRotation > 35 || chartSettings?.xAxisRotation < -35 ? ' xl:h-[50vw] h-[60vw]' : ' xl:h-[40vw] h-[50vw]'}`}>
 			<div className="" style={{ width: '1px', height: '100%', position: 'inherit' }}></div>
 			{Highcharts && customTheme && state?.chartOptions && statusReportApi === 'success' &&
 				<HighchartsReact

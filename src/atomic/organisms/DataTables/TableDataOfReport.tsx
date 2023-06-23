@@ -102,16 +102,19 @@ const TableDataOfReport: React.FC<Props> = () => {
   return (
     <>
       <section className="flex items-start flex-wrap h-[auto] min-h-[600px] mb-[1rem]">
-        <span className="mx-4 "> {t('sensors')}</span>{columns.length}
+        <span className="mx-4 "> {t('sensors')}</span>{columns.length - 2}
+        {selectDataOFChart?.map((item, index) =>
+          <div key={index}>,{item?.data?.length},</div>
+        )}
         {statusReportApi === 'success' && columns.length > 1 && (
-          < ReactTable
+          <ReactTable
             isDense={true}
             rowNumbers={50}
             downloadAsExcel='excel'
             hasSearch={true}
             hasPagination={true}
             setSelectedRow={() => { }}
-            tHeight=" h-[auto] "
+            tHeight=" h-[auto]"
             columns={columns}
             data={data}
             selectedRow={''}

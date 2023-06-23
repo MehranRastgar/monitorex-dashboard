@@ -79,9 +79,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               onClick={() => {
                 setGroupOrDevice('device')
                 dispatch(setSelectedGroupNumber(undefined))
-              }
-              }
-
+              }}
               type={groupOrDevice === 'device' ? 'activate' : 'deactivate'}
             >
               {t('devices')}
@@ -90,7 +88,6 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               onClick={() => {
                 setGroupOrDevice('group')
                 dispatch(setSelectedGroupNumber(undefined))
-
               }}
               type={groupOrDevice === 'group' ? 'activate' : 'deactivate'}
             >
@@ -105,7 +102,6 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
           >
             {groupOrDevice === 'device' && (
               <div
-
                 className={groupOrDevice === 'device' ? 'flex p-2 ' : 'hidden'}>
                 {selectDevices !== null ? <>{selectDevices.map((dev, index) => (
                   <DeviceUnit key={index.toString()} index={index} />
