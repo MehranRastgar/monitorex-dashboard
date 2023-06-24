@@ -31,15 +31,18 @@ import ReactTable from 'src/atomic/molecules/Table/ReactTable';
 import { SensorsReportType, selectSensorReports, selectStatusReportApi, setTable } from 'src/store/slices/analizeSlice';
 import HighchartsData from 'src/class/chart';
 import { selectCalendarMode } from 'src/store/slices/themeSlice';
-
+import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
+import classes from '/src/atomic/molecules/Table/table.module.scss'
 interface Props { }
 const TableDataOfReport: React.FC<Props> = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const [selectionModel, setSelectionModel] =
     React.useState<GridSelectionModel>([]);
+  const [granularity, setGranularity] = React.useState<number>(1);
 
   const [selectedRow, setSelectedRow] = useState<string>('');
+  const [update, setUpdate] = useState<boolean>(false);
 
   const selectDataOFChart = useAppSelector(selectSensorReports);
   const selectCalendar = useAppSelector(selectCalendarMode);
@@ -85,11 +88,11 @@ const TableDataOfReport: React.FC<Props> = () => {
   function makeData() {
     const chart = new HighchartsData([])
     chart.dateJalali = selectCalendar === 'fa'
-    const { columns, data } = chart.makeDataForTable(selectDataOFChart ?? [])
+    const { columns, data } = chart.makeDataForTable(selectDataOFChart ?? [], granularity)
     setColumns(columns)
     setData(data)
-    dispatch(setTable({ TableColumns: columns, TableDatas: data }))
-    console.log(columns)
+    // dispatch(setTable({ TableColumns: columns, TableDatas: data }))
+    // console.log(columns)
   }
 
 
@@ -97,11 +100,22 @@ const TableDataOfReport: React.FC<Props> = () => {
   React.useEffect(() => {
     makeData()
     // makeData2(selectDataOFChart)
-  }, [selectDataOFChart, selectCalendar]);
+  }, [selectDataOFChart, selectCalendar, update]);
 
   return (
     <>
       <section className="flex items-start flex-wrap h-[auto] min-h-[600px] mb-[1rem]">
+        <div className='flex h-fit'>
+          <div className='flex flex-wrap'>
+            <label className='flex w-full' htmlFor=''>Granularity</label>
+            <input className={classes.inpt} type='number' value={granularity} onChange={(e) => {
+              if (e?.target?.value !== undefined && parseInt(e?.target?.value) >= 1) {
+                setGranularity(parseInt(e.target.value))
+              }
+            }} /></div>
+          <ThemeButton type='explore' className=' h-fit' onClick={() => {
+            setUpdate(val => !val)
+          }}>اعمال</ThemeButton></div>
         <span className="mx-4 "> {t('sensors')}</span>{columns.length - 2}
         {selectDataOFChart?.map((item, index) =>
           <div key={index}>,{item?.data?.length},</div>

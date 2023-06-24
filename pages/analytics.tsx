@@ -43,6 +43,7 @@ import dynamic from "next/dynamic";
 import DataOfReport from 'src/atomic/organisms/analytics/DataOfReport';
 import { PrintPreview } from 'src/atomic/organisms/Print/PrintPreview';
 import TableDataOfReport from 'src/atomic/organisms/DataTables/TableDataOfReport';
+import HeaderMakeReport from 'src/atomic/molecules/Report/HeaderMakeReport';
 const MultiAxisChart = dynamic(
   () => import("src/atomic/organisms/HighCharts/MultiAxisChart"),
   { ssr: false }
@@ -203,6 +204,9 @@ export default function Analytics() {
       </section>
       <section className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
         <TableDataOfReport />
+      </section>
+      <section className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
+        <HeaderMakeReport />
       </section>
     </Layout>
   );

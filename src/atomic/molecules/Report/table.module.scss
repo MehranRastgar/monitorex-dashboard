@@ -1,0 +1,135 @@
+@use '../../../scss/abstracts/' as *;
+
+.table {
+  font-family:var(--fontFamily);
+  border-collapse: collapse;
+  font-size: 14px;
+  width: 100%;
+  position: relative;
+
+  // max-height: 100%;
+  // min-height: 100%;
+  text-align: center;
+  // position: relative;
+  // justify-content: flex-start;
+  border-collapse: collapse;
+
+}
+
+.table td {
+  flex: content;
+  border: 1px solid var(--border-color);
+  padding: 1px;
+  line-height: 25px;
+  max-height: 35px;
+  height: 35px;
+  // height: 25px;
+  // max-height: 25px;
+}
+
+.table th {
+  border: 1px solid var(--border-color);
+  background-color: white;
+  // box-shadow: rgba(49, 187, 44, 0.887) ;
+  color: black;//var(--text-color);
+  padding: 1px;
+}
+
+
+// .table tr {
+//   height: 20px;
+//   max-height: 20px;
+// }
+
+.table tr:nth-child(odd) {
+  background-color: white;
+  height: 20px;
+  max-height: 20px;
+}
+.table tr:nth-child(even) {
+  background-color: white;
+  height: 20px;
+  max-height: 20px;
+}
+
+.table tr:hover {
+  // height: 40px;
+  // background-color: var(--button-primary);
+  background-color: white;
+  box-shadow: var(--hover-table-shadow);
+  color: black;
+}
+.table_selected {
+  
+  background-color: white;
+  box-shadow: var(--selected-table-shadow);
+  color: black;
+}
+
+.table th {
+  padding-top: 8px;
+  padding-bottom: 4px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+}
+/* Denser table rows */
+.table_dense td {
+  line-height: 12px;
+  max-height: 16px;
+  height: 16px;
+  flex: content;
+  border:0px solid var(--border-color);
+  padding: 0px;
+  font: 1.0em sans-serif;
+}
+
+.table_dense tr:nth-child(odd) {
+  height: 20px;
+  max-height: 20px;
+}
+
+.table_dense tr:nth-child(even) {
+  height: 20px;
+  max-height: 20px;
+  
+}
+
+
+
+
+.inpt {
+  font-size: 14px;
+  border-radius: 6px;
+  line-height: 1.5;
+  padding: 5px 10px;
+  transition: box-shadow 100ms ease-in, border 100ms ease-in,
+  background-color 100ms ease-in;
+  border: 2px solid var(--border-color);
+  color: black;
+  background: var(--table-odd);
+  display: block;
+  height: 42px;
+}
+
+.label {
+  font-size: 11px;
+  line-height: 1.5;
+  padding: 5px 5px;
+  color: var(--text-color);
+  //   background: var(--table-odd);
+  display: block;
+}
+
+.inpt:hover {
+  border-color: var(--border-color);
+}
+.inpt:focus {
+  border-color: #9147ff;
+  background: var(--table-even);
+}
+.inpt::-webkit-input-placeholder {
+  color: var(--input-placeholder);
+  text-shadow: 0 0 0.125em transparent;
+  transition: all 0.25s;
+}

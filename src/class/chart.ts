@@ -903,7 +903,7 @@ export default class HighchartsData {
 
 	}
 	//=============================================================================================
-	private makeDataTable(dataR: SensorsReportType[] | undefined) {
+	private makeDataTable(dataR: SensorsReportType[] | undefined, granularity?: number) {
 		const arr: object[] = [];
 		const columnsMakes: GridColDef[] = [
 			{
@@ -926,7 +926,7 @@ export default class HighchartsData {
 			}
 		})
 		dataR?.[eachSensorDataIsBigger.index]?.data?.map((sensorxy, index) => {
-			if (index % 1 === 0) {
+			if (index % (granularity ?? 1) === 0) {
 				const obj = Object.create({
 					index: index,
 				});
@@ -965,7 +965,7 @@ export default class HighchartsData {
 	}
 	//=============================================================================================
 
-	public makeDataForTable(dataOfReport: SensorsReportType[]): {
+	public makeDataForTable(dataOfReport: SensorsReportType[], granularity?: number): {
 		data: object[];
 		columns: {
 			Header: string,
@@ -988,22 +988,22 @@ export default class HighchartsData {
 			]
 
 		dataOfReport?.map((eachsens, index) => {
-			// columns.push(
-			// 	{
-			// 		Header: eachsens?.sensor?.title ?? 'unnamed',
-			// 		accessor: eachsens?._id ?? index.toString()
-			// 	}
-			// )
-			columns.push({
-				Header: eachsens?.sensor?.title ?? 'unnamed',
-				accessor: (_row: any, i: number) =>
+			columns.push(
+				{
+					Header: eachsens?.sensor?.title ?? 'unnamed',
+					accessor: eachsens?._id ?? index.toString()
+				}
+			)
+			// columns.push({
+			// 	Header: eachsens?.sensor?.title ?? 'unnamed',
+			// 	accessor: (_row: any, i: number) =>
 
-					dataOfReport?.[index].data?.find(item => item?.x === dataOfReport?.[0]?.data?.[i]?.x)?.y
-					// CreatedData?.[i]?.['63af0a208cddd72ced131b3a'] ??
-					?? 'null',
-			})
+			// 		dataOfReport?.[index].data?.find(item => item?.x === dataOfReport?.[0]?.data?.[i]?.x)?.y
+			// 		// CreatedData?.[i]?.['63af0a208cddd72ced131b3a'] ??
+			// 		?? 'null',
+			// })
 		})
-		const CreatedData = [...this.makeDataTable(dataOfReport ?? []) ?? []]
+		const CreatedData = [...this.makeDataTable(dataOfReport ?? [], granularity) ?? []]
 		columns.push({
 			Header: 'date',
 			accessor: 'date'
@@ -1021,7 +1021,7 @@ export default class HighchartsData {
 		// 		?? 'null',
 		// })
 		//(CreatedData?.[i])
-		console.log(CreatedData)
+		// console.log(CreatedData)
 		return {
 			data: CreatedData,
 			columns: columns

@@ -138,6 +138,7 @@ const ReactTable: React.FC<Props> = (props) => {
   const { globalFilter, pageIndex, pageSize } = state;
   const pageSizeOptions = [10, 50, 100];
   const chartRef = useRef<HTMLDivElement>(document.getElementById('chart-analytics') as HTMLDivElement);
+  const headerRef = useRef<HTMLDivElement>(document.getElementById('analytics-header') as HTMLDivElement);
   const [dense, setDense] = useState<boolean>(false);
 
   function handleGeneratePDF() {
@@ -270,9 +271,71 @@ const ReactTable: React.FC<Props> = (props) => {
           doc.save(`${fileName}.pdf`);
         });
       }
+
       return false;
     }
 
+    if (fileType === "pdf+chart+header") {
+      const headerNames = columns.map((column: any) => column.exportValue);
+      // const doc: any = new JsPDF();
+      const chart = chartRef.current;
+      const header = headerRef.current;
+
+
+      if (chart) {
+        html2canvas(chart).then((canvas) => {
+          html2canvas(header).then((canvasHeader) => {
+
+            const imgData = canvas.toDataURL('image/png');
+            const imgDataOfHeader = canvasHeader.toDataURL('image/png');
+            const doc: any = new JsPDF('p', 'px', 'a4');
+            // doc.
+            const imgWidth = doc.internal.pageSize.getWidth();
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+
+            const imgWidthHeader = doc.internal.pageSize.getWidth();
+            const imgHeightHeader = canvasHeader.height * imgWidthHeader / canvasHeader.width;
+
+            doc?.addImage(imgDataOfHeader, 'PNG', 0, 0, imgWidthHeader, imgHeightHeader);
+            doc?.addImage(imgData, 'PNG', 0, imgHeightHeader, imgWidth, imgHeight);
+
+            // doc.
+            // doc.addPage();
+            var cellStyles = {
+              height: 8, // Set the cell height to 12 pixels
+            };
+            doc?.autoTable({
+              head: [headerNames],
+              body: data,
+              margin: { top: 5 },
+              startY: imgHeight + imgHeightHeader + 20,
+              styles: {
+                lineColor: [0, 0, 0], lineWidth: 0.5,
+                minCellHeight: !dense ? 16 : 12,
+                height: 12,
+                halign: "center",
+                valign: "center",
+                fontSize: !dense ? 11 : 8,
+                cellPadding: 0.5,
+              },
+              bodyStyles: {
+                cellStyles: cellStyles,
+              }, willDrawCell: function (data: any) {
+                // check if the cell text is "no data"
+                if (data.cell.text == "no data") {
+                  // change the fill color to red
+                  doc.setFillColor(255, 0, 0);
+                }
+              }
+            });
+
+            doc.save(`${fileName}.pdf`);
+          })
+        });
+      }
+
+      return false;
+    }
     // Other formats goes here
     return false;
   }
@@ -296,8 +359,21 @@ const ReactTable: React.FC<Props> = (props) => {
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
           )}
           {props.downloadAsExcel && <div className='flex w-full justify-end'>
+
             <button
-              className='flex border p-1 items-center justify-center rounded-md m-1 w-[68px] h-[32px] text-[var(--text-color)]'
+              className='flex bg-blue-900 border-[var(--text-color)] border p-1 items-center justify-center rounded-md m-1 w-[68px] h-[32px] text-[var(--text-color)]'
+              onClick={() => {
+                exportData("pdf+chart+header", true);
+              }}
+            >
+              <Icon icon="uiw:file-pdf" color={'#f13232'} height="22" />
+              <Icon icon="typcn:plus" height="22" />
+              <Icon icon="healthicons:chart-line" color={'cyan'} height="22" />
+              <Icon icon="typcn:plus" height="22" />
+              <Icon icon="fluent-mdl2:page-header-edit" color={'white'} height="22" />
+            </button>
+            <button
+              className='flex bg-blue-900 border-[var(--text-color)] border p-1 items-center justify-center rounded-md m-1 w-[68px] h-[32px] text-[var(--text-color)]'
               onClick={() => {
                 exportData("pdf+chart", true);
               }}

@@ -29,6 +29,9 @@ export interface SensorsReportType {
   data?: Datum[];
   sensor?: SensorInReport;
   device: DevicesReceiveType;
+  max?: number
+  min?: number
+  average?: number
 }
 
 export interface Datum {
