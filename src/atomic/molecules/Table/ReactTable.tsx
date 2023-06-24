@@ -7,6 +7,7 @@ import { selectDevicesData } from 'src/store/slices/devicesSlice';
 import { selectSocketObject, socketObType } from 'src/store/slices/socketSlice';
 // import { useExportData } from 'react-table-plugins'
 import { useExportData } from 'react-table-plugins';
+import domtoimage from 'dom-to-image';
 
 
 import {
@@ -56,6 +57,7 @@ import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
 import html2canvas from 'html2canvas';
+import LoadingOne, { LoadingTwo } from 'src/components/loader/default';
 
 
 
@@ -97,6 +99,7 @@ type ExportDataType<D extends Record<string, unknown>> = {
 }
 const ReactTable: React.FC<Props> = (props) => {
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(false)
   const data = React.useMemo(() => props.data, [props.data]);
   const columns = React.useMemo(
     () => props.columns,
@@ -144,7 +147,12 @@ const ReactTable: React.FC<Props> = (props) => {
   function handleGeneratePDF() {
 
   }
-  function getExportFileBlob({ columns, data, fileType, fileName }: { columns: any; data: any; fileType: any; fileName: any; }): any {
+  function getExportFileBlob({ columns, data, fileType, fileName }: {
+    columns: any; data: any; fileType: any;
+    fileName: any;
+  }): any {
+    setLoading(true)
+
     if (fileType === "csv") {
       // CSV example
       const headerNames = columns.map((col: any) => col.exportValue);
@@ -230,8 +238,8 @@ const ReactTable: React.FC<Props> = (props) => {
       const chart = chartRef.current;
 
 
-      if (chart) {
-        html2canvas(chart).then((canvas) => {
+      if (true) {
+        html2canvas(document.getElementById('chart-analytics') as HTMLDivElement).then((canvas) => {
           const imgData = canvas.toDataURL('image/png');
           const doc: any = new JsPDF('p', 'px', 'a4');
           // doc.
@@ -276,63 +284,103 @@ const ReactTable: React.FC<Props> = (props) => {
     }
 
     if (fileType === "pdf+chart+header") {
+      setLoading(true)
       const headerNames = columns.map((column: any) => column.exportValue);
       // const doc: any = new JsPDF();
-      const chart = chartRef.current;
-      const header = headerRef.current;
+      const refd = document.getElementById('analytics-header') as HTMLDivElement
+      const options = { bgcolor: '#FFFFFF' };
+      domtoimage.toPng(refd, { quality: 100, bgcolor: '#FFFFFF' }).then((dataUrl) => {
+        var img = new Image()
+        img.src = dataUrl
+
+        html2canvas(document.getElementById('chart-analytics') as HTMLDivElement).then(async (canvas) => {
+          console.log('header')
+          const imgData = canvas.toDataURL('image/png');
+          // const imgDataOfHeader = canvasHeader.toDataURL('image/png');
 
 
-      if (chart) {
-        html2canvas(chart).then((canvas) => {
-          html2canvas(header).then((canvasHeader) => {
+          // document.body.appendChild(img)
 
-            const imgData = canvas.toDataURL('image/png');
-            const imgDataOfHeader = canvasHeader.toDataURL('image/png');
-            const doc: any = new JsPDF('p', 'px', 'a4');
-            // doc.
-            const imgWidth = doc.internal.pageSize.getWidth();
-            const imgHeight = canvas.height * imgWidth / canvas.width;
 
-            const imgWidthHeader = doc.internal.pageSize.getWidth();
-            const imgHeightHeader = canvasHeader.height * imgWidthHeader / canvasHeader.width;
+          const doc: any = new JsPDF('p', 'px', 'a4');
+          // doc.
+          // const imgProps = doc.getImageProperties(img);
 
-            doc?.addImage(imgDataOfHeader, 'PNG', 0, 0, imgWidthHeader, imgHeightHeader);
-            doc?.addImage(imgData, 'PNG', 0, imgHeightHeader, imgWidth, imgHeight);
+          // const pdfWidth = doc.internal.pageSize.getWidth();
+          // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-            // doc.
-            // doc.addPage();
-            var cellStyles = {
-              height: 8, // Set the cell height to 12 pixels
-            };
-            doc?.autoTable({
-              head: [headerNames],
-              body: data,
-              margin: { top: 5 },
-              startY: imgHeight + imgHeightHeader + 20,
-              styles: {
-                lineColor: [0, 0, 0], lineWidth: 0.5,
-                minCellHeight: !dense ? 16 : 12,
-                height: 12,
-                halign: "center",
-                valign: "center",
-                fontSize: !dense ? 11 : 8,
-                cellPadding: 0.5,
-              },
-              bodyStyles: {
-                cellStyles: cellStyles,
-              }, willDrawCell: function (data: any) {
-                // check if the cell text is "no data"
-                if (data.cell.text == "no data") {
-                  // change the fill color to red
-                  doc.setFillColor(255, 0, 0);
-                }
+          const imgWidth = doc.internal.pageSize.getWidth();
+          const imgHeight = canvas.height * imgWidth / canvas.width;
+
+          const imgWidthHeader = doc.internal.pageSize.getWidth();
+          const imgHeightHeader = img.height * imgWidthHeader / img.width;
+
+          doc?.addImage(img, 'PNG', 0, 0, imgWidthHeader, imgHeightHeader);
+          doc?.addImage(imgData, 'PNG', 0, imgHeightHeader, imgWidth, imgHeight);
+
+          // doc.
+          // doc.addPage();
+          var cellStyles = {
+            height: 4, // Set the cell height to 12 pixels
+          };
+          doc?.autoTable({
+            head: [headerNames],
+            body: data,
+            margin: { top: 5 },
+            startY: imgHeight + imgHeightHeader + 20,
+            styles: {
+              lineColor: [0, 0, 0], lineWidth: 0.5,
+              minCellHeight: !dense ? 16 : 12,
+              height: 8,
+              halign: "center",
+              valign: 'middle',
+              fontSize: !dense ? 11 : 8,
+              cellPadding: 0.5,
+            },
+            // columnStyles: {
+            //   0: { valign: "top" },
+            //   1: {
+            //     fontStyle: 'bold',
+            //     halign: 'center',
+            //   },
+            //   2: {
+            //     fontStyle: 'bold',
+            //     halign: 'center',
+            //   },
+            //   3: {
+            //     fontStyle: 'bold',
+            //     halign: 'center',
+            //   },
+            // },
+            bodyStyles: {
+              cellStyles: cellStyles,
+            }, willDrawCell: function (data: any) {
+              // check if the cell text is "no data"
+              if (data.cell.text == "no data") {
+                // change the fill color to red
+                doc.setFillColor(255, 0, 0);
               }
-            });
+            }
 
-            doc.save(`${fileName}.pdf`);
+
           })
-        });
-      }
+          doc.save(`${fileName}.pdf`);
+          setLoading(false)
+
+        }).catch(function (err) {
+          console.log(err)
+          setLoading(false)
+
+        }).catch(function (err) {
+          console.log(err)
+          setLoading(false)
+
+        })
+
+      })
+
+
+
 
       return false;
     }
@@ -361,16 +409,20 @@ const ReactTable: React.FC<Props> = (props) => {
           {props.downloadAsExcel && <div className='flex w-full justify-end'>
 
             <button
-              className='flex bg-blue-900 border-[var(--text-color)] border p-1 items-center justify-center rounded-md m-1 w-[68px] h-[32px] text-[var(--text-color)]'
+              className='flex bg-blue-900 border-[var(--text-color)] border p-1 items-center justify-center rounded-md m-1 w-[90px] h-[32px] text-[var(--text-color)]'
               onClick={() => {
                 exportData("pdf+chart+header", true);
               }}
             >
-              <Icon icon="uiw:file-pdf" color={'#f13232'} height="22" />
-              <Icon icon="typcn:plus" height="22" />
-              <Icon icon="healthicons:chart-line" color={'cyan'} height="22" />
-              <Icon icon="typcn:plus" height="22" />
-              <Icon icon="fluent-mdl2:page-header-edit" color={'white'} height="22" />
+              {!loading && <> <Icon icon="uiw:file-pdf" color={'#f13232'} height="22" />
+                <Icon icon="typcn:plus" height="22" />
+                <Icon icon="healthicons:chart-line" color={'cyan'} height="22" />
+                <Icon icon="typcn:plus" height="22" />
+                <Icon icon="fluent-mdl2:page-header-edit" color={'white'} height="22" /></>}
+              {
+                loading && <div className="flex h-fit scale-50">
+                  <LoadingOne /></div>
+              }
             </button>
             <button
               className='flex bg-blue-900 border-[var(--text-color)] border p-1 items-center justify-center rounded-md m-1 w-[68px] h-[32px] text-[var(--text-color)]'

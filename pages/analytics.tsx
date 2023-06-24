@@ -137,7 +137,7 @@ export default function Analytics() {
   }, [queryDevices.isFetching, queryDevices.isSuccess]);
   return (
     <Layout>
-      <section className="flex flex-wrap justify-center">
+      <Item className="flex flex-wrap justify-center">
         <DeviceMA />
         <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
           {selectLocale === 'fa' ?
@@ -197,17 +197,17 @@ export default function Analytics() {
             handleSaveToGroup={handleSaveToGroup}
           />
         </Modal>
-      </section>
-      <section className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
+      </Item>
+      <Item className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5 rounded-md">
         <MultiAxisChart chartSettings={{}} />
         {/* <MultiReportChartContainer /> */}
-      </section>
-      <section className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
+      </Item>
+      <Item className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5 rounded-md">
         <TableDataOfReport />
-      </section>
-      <section className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
+      </Item>
+      <Item className=" flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5 rounded-md">
         <HeaderMakeReport />
-      </section>
+      </Item>
     </Layout>
   );
 }

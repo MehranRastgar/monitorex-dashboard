@@ -4,15 +4,17 @@ import Paper from "@mui/material/Paper";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "var(--blur-bg-bl)",
-  backdropFilter: "blur( 8px )",
-  "-webkit-backdrop-filter": "blur( 8px )",
+  // backdropFilter: "blur( 8px )",
+  // "-webkit-backdrop-filter": "blur( 8px )",
+  margin: ' 1,3 ,1 ,3',
+  borderRadius: '1rem',
   ...theme.typography.body2,
-  padding: theme.spacing(1),
+  padding: theme.spacing(3),
   border: "var(--text-color)",
   textAlign: "center",
   color: "var(--primary)",
   boxShadow:
-    " -6px 7px 4px -1px rgb(0 0 0 / 20%), -8px 10px 7px 4px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 18%)",
+    "rgba(255, 255, 255, 0.3) 0px 0px 15px 0px, rgba(255, 255, 255, 0.3) 0px 0px 2px 0px;",
 }));
 export default Item;
 

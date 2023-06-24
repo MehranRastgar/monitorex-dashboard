@@ -20,7 +20,7 @@ function TopNav() {
   return (
     <div
       className={
-        "items-end fixed bg-[var(--sidebar)] flex w-full z-[200]  flex-wrap  "
+        "items-end fixed bg-[var(--header-bgc)] flex w-full z-[200]  flex-wrap  "
       }
     >
       <div className={classes.topNav_left}>
