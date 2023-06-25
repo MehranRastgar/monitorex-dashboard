@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { socket } from "../../../components/socketio";
-import { DevicesReceiveType } from "../../../store/api/devicesApi";
+import { DevicesReceiveType, ElectricalPanelType } from "../../../store/api/devicesApi";
 import { useAppSelector } from "../../../store/hooks";
 import { selectDevicesData } from "../../../store/slices/devicesSlice";
 import Item from "../../atoms/Item/Item";
@@ -16,7 +16,7 @@ interface Props {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
   byte?: number;
   offset?: number;
-  eb_id?: string;
+  eb?: DevicesReceiveType;
 }
 const ArrayOfElectrical: React.FC<Props> = (props) => {
   const [reverse, setReverse] = useState(false);
@@ -35,7 +35,7 @@ const ArrayOfElectrical: React.FC<Props> = (props) => {
       setArrayOfElec([...arrayOfElec, i]);
     }
   }
-  const offs = 1 + (props?.offset ?? 0) * 7;
+  const offs = (props?.offset ?? 0) * 7;
 
   useEffect(() => {
     if (arrayOfElec?.length < numberOfElectricalDevices) HandleArr();
@@ -50,34 +50,26 @@ const ArrayOfElectrical: React.FC<Props> = (props) => {
         }}
         className="flex transition-all duration-700 "
       >
-        {arrayOfElec?.map((i, index) => (
-          <>
-            {/* <div
-              key={index + "-ii"}
-              className="flex rounded-lg p-2 transition-all duration-700 border m-2"
-            > */}
-
-            <DeviceName
-              index={index}
-              byte={props.byte}
-              id={props.eb_id}
-              portNumber={offs + index}
-            >
-              <ObjectElectrical
-                key={index}
-                number={index + 1 + (props?.offset ?? 0) * 7}
-                OnOrOff={
-                  props?.byte !== undefined
-                    ? (props?.byte & (0x00000001 << (6 - index))) === 0
-                      ? false
-                      : true
-                    : undefined
-                }
-              />
-            </DeviceName>
-            {/* </div> */}
-          </>
-        ))}
+        {props.eb?.electricals?.slice(offs, offs + 7)?.map((elec, index) =>
+          <DeviceName
+            index={index}
+            byte={props.byte}
+            elec={elec}
+            key={index}
+          >
+            <ObjectElectrical
+              // key={index}
+              number={index + 1 + offs}
+              OnOrOff={
+                props?.byte !== undefined
+                  ? (props?.byte & (0x00000001 << (6 - index))) === 0
+                    ? false
+                    : true
+                  : undefined
+              }
+            />
+          </DeviceName>
+        )}
       </div>
     </>
   );
@@ -86,60 +78,43 @@ const ArrayOfElectrical: React.FC<Props> = (props) => {
 export default ArrayOfElectrical;
 
 interface PropsDev {
-  portNumber?: number;
-  id?: string;
-  children: React.ReactElement;
+  elec: ElectricalPanelType
   byte?: number;
   index: number;
+  children: any
 }
 const DeviceName: React.FC<PropsDev> = ({
-  portNumber,
-  id,
-  children,
-  byte,
   index,
+  byte,
+  elec,
+  children
 }) => {
-  const devices = useAppSelector(selectDevicesData);
-  const [arrDev, setArrDev] = useState<DevicesReceiveType>();
 
-  useEffect(() => {
-    const dev = devices.filter((de) => de.electricalId === id);
-    //console.log(dev);
-    const ind = dev?.findIndex((dev) => dev.electricalPort === portNumber);
-    setArrDev(dev[ind]);
-    ////console.log("dive filtered", dev);
-  }, [id, portNumber, children]);
 
   return (
-    <>
-      {arrDev?.title && (
-        <Item
-          key={index}
-          className={`flex flex-wrap w-20 h-20 justify-center font-Vazir-Light m-2  ${
-            byte !== undefined
-              ? (byte & (0x00000001 << (6 - index))) === 0
-                ? "bg-gray-600"
-                : "bg-green-600"
-              : undefined
-          }`}
-        >
-          <div className="flex w-full ">
-            {byte !== undefined
-              ? (byte & (0x00000001 << (6 - index))) === 0
-                ? "OFF"
-                : "ON"
-              : undefined}
-          </div>
-          <div className=" text-xs break-words text-clip text-justify overflow-hidden h-full">
-            {/* {index + offs} */}
-            <div className="max-h-8 h-8 text-justify w-full justify-center">
-              {arrDev?.title ?? "NA"}
-            </div>
+    <div
+      className={`flex flex-wrap w-20 h-20 justify-center font-Vazir-Light m-2  ${byte !== undefined
+        ? (byte & (0x00000001 << (6 - index))) === 0
+          ? "bg-gray-600"
+          : "bg-green-600"
+        : undefined
+        }`}
+    >
+      <div className="flex w-full ">
+        {byte !== undefined
+          ? (byte & (0x00000001 << (6 - index))) === 0
+            ? "OFF"
+            : "ON"
+          : undefined}
+      </div>
+      <div className=" text-xs break-words text-clip text-justify overflow-hidden h-full">
+        {/* {index + offs} */}
+        <div className="max-h-8 h-8 text-justify w-full justify-center">
+          {elec?.deviceName ?? "NA"}
+        </div>
 
-            {children}
-          </div>
-        </Item>
-      )}
-    </>
+        {children}
+      </div>
+    </div>
   );
 };

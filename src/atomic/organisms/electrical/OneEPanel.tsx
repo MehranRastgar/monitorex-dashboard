@@ -19,6 +19,7 @@ const OneEPanel: React.FC<Props> = (props) => {
   useEffect(() => {
     socket.on(props.idOfSub, (data: any) => {
       setValue(data);
+      console.log(data)
     });
     return () => {
       socket.off(props.idOfSub);
@@ -40,31 +41,31 @@ const OneEPanel: React.FC<Props> = (props) => {
   return (
     <>
       <div className="flex items-end overflow-y-hidden">
+        <ThingDevice {...thingOption} />
         <ScrollContainer
           vertical={false}
           hideScrollbars={false}
           className="scroll-container px-2 product-slider-one-items overflow-y-hidden "
         >
           <div>
-            <ThingDevice {...thingOption} />
           </div>
           <div>
             <ArrayOfElectrical
-              eb_id={devices.filter((de) => de._id === props?.idOfSub)?.[0]._id}
+              eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
               offset={0}
               byte={value?.metaField?.byte1}
             />
           </div>
           <div>
             <ArrayOfElectrical
-              eb_id={devices.filter((de) => de._id === props?.idOfSub)?.[0]._id}
+              eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
               offset={1}
               byte={value?.metaField?.byte2}
             />
           </div>
           <div>
             <ArrayOfElectrical
-              eb_id={devices.filter((de) => de._id === props?.idOfSub)?.[0]._id}
+              eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
               offset={2}
               byte={value?.metaField?.byte3}
             />

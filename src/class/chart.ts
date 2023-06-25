@@ -64,6 +64,7 @@ export default class HighchartsData {
 	private continues: boolean = true
 	private chartBGC: string = "var(--bgc)"
 
+	public liveChart?: boolean = false
 	public divideBy: number = 1
 	public startDate: string = ''
 	public endDate: string = ''
@@ -295,6 +296,7 @@ export default class HighchartsData {
 
 					if (!(arrAxisY.findIndex(item => item?.unit === sens?.sensor?.unit) >= 0))
 						arrAxisY.push({
+							enablePolling: true,
 							gridLineDashStyle: (() => {
 								if (this.chartSettings.grid)
 									return 'longdash'
@@ -343,6 +345,8 @@ export default class HighchartsData {
 						});
 					arrSeries.push(
 						{
+
+							enablePolling: true,
 							lineWidth: this.chartSettings.justPoint ? 0 : this.chartSettings?.lineDiameter ?? 2,
 							marker: {
 								enabled: this.chartSettings.justPoint,
@@ -417,148 +421,13 @@ export default class HighchartsData {
 			}
 		});
 
-		// const makedData = {
-		// 	chartOptions: {
-		// 		exporting: {
-		// 			enabled: false,
-		// 		},
-		// 		colors: [
-		// 			"var(--chart-color-1)",
-		// 			"var(--chart-color-2)",
-		// 			"var(--chart-color-3)",
-		// 			"blue",
-		// 			"green",
-		// 			"cyan",
-		// 			"yellow",
-		// 			"var(--text-color)",
-		// 		],
-		// 		chart: {
-		// 			alignTicks: true,
-		// 			backgroundColor: "var(--chart-bgc)",
-		// 		},
-		// 		legend: {
-		// 			itemHiddenStyle: { color: "var(--dev-bgc-disable)" },
-		// 			itemHoverStyle: { color: "var(--dev-bgc-selected)" },
-		// 			itemStyle: { color: "var(--text-color)" },
-		// 			enabled: true,
-		// 			align: "left",
-		// 			alignColumns: true,
-		// 			backgroundColor: "var(--chart-bgc)",
-		// 			floating: false,
-		// 		},
-		// 		// tooltip: {
-		// 		//   shared: true,
-		// 		// },
-		// 		tooltip: {
-		// 			// snap: 1 / 24,
-		// 			// stickOnContact: true,
-		// 			valueSuffix: "",
-		// 			// pointFormat:
-		// 			// 	'<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> <br/>',
-		// 			// pointFormat: '<b>{point.y}</b> at {point.jalali:%Y-%m-%d %H:%M:%S}',
-		// 			valueDecimals: 1,
-		// 			split: true,
-		// 			useHTML: true,
-		// 			headerFormat: '<table><tr><th colspan="2" style="color: {series.name}">{point.jalali:%Y-%m-%d %H:%M:%S}</th></tr>',
-		// 			pointFormat:
-		// 				'<tr><td style="color: {series.color}">{series.name} </td>' +
-		// 				'<b>{point.y}</b> at {point.jalali:%Y-%m-%d %H:%M:%S}' +
-		// 				'<td style="text-align: right"><b>{point.y} {series.name}</b></td></tr>',
-		// 			footerFormat: "</table>",
-		// 			xDateFormat: "%Y-%m-%d %H:%M:%S",
-		// 			shared: true,
-		// 		},
-		// 		plotOptions: {
-		// 			series: {
-		// 				showInLegend: true,
-		// 				accessibility: {
-		// 					exposeAsGroupOnly: true,
-		// 				},
-		// 			},
-		// 		},
-		// 		rangeSelector: {
-		// 			enabled: false,
-
-		// 			buttons: [
-		// 				{
-		// 					type: "hour",
-		// 					count: 6,
-		// 					text: "6h",
-		// 				},
-		// 				{
-		// 					type: "hour",
-		// 					count: 12,
-		// 					text: "12h",
-		// 				},
-		// 				{
-		// 					type: "day",
-		// 					count: 1,
-		// 					text: "1d",
-		// 				},
-		// 				{
-		// 					type: "day",
-		// 					count: 7,
-		// 					text: "7d",
-		// 				},
-		// 				{
-		// 					type: "day",
-		// 					count: 14,
-		// 					text: "14d",
-		// 				},
-		// 				{
-		// 					type: "month",
-		// 					count: 1,
-		// 					text: "1m",
-		// 				},
-		// 				{
-		// 					type: "month",
-		// 					count: 3,
-		// 					text: "3m",
-		// 				},
-		// 				{
-		// 					type: "all",
-		// 					text: "All",
-		// 				},
-		// 			],
-		// 			selected: 7,
-		// 		},
-		// 		title: {
-		// 			text: "Report Sensors",
-		// 			floating: false,
-		// 			align: "center",
-		// 			x: -30,
-		// 			y: 30,
-		// 		},
-		// 		scrollbar: {
-		// 			barBackgroundColor: "gray",
-		// 			barBorderRadius: 7,
-		// 			barBorderWidth: 0,
-		// 			buttonBackgroundColor: "gray",
-		// 			buttonBorderWidth: 0,
-		// 			buttonBorderRadius: 7,
-		// 			trackBackgroundColor: "none",
-		// 			trackBorderWidth: 1,
-		// 			trackBorderRadius: 8,
-		// 			trackBorderColor: "#CCC",
-		// 			enabled: false,
-		// 		},
-		// 		series: [...arrSeries],
-		// 		yAxis: [...arrAxisY],
-		// 	},
-		// }
 		console.timeEnd('how many sumOfdata')
 
-		// const options = { year: 'numeric', day: 'numeric', month: 'long' };
-		const num = arrSeries[0].data.length
-		const starttime = new Date(moment(arrSeries[0].data?.[0]?.[0]).toISOString())
-		const endtime = new Date(moment(arrSeries[0].data?.[num - 1]?.[0]).toISOString())
+		const num = arrSeries?.[0]?.data?.length
+		const starttime = new Date(moment(arrSeries?.[0]?.data?.[0]?.[0]).toISOString())
+		const endtime = new Date(moment(arrSeries?.[0]?.data?.[num - 1]?.[0]).toISOString())
 
-		// const gregorianDate = new Date(2023, 5, 13); // Note: month is zero-indexed
-		// const jalaliDate = moment(gregorianDate).format('jYYYY-jMM-jDD HH:mm:ss');
-
-		// this.categories = Array.from(new Set([arrSeries?.[0]?.data?.map((x: number[]) => moment(new Date(x?.[0]), 'YYYY/MM/DD').locale('fa').format('YYYY/MM/DD'))]))
-		console.log('this.chartSettings?.xAxisRotation', this.chartSettings?.xAxisRotation)
-
+		// console.log('this.chartSettings?.xAxisRotation', this.chartSettings?.xAxisRotation)
 		let dataTO: any = {
 			chartOptions: {
 				...this.testchart,
@@ -569,6 +438,7 @@ export default class HighchartsData {
 					enabled: true
 				},
 				chart: {
+
 					backgroundImage: undefined,
 					backgroundColor: (() => {
 						if (this.chartSettings?.bgColor?.[0]) {
@@ -625,9 +495,19 @@ export default class HighchartsData {
 				},
 				xAxis:
 				{
+					tickInterval: 'auto',
 					// minorTickInterval: 'auto',
 					// startOnTick: false,
 					// endOnTick: false,
+					// tickPositioner: function (this: any) {
+					// 	var positions = [],
+					// 		tick = Math.floor(this.dataMin),
+					// 		increment = Math.ceil((this.dataMax - this.dataMin) / 14);
+					// 	for (tick; tick - increment <= this.dataMax; tick += increment) {
+					// 		positions.push(tick);
+					// 	}
+					// 	return positions;
+					// },
 					type: 'datetime',
 					labels: {
 						allowOverlap: false,
@@ -668,6 +548,86 @@ export default class HighchartsData {
 						},
 					},
 				},
+				scrollbar: (() => {
+					if (this.liveChart) {
+						return {
+							barBackgroundColor: "gray",
+							barBorderRadius: 7,
+							barBorderWidth: 0,
+							buttonBackgroundColor: "gray",
+							buttonBorderWidth: 0,
+							buttonBorderRadius: 7,
+							trackBackgroundColor: "none",
+							trackBorderWidth: 1,
+							trackBorderRadius: 8,
+							trackBorderColor: "#CCC",
+							enabled: false,
+						};
+					} else {
+						return {
+							enabled: false,
+
+						};
+					}
+				})(),
+
+				navigator: (() => {
+					if (this.liveChart) {
+						return {
+
+							enabled: true,
+						};
+					} else {
+						return {
+							enabled: false,
+
+						};
+					}
+				})(),
+				rangeSelector: (() => {
+					if (this.liveChart) {
+						return {
+							enabled: false,
+							buttons: [
+								{
+									type: "hour",
+									count: 6,
+									text: "6h",
+								},
+								{
+									type: "hour",
+									count: 12,
+									text: "12h",
+								},
+								{
+									type: "day",
+									count: 1,
+									text: "1d",
+								},
+								{
+									type: "day",
+									count: 3,
+									text: "7d",
+								},
+								{
+									type: "day",
+									count: 7,
+									text: "14d",
+								},
+								{
+									type: "all",
+									text: "All",
+								},
+							],
+							selected: 0,
+						};
+					} else {
+						return {
+							enabled: false,
+
+						};
+					}
+				})(),
 
 			},
 

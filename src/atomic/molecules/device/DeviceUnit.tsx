@@ -34,7 +34,7 @@ const DeviceUnit: React.FC<Props> = (props) => {
     dispatch(setEndDate(publishDate.toJSON()));
     dispatch(
       setStartDate(
-        new Date(dayjs().unix() * 1000 - 8 * 1000).toLocaleString(),
+        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * 5).toLocaleString(),
       ),
     );
 
@@ -49,7 +49,7 @@ const DeviceUnit: React.FC<Props> = (props) => {
       reportSensorsAsync({
         sensors: arr,
         start: new Date(
-          dayjs().unix() * 1000 - 8 * 1000,
+          dayjs().unix() * 1000 - 60 * 1000 * 60 * 5,
         ).toLocaleString(),
         end: publishDate.toJSON(),
       }),
@@ -66,6 +66,12 @@ const DeviceUnit: React.FC<Props> = (props) => {
       // if (device?._id) socket.off(device?._id);
     };
   }, [devices, device, deviceData]);
+
+
+  useEffect(() => {
+
+
+  }, []);
 
   return (
     <section

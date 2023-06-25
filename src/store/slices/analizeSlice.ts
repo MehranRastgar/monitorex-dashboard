@@ -19,6 +19,7 @@ export interface AnalizeState {
   statusApi: statusApiType;
   selectedSensors?: SensorsReceiveTpe[];
   sensorsReport?: SensorsReportType[];
+  sensorsLiveData?: SensorsReportType[];
   statusReportApi: statusApiType;
   selectedGroup?: number; ///////
   selectedGroupWhole?: GroupItemType;
@@ -82,6 +83,9 @@ export const analizeSlice = createSlice({
 
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
+    setSensorsLiveData: (state, action: PayloadAction<SensorsReportType[] | undefined>) => {
+      state.sensorsLiveData = action.payload;
+    },
     setSelectedGroup: (state, action: PayloadAction<GroupItemType | undefined>) => {
       state.selectedGroupWhole = action.payload;
     },
@@ -206,7 +210,8 @@ export const {
   setSelectedSensorsAdvanced,
   setTable,
   setGranularity,
-  setSelectedGroup
+  setSelectedGroup,
+  setSensorsLiveData
 } = analizeSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
@@ -222,6 +227,8 @@ export const selectSelectedSensorsAnalize = (state: AppState) =>
   state.analize.selectedSensors;
 export const selectSensorReports = (state: AppState) =>
   state.analize.sensorsReport;
+export const selectSensorLiveData = (state: AppState) =>
+  state.analize.sensorsLiveData;
 export const selectStatusReportApi = (state: AppState) =>
   state.analize.statusReportApi;
 export const selectStartDayjs = (state: AppState) => state.analize.startDayjs;

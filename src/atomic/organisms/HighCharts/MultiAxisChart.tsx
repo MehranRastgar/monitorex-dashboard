@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 // import Highcharts from "highcharts";
-import Highcharts from "highcharts/highstock";
+import Highcharts, { StockChart } from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official"
 import HighchartsExporting from "highcharts/modules/exporting";
 import { useAppSelector } from "src/store/hooks";
@@ -13,7 +13,7 @@ import darkBlue from 'highcharts/themes/dark-blue';
 import darkGreen from 'highcharts/themes/dark-green';
 import darkUnica from 'highcharts/themes/dark-unica';
 import gray from 'highcharts/themes/gray';
-import { SensorsReportType, selectEndDate, selectGranularity, selectSensorReports, selectStartDate, selectStatusReportApi, selectTableColumns, selectTableDatas } from "src/store/slices/analizeSlice";
+import { SensorsReportType, selectEndDate, selectGranularity, selectSensorLiveData, selectSensorReports, selectStartDate, selectStatusReportApi, selectTableColumns, selectTableDatas } from "src/store/slices/analizeSlice";
 import HighchartsData, { ChartSettingsType } from "src/class/chart";
 import { selectCalendarMode } from "src/store/slices/themeSlice";
 import { LoadingTwo } from "src/components/loader/default";
@@ -30,6 +30,7 @@ import dynamic from "next/dynamic";
 
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { selectSocketObject } from "src/store/slices/socketSlice";
 // import "jspdf-autotable";
 if (typeof Highcharts === "object") {
 	HighchartsExporting(Highcharts);
@@ -111,68 +112,31 @@ const reportData: SensorsReportType = {
 };
 interface Props {
 	chartSettings: object
+	liveChart?: boolean
 }
 // const myChart = new Chart()
 const MultiAxisChart: React.FC<Props> = (props) => {
 	const chartOption = useAppSelector(selectChartOptions)
 	// const chartRef = useRef<any>(null);
 	const userData = useAppSelector(selectOwnUser)
-
-	const selectDataOFChart = useAppSelector(selectSensorReports);
-	const statusReportApi = useAppSelector(selectStatusReportApi);
-	const [state, setState] = useState<any>();
-	const [settingsModal, setSettingsModal] = useState<boolean>(false);
+	const selectDataOFChart = useAppSelector(selectSensorReports)
+	const statusReportApi = useAppSelector(selectStatusReportApi)
+	const [state, setState] = useState<any>()
+	const [settingsModal, setSettingsModal] = useState<boolean>(false)
 	const selectLocale = useAppSelector(selectCalendarMode)
 	const startDate = useAppSelector(selectStartDate)
 	const endDate = useAppSelector(selectEndDate)
-	const [chartSettings, setChartSettings] = useState<any>();
+	const [chartSettings, setChartSettings] = useState<any>()
 	const granularity = useAppSelector(selectGranularity)
-	// const selectColumns = useAppSelector(selectTableColumns)
-	// const selectDatas = useAppSelector(selectTableDatas)
-
-	// const [key, setKey] = useState<any>(0); // use key to force chart to update
-	// const [theme, setTheme] = useState<any>('darkGreen');
-
-	// const themes: any = {
-	// 	default: null,
-	// 	avocado,
-	// 	brandLight,
-	// 	brandDark,
-	// 	darkBlue,
-	// 	darkGreen,
-	// 	darkUnica,
-	// 	gray,
-	// };
-
-	// const handleThemeChange = (newTheme: any) => {
-	// 	if (themes[newTheme]) {
-	// 		(themes[newTheme])?.(Highcharts)
-	// 		// Highcharts.setOptions(themes[newTheme]);
-	// 		setKey(key + 1 + randomNumberBetween(50, 1, 100)); // force chart to update by changing its key
-	// 		setTheme(newTheme);
-	// 	}
-	// };
-
-	// useEffect(() => {
-	// 	const chart = chartRef?.current?.chart;
-
-	// 	const resizeHandler = () => {
-	// 		chart.reflow();
-	// 	};
-
-	// 	window.addEventListener('resize', resizeHandler);
-
-	// 	return () => {
-	// 		window.removeEventListener('resize', resizeHandler);
-	// 	};
-	// }, []);
+	const selectLiveData = useAppSelector(selectSocketObject)
+	const chartRefHigh = useRef<StockChart | null>(null);
 
 
-
-	function getdata(chartsettings?: ChartSettingsType) {
+	function getdataLiveChart(chartsettings?: ChartSettingsType) {
 		if (selectDataOFChart?.length) {
 			setState({})
 			const chartData = new HighchartsData([])
+			chartData.liveChart = props?.liveChart ?? false
 			chartData.settingsDefault()
 			console.log(chartsettings)
 			if (chartsettings !== undefined) chartData.setSettings(chartsettings)
@@ -182,13 +146,35 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 			// const chartData = new HighchartsData(selectDataOFChart).getChartData();
 			chartData.startDate = startDate ?? ''
 			chartData.endDate = endDate ?? ''
-			chartData.divideBy = granularity ? (granularity > 5 ? 5 : granularity) : 1;
+			chartData.divideBy = props?.liveChart ? 1 : (granularity ? (granularity > 5 ? 5 : granularity) : 1);
 			setState(chartData.sumOfdata(selectDataOFChart))
 			setChartSettings(chartData.chartSettings)
 
 		} else { setState(undefined) }
 	}
 
+
+	function getdata(chartsettings?: ChartSettingsType) {
+		if (selectDataOFChart?.length) {
+			setState({})
+			const chartData = new HighchartsData([])
+			chartData.liveChart = props?.liveChart ?? false
+			chartData.settingsDefault()
+			console.log(chartsettings)
+			if (chartsettings !== undefined) chartData.setSettings(chartsettings)
+
+			// chartData.removeCustomTheme();
+			chartData.dateJalali = selectLocale === 'fa'
+			// const chartData = new HighchartsData(selectDataOFChart).getChartData();
+			chartData.startDate = startDate ?? ''
+			chartData.endDate = endDate ?? ''
+			chartData.divideBy = props?.liveChart ? 1 : (granularity ? (granularity > 5 ? 5 : granularity) : 1);
+			setState(chartData.sumOfdata(selectDataOFChart))
+
+			setChartSettings(chartData.chartSettings)
+
+		} else { setState(undefined) }
+	}
 
 	const chartRef = useRef<HTMLDivElement>(null);
 
@@ -236,22 +222,48 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 		}
 	}
 	// const chartRef = useRef<typeof HighchartsReact>(null);
+	function liveUpdate() {
+		if (state?.chartOptions?.series.length) {
+			const localOffset = new Date().getTimezoneOffset();
+			const offsetSeconds = localOffset * -60 * 1000;
+			const arr: any[] = [];
+			let newdata = [...state?.chartOptions?.series];
 
-	// useEffect(() => {
-	// 	// Convert the UTC timestamps to Jalali dates for the tooltip format
-	// 	if (chartRef.current) {
-	// 		Highcharts.Point.prototype.jalali = function () {
-	// 			return moment(this.x).format('jYYYY-jMM-jDD HH:mm:ss');
-	// 		};
+			selectDataOFChart?.map((sensor, index) => {
+				// console.log(selectLiveData?.[sensor?._id])
+				// const chartRefs = document.getElementById('chart-analytics') as HTMLDivElement
 
-	// 		const chart = chartRef.current.chart;
-	// 		chart.update({
-	// 			tooltip: {
-	// 				pointFormat: '<b>{point.y}</b> at {point.jalali:%Y-%m-%d %H:%M:%S}'
-	// 			}
-	// 		});
-	// 	}
-	// }, [chartRef]);
+				// const point = [selectLiveData?.[sensor?._id]?.createdAt, selectLiveData?.[sensor?._id]?.value];
+				if (sensor._id !== undefined && selectLiveData?.[sensor._id] !== undefined) {
+					const point = [selectLocale === 'fa' ? new Date(moment(selectLiveData?.[sensor._id]?.createdAt).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(selectLiveData?.[sensor._id]?.createdAt).getTime() + offsetSeconds,
+					selectLiveData?.[sensor._id]?.value === 200000 ? null : (selectLiveData?.[sensor._id]?.value ?? null)];
+					if (newdata?.[index] !== undefined) {
+						// console.log("newdata", newdata)
+						newdata?.[index].data.push(point)
+						if (newdata?.[index].data.length > 1500)
+							newdata?.[index].data.shift()
+						// console.log("newdata after", newdata)
+
+					}
+				}
+
+			})
+			let stater = {
+				...state,
+				chartOptions: {
+					...state.chartOptions,
+					series: [...newdata],
+				},
+			};
+
+			setState({ ...stater });
+		}
+	}
+	useEffect(() => {
+		liveUpdate()
+
+	}, [selectLiveData]);
+
 
 	// const addCustomButton = (chart: any) => {
 	// 	chart.renderer.button('Custom Button', 10, 10, () => {
@@ -260,7 +272,12 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 	// };
 	useEffect(() => {
 		console.log('how many time')
-		getdata(userData?.chartSettings as ChartSettingsType)
+		if (props.liveChart) {
+			getdataLiveChart(userData?.chartSettings as ChartSettingsType)
+		}
+		else {
+			getdata(userData?.chartSettings as ChartSettingsType)
+		}
 
 	}, [selectDataOFChart, selectLocale, userData?.chartSettings, granularity]);
 
@@ -302,7 +319,8 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 						{/* {t(props?.downloadAsExcel)} */}
 					</button></>}
 		</div>
-		<figure id='chart-analytics' ref={chartRef}
+		<figure id='chart-analytics'
+			ref={chartRef}
 			key={JSON.stringify(chartSettings)}
 			className={`flex justify-center w-[100vw]  ${chartSettings?.xAxisRotation > 35 || chartSettings?.xAxisRotation < -35 ? ' xl:h-[50vw] h-[60vw]' : ' xl:h-[40vw] h-[50vw]'}`}>
 			<div className="" style={{ width: '1px', height: '100%', position: 'inherit' }}></div>
@@ -314,8 +332,10 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 					// callback={addCustomButton}
 					key={JSON.stringify(userData?.chartSettings)}
 					containerProps={{ className: 'w-[100%] ' }}
-				// ref={chartRef}
+					ref={chartRefHigh}
+				// id={'HighchartsReact'}
 				/>}
+
 			{statusReportApi === 'loading' && <div className="flex flex-wrap text-2xl w-full h-full justify-center"><LoadingTwo />
 				<h1 className="flex w-full justify-center">loading...</h1></div>}
 			{state === undefined && statusReportApi !== 'loading' && statusReportApi !== 'success' && <div className="flex flex-wrap text-2xl items-center w-full h-full justify-center">

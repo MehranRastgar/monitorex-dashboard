@@ -13,7 +13,7 @@ import OneEPanel from "../src/atomic/organisms/electrical/OneEPanel";
 import Item from "../src/atomic/atoms/Item/Item";
 import DashboardTemplate1 from "../src/atomic/templates/DashboardTemplate1";
 import ButtonPupup from "../src/atomic/molecules/Pupup/ButtonPupup";
-import LogBox from "../src/atomic/molecules/Log/LogBox";
+// import LogBox from "../src/atomic/molecules/Log/LogBox";
 import {
   useAppSelector,
   useSocketDatas,
@@ -39,12 +39,12 @@ function Dashboard() {
           {/* <DashboardContainer/> */}
         </section>
       </Layout>
-      <ButtonPupup title="terminal">
+      {/* <ButtonPupup title="terminal">
         <section className="flex w-full bg-blackout-black h-[300px] ">
           <LogBox title="real time log" id="terminal" />
           <LogBox title="real time alarms" id="alarms" />
         </section>
-      </ButtonPupup>
+      </ButtonPupup> */}
     </>
   );
 }

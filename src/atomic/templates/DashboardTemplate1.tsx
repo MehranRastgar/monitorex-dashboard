@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { selectGroupNumber, setSelectedGroupNumber } from '../../store/slices/analizeSlice';
 import { selectDevicesData } from '../../store/slices/devicesSlice';
 import { addNewRecordToSocket } from '../../store/slices/socketSlice';
-import { selectUserGroups } from '../../store/slices/userSlice';
+import { selectOwnUser, selectUserGroups } from '../../store/slices/userSlice';
 import { GroupItemType } from '../../types/types';
 import Item from '../atoms/Item/Item';
 import BarchartLive from '../molecules/AmChart/BarchartLive';
@@ -41,6 +41,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
 
   const dispatch = useAppDispatch();
   const Groups = useAppSelector(selectUserGroups);
+  const ownUser = useAppSelector(selectOwnUser)
   const gpNumber = useAppSelector(selectGroupNumber);
   const [group, setGroup] = useState<GroupItemType | null>(null);
   const [groupOrDevice, setGroupOrDevice] = useState<'group' | 'device'>(
@@ -117,7 +118,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
             )}
             {groupOrDevice === 'group' && (
               <div className={groupOrDevice === 'group' ? 'flex' : 'hidden'}>
-                {group !== null ? (
+                {Groups !== null ? (
                   <>
                     {Groups?.map((dev, index) => (
                       <GroupUnit key={dev._id} index={index} />
@@ -142,14 +143,14 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               <GroupListComponent type="device" />
             </div>
           </div> */}
-          <div className="flex justify-center min-w-full rounded-md border border-[var(--border-color)] p-2 m-3">
+          <Item className="flex justify-center min-w-full rounded-md border border-[var(--border-color)] p-2 m-3">
             {/* <LiveChart /> */}
-            <MultiAxisChart chartSettings={{}} />
-          </div>
-          <div className="min-w-full min-h-[40vh] rounded-md m-1 border border-[var(--border-color)]">
+            <MultiAxisChart liveChart={true} chartSettings={{}} />
+          </Item>
+          {/* <div className="min-w-full min-h-[40vh] rounded-md m-1 border border-[var(--border-color)]">
             <LiveSensorValue />
-            {/* {showdiv ? <LiveDataGrid /> : <>loading</>} */}
-          </div>
+          </div> */}
+          {/* {showdiv ? <LiveDataGrid /> : <>loading</>} */}
           {/* <div className="min-w-full max-h-[50vh] m-1 border border-[var(--border-color)] overflow-auto">
             <SensorsSummary />
           </div> */}
