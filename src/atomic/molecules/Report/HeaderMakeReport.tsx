@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next"
 import classes from './table.module.scss';
 import { useAppSelector } from "src/store/hooks";
-import { selectEndDate, selectSensorReports, selectStartDate } from "src/store/slices/analizeSlice";
-import { selectOwnUser } from "src/store/slices/userSlice";
+import { selectEndDate, selectGranularity, selectGroupNumber, selectSensorReports, selectStartDate } from "src/store/slices/analizeSlice";
+import { selectOwnUser, selectUserGroups } from "src/store/slices/userSlice";
 import { Icon } from "@iconify/react";
 import html2canvas from "html2canvas";
 import JsPDF from "jspdf"
@@ -19,6 +19,9 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 	const startTime = useAppSelector(selectStartDate)
 	const endTime = useAppSelector(selectEndDate)
 	const user = useAppSelector(selectOwnUser)
+	const granularity = useAppSelector(selectGranularity)
+	const GpNumber = useAppSelector(selectGroupNumber)
+	const selectUserGr = useAppSelector(selectUserGroups);
 
 
 	async function handleGeneratePNG() {
@@ -33,7 +36,6 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 	function exportData() {
 		html2canvas(document.getElementById('analytics-header') as HTMLDivElement).then((canvas) => {
 			const imgData = canvas.toDataURL('image/png');
-			// doc.
 			const doc: any = new JsPDF('l', 'pt', 'a4');
 			const imgWidth = doc.internal.pageSize.getWidth();
 			const imgHeight = canvas.height * imgWidth / canvas.width;
@@ -48,7 +50,7 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 
 	return (
 		<div className="flex w-full items-start justify-center overflow-auto text-black ">
-			<div>
+			{/* <div>
 				<button
 					className='text-[#f13232] m-1 w-[32px] h-[32px] text-[var(--text-color)]'
 					onClick={() => {
@@ -57,44 +59,49 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 				>
 					<Icon icon="uiw:file-pdf" height="32" />
 				</button>
-			</div>
+			</div> */}
 			{user?._id &&
-				<div id={'analytics-header'} className="flex flex-wrap m-1 bg-white w-[800px] h-[600px]  min-w-[800px] min-h-[600px] justify-center items-start">
+				<div id={'analytics-header'} className="flex flex-wrap m-1 bg-white w-[800px] h-[650px]  min-w-[800px] min-h-[600px] justify-center items-start">
 					<h1 className="text-xl w-full justify-center text-center p-2 m-2 h-fit border-black border-b">{t('report')}</h1>
 					<div className="flex flex-wrap h-fit">
-						<section className="flex flex-wrap w-full">
-							<ul className="flex p-2 w-full">
-								<li
-									className="mx-2 font-[700]">company/location:</li>
+						<section className="flex justify-start flex-wrap w-full">
+							<Field text={t("companyLocation")} val={"Monitorex / Tehran  ......"} />
+							<Field text={t("Report Date time:")} val={new Date().toLocaleString()} />
+							<Field text={t("Group Name:")} val={GpNumber !== undefined && selectUserGr !== undefined ? selectUserGr?.[GpNumber]?.groupTitle : 'none'} />
+							<Field text={t("Report By:")} val={`${user?.username ?? ''} ${user?.family ?? ''} ${user?.name ?? ''} `} />
+							<Field text={t("Start Time Of the Report:")} val={new Date(startTime ?? 0).toLocaleString()} />
+							<Field text={t("End Time Of the Report:")} val={new Date(endTime ?? 0).toLocaleString()} />
+							<Field text={t("Devided By:")} val={granularity?.toString() ?? '1'} />
+							{/* <ul className="flex justify-start p-2 w-full border">
+								<li className="justify-start mx-2 w-1/4 font-[700]">company/location:</li>
 								<li className="flex w-3/4">Monitorex / Tehran  ......</li>
+							</ul> */}
+							{/* <ul className="flex p-2 w-full border">
+								<li className="mx-2 w-1/4 font-[700]">Report Date time:</li>
+								<li className="flex w-3/4">{new Date().toLocaleString()}</li>
 							</ul>
-
-							<ul className="flex p-2">
-								<li className="mx-2 font-[700]">Report Date time:</li>
-								<li>{new Date().toLocaleString()}</li>
-							</ul>
-						</section>
-						<section className="flex flex-wrap w-full">
-							<ul className="flex p-2">
+							<ul className="flex flex-wrap w-full p-2">
 								<li className="mx-2 font-[700]">Group Name:</li>
 								<li>GP1 </li>
 							</ul>
 
-							<ul className="flex p-2">
-								<li className="mx-2 font-[700]">Report By:</li>
+							<ul className="flex flex-wrap w-full p-2 border">
+								<li className="mx-2 flex-wrap font-[700]">Report By:</li>
 								<li>{user.family} {user.name} {user.username}</li>
 							</ul>
-						</section>
-						<section className="flex w-full">
-							<ul className="flex p-2">
+							<ul className="flex p-2 flex-wrap ">
 								<li className="mx-2 font-[700]">Start Time Of the Report:</li>
 								<li>{new Date(startTime ?? 0).toLocaleString()}</li>
 							</ul>
 
-							<ul className="flex p-2 ">
-								<li className="mx-2 font-[700]">End Time Of the Report:</li>
+							<ul className="flex p-2 flex-wrap w-full border">
+								<li className="mx-2 font-[700] flex-wrap ">End Time Of the Report:</li>
 								<li>{new Date(endTime ?? 0).toLocaleString()}</li>
 							</ul>
+							<ul className="flex p-2 flex-wrap w-full">
+								<li className="mx-2 font-[700] flex-wrap ">Devided By:</li>
+								<li>{granularity}</li>
+							</ul> */}
 						</section>
 					</div>
 					<section className="flex m-2 w-full">
@@ -107,7 +114,7 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 											key={indexHeader}
 											className=" border  p-1"
 										>
-											{itemHeader.sensor?.title}
+											{itemHeader.device?.title} : {itemHeader.sensor?.title}
 										</th>
 									)}
 									<th
@@ -249,7 +256,7 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 												'p-1 border '
 											}
 										>
-											{itemHeader?.data?.length ?? 0}
+											{itemHeader?.data?.length && itemHeader?.data?.length > 0 ? ((itemHeader?.data?.length) / (granularity ?? 1)).toFixed(0) : 0}
 
 										</td>)}
 									<td
@@ -259,6 +266,30 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 										}
 									>
 										Records
+									</td>
+								</tr>
+								<tr
+									className={''}
+								>
+									{reportData?.map((itemHeader, indexBody) =>
+										<td
+											key={indexBody}
+											onClick={() => { }}
+											className={
+												'p-1 border '
+											}
+										>
+											{itemHeader.device?.address?.multiPort},
+											{itemHeader.device?.address?.sMultiPort}
+
+										</td>)}
+									<td
+										onClick={() => { }}
+										className={
+											'p-1 border '
+										}
+									>
+										Address
 									</td>
 								</tr>
 
@@ -277,15 +308,18 @@ export default HeaderMakeReport;
 
 
 interface FieldProps {
-	input: string
+	text: string
+	val: string
 }
 
 const Field: React.FC<FieldProps> = (props) => {
 
+	return (
+		<ul className="flex justify-start p-2 w-full border ">
+			<li className="flex justify-start w-1/4 font-[700]">{props?.text}</li>
+			<li className="flex w-3/4">{(props?.val)}</li>
+		</ul>
 
-
-	return (<div className="flex w-1/4 h-fit border border-black p-2">
-		<input type='text' value={props.input ?? ''} />
-
-	</div>)
+	)
 }
+

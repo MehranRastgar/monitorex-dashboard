@@ -13,7 +13,7 @@ import darkBlue from 'highcharts/themes/dark-blue';
 import darkGreen from 'highcharts/themes/dark-green';
 import darkUnica from 'highcharts/themes/dark-unica';
 import gray from 'highcharts/themes/gray';
-import { SensorsReportType, selectEndDate, selectSensorReports, selectStartDate, selectStatusReportApi, selectTableColumns, selectTableDatas } from "src/store/slices/analizeSlice";
+import { SensorsReportType, selectEndDate, selectGranularity, selectSensorReports, selectStartDate, selectStatusReportApi, selectTableColumns, selectTableDatas } from "src/store/slices/analizeSlice";
 import HighchartsData, { ChartSettingsType } from "src/class/chart";
 import { selectCalendarMode } from "src/store/slices/themeSlice";
 import { LoadingTwo } from "src/components/loader/default";
@@ -126,7 +126,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 	const startDate = useAppSelector(selectStartDate)
 	const endDate = useAppSelector(selectEndDate)
 	const [chartSettings, setChartSettings] = useState<any>();
-
+	const granularity = useAppSelector(selectGranularity)
 	// const selectColumns = useAppSelector(selectTableColumns)
 	// const selectDatas = useAppSelector(selectTableDatas)
 
@@ -182,6 +182,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 			// const chartData = new HighchartsData(selectDataOFChart).getChartData();
 			chartData.startDate = startDate ?? ''
 			chartData.endDate = endDate ?? ''
+			chartData.divideBy = granularity ? (granularity > 5 ? 5 : granularity) : 1;
 			setState(chartData.sumOfdata(selectDataOFChart))
 			setChartSettings(chartData.chartSettings)
 
@@ -261,7 +262,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 		console.log('how many time')
 		getdata(userData?.chartSettings as ChartSettingsType)
 
-	}, [selectDataOFChart, selectLocale, userData?.chartSettings]);
+	}, [selectDataOFChart, selectLocale, userData?.chartSettings, granularity]);
 
 	return <section className={`flex mt-5 flex-wrap w-full `}>
 		<Modal

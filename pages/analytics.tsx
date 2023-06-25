@@ -42,7 +42,7 @@ import { selectCalendarMode } from 'src/store/slices/themeSlice';
 import dynamic from "next/dynamic";
 import DataOfReport from 'src/atomic/organisms/analytics/DataOfReport';
 import { PrintPreview } from 'src/atomic/organisms/Print/PrintPreview';
-import TableDataOfReport from 'src/atomic/organisms/DataTables/TableDataOfReport';
+import TableDataOfReport, { SetGranularity } from 'src/atomic/organisms/DataTables/TableDataOfReport';
 import HeaderMakeReport from 'src/atomic/molecules/Report/HeaderMakeReport';
 const MultiAxisChart = dynamic(
   () => import("src/atomic/organisms/HighCharts/MultiAxisChart"),
@@ -143,8 +143,8 @@ export default function Analytics() {
           {selectLocale === 'fa' ?
             <DateTimeAnalytic key={selectLocale} localeT={'fa'} /> :
             <DateTimeAnalytic key={selectLocale} localeT={'en'} />}
-          <div className="flex justify-center w-full">
-            <div className="flex h-fit  justify-center mx-4 my-2">
+          <div className="flex justify-center w-full items-center">
+            <div className="flex h-fit  justify-center items-center mx-4 my-2">
               <ThemeButton
                 disabled={
                   selectedSensorsSlice === undefined ||
@@ -163,7 +163,7 @@ export default function Analytics() {
                 </div>
               </ThemeButton>
             </div>
-            <div className="flex justify-center mx-4 my-2">
+            <div className="flex justify-center items-center mx-4 my-2">
               <ThemeButton
                 disabled={
                   selectedSensorsSlice === undefined ||
@@ -184,6 +184,10 @@ export default function Analytics() {
                 </div>
               </ThemeButton>
             </div>
+            <div className="flex justify-center items-center mx-4 my-2">
+              <SetGranularity />
+            </div>
+
           </div>
         </div>
         <Modal
@@ -198,14 +202,14 @@ export default function Analytics() {
           />
         </Modal>
       </Item>
-      <Item className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5 rounded-md">
+      <Item className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5 ">
         <MultiAxisChart chartSettings={{}} />
         {/* <MultiReportChartContainer /> */}
       </Item>
-      <Item className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5 rounded-md">
+      <Item className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5 ">
         <TableDataOfReport />
       </Item>
-      <Item className=" flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5 rounded-md">
+      <Item className=" flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5">
         <HeaderMakeReport />
       </Item>
     </Layout>

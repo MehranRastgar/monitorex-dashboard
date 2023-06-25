@@ -61,10 +61,10 @@ export default class HighchartsData {
 	private justPoint: boolean = false
 	private chartMode: 'spline' | 'line' = 'line'
 	private lineAccesible: 'dashDot' | 'line' = 'line'
-	private divideBy: number = 1
 	private continues: boolean = true
 	private chartBGC: string = "var(--bgc)"
 
+	public divideBy: number = 1
 	public startDate: string = ''
 	public endDate: string = ''
 	constructor(private reportData: SensorsReportType[]) {
@@ -550,7 +550,7 @@ export default class HighchartsData {
 
 		// const options = { year: 'numeric', day: 'numeric', month: 'long' };
 		const num = arrSeries[0].data.length
-		const starttime = new Date(moment(arrSeries[0].data[0][0]).toISOString())
+		const starttime = new Date(moment(arrSeries[0].data?.[0]?.[0]).toISOString())
 		const endtime = new Date(moment(arrSeries[0].data?.[num - 1]?.[0]).toISOString())
 
 		// const gregorianDate = new Date(2023, 5, 13); // Note: month is zero-indexed
@@ -990,7 +990,7 @@ export default class HighchartsData {
 		dataOfReport?.map((eachsens, index) => {
 			columns.push(
 				{
-					Header: eachsens?.sensor?.title ?? 'unnamed',
+					Header: `${eachsens?.device?.title ?? 'no name'} : ${eachsens?.sensor?.title ?? 'no name'}`,
 					accessor: eachsens?._id ?? index.toString()
 				}
 			)

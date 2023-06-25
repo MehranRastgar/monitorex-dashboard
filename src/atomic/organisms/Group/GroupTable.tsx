@@ -19,6 +19,7 @@ import {
   selectSelectedSensorsAnalize,
   setEndDate,
   setEndDayjs,
+  setSelectedGroup,
   setSelectedSensors,
   setSelectedSensorsAdvanced,
   setStartDate,
@@ -158,6 +159,8 @@ const GroupTable: React.FC<Props> = (props) => {
       // dispatch(setSelectedSensors(group?.sensors));
       GetReport(group);
       setgroupA(group);
+      dispatch(setSelectedGroup(group))
+
     }
     console.log(group?.sensors);
   }, [selectedRow]);

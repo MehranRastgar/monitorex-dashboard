@@ -24,6 +24,7 @@ import ThemeButton from '../atoms/ThemeButton/ThemeButton';
 import GroupUnit from '../molecules/device/GroupUnit';
 import { useTranslation } from 'react-i18next';
 import LiveSensorValue from '../organisms/LiveDataGrid/LiveSensorValue';
+import MultiAxisChart from '../organisms/HighCharts/MultiAxisChart';
 
 interface Props {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -142,7 +143,8 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
             </div>
           </div> */}
           <div className="flex justify-center min-w-full rounded-md border border-[var(--border-color)] p-2 m-3">
-            <LiveChart />
+            {/* <LiveChart /> */}
+            <MultiAxisChart chartSettings={{}} />
           </div>
           <div className="min-w-full min-h-[40vh] rounded-md m-1 border border-[var(--border-color)]">
             <LiveSensorValue />

@@ -6,6 +6,7 @@ import { DevicesReceiveType } from '../api/devicesApi';
 import dayjs, { Dayjs } from 'dayjs';
 
 import type { AppState } from '../store';
+import { GroupItemType } from 'src/types/types';
 // import { fetchCount } from './../counterAPI'
 
 export interface AnalizeState {
@@ -20,9 +21,12 @@ export interface AnalizeState {
   sensorsReport?: SensorsReportType[];
   statusReportApi: statusApiType;
   selectedGroup?: number; ///////
+  selectedGroupWhole?: GroupItemType;
   selectionType?: 'device' | 'group';
   TableColumns?: object[],
   TableDatas?: object[]
+  granolarity?: number
+
 }
 export interface SensorsReportType {
   _id?: string;
@@ -78,6 +82,9 @@ export const analizeSlice = createSlice({
 
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
+    setSelectedGroup: (state, action: PayloadAction<GroupItemType | undefined>) => {
+      state.selectedGroupWhole = action.payload;
+    },
     setSelectedGroupNumber: (state, action: PayloadAction<number | undefined>) => {
       state.selectedGroup = action.payload;
     },
@@ -102,6 +109,9 @@ export const analizeSlice = createSlice({
     },
     setEndDate: (state, action: PayloadAction<string>) => {
       state.endDate = action.payload;
+    },
+    setGranularity: (state, action: PayloadAction<number>) => {
+      state.granolarity = action.payload;
     },
     setSelectedDevicesAnalize: (
       state,
@@ -194,7 +204,9 @@ export const {
   removeSelectedSensors,
   setSelectionType,
   setSelectedSensorsAdvanced,
-  setTable
+  setTable,
+  setGranularity,
+  setSelectedGroup
 } = analizeSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
@@ -224,6 +236,8 @@ export const selectTableColumns = (state: AppState) =>
   state.analize.TableColumns;
 export const selectTableDatas = (state: AppState) =>
   state.analize.TableDatas;
+export const selectGranularity = (state: AppState) =>
+  state.analize.granolarity;
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 // export const incrementIfOdd =

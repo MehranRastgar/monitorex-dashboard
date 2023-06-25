@@ -90,9 +90,13 @@ interface Props {
   setSelectedRow?: any;
   selectedRow: string;
   index?: number;
-  downloadAsExcel?: string
   isDense?: boolean;
   rowNumbers?: number;
+  ExportCsv?: boolean
+  ExportExcel?: boolean
+  ExportPdf?: boolean
+  ExportPdfChart?: boolean
+  ExportPdfChartHeader?: boolean
 }
 type ExportDataType<D extends Record<string, unknown>> = {
   exportData?: any;
@@ -151,7 +155,7 @@ const ReactTable: React.FC<Props> = (props) => {
     columns: any; data: any; fileType: any;
     fileName: any;
   }): any {
-    setLoading(true)
+    // setLoading(true)
 
     if (fileType === "csv") {
       // CSV example
@@ -398,6 +402,140 @@ const ReactTable: React.FC<Props> = (props) => {
 
 
 
+  const ExportButtons: any = () => {
+
+    return <>
+      {(props.ExportPdfChartHeader || props.ExportPdfChart || props.ExportCsv || props.ExportExcel || props.ExportPdf) &&
+        <div className='flex w-full justify-end'>
+          {props.ExportPdfChartHeader && <button
+            className='flex bg-blue-900 border-[var(--text-color)] border p-1 items-center justify-center rounded-md m-1 w-[90px] h-[32px] text-[var(--text-color)]'
+            onClick={() => {
+              exportData("pdf+chart+header", true);
+            }}
+          >
+            {!loading && <> <Icon icon="uiw:file-pdf" color={'#f13232'} height="22" />
+              <Icon icon="typcn:plus" height="22" />
+              <Icon icon="healthicons:chart-line" color={'cyan'} height="22" />
+              <Icon icon="typcn:plus" height="22" />
+              <Icon icon="fluent-mdl2:page-header-edit" color={'white'} height="22" /></>}
+            {
+              loading && <div className="flex h-fit scale-50">
+                <LoadingOne /></div>
+            }
+          </button>}
+          {props.ExportPdfChart && <button
+            className='flex bg-blue-900 border-[var(--text-color)] border p-1 items-center justify-center rounded-md m-1 w-[68px] h-[32px] text-[var(--text-color)]'
+            onClick={() => {
+              exportData("pdf+chart", true);
+            }}
+          >
+            <Icon icon="uiw:file-pdf" color={'#f13232'} height="22" />
+            <Icon icon="typcn:plus" height="22" />
+            <Icon icon="healthicons:chart-line" color={'cyan'} height="22" />
+          </button>}
+          {props.ExportCsv && <button
+            className='m-1 w-[32px] h-[32px] text-[var(--text-color)]'
+            onClick={() => {
+              exportData("csv", true);
+            }}
+          >
+            <Icon icon="eos-icons:csv-file" height="32" />
+          </button>}
+          {props.ExportExcel && <button
+            className='text-[#49ed49] m-1 w-[32px] h-[32px] text-[var(--text-color)]'
+            onClick={() => {
+              exportData("xlsx", true);
+            }}
+          >
+            <Icon icon="icon-park-twotone:excel" height="32" />
+          </button>}
+          {props.ExportPdf && <button
+            className='text-[#f13232] m-1 w-[32px] h-[32px] text-[var(--text-color)]'
+            onClick={() => {
+              exportData("pdf", true);
+            }}
+          >
+            <Icon icon="uiw:file-pdf" height="32" />
+          </button>}
+        </div>}
+    </>
+  }
+
+
+
+
+  const ControlButtons: any = () => {
+
+    return <>{props.hasPagination && (
+      <div className="flex justify-center w-full h-10 mb-2 mt-2 scale-75">
+        {props?.rowNumbers && <select
+          className={classes.inpt + ' mx-2'}
+          value={pageSize}
+          onChange={(e) => {
+            setPageSize(Number(e.target.value));
+          }}
+        >
+          {pageSizeOptions?.map((size) => (
+            <option key={size} value={size}>
+              Show {size} per Page
+            </option>
+          ))}
+        </select>}
+        {props?.rowNumbers && <select
+          className={classes.inpt + ' mx-2'}
+          value={pageIndex}
+          onChange={(e) => {
+            gotoPage(Number(e.target.value));
+          }}
+        >
+          {pageOptions?.map((size) => (
+            <option key={size} value={size}>
+              Goto page {size + 1}
+            </option>
+          ))}
+        </select>}
+        <ThemeButton
+          className=" flex text-center mx-2 text-[12px] items-center"
+          type={'activate'}
+          onClick={() => previousPage()}
+          disabled={!canPreviousPage}
+        >
+          {t('prev')}
+        </ThemeButton>
+        <span className="mx-2">
+          {pageIndex + 1} / {pageOptions?.length}
+        </span>
+        <ThemeButton
+          className=" flex text-center mx-2 text-[12px] items-center"
+          type={'activate'}
+          onClick={() => nextPage()}
+          disabled={!canNextPage}
+        >
+          {t('next')}
+        </ThemeButton>
+
+        {props.isDense &&
+          <div className='flex flex-wrap mx-2'>
+            <label className='flex w-full' htmlFor={'isDense'}>dense</label>
+            <input
+              id='isDense'
+              className="flex text-center w-[20px] h-[20px]  text-[12px] items-center"
+              type='checkbox'
+              onClick={() => setDense(val => !val)}
+              checked={dense}
+            />
+          </div>
+        }
+      </div>
+    )}
+
+    </>
+  }
+
+
+
+
+
   return (
     <>
       {props.columns.length && props.data.length ? <div className="flex flex-wrap w-full h-fit items-start relative">
@@ -406,117 +544,9 @@ const ReactTable: React.FC<Props> = (props) => {
           {props?.hasSearch && (
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
           )}
-          {props.downloadAsExcel && <div className='flex w-full justify-end'>
-
-            <button
-              className='flex bg-blue-900 border-[var(--text-color)] border p-1 items-center justify-center rounded-md m-1 w-[90px] h-[32px] text-[var(--text-color)]'
-              onClick={() => {
-                exportData("pdf+chart+header", true);
-              }}
-            >
-              {!loading && <> <Icon icon="uiw:file-pdf" color={'#f13232'} height="22" />
-                <Icon icon="typcn:plus" height="22" />
-                <Icon icon="healthicons:chart-line" color={'cyan'} height="22" />
-                <Icon icon="typcn:plus" height="22" />
-                <Icon icon="fluent-mdl2:page-header-edit" color={'white'} height="22" /></>}
-              {
-                loading && <div className="flex h-fit scale-50">
-                  <LoadingOne /></div>
-              }
-            </button>
-            <button
-              className='flex bg-blue-900 border-[var(--text-color)] border p-1 items-center justify-center rounded-md m-1 w-[68px] h-[32px] text-[var(--text-color)]'
-              onClick={() => {
-                exportData("pdf+chart", true);
-              }}
-            >
-              <Icon icon="uiw:file-pdf" color={'#f13232'} height="22" />
-              <Icon icon="typcn:plus" height="22" />
-              <Icon icon="healthicons:chart-line" color={'cyan'} height="22" />
-            </button>
-            <button
-              className='m-1 w-[32px] h-[32px] text-[var(--text-color)]'
-              onClick={() => {
-                exportData("csv", true);
-              }}
-            >
-              <Icon icon="eos-icons:csv-file" height="32" />
-            </button>
-            <button
-              className='text-[#49ed49] m-1 w-[32px] h-[32px] text-[var(--text-color)]'
-              onClick={() => {
-                exportData("xlsx", true);
-              }}
-            >
-              <Icon icon="icon-park-twotone:excel" height="32" />
-            </button>
-            <button
-              className='text-[#f13232] m-1 w-[32px] h-[32px] text-[var(--text-color)]'
-              onClick={() => {
-                exportData("pdf", true);
-              }}
-            >
-              <Icon icon="uiw:file-pdf" height="32" />
-            </button>
-          </div>}
+          <ExportButtons />
         </div>
-        {props.hasPagination && props?.isDense && (
-          <div className="flex justify-center w-full h-10 mt-2 scale-75">
-            <ThemeButton
-              className=" flex text-center mx-2 text-[12px] items-center"
-              type={'activate'}
-              onClick={() => previousPage()}
-              disabled={!canPreviousPage}
-            >
-              {t('prev')}
-            </ThemeButton>
-            <span className="mx-2">
-              {pageIndex + 1} / {pageOptions?.length}
-            </span>
-            <ThemeButton
-              className=" flex text-center mx-2 text-[12px] items-center"
-              type={'activate'}
-              onClick={() => nextPage()}
-              disabled={!canNextPage}
-            >
-              {t('next')}
-            </ThemeButton>
-            {props?.rowNumbers && <select
-              className={classes.inpt}
-              value={pageSize}
-              onChange={(e) => {
-                setPageSize(Number(e.target.value));
-              }}
-            >
-              {pageSizeOptions?.map((size) => (
-                <option key={size} value={size}>
-                  Show {size} per Page
-                </option>
-              ))}
-            </select>}
-            {props?.rowNumbers && <select
-              className={classes.inpt + ' mx-2'}
-              value={pageIndex}
-              onChange={(e) => {
-                gotoPage(Number(e.target.value));
-              }}
-            >
-              {pageOptions?.map((size) => (
-                <option key={size} value={size}>
-                  Goto page {size + 1}
-                </option>
-              ))}
-            </select>}
-            {props.isDense && <ThemeButton
-              className=" flex text-center mx-2 text-[12px] items-center"
-              type={dense ? 'explore' : 'deactivate'}
-              onClick={() => setDense(val => !val)}
-            // disabled={!canPreviousPage}
-            >
-              {t('dense')}
-            </ThemeButton>}
-          </div>
-        )}
+        {props?.isDense && <ControlButtons />}
         <div
           className={`flex h-full items-start flex-wrap w-full overflow-y-scroll ${props?.tHeight !== undefined ? ` ${props?.tHeight} ` : ' h-[15rem] '
             } `}
@@ -623,63 +653,7 @@ const ReactTable: React.FC<Props> = (props) => {
             </table>
           </div>
         </div>
-        {props.hasPagination && (
-          <div className="flex justify-center w-full h-10 mt-2 scale-75">
-            <ThemeButton
-              className=" flex text-center mx-2 text-[12px] items-center"
-              type={'activate'}
-              onClick={() => previousPage()}
-              disabled={!canPreviousPage}
-            >
-              {t('prev')}
-            </ThemeButton>
-            <span className="mx-2">
-              {pageIndex + 1} / {pageOptions?.length}
-            </span>
-            <ThemeButton
-              className=" flex text-center mx-2 text-[12px] items-center"
-              type={'activate'}
-              onClick={() => nextPage()}
-              disabled={!canNextPage}
-            >
-              {t('next')}
-            </ThemeButton>
-            {props?.rowNumbers && <select
-              className={classes.inpt}
-              value={pageSize}
-              onChange={(e) => {
-                setPageSize(Number(e.target.value));
-              }}
-            >
-              {pageSizeOptions?.map((size) => (
-                <option key={size} value={size}>
-                  Show {size} per Page
-                </option>
-              ))}
-            </select>}
-            {props?.rowNumbers && <select
-              className={classes.inpt + ' mx-2'}
-              value={pageIndex}
-              onChange={(e) => {
-                gotoPage(Number(e.target.value));
-              }}
-            >
-              {pageOptions?.map((size) => (
-                <option key={size} value={size}>
-                  Goto page {size + 1}
-                </option>
-              ))}
-            </select>}
-            {props.isDense && <ThemeButton
-              className=" flex text-center mx-2 text-[12px] items-center"
-              type={dense ? 'explore' : 'deactivate'}
-              onClick={() => setDense(val => !val)}
-            // disabled={!canPreviousPage}
-            >
-              {t('dense')}
-            </ThemeButton>}
-          </div>
-        )}
+        <ControlButtons />
       </div> : <div className='flex w-full h-full items-ceneter justify-center text-4xl'>
         No Data
       </div>}
@@ -688,3 +662,7 @@ const ReactTable: React.FC<Props> = (props) => {
 };
 
 export default ReactTable;
+
+
+
+
