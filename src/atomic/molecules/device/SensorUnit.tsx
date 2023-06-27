@@ -1,4 +1,6 @@
 import { Icon } from '@iconify/react';
+import starSolid from '@iconify/icons-clarity/star-solid';
+
 import React, { useEffect, useState } from 'react';
 import {
   SensorsReceiveTpe,
@@ -77,8 +79,8 @@ const SensorUnit: React.FC<Props> = (props) => {
         ) : (
           <></>
         )}
-        {props?.sensor?.isRealTime ? <div className=''><Icon icon="clarity:star-solid" color="#FFC412" />
-        </div> : <div className=''><Icon icon="clarity:star-solid" color="#0000" />
+        {props?.sensor?.isRealTime ? <div className=''><Icon icon={starSolid} color="#FFC412" />
+        </div> : <div className=''><Icon icon={starSolid} color="#0000" />
         </div>}
       </div>
     </section >

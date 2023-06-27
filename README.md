@@ -35,6 +35,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 sudo pm2 start yarn --name "mo-das" --namespace="mo-das" yarn -- start:prod
 
+sudo pm2 start yarn --name "mo-das" --namespace="mo-das" yarn -- start:prod
+
 pm2 start yarn --name "my-app" -- turbo start
 pm2 start yarn --name "nextjs" --interpreter bash -- start
 pm2 start yarn --name "nextjs" --interpreter bash -- "yarn turbo start"
@@ -42,3 +44,5 @@ pm2 start yarn --name "nextjs" --interpreter bash -- "yarn turbo dev"
 pm2 start pm2.config.js
 
 pm2 startOrRestart ecosystem.config.js --env prod
+
+sudo pm2  --name "monitorex" --interpreter bash -- "yarn start"

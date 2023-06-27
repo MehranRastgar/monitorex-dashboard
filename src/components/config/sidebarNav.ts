@@ -31,12 +31,12 @@ const sidebarNav = [
     icon: "material-symbols:manage-accounts",
     text: "management",
   },
-  {
-    link: "/settings",
-    section: "settings",
-    icon: "material-symbols:settings-account-box",
-    text: "settings",
-  },
+  // {
+  //   link: "/settings",
+  //   section: "settings",
+  //   icon: "material-symbols:settings-account-box",
+  //   text: "settings",
+  // },
 
   // {
   //   link: "/profile",

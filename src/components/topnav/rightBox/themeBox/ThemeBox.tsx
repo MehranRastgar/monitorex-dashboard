@@ -3,6 +3,8 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import ThemeContext from '../../../../store/themeContext';
 import classes from './ThemeBox.module.scss';
+import moonStarsFill from '@iconify/icons-ph/moon-stars-fill';
+import sunDuotone from '@iconify/icons-ph/sun-duotone';
 
 function ThemeBox() {
   // const [theme, setTheme] = useState("light");
@@ -13,11 +15,11 @@ function ThemeBox() {
     <div>
       {theme !== 'dark' ? (
         <button className="" onClick={() => themeCtx.toggleTheme()}>
-          <Icon fontSize={20} icon={'ph:moon-stars-fill'} />
+          <Icon fontSize={20} icon={moonStarsFill} />
         </button>
       ) : (
         <button className="" onClick={() => themeCtx.toggleTheme()}>
-          <Icon fontSize={20} icon={'ph:sun-duotone'} />
+          <Icon fontSize={20} icon={sunDuotone} />
         </button>
       )}
     </div>

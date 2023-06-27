@@ -29,7 +29,7 @@ const OneEPanel: React.FC<Props> = (props) => {
   const thingOption: DeviceThingProps = {
     mode: "diselected",
     arrOfAttributes: [t("port") + " " + "21"],
-    width: 130,
+    width: 100,
     height: 60,
     title:
       devices.filter((de) => de._id === props?.idOfSub)?.[0].title ??
@@ -40,37 +40,30 @@ const OneEPanel: React.FC<Props> = (props) => {
   };
   return (
     <>
-      <div className="flex items-end overflow-y-hidden">
-        <ThingDevice {...thingOption} />
-        <ScrollContainer
-          vertical={false}
-          hideScrollbars={false}
-          className="scroll-container px-2 product-slider-one-items overflow-y-hidden "
-        >
-          <div>
-          </div>
-          <div>
-            <ArrayOfElectrical
-              eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
-              offset={0}
-              byte={value?.metaField?.byte1}
-            />
-          </div>
-          <div>
-            <ArrayOfElectrical
-              eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
-              offset={1}
-              byte={value?.metaField?.byte2}
-            />
-          </div>
-          <div>
-            <ArrayOfElectrical
-              eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
-              offset={2}
-              byte={value?.metaField?.byte3}
-            />
-          </div>
-        </ScrollContainer>
+      <div className="flex flex-wrap items-end max-w-[800px]">
+        {/* <ThingDevice {...thingOption} /> */}
+        <h1 className="flex w-full m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].title}</h1>
+        <div>
+          <ArrayOfElectrical
+            eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
+            offset={0}
+            byte={value?.metaField?.byte1}
+          />
+        </div>
+        <div>
+          <ArrayOfElectrical
+            eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
+            offset={1}
+            byte={value?.metaField?.byte2}
+          />
+        </div>
+        <div>
+          <ArrayOfElectrical
+            eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
+            offset={2}
+            byte={value?.metaField?.byte3}
+          />
+        </div>
       </div>
     </>
   );

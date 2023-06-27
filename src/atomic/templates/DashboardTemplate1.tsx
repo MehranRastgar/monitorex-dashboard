@@ -118,7 +118,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
             )}
             {groupOrDevice === 'group' && (
               <div className={groupOrDevice === 'group' ? 'flex' : 'hidden'}>
-                {Groups !== null ? (
+                {Groups !== null && Groups !== undefined && Groups.length !== 0 ? (
                   <>
                     {Groups?.map((dev, index) => (
                       <GroupUnit key={dev._id} index={index} />

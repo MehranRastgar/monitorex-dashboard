@@ -23,6 +23,7 @@ import { useTranslation } from 'react-i18next';
 import ButtonRegular from '../../atoms/ButtonA/ButtonRegular';
 import { selectCalendarMode } from 'src/store/slices/themeSlice';
 import { Icon } from '@iconify/react';
+import calendarIcon from '@iconify/icons-bx/calendar';
 
 const dateTimeStartProps = {
   label: 'startDate',
@@ -73,7 +74,7 @@ export default function DateTimeAnalytic({ localeT }: { localeT: 'en' | 'fa' }) 
     <>
       <section className="flex flex-wrap m-2 justify-center scale-75 lg:scale-100 ">
         <div className='flex w-full justify-center mb-2 '><p className='border rounded-md p-2'>{selectLocale === 'fa' ?
-          <div className='flex'><Icon icon="bx:calendar" width="20" /><span className='mx-2'>شمسی</span></div> : <div className='flex'><span className='mx-2'>Julian</span><Icon icon="bx:calendar" width="20" /></div>}</p></div>
+          <div className='flex'><Icon icon={calendarIcon} width="20" /><span className='mx-2'>شمسی</span></div> : <div className='flex'><span className='mx-2'>Julian</span><Icon icon={calendarIcon} width="20" /></div>}</p></div>
         <div className="flex">
           <div>
             <DateTimePickerComponent

@@ -1,4 +1,6 @@
 import { Icon } from '@iconify/react';
+import deleteOutline from '@iconify/icons-material-symbols/delete-outline';
+
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +22,7 @@ import { GroupItemType, UserType } from '../../../types/types';
 import Item from '../../atoms/Item/Item';
 import UserGroupItem from '../../molecules/UserGroups/UserGroupItem';
 
-export interface UserGroupsContainerProps {}
+export interface UserGroupsContainerProps { }
 
 const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
   const selectUserGr = useAppSelector(selectUserGroups);
@@ -33,7 +35,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
   const { t } = useTranslation();
   const [indexOfItem, setIndexOfItem] = useState<number | undefined>(undefined);
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const handleRemoveFromGroups = async (index: number) => {
     const start = startDate !== undefined ? new Date(startDate).getTime() : 0;
@@ -86,7 +88,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
                   className="flex translate-y-14 translate-x-10 z-[3]"
                 >
                   <Icon
-                    icon={'material-symbols:delete-outline'}
+                    icon={deleteOutline}
                     color={'red'}
                     fontSize={25}
                   ></Icon>

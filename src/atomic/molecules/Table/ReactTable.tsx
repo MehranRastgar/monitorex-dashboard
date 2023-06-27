@@ -9,6 +9,11 @@ import { selectSocketObject, socketObType } from 'src/store/slices/socketSlice';
 import { useExportData } from 'react-table-plugins';
 import domtoimage from 'dom-to-image';
 
+import filePdf from '@iconify/icons-uiw/file-pdf';
+import plusIcon from '@iconify/icons-typcn/plus';
+import chartLine from '@iconify/icons-healthicons/chart-line';
+import pageHeaderEdit from '@iconify/icons-fluent-mdl2/page-header-edit';
+
 
 import {
   useTable,
@@ -413,11 +418,11 @@ const ReactTable: React.FC<Props> = (props) => {
               exportData("pdf+chart+header", true);
             }}
           >
-            {!loading && <> <Icon icon="uiw:file-pdf" color={'#f13232'} height="22" />
-              <Icon icon="typcn:plus" height="22" />
-              <Icon icon="healthicons:chart-line" color={'cyan'} height="22" />
-              <Icon icon="typcn:plus" height="22" />
-              <Icon icon="fluent-mdl2:page-header-edit" color={'white'} height="22" /></>}
+            {!loading && <> <Icon icon={filePdf} color={'#f13232'} height="22" />
+              <Icon icon={plusIcon} height="22" />
+              <Icon icon={chartLine} color={'cyan'} height="22" />
+              <Icon icon={plusIcon} height="22" />
+              <Icon icon={pageHeaderEdit} color={'white'} height="22" /></>}
             {
               loading && <div className="flex h-fit scale-50">
                 <LoadingOne /></div>
@@ -429,9 +434,9 @@ const ReactTable: React.FC<Props> = (props) => {
               exportData("pdf+chart", true);
             }}
           >
-            <Icon icon="uiw:file-pdf" color={'#f13232'} height="22" />
-            <Icon icon="typcn:plus" height="22" />
-            <Icon icon="healthicons:chart-line" color={'cyan'} height="22" />
+            <Icon icon={filePdf} color={'#f13232'} height="22" />
+            <Icon icon={plusIcon} height="22" />
+            <Icon icon={chartLine} color={'cyan'} height="22" />
           </button>}
           {props.ExportCsv && <button
             className='m-1 w-[32px] h-[32px] text-[var(--text-color)]'
@@ -455,7 +460,7 @@ const ReactTable: React.FC<Props> = (props) => {
               exportData("pdf", true);
             }}
           >
-            <Icon icon="uiw:file-pdf" height="32" />
+            <Icon icon={filePdf} height="32" />
           </button>}
         </div>}
     </>

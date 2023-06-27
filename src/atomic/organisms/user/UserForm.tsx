@@ -86,10 +86,10 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSave, isAdmin }) => {
       >
         <section className="flex flex-wrap  m-1 p-2 w-full" >
           <div className='flex w-full mb-4'>
-            <h1 className='w-full'>user info</h1>
+            <h1 className='w-full'>{t('userInfo')}</h1>
             <span className='flex justify-end text-end'>{selectedUser?._id}</span></div>
           <div className={'flex-wrap mx-2 '} >
-            <label className={classes.label} htmlFor='username'>{t('user name')}</label>
+            <label className={classes.label} htmlFor='username'>{t('userName')}</label>
             <input className={classes.inpt} type='text' {...register('username', { required: { value: true, message: t('username is required') } })} />
             <p className='text-red-300 tex-xs'>{errors?.username?.message && '!' + errors?.username?.message}</p>
           </div>

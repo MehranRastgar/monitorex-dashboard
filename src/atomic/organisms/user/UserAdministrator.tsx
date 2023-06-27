@@ -22,8 +22,9 @@ import { UserType } from '../../../types/types';
 import Item from '../../atoms/Item/Item';
 import DataGridSimple from '../../molecules/DataGrid/DataGridSimple';
 import UserForm from './UserForm';
+import deleteOutline from '@iconify/icons-material-symbols/delete-outline';
 
-interface Props {}
+interface Props { }
 
 const UserAdministrator: React.FC<Props> = (props) => {
   const { t } = useTranslation();
@@ -124,7 +125,7 @@ const UserAdministrator: React.FC<Props> = (props) => {
           className="m-4"
         >
           <div className="flex text-md">
-            <Icon icon={'material-symbols:delete-outline'}></Icon>
+            <Icon icon={deleteOutline}></Icon>
             {t('removeUser')}
           </div>
         </ThemeButton>

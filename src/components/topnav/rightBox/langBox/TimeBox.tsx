@@ -8,6 +8,8 @@ import React, {
 import { Icon } from '@iconify/react';
 import { useOnClickOutside } from 'usehooks-ts';
 import LangContext from '../../../../store/langContext';
+import calendarIcon from '@iconify/icons-bx/calendar';
+import arrowDownBold from '@iconify/icons-ep/arrow-down-bold';
 
 import classes from './LangBox.module.scss';
 import { selectCalendarMode, setCalendar } from 'src/store/slices/themeSlice';
@@ -42,11 +44,11 @@ function TimeBox() {
     return (
         <div className={classes.lang} ref={langBoxRef}>
             <div className={classes.lanBox} onClick={showBoxHandler}>
-                <Icon icon="bx:calendar" width="20" />
+                <Icon icon={calendarIcon} width="20" />
 
                 <div className={classes.lang_slc}>{calselect === 'fa' ? 'شمسی' : 'Julian'}</div>
 
-                <Icon icon="ep:arrow-down-bold" width="10" />
+                <Icon icon={arrowDownBold} width="10" />
             </div>
             <div
                 className={`${classes.lang_menu} ${showLangBox ? classes.show : 'hidden'

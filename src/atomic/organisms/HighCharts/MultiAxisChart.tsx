@@ -26,6 +26,10 @@ import { selectOwnUser } from "src/store/slices/userSlice";
 import moment from "moment-jalaali";
 import { randomNumberBetween } from "@mui/x-data-grid/utils/utils";
 import dynamic from "next/dynamic";
+import outlineSettings from '@iconify/icons-ic/outline-settings';
+
+import filePdf from '@iconify/icons-uiw/file-pdf';
+import pngOutline from '@iconify/icons-teenyicons/png-outline';
 
 
 import html2canvas from 'html2canvas';
@@ -296,7 +300,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 				setSettingsModal(val => !val)
 			}} className=" -mx-2  hover:rotate-180 w-fit justify-center items-center flex">
 				<div className="w-[30px] rounded-full h-[30px] flex justify-center items-center bg-white text-black">
-					<Icon icon="ic:outline-settings" width="30" color="black" /></div>
+					<Icon icon={outlineSettings} width="30" color="black" /></div>
 			</ThemeButton>
 			{Highcharts && customTheme && state?.chartOptions && statusReportApi === 'success' &&
 				<>
@@ -306,7 +310,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 							handleGeneratePDF();
 						}}
 					>
-						<Icon icon="uiw:file-pdf" height="32" />
+						<Icon icon={filePdf} height="32" />
 						{/* {t(props?.downloadAsExcel)} */}
 					</button>
 					<button
@@ -315,7 +319,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 							handleGeneratePNG();
 						}}
 					>
-						<Icon icon="teenyicons:png-outline" height="32" />
+						<Icon icon={pngOutline} height="32" />
 						{/* {t(props?.downloadAsExcel)} */}
 					</button></>}
 		</div>

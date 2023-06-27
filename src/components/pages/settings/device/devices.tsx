@@ -1,4 +1,6 @@
 import { Icon } from "@iconify/react";
+import addCommentOutlineSharp from '@iconify/icons-material-symbols/add-comment-outline-sharp';
+
 import {
   Button,
   InputLabel,
@@ -35,7 +37,7 @@ const AddItemButton = ({ handleClick }: { handleClick: any }) => {
         <div className="mx-2">
           <Icon
             fontSize={20}
-            icon={"material-symbols:add-comment-outline-sharp"}
+            icon={addCommentOutlineSharp}
           />
         </div>
       </h3>
@@ -84,7 +86,7 @@ class DeviceClass {
   changeDeviceType(types: deviceTypes) {
     this.type = types;
   }
-  addNew() {}
+  addNew() { }
 }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,7 +94,7 @@ class DeviceClass {
 // This is the pure interface version, to be used/exported
 type deviceTypes = "Sensors Module" | "Electrical panel";
 
-interface DeviceInterface extends DeviceClass {}
+interface DeviceInterface extends DeviceClass { }
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

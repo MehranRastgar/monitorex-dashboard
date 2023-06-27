@@ -24,6 +24,7 @@ import {
   updateUserData,
 } from "../src/store/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "../src/store/hooks";
+import { useRouter } from "next/router";
 
 function Settings() {
   const { t } = useTranslation();
@@ -41,6 +42,7 @@ function Settings() {
     }
   };
 
+
   useEffect(() => { }, []);
 
   return (
@@ -49,7 +51,7 @@ function Settings() {
         backgroundImage: "var(--background-image-2)"
       }} className="fixed z-[-1] top-0 right-0 w-[100vw] h-[100vh]"></img>
       <section >
-        <h1 className="text-xl">{t("profile")}</h1>
+        <h1 className="text-xl m-4">{t("profile")}</h1>
         <Item>
           {userOwn?.isSuccess && (
             <UserForm

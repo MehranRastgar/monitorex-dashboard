@@ -499,15 +499,22 @@ export default class HighchartsData {
 					// minorTickInterval: 'auto',
 					// startOnTick: false,
 					// endOnTick: false,
-					// tickPositioner: function (this: any) {
-					// 	var positions = [],
-					// 		tick = Math.floor(this.dataMin),
-					// 		increment = Math.ceil((this.dataMax - this.dataMin) / 14);
-					// 	for (tick; tick - increment <= this.dataMax; tick += increment) {
-					// 		positions.push(tick);
-					// 	}
-					// 	return positions;
-					// },
+					tickPositioner: (() => {
+						if (this.liveChart) {
+							return (function (this: any) {
+								var positions = [],
+									tick = Math.floor(this.dataMin),
+									increment = Math.ceil((this.dataMax - this.dataMin) / 20);
+								for (tick; tick - increment <= this.dataMax; tick += increment) {
+									positions.push(tick);
+								}
+								return positions;
+							})
+
+						} else {
+							return null
+						}
+					})(),
 					type: 'datetime',
 					labels: {
 						allowOverlap: false,
@@ -575,7 +582,7 @@ export default class HighchartsData {
 					if (this.liveChart) {
 						return {
 
-							enabled: true,
+							enabled: false,
 						};
 					} else {
 						return {

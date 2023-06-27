@@ -1,4 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import addIcon from '@iconify/icons-material-symbols/add';
+import removeIcon from '@iconify/icons-material-symbols/remove';
+
 import {
   SensorsReceiveTpe,
   SensorWebsocketRealTimeDataType,
@@ -196,17 +199,17 @@ const DeviceTable: React.FC<Props> = (props) => {
                 type="button"
                 disabled={
                   undefined ===
-                    selectedDevice?.sensors?.find(
-                      (item) => item._id === selectedRowSensor,
-                    ) ||
+                  selectedDevice?.sensors?.find(
+                    (item) => item._id === selectedRowSensor,
+                  ) ||
                   undefined !==
-                    selectedSensorRedux?.find(
-                      (item: SensorsReceiveTpe) =>
-                        item._id === selectedRowSensor,
-                    )
+                  selectedSensorRedux?.find(
+                    (item: SensorsReceiveTpe) =>
+                      item._id === selectedRowSensor,
+                  )
                 }
               >
-                <Icon icon={'material-symbols:add'} />
+                <Icon icon={addIcon} />
               </button>
             </aside>
             <div className="flex w-full justify-center">
@@ -230,7 +233,7 @@ const DeviceTable: React.FC<Props> = (props) => {
                   )
                 }
               >
-                <Icon icon={'material-symbols:remove'} />
+                <Icon icon={removeIcon} />
               </button>
             </aside>
           </div>

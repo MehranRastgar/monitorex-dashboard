@@ -8,6 +8,7 @@ import SidebarContext from '../../../../store/sidebarContext';
 import ThemeContext from '../../../../store/themeContext';
 import sidebarNav from '../../../config/sidebarNav';
 import langContextObj from 'src/store/langContext';
+import logoutIcon from '@iconify/icons-tabler/logout';
 
 function TopNavMenu() {
   // const [theme, setTheme] = useState("light");
@@ -47,11 +48,10 @@ function TopNavMenu() {
         <Link
           href={nav.link}
           key={`nav-${index}`}
-          className={`flex items-end border border-[var(--bgc)] rounded-xs p-2  px-4 hover:border-b-[var(--border-color)] ${
-            activeIndex === index
+          className={`flex items-end border border-[var(--bgc)] rounded-xs p-2  px-4 hover:border-b-[var(--border-color)] ${activeIndex === index
               ? 'bg-[var(--button-primary)] border-b-[var(--border-color)]'
               : ''
-          }`}
+            }`}
           onClick={openSidebarHandler}
         >
           {/* <Icon icon={nav.icon} /> */}
@@ -64,7 +64,7 @@ function TopNavMenu() {
         onClick={logoutHandler}
       >
         <div className={'flex items-center mx-1'}>
-          <Icon icon="tabler:logout" />
+          <Icon icon={logoutIcon} />
         </div>
         <div className={''}>{t('logout')}</div>
       </Link>

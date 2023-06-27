@@ -21,6 +21,7 @@ import {
 import { useTranslation } from "react-i18next";
 import Item from "../../atoms/Item/Item";
 import ThingDevice, { DeviceThingProps } from "../Thing/Device";
+import outlineRemoveCircle from '@iconify/icons-ic/outline-remove-circle';
 
 const names = [
   "Oliver Hansen",
@@ -303,7 +304,7 @@ export function SensorSelectedForReport() {
                         className="flex -translate-y-8 translate-x-2 z-[3]"
                       >
                         <Icon
-                          icon={"ic:outline-remove-circle"}
+                          icon={outlineRemoveCircle}
                           color={"red"}
                           fontSize={25}
                         ></Icon>

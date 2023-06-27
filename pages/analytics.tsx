@@ -1,4 +1,7 @@
 import { Icon } from '@iconify/react';
+import documentList from '@iconify/icons-line-md/document-list';
+import saveIcon from '@iconify/icons-ion/save';
+
 import { Box, Button, Modal, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -159,7 +162,7 @@ export default function Analytics() {
               >
                 <div className="flex items-center justify-center">
                   <span className="flex mx-1 text-xs ">{t('takeReport')}</span>
-                  <Icon fontSize={20} icon={'line-md:document-report'}></Icon>
+                  <Icon fontSize={20} icon={documentList} ></Icon>
                 </div>
               </ThemeButton>
             </div>
@@ -180,7 +183,7 @@ export default function Analytics() {
                   <span className="flex mx-1 text-xs ">
                     {t('saveInGroups')}
                   </span>
-                  <Icon fontSize={20} icon={'ion:save'}></Icon>
+                  <Icon fontSize={20} icon={saveIcon} ></Icon>
                 </div>
               </ThemeButton>
             </div>

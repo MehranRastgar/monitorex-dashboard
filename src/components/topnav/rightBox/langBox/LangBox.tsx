@@ -10,6 +10,8 @@ import { useOnClickOutside } from 'usehooks-ts';
 import LangContext from '../../../../store/langContext';
 
 import classes from './LangBox.module.scss';
+import languageLine from '@iconify/icons-clarity/language-line';
+import arrowDownBold from '@iconify/icons-ep/arrow-down-bold';
 
 function LangBox() {
   const [showLangBox, setShowLangBox] = useState(false);
@@ -38,11 +40,11 @@ function LangBox() {
   return (
     <div className={classes.lang} ref={langBoxRef}>
       <div className={classes.lanBox} onClick={showBoxHandler}>
-        <Icon icon="clarity:language-line" width="20" />
+        <Icon icon={languageLine} width="20" />
 
         <div className={classes.lang_slc}>{lang}</div>
 
-        <Icon icon="ep:arrow-down-bold" width="10" />
+        <Icon icon={arrowDownBold} width="10" />
       </div>
       <div
         className={`${classes.lang_menu} ${showLangBox ? classes.show : 'hidden'

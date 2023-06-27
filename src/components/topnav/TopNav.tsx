@@ -20,11 +20,11 @@ function TopNav() {
   return (
     <div
       className={
-        "items-end fixed bg-[var(--header-bgc)] flex w-full z-[200]  flex-wrap  "
+        "items-end fixed bg-[var(--header-bgc)] flex w-full z-[200] "
       }
     >
-      <div className={classes.topNav_left}>
-        <div
+      <div className={'flex '}>
+        {/* <div
           className={classes.topNav_left_menu_icon}
           onClick={openSidebarHandler}
         >
@@ -37,16 +37,17 @@ function TopNav() {
           <div className="topNav_left_menu_close">
             <Icon icon="eva:close-fill" width="24" />
           </div>
-        </div>
+        </div> */}
         {/* <div className={classes.search_desktop_wrapper}>
           <SearchBox />
 
         </div> */}
       </div>
-      <div className="items-end w-3/4 hidden md:flex">
+      <div className="items-end w-3/5 xl:w-3/4 hidden md:flex">
         <TopNavMenu />
       </div>
-      <br />
+      <div className="flex w-fit mx-4"></div>
+      {/* <br /> */}
       <TopNavRightBox />
       {/* <div className={classes.search_tablet_wrapper}>
         <SearchBox />

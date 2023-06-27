@@ -12,8 +12,8 @@ i18n
         translation: {
           chartSettings: "Chart Settings",
           new_device: 'new device',
-          electricalboard: 'electrical boards',
-          real_time_view: 'real time view',
+          electricalboard: 'electrical',
+          real_time_view: 'real time',
           changes: 'changes',
           saveAsNewGroup: 'save as new group',
           saveToThisGroup: 'save in this group',
@@ -151,6 +151,14 @@ i18n
       },
       fa: {
         translation: {
+          nationalId: 'شاره ملی',
+          name: 'نام',
+          family: 'فامیلی',
+          password: 'رمز عبور',
+          userInfo: "اطلاعات کاربر",
+          user: 'کاربر',
+          info: 'اطلاعات',
+          profile: 'حساب کاربری',
           chartSettings: "تنظیمات نمودار",
           sensor: 'سنسور',
           pcs: 'عدد',

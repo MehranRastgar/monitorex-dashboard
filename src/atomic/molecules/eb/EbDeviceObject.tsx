@@ -28,12 +28,12 @@ export default function EbDeviceObject({
   return (
     <>
       <section>
-        <Grid item xs={8}>
+        <div>
           {selectDevices?.map(({ _id, title, type }) => (
             <>
               {/* <h2>{title}</h2> */}
               {type === "Electrical panel" && _id !== undefined ? (
-                <Item className="m-2">
+                <Item className="flex justify-center m-4 w-fit max-w-[800px]">
                   <OneEPanel idOfSub={_id} />
                 </Item>
               ) : (
@@ -41,7 +41,7 @@ export default function EbDeviceObject({
               )}
             </>
           ))}
-        </Grid>
+        </div>
       </section>
     </>
   );

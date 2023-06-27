@@ -11,6 +11,8 @@ import { ChartSettingsType } from "src/class/chart";
 import { setChartSettings } from "src/store/slices/chartSlice";
 import FormThemeButton from "src/atomic/atoms/ThemeButton/FormThemeButton";
 import { Icon } from "@iconify/react";
+import closeOutline from '@iconify/icons-zondicons/close-outline';
+
 import Item from "src/atomic/atoms/Item/Item";
 
 interface Props {
@@ -63,7 +65,7 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 		<Item>
 			<div className="flex w-full h-fit justify-start">
 				<h1 className="flex m-4 w-full">{(t('chartSettings'))}</h1>
-				<span className="flex m-4 text-red-500 cursor-pointer" onClick={() => { props?.closeFunction(false) }}><Icon width={20} icon="zondicons:close-outline" />
+				<span className="flex m-4 text-red-500 cursor-pointer" onClick={() => { props?.closeFunction(false) }}><Icon width={20} icon={closeOutline} />
 				</span>
 			</div>
 			<form
