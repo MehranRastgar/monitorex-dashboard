@@ -37,36 +37,38 @@ const FormFormik: React.FC<Props> = (props) => {
 
     validate(values) {
       dispatch(setFormData(values));
-      console.log('valiadata', values);
+      //console.log('valiadata', values);
       // alert(JSON.stringify(values, null, 2));
     },
   });
   async function MakeJson(values: object) {
     const str = JSON.stringify(values, null, 2);
-    console.log(JSON.parse(str), str);
+    //console.log(JSON.parse(str), str);
   }
   useEffect(() => {
-    console.log('selectformdatainit', selectformdatainit, selectformmap);
+    //console.log('selectformdatainit', selectformdatainit, selectformmap);
     formik.resetForm();
     selectformdatainit && formik.setValues(selectformdatainit);
   }, [selectformdatainit]);
 
   useEffect(() => {
-    console.log(formik.values);
+    //console.log(formik.values);
   }, [formik.values]);
 
   function SaveForm(ev: any) {
-    console.log("form data", selectformdata, selectformmap)
+    //console.log("form data", selectformdata, selectformmap)
     ev.preventDefault();
     const elementsArray = [...(ev?.target?.elements ?? [])];
     const formData = elementsArray.reduce((acc, elem) => {
       if (elem.id) acc[elem.id] = elem.value;
       return acc;
     }, {});
-    console.log('formData', formData);
-    console.log("devConvert", formData);
+    //console.log('formData', formData);
+    //console.log("devConvert", formData);
     dispatch(setFormData(formData));
-    Object.keys(formData).map((item, index) => { console.log(index, item) });
+    Object.keys(formData).map((item, index) => {
+
+    });
   }
 
 

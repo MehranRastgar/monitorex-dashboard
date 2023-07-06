@@ -15,7 +15,7 @@ interface ChartTooltipOptions extends Highcharts.TooltipOptions {
 export const Granolarity: number[] = [1, 2, 5, 10, 20, 50];
 
 export interface ChartSettingsType {
-	chartMode: 'spline' | 'line' | 'column';
+	chartMode: 'spline' | 'line';
 	multiAxis: boolean;
 	justPoint: boolean;
 	grid?: boolean;
@@ -117,25 +117,30 @@ export default class HighchartsData {
 		}
 	}
 	//=============================================================================================
-	myXAxisFormater = (color: string, timeIsShow?: boolean) => {
+	myXAxisFormater = (color: string, timeIsShow?: boolean, dateJalali?: boolean) => {
 		return function (props: any): any {
 			const vals = props.value;
-			const val = Highcharts.dateFormat('%Y-%m-%d', vals);
+			const val = dateJalali !== undefined && dateJalali ? (Highcharts.dateFormat('%Y-%m-%d',
+				new Date(moment(vals).format('jYYYY-jMM-jDD HH:mm:ss')).getTime()
+			)) : (Highcharts.dateFormat('%Y-%m-%d',
+				vals
+			))
 			const val2 = Highcharts.dateFormat('%H:%M:%S', vals);
+
 			const stringssss = `<b  style="color:${color}; fontSize: 1em;">${val}</b>
 			${timeIsShow ? `<b style="color:${color}; fontSize: 1em;">${val2}</b>` : ""}`
 			return stringssss
 		}
 	}
 	//=============================================================================================
-	getTooltipFormatter = (color?: string, textColor?: string) => {
+	getTooltipFormatter = (color?: string, textColor?: string, dateJalali?: boolean) => {
 		return function (this: ChartTooltipOptions): any {
 			interface ChartTooltipOptions extends Highcharts.TooltipOptions {
 				points?: any;
 				x?: any;
 			}
 			const weekDays = ['یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنج شنبه', 'جمعه', 'شنبه',]
-			const val = Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, (this as ChartTooltipOptions).x);
+			const val = dateJalali !== undefined && dateJalali ? Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, new Date(moment((this as ChartTooltipOptions).x).format('jYYYY-jMM-jDD HH:mm:ss')).getTime()) : Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, (this as ChartTooltipOptions).x)
 			const weekd = weekDays?.[(parseInt(Highcharts.dateFormat(`%w`, (this as ChartTooltipOptions).x)))]
 			return [`<b><div style="background:red;color:${textColor};fontSize: 1.2em">` + val + ' - ' + weekd + '</div></b>'].concat(
 				(this as ChartTooltipOptions).points !== undefined ?
@@ -255,6 +260,7 @@ export default class HighchartsData {
 	}
 	//=============================================================================================
 	private makeData(data: Datum[]) {
+		console.time("everymake")
 		const localOffset = new Date().getTimezoneOffset();
 		const offsetSeconds = localOffset * -60 * 1000;
 		const arr: any[] = [];
@@ -266,16 +272,18 @@ export default class HighchartsData {
 		// ]);
 		data.map((item, index) => {
 			if (item?.x !== undefined && index % Granolarity[this.divideBy] === 0)
-				if (item?.y !== undefined || !this?.chartSettings?.continues)
+				if (item?.x !== undefined && item?.y !== undefined || !this?.chartSettings?.continues)
 					arr.push([
-						this.dateJalali ? new Date(moment(item?.x).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(item?.x).getTime() + offsetSeconds,
-						item?.y ?? null,
+						new Date(item?.x),
+						item?.y ?? null
 					]);
 		});
 		// arr.push([
 		// 	this.dateJalali ? new Date(moment(endDate).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(endDate).getTime() + offsetSeconds,
 		// 	0,
 		// ]);
+		console.timeEnd("everymake")
+
 		return arr;
 	}
 	//=============================================================================================
@@ -284,16 +292,15 @@ export default class HighchartsData {
 	}
 	//=============================================================================================
 	//make a function to get date and time
-	public sumOfdata(data: SensorsReportType[]) {
+	public async sumOfdata(data: SensorsReportType[]) {
 		console.time('how many sumOfdata')
 
 		const arrSeries: any[] = [];
 		let arrAxisY: any[] = [];
 		data?.map((sens, index) => {
 			if (sens?.data !== undefined) {
-				console.log('sens?.data !== undefined')
+				// console.log('sens?.data !== undefined')
 				if (this.chartSettings.multiAxis === true) {
-
 					if (!(arrAxisY.findIndex(item => item?.unit === sens?.sensor?.unit) >= 0))
 						arrAxisY.push({
 							enablePolling: true,
@@ -310,7 +317,7 @@ export default class HighchartsData {
 							unit: sens.sensor?.unit,
 							// Primary yAxis
 							labels: {
-								format: "{value}" + ' ' + sens.sensor?.unit,
+								format: "{value}",
 								style: (() => {
 									if (this.chartSettings && this.chartSettings.lineColors && this.chartSettings.lineColors[index]) {
 										return {
@@ -326,11 +333,11 @@ export default class HighchartsData {
 								})(),
 							},
 							title: {
-								text: sens.sensor?.type,
+								text: `${sens?.sensor?.type}  (${sens?.sensor?.unit})`,
 								style: (() => {
 									if (this.chartSettings && this.chartSettings.lineColors && this.chartSettings.lineColors[index]) {
 										return {
-											fontSize: '1.0em',
+											fontSize: '1.3em',
 											fontFamily: 'cursive',
 											color: this.chartSettings.lineColors[index],
 										};
@@ -355,7 +362,7 @@ export default class HighchartsData {
 							id: sens.sensor?._id,
 							type: this.chartSettings.chartMode,
 							yAxis: arrAxisY.findIndex(item => item?.unit === sens?.sensor?.unit),
-							name: sens.device.title + "-" + sens.sensor?.title + '-' + sens.sensor?.unit,
+							name: sens.device.title + "-" + sens.sensor?.title + '' + ` (${sens.sensor?.unit})`,
 							dashStyle: this.chartSettings.lineStyleUseDifferent ? this.lineStylesArray[index] : undefined,
 							// pointInterval: 6e4, // one hour
 							// relativeXValue: true,
@@ -386,7 +393,7 @@ export default class HighchartsData {
 							else return 0
 						})(),
 						labels: {
-							format: "{value}" + sens.sensor?.unit,
+							format: "{value}",
 
 							style: {
 								fontFamily: 'cursive',
@@ -395,7 +402,7 @@ export default class HighchartsData {
 							},
 						},
 						title: {
-							text: sens.sensor?.type,
+							text: `${sens.sensor?.type} (${sens.sensor?.unit})`,
 							style: {
 								color: this.chartSettings?.lineColors?.[0] ?? 'var(--text-color)',
 								fontSize: '1.2em',
@@ -412,7 +419,7 @@ export default class HighchartsData {
 						},
 						id: sens.sensor?._id,
 						type: this.chartSettings.chartMode,
-						name: sens?.device?.title + ":" + sens?.sensor?.title + '-' + sens.sensor?.unit,
+						name: sens?.device?.title + ":" + sens?.sensor?.title + '' + ` (${sens.sensor?.unit})`,
 						dashStyle: this.chartSettings.lineStyleUseDifferent ? this.lineStylesArray[index] : undefined,
 
 						data: [...this.makeData(sens?.data)],
@@ -421,6 +428,8 @@ export default class HighchartsData {
 			}
 		});
 
+		console.log(arrAxisY)
+		console.log(arrSeries)
 		console.timeEnd('how many sumOfdata')
 
 		const num = arrSeries?.[0]?.data?.length
@@ -486,13 +495,13 @@ export default class HighchartsData {
 				},
 				series: [...arrSeries],
 				yAxis: [...arrAxisY],
-				title: {
-					text: 'Environment Monitoring' + ' - ' + starttime.toLocaleString() + ' -to ' + endtime.toLocaleString(),
-					style: {
-						color: this.chartSettings?.textColor?.[0] ?? 'var(--text-color)',
-					},
-					align: 'left',
-				},
+				// title: {
+				// 	text: 'Environment Monitoring' + ' - ' + starttime.toLocaleString() + ' -to ' + endtime.toLocaleString(),
+				// 	style: {
+				// 		color: this.chartSettings?.textColor?.[0] ?? 'var(--text-color)',
+				// 	},
+				// 	align: 'left',
+				// },
 				xAxis:
 				{
 					tickInterval: 'auto',
@@ -519,7 +528,7 @@ export default class HighchartsData {
 					labels: {
 						allowOverlap: false,
 						rotation: parseInt(this.chartSettings.xAxisRotation?.toString() ?? '0'),
-						formatter: this.myXAxisFormater(this.chartSettings?.textColor?.[0] ?? 'var(--text-color)', this.chartSettings?.xAxisTimeValue),
+						formatter: this.myXAxisFormater(this.chartSettings?.textColor?.[0] ?? 'var(--text-color)', this.chartSettings?.xAxisTimeValue, this.dateJalali),
 						style: {
 							display: 'flex flex-wrap',
 							justifyContent: 'center',
@@ -543,7 +552,7 @@ export default class HighchartsData {
 						color: this.chartSettings?.textColor?.[0] ?? 'var(--text-color)',
 					},
 					backgroundColor: this.chartSettings?.bgColor?.[0] ?? 'var(--bgc)',
-					formatter: this.getTooltipFormatter(this.chartSettings?.bgColor?.[0], this.chartSettings?.textColor?.[0]),
+					formatter: this.getTooltipFormatter(this.chartSettings?.bgColor?.[0], this.chartSettings?.textColor?.[0], this.dateJalali),
 					split: true
 				},
 				plotOptions: {
@@ -685,13 +694,13 @@ export default class HighchartsData {
 				"yellow",
 				"var(--text-color)",]
 		,
-		title: {
-			text: 'Environment Monitoring',
-			style: {
-				color: this.chartSettings?.textColor?.[0] ?? 'cyan',
-			},
-			align: 'left',
-		},
+		// title: {
+		// 	text: 'Environment Monitoring',
+		// 	style: {
+		// 		color: this.chartSettings?.textColor?.[0] ?? 'cyan',
+		// 	},
+		// 	align: 'left',
+		// },
 		subtitle: {
 			text: 'Source: Monitorex.ir',
 			align: 'left',
@@ -871,6 +880,7 @@ export default class HighchartsData {
 	}
 	//=============================================================================================
 	private makeDataTable(dataR: SensorsReportType[] | undefined, granularity?: number) {
+		console.time("maketabletime")
 		const arr: object[] = [];
 		const columnsMakes: GridColDef[] = [
 			{
@@ -901,8 +911,8 @@ export default class HighchartsData {
 					obj[ite._id ?? "noname"] =
 						ite.data?.[index]?.y ?? "no data";
 					const date = new Date(ite?.data?.[index]?.x ?? "");
-					obj["date"] = this.dateJalali ? new Date(moment(ite?.data?.[index]?.x).format('jYYYY-jMM-jDD HH:mm:ss')).toLocaleDateString() : date.toLocaleDateString();
-					obj["time"] = date.toLocaleTimeString();
+					obj["date"] = ite?.data?.[index]?.x
+					// obj["time"] = ite?.data?.[index]?.x
 				});
 				arr.push(obj);
 			}
@@ -912,11 +922,11 @@ export default class HighchartsData {
 			headerName: "date",
 			width: 150,
 		});
-		columnsMakes.push({
-			field: "time",
-			headerName: "time",
-			width: 150,
-		});
+		// columnsMakes.push({
+		// 	field: "time",
+		// 	headerName: "time",
+		// 	width: 150,
+		// });
 		dataR?.map((item, index) => {
 			if (item?.data !== undefined && item?.data?.length > 0) {
 				columnsMakes.push({
@@ -926,7 +936,10 @@ export default class HighchartsData {
 				});
 			}
 		});
-		console.log(arr)
+
+		// console.log(arr)
+		console.timeEnd("maketabletime")
+
 		return arr ?? []
 		// setCulu(columnsMakes);
 	}
@@ -974,11 +987,12 @@ export default class HighchartsData {
 		columns.push({
 			Header: 'date',
 			accessor: 'date'
+
 		})
-		columns.push({
-			Header: 'time',
-			accessor: 'time'
-		})
+		// columns.push({
+		// 	Header: 'time',
+		// 	accessor: 'time'
+		// })
 		// columns.push({
 		// 	Header: 'time2',
 		// 	accessor: (_row: any, i: number) =>

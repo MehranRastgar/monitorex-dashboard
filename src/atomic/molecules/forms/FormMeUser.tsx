@@ -78,7 +78,7 @@ const FormMeUser: React.FC<Props> = (props) => {
 
   useEffect(() => {
     form.reset(selectedUser)
-    console.log('selectedUser', selectedUser)
+    // console.log('selectedUser', selectedUser)
   }, [selectedUser]);
 
   return (

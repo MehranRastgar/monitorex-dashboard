@@ -64,7 +64,7 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSave, isAdmin }) => {
     const usr = localStorage.getItem('user')
     if (usr) {
       const userd = await JSON.parse(usr)
-      console.log('local storage', userd,)
+      // console.log('local storage', userd,)
       form.reset(userd)
       dispatch(setSelectedUser(userd))
     }

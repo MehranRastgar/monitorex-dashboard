@@ -16,14 +16,14 @@ const LiveSensorValue: React.FC<Props> = (props) => {
     const SocketObject = useAppSelector(selectSocketObject);
 
     useEffect(() => {
-        console.log("SocketObject:::==", SocketObject)
+        // console.log("SocketObject:::==", SocketObject)
 
         return () => {
 
         }
     }, [SocketObject,])
     useEffect(() => {
-        console.log("SocketData:::==", SocketData)
+        // console.log("SocketData:::==", SocketData)
 
         return () => {
 

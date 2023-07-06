@@ -47,10 +47,11 @@ import DataOfReport from 'src/atomic/organisms/analytics/DataOfReport';
 import { PrintPreview } from 'src/atomic/organisms/Print/PrintPreview';
 import TableDataOfReport, { SetGranularity } from 'src/atomic/organisms/DataTables/TableDataOfReport';
 import HeaderMakeReport from 'src/atomic/molecules/Report/HeaderMakeReport';
-const MultiAxisChart = dynamic(
-  () => import("src/atomic/organisms/HighCharts/MultiAxisChart"),
-  { ssr: false }
-);
+import MultiAxisChart from 'src/atomic/organisms/HighCharts/MultiAxisChart';
+// const MultiAxisChart = dynamic(
+//   () => import("src/atomic/organisms/HighCharts/MultiAxisChart"),
+//   { ssr: false }
+// );
 const DateTimeAnalytic = dynamic(
   () => import("../src/atomic/organisms/analytics/DateTimeAnalytic"),
   { ssr: false }
@@ -140,7 +141,7 @@ export default function Analytics() {
   }, [queryDevices.isFetching, queryDevices.isSuccess]);
   return (
     <Layout>
-      <Item className="flex flex-wrap justify-center">
+      <Item className="flex flex-wrap justify-center ">
         <DeviceMA />
         <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
           {selectLocale === 'fa' ?

@@ -53,7 +53,7 @@ export default class Device {
         for (let i = 0; i < qty; i++) {
             newform?.push({ header: `${name}-` + (i + 1).toString(), section: [...await this.everyC(TypeArray, i, name)] })
         }
-        console.log(newform)
+        // console.log(newform)
         return this.form = [...newform];
     }
     async createSensorByNumber(qty: number): Promise<ContainerFormMapType[]> {
@@ -61,7 +61,7 @@ export default class Device {
         for (let i = 0; i < qty; i++) {
             newform?.push({ header: 'Sensors-' + (i + 1).toString(), section: [...await this.sensorC(TypeArray, i)] })
         }
-        console.log(newform)
+        // console.log(newform)
         return this.form = newform;
     }
     addSensor(sensor: SensorsReceiveTpe): ContainerFormMapType[] {

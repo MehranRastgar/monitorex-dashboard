@@ -162,7 +162,7 @@ const GroupTable: React.FC<Props> = (props) => {
       dispatch(setSelectedGroup(group))
 
     }
-    console.log(group?.sensors);
+    // console.log(group?.sensors);
   }, [selectedRow]);
 
   return (

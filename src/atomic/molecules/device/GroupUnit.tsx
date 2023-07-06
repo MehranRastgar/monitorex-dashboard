@@ -82,7 +82,7 @@ const GroupUnit: React.FC<Props> = (props) => {
   return (
     <section
       onClick={() => {
-        console.log(group, props.index);
+        // console.log(group, props.index);
         if (group) {
           GetReport(group);
           if (props?.index !== undefined)

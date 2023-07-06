@@ -63,11 +63,11 @@ export default function DateTimeAnalytic({ localeT }: { localeT: 'en' | 'fa' }) 
 
   useEffect(() => {
     if (selectED !== undefined) setValue2(dayjs(selectED));
-    console.log('selectSD', selectED);
+    // console.log('selectSD', selectED);
   }, [selectED]);
   useEffect(() => {
     if (selectSD !== undefined) setValue(dayjs(selectSD));
-    console.log('selectSD', selectSD);
+    // console.log('selectSD', selectSD);
   }, [selectSD]);
 
   return (
@@ -170,7 +170,7 @@ function HowMuchBefor({
             handleClick();
           }}
           type="button"
-          className="hover:bg-cyan-400/30 rounded-lg flex border border-black py-4 bg-black/30 text-white"
+          className="hover:bg-cyan-400/30 rounded-lg flex border border-black py-4 bg-black/30 text-white [var(--font-family)]"
         >
           <div className="mx-2">{t(str?.[1])}</div>
           <div className="mx-2">{t(str?.[0])}</div>{' '}

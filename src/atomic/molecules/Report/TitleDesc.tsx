@@ -25,17 +25,17 @@ const TitleDesc: React.FC<Props> = (props) => {
     <>
       {props.desc !== undefined ? (
         <Box
-          className={props.ct ?? "flex w-full justify-start font-Vazir-Bold"}
+          className={props.ct ?? "flex w-full justify-start "}
         >
-          <Typography className={props.cx ?? "flex mx-2 font-Vazir-Bold w-1/3"}>
+          <Typography className={props.cx ?? "flex mx-2  w-1/3"}>
             {props.title}
           </Typography>
-          <Typography className="flex mx-2 font-Vazir-Medium">
+          <Typography className="flex mx-2 ">
             {" : "}
           </Typography>
           <Typography
             className={
-              props.cx ?? "flex mx-2 font-Vazir-Medium justify-end w-1/2"
+              props.cx ?? "flex mx-2  justify-end w-1/2"
             }
           >
             {props.desc}

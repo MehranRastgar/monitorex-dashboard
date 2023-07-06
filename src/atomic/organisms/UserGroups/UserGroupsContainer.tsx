@@ -54,7 +54,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
           arr.push(userD?.groups[i]);
         }
       }
-    console.log(arr);
+    // console.log(arr);
 
     const user: UserType = { ...userD, groups: [...arr] };
     dispatch(updateUserData(user));

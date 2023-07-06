@@ -152,7 +152,7 @@ const ReactTable: React.FC<Props> = (props) => {
   const chartRef = useRef<HTMLDivElement>(document.getElementById('chart-analytics') as HTMLDivElement);
   const headerRef = useRef<HTMLDivElement>(document.getElementById('analytics-header') as HTMLDivElement);
   const [dense, setDense] = useState<boolean>(false);
-
+  const [gotoNumber, setGotoNumber] = useState<string>('0')
   function handleGeneratePDF() {
 
   }
@@ -303,7 +303,7 @@ const ReactTable: React.FC<Props> = (props) => {
         img.src = dataUrl
 
         html2canvas(document.getElementById('chart-analytics') as HTMLDivElement).then(async (canvas) => {
-          console.log('header')
+          //console.log('header')
           const imgData = canvas.toDataURL('image/png');
           // const imgDataOfHeader = canvasHeader.toDataURL('image/png');
 
@@ -377,11 +377,11 @@ const ReactTable: React.FC<Props> = (props) => {
           setLoading(false)
 
         }).catch(function (err) {
-          console.log(err)
+          //console.log(err)
           setLoading(false)
 
         }).catch(function (err) {
-          console.log(err)
+          //console.log(err)
           setLoading(false)
 
         })
@@ -472,7 +472,7 @@ const ReactTable: React.FC<Props> = (props) => {
   const ControlButtons: any = () => {
 
     return <>{props.hasPagination && (
-      <div className="flex justify-center w-full h-10 mb-2 mt-2 scale-75">
+      <div className="flex justify-center text-[24px] w-full h-10 mb-2 mt-2 scale-75">
         {props?.rowNumbers && <select
           className={classes.inpt + ' mx-2'}
           value={pageSize}
@@ -486,19 +486,27 @@ const ReactTable: React.FC<Props> = (props) => {
             </option>
           ))}
         </select>}
-        {props?.rowNumbers && <select
-          className={classes.inpt + ' mx-2'}
-          value={pageIndex}
-          onChange={(e) => {
-            gotoPage(Number(e.target.value));
-          }}
-        >
-          {pageOptions?.map((size) => (
-            <option key={size} value={size}>
-              Goto page {size + 1}
-            </option>
-          ))}
-        </select>}
+        {props?.rowNumbers &&
+          <div className='flex border-r border-l mx-2 px-2'>
+            <input
+              id='goto-input'
+              className={classes.inpt + ' w-[100px] mx-2'}
+              // value={gotoNumber}
+              type='number'
+            // onChange={(e) => {
+            //   setGotoNumber((e.target.value));
+            // }}
+            />
+            <ThemeButton
+              className=" flex text-center mx-2 text-[12px] items-center"
+              type={'explore'}
+              onClick={() => gotoPage(Number((document?.getElementById('goto-input') as HTMLInputElement)?.value ?? 1) - 1)}
+            // disabled={!canPreviousPage}
+            >
+              {t('goTo')}
+            </ThemeButton>
+          </div>
+        }
         <ThemeButton
           className=" flex text-center mx-2 text-[12px] items-center"
           type={'activate'}
@@ -520,15 +528,26 @@ const ReactTable: React.FC<Props> = (props) => {
         </ThemeButton>
 
         {props.isDense &&
-          <div className='flex flex-wrap mx-2'>
-            <label className='flex w-full' htmlFor={'isDense'}>dense</label>
+
+          <div className='flex  mx-2 content'>
+            <label className='flex mx-2' htmlFor={'isDense'}>dense</label>
+            <div className="content2">
+              <label className="checkBox2">
+                <input
+                  onClick={() => setDense(val => !val)}
+                  checked={dense}
+                  id="ch1" type="checkbox" />
+                <div className="transition2"></div>
+              </label>
+            </div>
+            {/* <label className='flex w-full' htmlFor={'isDense'}>dense</label>
             <input
               id='isDense'
-              className="flex text-center w-[20px] h-[20px]  text-[12px] items-center"
+              className={"flex text-center w-[20px] h-[20px]  text-[12px] items-center"}
               type='checkbox'
               onClick={() => setDense(val => !val)}
               checked={dense}
-            />
+            /> */}
           </div>
         }
       </div>
@@ -634,7 +653,7 @@ const ReactTable: React.FC<Props> = (props) => {
                           {row.cells.map((cell, indexw) => (
                             <td
                               onClick={() => {
-                                console.log('clicked', row.original._id);
+                                // console.log('clicked', row.original._id);
                                 props?.setSelectedRow(row.original._id);
                               }}
                               key={indexw + 'indexw-prepare'}

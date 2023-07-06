@@ -32,7 +32,7 @@ const DeviceFormFormik = () => {
     dispatch(setFormikDataInit(selectedDevice));
   }, [selectedDevice]);
   useEffect(() => {
-    console.log('port changes');
+    // console.log('port changes');
     const device: SensorsFormType = selectedDevice as SensorsFormType
     formdataRedux && setFormikDataInit(selectedDevice);
   }, [formdataRedux?.numberOfPorts, formdataRedux?.type]);

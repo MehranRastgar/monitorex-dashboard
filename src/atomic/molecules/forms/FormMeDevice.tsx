@@ -50,12 +50,12 @@ const FormMeDevice: React.FC<Props> = (props) => {
   const { errors, } = formState;
   function onSubmit(data: DeviceType) {
     // e.preventDefault()
-    console.log(form.getValues());
+    // console.log(form.getValues());
     const Dev: DevicesReceiveType = {
       ...form.getValues() as DevicesReceiveType,
       _id: selectedDevice?._id ?? undefined
     }
-    console.log(Dev);
+    // console.log(Dev);
     dispatch(putDeviceAsync(Dev));
 
   }
@@ -81,7 +81,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
 
 
   useEffect(() => {
-    console.log('triged')
+    // console.log('triged')
     if (form.getValues().type === 'Sensor Cotroller') {
       setValue('numberOfPorts', selectformdatainit?.sensors?.length ?? 0)
       setValue('electricals', [])

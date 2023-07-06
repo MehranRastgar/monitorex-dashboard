@@ -19,7 +19,7 @@ const OneEPanel: React.FC<Props> = (props) => {
   useEffect(() => {
     socket.on(props.idOfSub, (data: any) => {
       setValue(data);
-      console.log(data)
+      // console.log(data)
     });
     return () => {
       socket.off(props.idOfSub);

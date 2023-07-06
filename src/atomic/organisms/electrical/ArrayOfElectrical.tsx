@@ -93,7 +93,7 @@ const DeviceName: React.FC<PropsDev> = ({
 
   return (
     <div
-      className={`flex flex-wrap w-20 h-20 justify-center font-Vazir-Light m-2  ${byte !== undefined
+      className={`flex flex-wrap w-20 h-20 justify-center  m-2  ${byte !== undefined
         ? (byte & (0x00000001 << (6 - index))) === 0
           ? "bg-gray-600"
           : "bg-green-600"

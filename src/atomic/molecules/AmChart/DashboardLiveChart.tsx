@@ -91,7 +91,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
         setStartDayjs(
           dayjs(
             new Date(selectED ?? 0).getTime() -
-              (selectUserGr[GpNumber].timeRange ?? 0)
+            (selectUserGr[GpNumber].timeRange ?? 0)
           ).toJSON()
         )
       );
@@ -106,7 +106,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
           start:
             dayjs(
               new Date(selectED ?? 0).getTime() -
-                (selectUserGr?.[GpNumber]?.timeRange ?? 0)
+              (selectUserGr?.[GpNumber]?.timeRange ?? 0)
             ).toJSON() ?? "",
           end: selectED ?? "",
         })
@@ -195,7 +195,7 @@ const DashboardLiveChart: React.FC<Props> = (props) => {
 
           // Calculate the epoch time with the local offset
           const epochTime = timestamp + offsetSeconds;
-          console.log("epochTime", localOffset, new Date().getTime());
+          // console.log("epochTime", localOffset, new Date().getTime());
 
           let newdata = [...state?.chartOptions?.series];
           newdata?.[find]?.data.push([epochTime, data.value]);

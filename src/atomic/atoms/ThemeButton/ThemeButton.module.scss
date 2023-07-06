@@ -6,7 +6,7 @@
 
   cursor: pointer;
   display: inline-block;
-  font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+  font-family:  Roboto,-apple-system, system-ui, Roboto, sans-serif;
   padding: 7px 20px;
   text-align: center;
   text-decoration: none;
@@ -111,6 +111,6 @@
 
 html[dir='rtl'] {
   .btn {
-    font-family: iranyekan, 'IRANSans', 'Tahoma';
+    font-family: 'Vazir-bold',iranyekan, 'IRANSans', 'Tahoma';
   }
 }

@@ -35,7 +35,7 @@ next-env.d.ts
 
 .vscode
 
-.rar
-.zip
-.tar
+*.tar
+*.rar
+*.zip
 .next.*

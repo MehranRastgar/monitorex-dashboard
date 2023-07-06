@@ -2,6 +2,25 @@
 # yarn lockfile v1
 
 
+"@ag-grid-community/client-side-row-model@^30.0.3":
+  version "30.0.3"
+  resolved "https://registry.yarnpkg.com/@ag-grid-community/client-side-row-model/-/client-side-row-model-30.0.3.tgz#ba7689a3d7419c38b92f196671fc738f30fabed0"
+  integrity sha512-sPI92hyq9IBaist6pgg23xUqHlDoy5HRchRrOLquYf4am8KHH4PpibpBPg4MG5IhkSoRiq1H43Lj5MSMw5owYg==
+  dependencies:
+    "@ag-grid-community/core" "~30.0.3"
+
+"@ag-grid-community/core@~30.0.3":
+  version "30.0.3"
+  resolved "https://registry.yarnpkg.com/@ag-grid-community/core/-/core-30.0.3.tgz#892eaf00c3cd96c498693dbc079a829500cd2473"
+  integrity sha512-oiG20I+kHyxuaBfPKmfc3Z01j1loi1d2Sv10U/y0rkBG8W8O2ysOTDgXT7QM+JsFbLKhoMG+Y5kjp6ZDD8c0Uw==
+
+"@ag-grid-community/react@^30.0.4":
+  version "30.0.4"
+  resolved "https://registry.yarnpkg.com/@ag-grid-community/react/-/react-30.0.4.tgz#feb95bb1bd9a44be87cebf2767c31e1918cbba71"
+  integrity sha512-dZZ5ivmIBP44gkZLVIcXiGPlc9fLd6uxSuz2m1rmgGDw5SGpSkpPMM2tb1zcquWsNA0sD/oY0jzOn6sB4Ol/8g==
+  dependencies:
+    prop-types "^15.8.1"
+
 "@amcharts/amcharts5@^5.2.45":
   version "5.2.45"
   resolved "https://registry.yarnpkg.com/@amcharts/amcharts5/-/amcharts5-5.2.45.tgz#0c078e9e290429aafe70a02830820ea37b901a67"

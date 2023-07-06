@@ -84,31 +84,48 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 							</select>
 							<p className='text-red-300 tex-xs'>{errors?.chartMode?.message && '!' + errors?.chartMode?.message}</p>
 						</div>
-						<div className={'flex-wrap mx-2 '} >
-							<label className={classes.label} htmlFor='continues'>{t('continues')}</label>
-							<input className={classes.inpt} type='checkbox' {...register('continues')} />
-							{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
+						<div className="flex flex-wrap justify-center content">
+							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='continues'>{t('continues')}</label>
+							<label className="checkBox2">
+								<input id="ch1" type="checkbox"  {...register('continues')} />
+								<div className="transition2"></div>
+							</label>
 						</div>
-						<div className={'flex-wrap mx-2 '} >
-							<label className={classes.label} htmlFor='justPoint'>{t('justPoint')}</label>
-							<input className={classes.inpt} type='checkbox' {...register('justPoint')} />
-							{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
+						{/* <div className={' flex-wrap mx-2 '} >
+							<label className={"checkBox2"} htmlFor='continues'>{t('continues')}</label>
+							<input className="checkBox2" type='checkbox' {...register('continues')} />
+							<div className="transition2"></div>
+						</div> */}
+
+						<div className="flex flex-wrap justify-center content">
+							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='justPoint'>{t('justPoint')}</label>
+							<label className="checkBox2">
+								<input id="ch1" type="checkbox"  {...register('justPoint')} />
+								<div className="transition2"></div>
+							</label>
 						</div>
-						<div className={'flex-wrap mx-2 '} >
-							<label className={classes.label} htmlFor='lineStyleUseDifferent'>{t('lineStyleUseDifferent')}</label>
-							<input className={classes.inpt} type='checkbox' {...register('lineStyleUseDifferent')} />
-							{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
+						<div className="flex flex-wrap justify-center content">
+							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='lineStyleUseDifferent'>{t('lineStyleUseDifferent')}</label>
+							<label className="checkBox2">
+								<input id="ch1" type="checkbox"  {...register('lineStyleUseDifferent')} />
+								<div className="transition2"></div>
+							</label>
 						</div>
-						<div className={'flex-wrap mx-2 '} >
-							<label className={classes.label} htmlFor='multiAxis'>{t('multi Axis')}</label>
-							<input className={classes.inpt} type='checkbox' {...register('multiAxis')} />
-							{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
+						<div className="flex flex-wrap justify-center content">
+							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='multiAxis'>{t('multiAxis')}</label>
+							<label className="checkBox2">
+								<input id="ch1" type="checkbox"  {...register('multiAxis')} />
+								<div className="transition2"></div>
+							</label>
 						</div>
-						<div className={'flex-wrap mx-2 '} >
-							<label className={classes.label} htmlFor='grid'>{t('grid')}</label>
-							<input className={classes.inpt} type='checkbox' {...register('grid')} />
-							{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
+						<div className="flex flex-wrap justify-center content">
+							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='grid'>{t('grid')}</label>
+							<label className="checkBox2">
+								<input id="ch1" type="checkbox"  {...register('grid')} />
+								<div className="transition2"></div>
+							</label>
 						</div>
+
 						<div className={'flex-wrap mx-2 '} >
 							<label className={classes.label} htmlFor='lineDiameter'>{t('line Diameter')}</label>
 							<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('lineDiameter' as const, { required: { value: true, message: t('diameter is required') } })} />
@@ -119,12 +136,14 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 							<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('xAxisRotation')} />
 							{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
 						</div>
-						<div className={'flex-wrap mx-2 '} >
-							<label className={classes.label + ' '} htmlFor=''>{t('X axis time')}</label>
-							<input className={classes.inpt + ' '} type='checkbox' step="any" {...register('xAxisTimeValue')} />
-							{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
-						</div>
 
+						<div className="flex flex-wrap justify-center content">
+							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='xAxisTimeValue'>{t('X axis time')}</label>
+							<label className="checkBox2">
+								<input id="ch1" type="checkbox"  {...register('xAxisTimeValue')} />
+								<div className="transition2"></div>
+							</label>
+						</div>
 						{/* <fieldset className={classes2.checkbox_switch}>
 						<legend className={classes.legend_left}>Location</legend>
 						<input type="checkbox" id="checkbox-3" />
@@ -198,4 +217,4 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 export default MultiChartSettings;
 
 
-const arrayChartMode = ['spline', 'line', 'column']
+const arrayChartMode = ['spline', 'line']

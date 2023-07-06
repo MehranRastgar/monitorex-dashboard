@@ -32,7 +32,7 @@ export default function DateTimeReport() {
           <li className="flex w-1/3">
             <TitleDesc
               ct={"flex w-[350px]"}
-              cx="flex mx-1 font-Vazir justify-start  text-[14px]"
+              cx="flex mx-1  justify-start  text-[14px]"
               title={t("reportDate")}
               desc={dayjs()
                 .calendar("jalali")
@@ -43,7 +43,7 @@ export default function DateTimeReport() {
           <li className="flex w-1/3  border-r">
             <TitleDesc
               title={t("endDate")}
-              cx="flex mx-1 font-Vazir justify-start  text-[14px]"
+              cx="flex mx-1  justify-start  text-[14px]"
               desc={dayjs(selectST)
                 .calendar("jalali")
                 .locale("fa")
@@ -52,7 +52,7 @@ export default function DateTimeReport() {
           </li>
           <li className="flex w-1/3  border-r">
             <TitleDesc
-              cx="flex mx-1 font-Vazir justify-start  text-[14px]"
+              cx="flex mx-1  justify-start  text-[14px]"
               title={t("startDate")}
               desc={dayjs(selectET)
                 .calendar("jalali")

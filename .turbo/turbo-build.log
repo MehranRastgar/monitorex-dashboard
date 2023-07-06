@@ -7,7 +7,7 @@ See more info here: https://nextjs.org/docs/messages/invalid-next-config
 info  - Linting and checking validity of types...
 
 ./pages/analytics.tsx
-140:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+141:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./pages/devices.tsx
 44:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -64,7 +64,7 @@ info  - Linting and checking validity of types...
 38:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'props?.sensor?._id'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/molecules/forms/FormFormik.tsx
-52:6  Warning: React Hook useEffect has missing dependencies: 'formik' and 'selectformmap'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+52:6  Warning: React Hook useEffect has a missing dependency: 'formik'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/molecules/forms/FormMeDevice.tsx
 93:6  Warning: React Hook useEffect has missing dependencies: 'form', 'selectformdatainit?.electricals?.length', 'selectformdatainit?.sensors?.length', and 'setValue'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -120,8 +120,8 @@ info  - Linting and checking validity of types...
 166:6  Warning: React Hook useEffect has missing dependencies: 'GetReport', 'dispatch', and 'userOwn?.data?.groups'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/organisms/HighCharts/MultiAxisChart.tsx
-269:5  Warning: React Hook useEffect has a missing dependency: 'liveUpdate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-286:5  Warning: React Hook useEffect has missing dependencies: 'getdata', 'getdataLiveChart', and 'props.liveChart'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+273:5  Warning: React Hook useEffect has a missing dependency: 'liveUpdate'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+289:5  Warning: React Hook useEffect has missing dependencies: 'getdata', 'getdataLiveChart', and 'props.liveChart'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/organisms/sensor/SensorList.tsx
 53:6  Warning: React Hook React.useEffect has missing dependencies: 'devices' and 'dispatch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -218,34 +218,34 @@ info  - Generating static pages (12/12)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ○ / (753 ms)                             11.5 kB         680 kB
-├   └ css/56a836304215420a.css             2.58 kB
+┌ ○ / (6443 ms)                            5.73 kB         680 kB
+├   └ css/55088ec8e7b7260c.css             2.6 kB
 ├   /_app                                  0 B             141 kB
-├ ○ /404                                   418 B           227 kB
-├ ○ /analytics                             9.05 kB         897 kB
-├   └ css/36cb9a1dce7afaf1.css             2.94 kB
+├ ○ /404 (6349 ms)                         418 B           227 kB
+├ ○ /analytics                             9.03 kB        1.05 MB
+├   └ css/7fd53d241eb7fc21.css             3.15 kB
 ├ λ /api/sendotp                           0 B             141 kB
 ├ λ /api/signin                            0 B             141 kB
-├ ○ /devices                               38.5 kB        1.03 MB
-├   └ css/c9c76dc5c4db63e3.css             2.72 kB
-├ ○ /electricalboard                       2.95 kB         229 kB
-├ ○ /login                                 2.84 kB         172 kB
+├ ○ /devices (686 ms)                      38.5 kB        1.03 MB
+├   └ css/85fa8df3b6b90323.css             2.71 kB
+├ ○ /electricalboard (6357 ms)             2.92 kB         229 kB
+├ ○ /login (6444 ms)                       2.84 kB         172 kB
 ├   └ css/ca9dc42df1f7aa5f.css             1.22 kB
-├ ○ /management (589 ms)                   7.69 kB         775 kB
-├   └ css/7af0b5bbf7dbd08f.css             2.9 kB
-├ ○ /routes (360 ms)                       3.44 kB         230 kB
+├ ○ /management (735 ms)                   7.64 kB         775 kB
+├   └ css/dbe7998ac0c977d6.css             2.91 kB
+├ ○ /routes (6335 ms)                      3.44 kB         230 kB
 ├   └ css/3f5358800af44f66.css             2.86 kB
-├ ○ /sensors (365 ms)                      2.88 kB         229 kB
+├ ○ /sensors (6331 ms)                     2.88 kB         229 kB
 ├   └ css/bd7e967af9f78130.css             1.86 kB
-├ ○ /settings                              3.27 kB         771 kB
-├   └ css/792be391a006f595.css             2.9 kB
-└ ○ /users (314 ms)                        316 B           227 kB
+├ ○ /settings (541 ms)                     3.26 kB         771 kB
+├   └ css/eaef4abcdae2ee2f.css             2.92 kB
+└ ○ /users (6437 ms)                       316 B           226 kB
 + First Load JS shared by all              152 kB
   ├ chunks/framework-1f08ae526ddacb63.js   45.4 kB
   ├ chunks/main-1c8ee1adb5e9916b.js        26.9 kB
   ├ chunks/pages/_app-e5b9ca5b00eb5b96.js  65.9 kB
-  ├ chunks/webpack-8dd61a37d1ec5fc9.js     2.73 kB
-  └ css/5ca207cc05ce1ecd.css               10.9 kB
+  ├ chunks/webpack-1eaaacdd6408d1d9.js     2.6 kB
+  └ css/dfc0dfee377eccc7.css               10.9 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

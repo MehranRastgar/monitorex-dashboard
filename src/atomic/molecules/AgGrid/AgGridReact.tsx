@@ -81,7 +81,7 @@ const AgGrid: React.FC<Props> = (props) => {
     <div className="flex flex-wrap w-full justify-center">
       <div className="flex w-full justify-center">
         <button
-          className="flex border p-2 rounded-lg bg-white-600 m-2 text-black font-Vazir-Medium"
+          className="flex border p-2 rounded-lg bg-white-600 m-2 text-black "
           onClick={onBtPrinterFriendly}
         >
           {t('sensorsPointsData')}

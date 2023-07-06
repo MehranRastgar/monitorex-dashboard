@@ -27,7 +27,7 @@ export default class Formine {
         for (let i = 0; i < qty; i++) {
             newform?.push({ header: `${name}-` + (i + 1).toString(), section: [...await this.everyC(TypeArray, i, name)] })
         }
-        console.log(newform)
+        // console.log(newform)
         return this.form = [...newform];
     }
     addSensor(sensor: SensorsReceiveTpe): ContainerFormMapType[] {
@@ -42,11 +42,11 @@ export default class Formine {
         const input = { "sensor[0].title": "sensor name", "sensor[1].title": "sensor name2" };
         let output = {}
         output = { ['sensor[0].title']: 'mehran' }
-        console.log(output); // { "sensor": [{ "title": "sensor name" }, { "title": "sensor name2" }] }
+        //console.log(output); // { "sensor": [{ "title": "sensor name" }, { "title": "sensor name2" }] }
 
         let o1: Object = {};
         let o2: Object = Object.create({ 'sensor[0].title': "sensor name]" });
-        console.log(o2);
+        //console.log(o2);
     }
     private async everyC(
         TypeFormArray: FormMapType[],

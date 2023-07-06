@@ -65,7 +65,7 @@ const SensorUnit: React.FC<Props> = (props) => {
             ? 'bad Data'
             : sensorData?.value ?? '--'}
         </div>
-        {props?.sensor?.maxAlarm &&
+        {/* {props?.sensor?.maxAlarm &&
           sensorData?.value &&
           sensorData?.value >= props?.sensor?.maxAlarm ? (
           <div>max</div>
@@ -78,7 +78,7 @@ const SensorUnit: React.FC<Props> = (props) => {
           <div>min</div>
         ) : (
           <></>
-        )}
+        )} */}
         {props?.sensor?.isRealTime ? <div className=''><Icon icon={starSolid} color="#FFC412" />
         </div> : <div className=''><Icon icon={starSolid} color="#0000" />
         </div>}

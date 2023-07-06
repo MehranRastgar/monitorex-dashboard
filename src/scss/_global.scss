@@ -136,7 +136,7 @@ html[theme='dark'] {
 }
 
 html[dir='rtl'] {
-  --fontFamily: iranyekan, 'IRANSans', 'Tahoma';
+  --fontFamily: 'Vazir-Light',iranyekan, 'IRANSans', 'Tahoma';
 }
 
 //reset
@@ -252,7 +252,7 @@ body {
 }
 
 .rtl {
-  font-family: iranyekan, 'IRANSans', 'Tahoma';
+  font-family: 'font-Vazir-Light',iranyekan, 'IRANSans', 'Tahoma';
   direction: rtl;
   text-align: right;
 }
@@ -319,7 +319,7 @@ body {
 }
 
 .notFound__container_rtl {
-  font-family: iranyekan, 'IRANSans', 'Tahoma';
+  font-family: 'Vazir-Light',iranyekan, 'IRANSans', 'Tahoma';
   min-height: 100vh;
   @include flex();
   flex-direction: column;

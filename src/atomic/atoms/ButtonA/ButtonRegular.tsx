@@ -15,10 +15,9 @@ const ButtonRegular: React.FC<Props> = (props) => {
   return (
     <button
       className={
-        `overflow-hidden text- p-2 items-center rounded-lg flex w-auto my-1 max-h-[20px] font-Vazir-Medium text-xs shadow-xl  ${
-          props?.disabled === true
-            ? "bg-gray-600"
-            : "bg-[var(--dev-bgc-selected)]"
+        `overflow-hidden text- p-2 items-center rounded-lg flex w-auto my-1 max-h-[20px]  text-xs shadow-xl  ${props?.disabled === true
+          ? "bg-gray-600"
+          : "bg-[var(--dev-bgc-selected)]"
         } ` + props.className
       }
       onClick={props.onClick}

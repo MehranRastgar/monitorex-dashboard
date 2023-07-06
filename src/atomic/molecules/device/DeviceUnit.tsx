@@ -44,7 +44,7 @@ const DeviceUnit: React.FC<Props> = (props) => {
       if (item.isRealTime)
         arr.push(item?._id ?? '')
     }));
-    console.log('promise all', arr)
+    // console.log('promise all', arr)
     dispatch(
       reportSensorsAsync({
         sensors: arr,
