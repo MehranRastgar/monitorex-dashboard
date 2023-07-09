@@ -78,6 +78,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
         <div className="mt-10 m-1 flex justify-center flex-wrap min-w-full">
           <div className="flex w-full justify-center m-10">
             <ThemeButton
+              className=''
               onClick={() => {
                 setGroupOrDevice('device')
                 dispatch(setSelectedGroupNumber(undefined))
@@ -87,6 +88,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               {t('devices')}
             </ThemeButton>
             <ThemeButton
+              className=' rounded-l-none'
               onClick={() => {
                 setGroupOrDevice('group')
                 dispatch(setSelectedGroupNumber(undefined))

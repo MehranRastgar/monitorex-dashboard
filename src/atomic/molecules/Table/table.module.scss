@@ -1,7 +1,7 @@
 @use '../../../scss/abstracts/' as *;
 
 .table {
-  font-family: inherit;
+  font-family: var(--fontFamily);
   border-collapse: collapse;
   font-size: 14px;
   width: 100%;
@@ -81,7 +81,7 @@
   flex: content;
   border:0px solid var(--border-color);
   padding: 0px;
-  font: 1.0em sans-serif;
+  // font: 1.0em sans-serif;
 }
 
 .table_dense tr:nth-child(odd) {

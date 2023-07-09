@@ -892,7 +892,11 @@ export default class HighchartsData {
 		if (dataR === undefined) {
 			return;
 		}
-
+		columnsMakes.push({
+			field: "date",
+			headerName: "date",
+			width: 150,
+		});
 		let eachSensorDataIsBigger: { index: number; len: number } = { index: 0, len: 0 }
 		dataR?.map((ws, inde) => {
 			if (ws?.data?.length !== undefined && ws?.data?.length > eachSensorDataIsBigger.len) {
@@ -917,11 +921,7 @@ export default class HighchartsData {
 				arr.push(obj);
 			}
 		});
-		columnsMakes.push({
-			field: "date",
-			headerName: "date",
-			width: 150,
-		});
+
 		// columnsMakes.push({
 		// 	field: "time",
 		// 	headerName: "time",
@@ -954,11 +954,13 @@ export default class HighchartsData {
 		}[];
 	} {
 		// console.log(dataOfReport)
+
 		let data: any[] = []
 		const columns: {
 			Header: string,
 			id?: string,
-			accessor: any
+			accessor: any,
+			Cell?: any
 		}[] = [
 				{
 					Header: 'N',
@@ -966,7 +968,15 @@ export default class HighchartsData {
 					accessor: (_row: any, i: number) => i + 1,
 				}
 			]
+		columns.push({
+			Header: 'date Time',
+			accessor: 'date',
+			Cell: ({ value }: { value: any }) => {
+				const date = new Date(value)
+				return (this.dateJalali ? (date.toLocaleDateString('fa-IR') + ' - ' + date.toLocaleTimeString('fa-IR')) : (date.toLocaleDateString('en-US') + ' - ' + date.toLocaleTimeString('en-US'))) // Change this to your desired date format
+			},
 
+		})
 		dataOfReport?.map((eachsens, index) => {
 			columns.push(
 				{
@@ -984,11 +994,7 @@ export default class HighchartsData {
 			// })
 		})
 		const CreatedData = [...this.makeDataTable(dataOfReport ?? [], granularity) ?? []]
-		columns.push({
-			Header: 'date',
-			accessor: 'date'
 
-		})
 		// columns.push({
 		// 	Header: 'time',
 		// 	accessor: 'time'

@@ -106,7 +106,7 @@ const TableDataOfReport: React.FC<Props> = () => {
   return (
     <>
       <section className="flex items-start flex-wrap h-[auto] min-h-[600px] mb-[1rem]">
-        <div className='flex h-fit'>
+        <div className='flex h-auto'>
           <SetGranularity />
         </div>
         {/* <span className="mx-4 "> {t('sensors')}</span>{columns.length - 2}
@@ -146,8 +146,8 @@ export const SetGranularity: any = () => {
 
 
   return <div className='flex m-2 h-fit flex-wrap mx-4'>
-    <label className='flex w-full h-fit' htmlFor='Granularity'>Granularity</label>
-    <select id='Granularity' className={classes.inpt + ' max-h-[30px]'} onChange={(e) => {
+    <label className='flex w-full h-fit' htmlFor='Granularity'>Step Devider</label>
+    <select id='Granularity' className={classes.inpt + ' max-h-[40px]'} onChange={(e) => {
       dispatch(setGranularity(parseInt(e.target.value)))
     }} value={granularity?.toString() ?? 1}>
       {gran.map((item, index) =>

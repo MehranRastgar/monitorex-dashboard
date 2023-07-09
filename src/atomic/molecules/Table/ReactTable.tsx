@@ -8,12 +8,12 @@ import { selectSocketObject, socketObType } from 'src/store/slices/socketSlice';
 // import { useExportData } from 'react-table-plugins'
 import { useExportData } from 'react-table-plugins';
 import domtoimage from 'dom-to-image';
+import moment from 'moment-jalaali';
 
 import filePdf from '@iconify/icons-uiw/file-pdf';
 import plusIcon from '@iconify/icons-typcn/plus';
 import chartLine from '@iconify/icons-healthicons/chart-line';
 import pageHeaderEdit from '@iconify/icons-fluent-mdl2/page-header-edit';
-
 
 import {
   useTable,
@@ -52,6 +52,7 @@ import XLSX from "xlsx"
 import JsPDF from "jspdf"
 import "jspdf-autotable";
 
+
 // import dynamic from "next/dynamic";
 // const SensorUnit = dynamic(() => import("./SensorUnit"));
 import classes from './table.module.scss';
@@ -63,6 +64,7 @@ import { useTranslation } from 'react-i18next';
 import { Icon } from '@iconify/react';
 import html2canvas from 'html2canvas';
 import LoadingOne, { LoadingTwo } from 'src/components/loader/default';
+import { selectCalendarMode } from 'src/store/slices/themeSlice';
 
 
 
@@ -153,6 +155,8 @@ const ReactTable: React.FC<Props> = (props) => {
   const headerRef = useRef<HTMLDivElement>(document.getElementById('analytics-header') as HTMLDivElement);
   const [dense, setDense] = useState<boolean>(false);
   const [gotoNumber, setGotoNumber] = useState<string>('0')
+  const selectLocale = useAppSelector(selectCalendarMode)
+
   function handleGeneratePDF() {
 
   }
@@ -224,6 +228,7 @@ const ReactTable: React.FC<Props> = (props) => {
         body: data,
         margin: { top: 5 },
         styles: {
+
           lineColor: [0, 0, 0], lineWidth: 0.5,
           minCellHeight: !dense ? 16 : 12,
           height: 12,
@@ -327,17 +332,33 @@ const ReactTable: React.FC<Props> = (props) => {
           doc?.addImage(img, 'PNG', 0, 0, imgWidthHeader, imgHeightHeader);
           doc?.addImage(imgData, 'PNG', 0, imgHeightHeader, imgWidth, imgHeight);
 
+
+
+          const formattedData = data.map((row: any) => {
+            const date = selectLocale === 'fa' ? new Date(moment(row?.['1']).format('jYYYY-jMM-jDD HH:mm:ss')) : new Date(row?.['1'])
+            return {
+              ...row,
+              // Format the date value here
+              1: date.getFullYear() + '/' + date.getMonth() + '/' + date.getDate() + ' - ' + date.toLocaleTimeString('en-US', { hour12: false }) // Change this to your desired date format
+            };
+          });
+          console.log(formattedData)
           // doc.
           // doc.addPage();
+
+          console.log(headerNames, formattedData)
+
           var cellStyles = {
+            font: 'Vazir-Bold',
             height: 4, // Set the cell height to 12 pixels
           };
           doc?.autoTable({
             head: [headerNames],
-            body: data,
+            body: formattedData,
             margin: { top: 5 },
             startY: imgHeight + imgHeightHeader + 20,
             styles: {
+              fontStyle: 'Vazir-Bold',
               lineColor: [0, 0, 0], lineWidth: 0.5,
               minCellHeight: !dense ? 16 : 12,
               height: 8,
@@ -362,17 +383,48 @@ const ReactTable: React.FC<Props> = (props) => {
             //   },
             // },
             bodyStyles: {
+              fontStyle: 'Vazir-Bold'
+              ,
               cellStyles: cellStyles,
             }, willDrawCell: function (data: any) {
               // check if the cell text is "no data"
               if (data.cell.text == "no data") {
                 // change the fill color to red
-                doc.setFillColor(255, 0, 0);
+                doc.setFillColor('#fd8080');
               }
             }
-
-
           })
+          //   const table = `
+          //   <table>
+          //     <thead>
+          //       <tr>
+          //         <th>Name</th>
+          //         <th>Email</th>
+          //       </tr>
+          //     </thead>
+          //     <tbody>
+          //       ${data.map((row) => `
+          //         <tr>
+          //           <td>${row.name}</td>
+          //           <td>${row.email}</td>
+          //         </tr>
+          //       `).join('')}
+          //     </tbody>
+          //   </table>
+          // `;
+          //   doc.html(table, {
+          //     callback: () => {
+          //       doc.save('table.pdf');
+          //     },
+          //   });
+          // };
+          // doc.html(table, {
+          //   x: 10,
+          //   y: 70,
+          //   callback: () => {
+          //     doc.save('table.pdf');
+          //   },
+          // });
           doc.save(`${fileName}.pdf`);
           setLoading(false)
 
@@ -562,7 +614,7 @@ const ReactTable: React.FC<Props> = (props) => {
 
   return (
     <>
-      {props.columns.length && props.data.length ? <div className="flex flex-wrap w-full h-fit items-start relative">
+      {props.columns.length && props.data.length ? <div className="flex flex-wrap w-full h-fit items-start relative ">
         <div className='flex w-full'>
 
           {props?.hasSearch && (
@@ -575,7 +627,7 @@ const ReactTable: React.FC<Props> = (props) => {
           className={`flex h-full items-start flex-wrap w-full overflow-y-scroll ${props?.tHeight !== undefined ? ` ${props?.tHeight} ` : ' h-[15rem] '
             } `}
         >
-          <div className="w-full">
+          <div className="w-full ">
             <table className={classes.table} {...getTableProps()}>
               <thead>
                 {headerGroups?.map((headerGroup, indexOne) => (
