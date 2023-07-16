@@ -61,6 +61,14 @@ export default function DeviceList({ moreItems }: { moreItems?: boolean }) {
         Header: 'ports',
         accessor: 'sensors.length',
       },
+      {
+        Header: 'SMport',
+        accessor: 'address.sMultiPort',
+      },
+      {
+        Header: 'Mport',
+        accessor: 'address.multiPort',
+      },
     ],
 
     [],
@@ -93,21 +101,21 @@ export default function DeviceList({ moreItems }: { moreItems?: boolean }) {
 export interface factors {
   factorName: string;
   factorPosition:
-    | 1
-    | 2
-    | 3
-    | 4
-    | 5
-    | 6
-    | 7
-    | 8
-    | 9
-    | 10
-    | 12
-    | 13
-    | 14
-    | 15
-    | 16;
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 12
+  | 13
+  | 14
+  | 15
+  | 16;
   factorValue: number;
 }
 export interface deviceAddress {

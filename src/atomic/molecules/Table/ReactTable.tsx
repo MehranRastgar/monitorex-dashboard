@@ -259,7 +259,8 @@ const ReactTable: React.FC<Props> = (props) => {
           // doc.
           const imgWidth = doc.internal.pageSize.getWidth();
           const imgHeight = canvas.height * imgWidth / canvas.width;
-          doc?.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+          doc?.addImage(imgData, 'PNG', 4, 10, imgWidth - 10, imgHeight);
+
           // doc.
           // doc.addPage();
           var cellStyles = {
@@ -329,8 +330,8 @@ const ReactTable: React.FC<Props> = (props) => {
           const imgWidthHeader = doc.internal.pageSize.getWidth();
           const imgHeightHeader = img.height * imgWidthHeader / img.width;
 
-          doc?.addImage(img, 'PNG', 0, 0, imgWidthHeader, imgHeightHeader);
-          doc?.addImage(imgData, 'PNG', 0, imgHeightHeader, imgWidth, imgHeight);
+          doc?.addImage(img, 'PNG', 4, 0, imgWidthHeader - 10, imgHeightHeader);
+          doc?.addImage(imgData, 'PNG', 4, imgHeightHeader, imgWidth - 10, imgHeight);
 
 
 

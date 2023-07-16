@@ -58,6 +58,7 @@ export interface SensorWebsocketRealTimeDataType {
   sensorTitle: string;
   deviceTitle: string;
   _id: string;
+  saved?: boolean
 }
 export interface SensorsReceiveTpe {
   resolution?: string;

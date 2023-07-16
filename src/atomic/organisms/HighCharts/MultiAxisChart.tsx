@@ -38,6 +38,8 @@ import pngOutline from '@iconify/icons-teenyicons/png-outline';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import { selectSocketObject } from "src/store/slices/socketSlice";
+import { socket } from "src/components/socketio";
+import { SensorWebsocketRealTimeDataType } from "src/components/pages/sensors/sensorsTable";
 // import "jspdf-autotable";
 if (typeof Highcharts === "object") {
 	HighchartsExporting(Highcharts);
@@ -137,13 +139,10 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 	const endDate = useAppSelector(selectEndDate)
 	const [chartSettings, setChartSettings] = useState<any>()
 	const granularity = useAppSelector(selectGranularity)
-	const selectLiveData = useAppSelector(selectSocketObject)
+	const [selectLiveData, setSelectLiveData] = useState<SensorWebsocketRealTimeDataType>()
+	const chartRef = useRef<HTMLDivElement>(null);
+	const [newDataOFLive, setNewDataOFLive] = useState<SensorWebsocketRealTimeDataType>()
 	// const chartRefHigh = useRef<StockChart | null>(null);
-
-
-
-
-
 	async function getdata(chartsettings?: ChartSettingsType) {
 		console.log('how many time')
 
@@ -170,8 +169,6 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 		} else { setState(undefined) }
 	}
 
-	const chartRef = useRef<HTMLDivElement>(null);
-
 	function handleGeneratePDF() {
 		const chart = chartRef.current;
 
@@ -187,6 +184,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 			});
 		}
 	}
+
 	function handleGeneratePNG() {
 		const chart = chartRef.current;
 
@@ -217,30 +215,30 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 	}
 	// const chartRef = useRef<typeof HighchartsReact>(null);
 	function liveUpdate() {
-		if (state?.chartOptions?.series.length) {
-			const localOffset = new Date().getTimezoneOffset();
-			const offsetSeconds = localOffset * -60 * 1000;
-			const arr: any[] = [];
+		// console.table(selectLiveData)
+		if (newDataOFLive !== undefined && newDataOFLive.saved && state?.chartOptions?.series !== undefined) {
+			console.log(newDataOFLive)
+			// if (state?.chartOptions?.series.length !== undefined) {
+			// 	const localOffset = new Date().getTimezoneOffset();
+			// 	const offsetSeconds = localOffset * -60 * 1000;
+			// const arr: any[] = [];
 			let newdata = [...state?.chartOptions?.series];
 
+			// 	// console.log(selectLiveData?.[sensor?._id])
+			// 	// const chartRefs = document.getElementById('chart-analytics') as HTMLDivElement
 			selectDataOFChart?.map((sensor, index) => {
-				// console.log(selectLiveData?.[sensor?._id])
-				// const chartRefs = document.getElementById('chart-analytics') as HTMLDivElement
+				if (sensor._id === newDataOFLive?.sensorId) {
+					const point = [selectLocale === 'fa' ?
+						new Date(
+							newDataOFLive?.createdAt
+						).getTime()
+						:
+						new Date(newDataOFLive?.createdAt).getTime(),
+					newDataOFLive.value === 200000 ? null : (newDataOFLive?.value ?? null)];
 
-				// const point = [selectLiveData?.[sensor?._id]?.createdAt, selectLiveData?.[sensor?._id]?.value];
-				if (sensor._id !== undefined && selectLiveData?.[sensor._id] !== undefined) {
-					const point = [selectLocale === 'fa' ? new Date(moment(selectLiveData?.[sensor._id]?.createdAt).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(selectLiveData?.[sensor._id]?.createdAt).getTime() + offsetSeconds,
-					selectLiveData?.[sensor._id]?.value === 200000 ? null : (selectLiveData?.[sensor._id]?.value ?? null)];
-					if (newdata?.[index] !== undefined) {
-						// console.log("newdata", newdata)
-						newdata?.[index].data.push(point)
-						if (newdata?.[index].data.length > 1500)
-							newdata?.[index].data.shift()
-						// console.log("newdata after", newdata)
-
-					}
+					newdata?.[index].data.shift()
+					newdata?.[index].data.push(point)
 				}
-
 			})
 			let stater = {
 				...state,
@@ -249,10 +247,34 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 					series: [...newdata],
 				},
 			};
-
 			setState({ ...stater });
 		}
+
+		// 		// const point = [selectLiveData?.[sensor?._id]?.createdAt, selectLiveData?.[sensor?._id]?.value];
+		// 		if (data._id !== undefined && selectLiveData !== undefined) {
+
+		// 			const point = [selectLocale === 'fa' ?
+		// 				new Date(
+		// 					selectLiveData?.[data?._id]?.createdAt
+		// 				).getTime()
+		// 				:
+		// 				new Date(selectLiveData?.[data._id]?.createdAt).getTime(),
+		// 			selectLiveData?.[data._id]?.value === 200000 ? null : (selectLiveData?.[data._id]?.value ?? null)];
+		// 			if (newdata?.[index] !== undefined) {
+		// 				// console.log("newdata", newdata)
+		// 				newdata?.[index].data.push(point)
+		// 				if (newdata?.[index].data.length > 1500)
+		// 					newdata?.[index].data.shift()
+		// 				// console.log("newdata after", newdata)
+
+		// 			}
+		// 		}
+		// 	})
+
+
+		// }
 	}
+
 	function getdataLiveChart(chartsettings?: ChartSettingsType) {
 		if (selectDataOFChart?.length) {
 			setState({})
@@ -268,21 +290,37 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 			chartData.startDate = startDate ?? ''
 			chartData.endDate = endDate ?? ''
 			chartData.divideBy = props?.liveChart ? 1 : (granularity ? (granularity > 5 ? 5 : granularity) : 1);
-			setState(chartData.sumOfdata(selectDataOFChart))
-			setChartSettings(chartData.chartSettings)
+			chartData.sumOfdata(selectDataOFChart).then((data) => {
+				setState(data)
+				setChartSettings(chartData.chartSettings)
+			})
 
 		} else { setState(undefined) }
 	}
 	useEffect(() => {
 		liveUpdate()
-	}, [selectLiveData]);
+	}, [newDataOFLive])
+	useEffect(() => {
+		// liveUpdate()
+		// console.log("selectDataOFChart", selectDataOFChart)
+		selectDataOFChart?.map((sens, index) => {
+			if (sens?._id)
+				socket.on(sens?._id, (data: SensorWebsocketRealTimeDataType) => {
+					// setSelectLiveData(data)
+					// console.log(data)
+					setNewDataOFLive(data)
+					// dispatch(addNewRecordToSocket(data));
+					// console.log(data);
+				});
+		});
+		return () => {
+			selectDataOFChart?.map((sens, index) => {
+				if (sens?._id)
+					socket.off(sens?._id);
+			});
+		};
+	}, [selectDataOFChart]);
 
-
-	// const addCustomButton = (chart: any) => {
-	// 	chart.renderer.button('Custom Button', 10, 10, () => {
-	// 		alert('Custom button clicked!');
-	// 	}, null, null, null, null, classNames('my-custom-button-class', 'hover:rotate-90')).add();
-	// };
 	useEffect(() => {
 		if (props.liveChart) {
 			getdataLiveChart(userData?.chartSettings as ChartSettingsType)

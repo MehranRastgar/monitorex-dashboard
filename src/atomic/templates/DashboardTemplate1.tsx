@@ -57,7 +57,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
     group?.sensors?.map((sens, index) => {
       if (sens?._id)
         socket.once(sens?._id, (data: SensorWebsocketRealTimeDataType) => {
-          dispatch(addNewRecordToSocket(data));
+          // dispatch(addNewRecordToSocket(data));
           // console.log(data);
         });
     });

@@ -119,13 +119,15 @@ export default class HighchartsData {
 	//=============================================================================================
 	myXAxisFormater = (color: string, timeIsShow?: boolean, dateJalali?: boolean) => {
 		return function (props: any): any {
+			const localOffset = new Date().getTimezoneOffset();
+			const offsetSeconds = localOffset * -60 * 1000;
 			const vals = props.value;
 			const val = dateJalali !== undefined && dateJalali ? (Highcharts.dateFormat('%Y-%m-%d',
-				new Date(moment(vals).format('jYYYY-jMM-jDD HH:mm:ss')).getTime()
+				new Date(moment(vals + offsetSeconds).format('jYYYY-jMM-jDD HH:mm:ss')).getTime()
 			)) : (Highcharts.dateFormat('%Y-%m-%d',
-				vals
+				vals + offsetSeconds
 			))
-			const val2 = Highcharts.dateFormat('%H:%M:%S', vals);
+			const val2 = Highcharts.dateFormat('%H:%M:%S', vals + offsetSeconds);
 
 			const stringssss = `<b  style="color:${color}; fontSize: 1em;">${val}</b>
 			${timeIsShow ? `<b style="color:${color}; fontSize: 1em;">${val2}</b>` : ""}`
@@ -135,13 +137,15 @@ export default class HighchartsData {
 	//=============================================================================================
 	getTooltipFormatter = (color?: string, textColor?: string, dateJalali?: boolean) => {
 		return function (this: ChartTooltipOptions): any {
+			const localOffset = new Date().getTimezoneOffset();
+			const offsetSeconds = localOffset * -60 * 1000;
 			interface ChartTooltipOptions extends Highcharts.TooltipOptions {
 				points?: any;
 				x?: any;
 			}
 			const weekDays = ['یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنج شنبه', 'جمعه', 'شنبه',]
-			const val = dateJalali !== undefined && dateJalali ? Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, new Date(moment((this as ChartTooltipOptions).x).format('jYYYY-jMM-jDD HH:mm:ss')).getTime()) : Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, (this as ChartTooltipOptions).x)
-			const weekd = weekDays?.[(parseInt(Highcharts.dateFormat(`%w`, (this as ChartTooltipOptions).x)))]
+			const val = dateJalali !== undefined && dateJalali ? Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, new Date(moment((this as ChartTooltipOptions).x + offsetSeconds).format('jYYYY-jMM-jDD HH:mm:ss')).getTime()) : Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, (this as ChartTooltipOptions).x + offsetSeconds)
+			const weekd = weekDays?.[(parseInt(Highcharts.dateFormat(`%w`, (this as ChartTooltipOptions).x + offsetSeconds)))]
 			return [`<b><div style="background:red;color:${textColor};fontSize: 1.2em">` + val + ' - ' + weekd + '</div></b>'].concat(
 				(this as ChartTooltipOptions).points !== undefined ?
 					(this as ChartTooltipOptions)?.points?.map(function (point: any) {
@@ -274,7 +278,7 @@ export default class HighchartsData {
 			if (item?.x !== undefined && index % Granolarity[this.divideBy] === 0)
 				if (item?.x !== undefined && item?.y !== undefined || !this?.chartSettings?.continues)
 					arr.push([
-						new Date(item?.x),
+						new Date(item?.x).getTime(),
 						item?.y ?? null
 					]);
 		});

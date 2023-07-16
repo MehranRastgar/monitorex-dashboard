@@ -29,7 +29,7 @@ const SensorUnit: React.FC<Props> = (props) => {
       soId = socket.on(props?.sensor?._id, (data: SensorWebsocketRealTimeDataType) => {
         // console.log('Sen Unit sensorsocket:', data);
         setSensorData(data);
-        dispatch(addNewRecordToSocket(data));
+        // dispatch(addNewRecordToSocket(data));
       });
 
     return () => {
