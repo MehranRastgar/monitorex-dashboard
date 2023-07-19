@@ -439,7 +439,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 								}}
 								placeholder={'max'}
 								className={`${classes?.inpt} `}
-								value={max}
+								value={max === null ? undefined : max}
 								type='number'
 							></input>
 						</div>
@@ -453,7 +453,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 								}}
 								placeholder={'min'}
 								className={`${classes?.inpt} `}
-								value={min}
+								value={min === null ? undefined : min}
 								type='number'
 							></input>
 						</div>

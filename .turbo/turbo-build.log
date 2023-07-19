@@ -1,0 +1,250 @@
+$ NODE_ENV='production' next build
+info  - Loaded env from M:\GH\monitorex-dashboard\.env.local
+warn  - Invalid next.config.js options detected: 
+  - The value at .images has an unexpected property, images, which is not in the list of allowed properties (remotePatterns, unoptimized, contentSecurityPolicy, dangerouslyAllowSVG, deviceSizes, disableStaticImages, domains, formats, imageSizes, loader, loaderFile, minimumCacheTTL, path).
+
+See more info here: https://nextjs.org/docs/messages/invalid-next-config
+info  - Linting and checking validity of types...
+
+./pages/analytics.tsx
+141:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/devices.tsx
+44:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/electricalboard.tsx
+44:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./pages/settings.tsx
+50:7  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+50:7  Warning: img elements must have an alt prop, either with meaningful text, or an empty string for decorative images.  jsx-a11y/alt-text
+
+./src/atomic/molecules/AgGrid/AgGridLive.tsx
+115:6  Warning: React Hook useEffect has missing dependencies: 'group?.sensors' and 'rowData'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/AgGrid/AgGridReact.tsx
+51:6  Warning: React Hook useCallback has a missing dependency: 'makeLighterData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/AmChart/BarchartLive.tsx
+115:6  Warning: React Hook useEffect has missing dependencies: 'selectDataOFChart' and 'state'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+288:6  Warning: React Hook useEffect has a missing dependency: 'sumOfdata'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/AmChart/DashboardLiveChart.tsx
+118:6  Warning: React Hook useEffect has a missing dependency: 'handleClick'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+247:6  Warning: React Hook useEffect has missing dependencies: 'selectDataOFChart' and 'state'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+600:6  Warning: React Hook useEffect has a missing dependency: 'handleReport'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+613:6  Warning: React Hook useEffect has a missing dependency: 'sumOfdata'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/AmChart/GaugeDevice.tsx
+156:6  Warning: React Hook useEffect has a missing dependency: 'makeData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/AmChart/MultiLineChart.tsx
+416:6  Warning: React Hook useEffect has a missing dependency: 'sumOfdata'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+868:6  Warning: React Hook useEffect has a missing dependency: 'sumOfdata'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/AmChart/XYChart.tsx
+276:6  Warning: React Hook useEffect has a missing dependency: 'props?.id'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/device/DeviceFormFormik.tsx
+33:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+38:6  Warning: React Hook useEffect has missing dependencies: 'formdataRedux' and 'selectedDevice'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/device/DeviceTable.tsx
+90:5  Warning: React Hook React.useMemo has a missing dependency: 'queryDevices.isSuccess'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+155:6  Warning: React Hook useEffect has a missing dependency: 'queryDevices.data'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/device/SensorChartWebsocket.tsx
+40:6  Warning: React Hook useEffect has a missing dependency: 'idSubScribe'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+53:6  Warning: React Hook useEffect has a missing dependency: 'addedValue'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/device/SensorItem.tsx
+33:6  Warning: React Hook useEffect has a missing dependency: 'props?.sensor?._id'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/device/SensorUnit.tsx
+42:6  Warning: React Hook useEffect has a missing dependency: 'props'. Either include it or remove the dependency array. However, 'props' will change when *any* prop changes, so the preferred fix is to destructure the 'props' object outside of the useEffect call and refer to those specific props inside useEffect.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/forms/FormFormik.tsx
+52:6  Warning: React Hook useEffect has a missing dependency: 'formik'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/forms/FormMeDevice.tsx
+93:6  Warning: React Hook useEffect has missing dependencies: 'form', 'selectformdatainit?.electricals?.length', 'selectformdatainit?.sensors?.length', and 'setValue'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+100:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'queryDevices'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+105:6  Warning: React Hook useEffect has missing dependencies: 'form' and 'setValue'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/forms/FormMeUser.tsx
+82:6  Warning: React Hook useEffect has a missing dependency: 'form'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/Log/LogBox.tsx
+56:6  Warning: React Hook useEffect has a missing dependency: 'id'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+63:6  Warning: React Hook useEffect has a missing dependency: 'handleScrollToSelectedItem'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/molecules/Table/ReactTable.tsx
+154:9  Warning: The 'pageSizeOptions' array makes the dependencies of useEffect Hook (at line 597) change on every render. To fix this, wrap the initialization of 'pageSizeOptions' in its own useMemo() Hook.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/AmChartsStock/AmStockLive.tsx
+159:6  Warning: React Hook useEffect has missing dependencies: 'dataReal' and 'id'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+162:6  Warning: React Hook useEffect has missing dependencies: 'addData' and 'seriss'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/analytics/DateTimeAnalytic.tsx
+54:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+62:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+193:6  Warning: React Hook useEffect has a missing dependency: 'setValue'. Either include it or remove the dependency array. If 'setValue' changes too often, find the parent component that defines it and wrap that definition in useCallback.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/ChartJs/XYchartJS.tsx
+81:6  Warning: React Hook useEffect has a missing dependency: 'updateChart'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/Charts/LiveChart.tsx
+62:6  Warning: React Hook useEffect has missing dependencies: 'handleFetchData' and 'selectUserGr'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/DataTables/TableDataOfReport.tsx
+103:6  Warning: React Hook React.useEffect has a missing dependency: 'makeData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/device/deviceForm.tsx
+111:6  Warning: React Hook useEffect has a missing dependency: 'selectStatus'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+579:6  Warning: React Hook useEffect has missing dependencies: 'makeSensors' and 'type'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+843:6  Warning: React Hook useEffect has a missing dependency: 'makePanel'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/device/DeviceList.tsx
+47:5  Warning: React Hook React.useMemo has a missing dependency: 'queryDevices.isSuccess'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+79:6  Warning: React Hook React.useEffect has missing dependencies: 'devices' and 'dispatch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/electrical/ArrayOfElectrical.tsx
+42:6  Warning: React Hook useEffect has a missing dependency: 'HandleArr'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/electrical/OneEPanel.tsx
+27:6  Warning: React Hook useEffect has a missing dependency: 'props.idOfSub'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/Group/GroupTable.tsx
+62:5  Warning: React Hook React.useMemo has a missing dependency: 'userOwn.isSuccess'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+152:6  Warning: React Hook useEffect has a missing dependency: 'userOwn'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+166:6  Warning: React Hook useEffect has missing dependencies: 'GetReport', 'dispatch', and 'userOwn?.data?.groups'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/HighCharts/MultiAxisChart.tsx
+351:5  Warning: React Hook useEffect has missing dependencies: 'getdata', 'getdataLiveChart', and 'props.liveChart'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+360:5  Warning: React Hook useEffect has missing dependencies: 'getdata', 'max', 'min', and 'userData?.chartSettings'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+366:5  Warning: React Hook useEffect has missing dependencies: 'getdata' and 'userData?.chartSettings'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/sensor/SensorList.tsx
+53:6  Warning: React Hook React.useEffect has missing dependencies: 'devices' and 'dispatch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/sensor/SensorsSummary.tsx
+69:6  Warning: React Hook useEffect has a missing dependency: 'sensor?._id'. Either include it or remove the dependency array. If 'setSensorLive' needs the current value of 'sensor._id', you can also switch to useReducer instead of useState and read 'sensor._id' in the reducer.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/user/UserAdministrator.tsx
+48:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'queryUsers.data', and 'queryUsers.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+82:6  Warning: React Hook useEffect has a missing dependency: 'queryUsers'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/user/UserForm.tsx
+76:6  Warning: React Hook useEffect has a missing dependency: 'getUser'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/user/UserList.tsx
+51:5  Warning: React Hook React.useMemo has a missing dependency: 'queryUsers.isSuccess'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+79:6  Warning: React Hook React.useEffect has missing dependencies: 'dispatch' and 'users'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/UserGroups/GroupListComponent.tsx
+40:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+43:6  Warning: React Hook useEffect has a missing dependency: 'GpNumber'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/organisms/UserGroups/UserGroupsContainer.tsx
+161:6  Warning: React Hook useEffect has a missing dependency: 'selectUserGr'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+164:6  Warning: React Hook useEffect has a missing dependency: 'gpMap'. Either include it or remove the dependency array. You can also replace multiple useState variables with useReducer if 'setNameofGp' needs the current value of 'gpMap'.  react-hooks/exhaustive-deps
+
+./src/atomic/templates/DeviceManagement.tsx
+75:6  Warning: React Hook React.useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+81:6  Warning: React Hook React.useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/atomic/templates/UserManagement.tsx
+84:6  Warning: React Hook React.useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+92:6  Warning: React Hook React.useEffect has missing dependencies: 'dispatch', 'queryUsers.data', and 'queryUsers.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/canvas/views/area charts/AreaAndRange.tsx
+248:6  Warning: React Hook useEffect has a missing dependency: 'createData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/canvas/views/area charts/AreaC.tsx
+78:6  Warning: React Hook useEffect has a missing dependency: 'createData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/layout/Layout.tsx
+115:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+162:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+183:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+230:6  Warning: React Hook useEffect has missing dependencies: 'dispatch', 'mutation', 'queryDevices.data', 'queryDevices.status', and 'selectsensorsstatus'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+267:6  Warning: React Hook useEffect has a missing dependency: 'router'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+273:6  Warning: React Hook useEffect has a missing dependency: 'router'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/layout/LayoutLogin.tsx
+88:6  Warning: React Hook useEffect has missing dependencies: 'config' and 'configPage'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+135:6  Warning: React Hook useEffect has a missing dependency: 'dispatch'. Either include it or remove the dependency array. Outer scope values like 'isMobile' aren't valid dependencies because mutating them doesn't re-render the component.  react-hooks/exhaustive-deps
+156:6  Warning: React Hook useEffect has a missing dependency: 'router.events'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/login/Login.tsx
+85:6  Warning: React Hook useEffect has a missing dependency: 'router'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+94:11  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/pages/sensors/Chart.tsx
+48:6  Warning: React Hook useEffect has a missing dependency: 'createData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/pages/sensors/SensorChart.tsx
+119:6  Warning: React Hook useEffect has a missing dependency: 'createData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/pages/sensors/sensorsTable.tsx
+256:6  Warning: React Hook useEffect has missing dependencies: 'data2?.rows' and 'dispatch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/tables/customTable/CustomTable.tsx
+47:13  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+83:13  Warning: Do not use `<img>` element. Use `<Image />` from `next/image` instead. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/store/hooks.ts
+83:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'socketDatas'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+87:6  Warning: React Hook useEffect has missing dependencies: 'dispatch' and 'soDa'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+info  - Creating an optimized production build...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx browserslist@latest --update-db
+  Why you should do it regularly: https://github.com/browserslist/browserslist#browsers-data-updating
+Warning: A null PostCSS plugin was provided. This entry will be ignored.
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+info  - Compiled successfully
+info  - Collecting page data...
+info  - Generating static pages (0/12)
+info  - Generating static pages (3/12)
+info  - Generating static pages (6/12)
+info  - Generating static pages (9/12)
+info  - Generating static pages (12/12)
+info  - Finalizing page optimization...
+
+Route (pages)                              Size     First Load JS
+┌ ○ / (408 ms)                             17.1 kB         686 kB
+├   └ css/d8db9ab0af884d8d.css             3.3 kB
+├   /_app                                  0 B             141 kB
+├ ○ /404                                   418 B           227 kB
+├ ○ /analytics                             9.29 kB         898 kB
+├   └ css/1812bf26ec2e3dfa.css             2.93 kB
+├ λ /api/sendotp                           0 B             141 kB
+├ λ /api/signin                            0 B             141 kB
+├ ○ /devices                               38.6 kB        1.05 MB
+├   └ css/e500265f335610c8.css             2.7 kB
+├ ○ /electricalboard                       2.92 kB         229 kB
+├ ○ /login                                 2.84 kB         173 kB
+├   └ css/ca9dc42df1f7aa5f.css             1.22 kB
+├ ○ /management                            7.66 kB         799 kB
+├   └ css/f1877ad5108b56b5.css             2.91 kB
+├ ○ /routes                                3.44 kB         230 kB
+├   └ css/3f5358800af44f66.css             2.86 kB
+├ ○ /sensors                               2.88 kB         229 kB
+├   └ css/bd7e967af9f78130.css             1.86 kB
+├ ○ /settings                              3.29 kB         795 kB
+├   └ css/876a2228171f57c5.css             2.91 kB
+└ ○ /users                                 316 B           227 kB
++ First Load JS shared by all              152 kB
+  ├ chunks/framework-1f08ae526ddacb63.js   45.4 kB
+  ├ chunks/main-1c8ee1adb5e9916b.js        26.9 kB
+  ├ chunks/pages/_app-9d7299a802bb2e79.js  66 kB
+  ├ chunks/webpack-b3445bb31276779e.js     2.73 kB
+  └ css/e91971c5cdecd656.css               11.1 kB
+
+λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
+○  (Static)  automatically rendered as static HTML (uses no initial props)
+

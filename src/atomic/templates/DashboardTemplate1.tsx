@@ -107,7 +107,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   };
 
 
-  const handleClick = (index?: number) => {
+  const handleClick = (index: number) => {
     clearInterval(intervalId); // Clear the interval when another component is clicked
     const id = setInterval(() => {
       console.log('Interval tick', index);
