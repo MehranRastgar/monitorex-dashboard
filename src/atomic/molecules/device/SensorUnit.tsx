@@ -13,6 +13,7 @@ interface Props {
   index: number;
   sensor: SensorsReceiveTpe;
   time?: string;
+  setLastTime?: any
 }
 const SensorUnit: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
@@ -22,6 +23,7 @@ const SensorUnit: React.FC<Props> = (props) => {
   >(undefined);
 
   useEffect(() => {
+
     // if (props?.sensor?._id !== undefined)
     //   setSensorData(socketObj?.[props?.sensor?._id]);
     let soId: any
@@ -29,6 +31,8 @@ const SensorUnit: React.FC<Props> = (props) => {
       soId = socket.on(props?.sensor?._id, (data: SensorWebsocketRealTimeDataType) => {
         // console.log('Sen Unit sensorsocket:', data);
         setSensorData(data);
+        if (props.setLastTime)
+          props.setLastTime(data?.createdAt)
         // dispatch(addNewRecordToSocket(data));
       });
 
@@ -65,6 +69,7 @@ const SensorUnit: React.FC<Props> = (props) => {
             ? 'bad Data'
             : sensorData?.value ?? '--'}
         </div>
+
         {/* {props?.sensor?.maxAlarm &&
           sensorData?.value &&
           sensorData?.value >= props?.sensor?.maxAlarm ? (

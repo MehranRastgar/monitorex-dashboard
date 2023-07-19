@@ -1,13 +1,16 @@
 import { useTranslation } from "react-i18next"
 import classes from './table.module.scss';
 import { useAppSelector } from "src/store/hooks";
-import { selectEndDate, selectGranularity, selectGroupNumber, selectSensorReports, selectStartDate } from "src/store/slices/analizeSlice";
+import { selectEndDate, selectGranularity, selectGroupNumber, selectSelectedGroup, selectSensorReports, selectStartDate } from "src/store/slices/analizeSlice";
 import { selectOwnUser, selectUserGroups } from "src/store/slices/userSlice";
 import { Icon } from "@iconify/react";
 import html2canvas from "html2canvas";
 import JsPDF from "jspdf"
 // import Papa from "papaparse";
 import domtoimage from 'dom-to-image';
+import { selectCalendarMode } from "src/store/slices/themeSlice";
+import moment from 'moment-jalaali';
+import moment2 from 'moment';
 
 interface Props {
 
@@ -20,8 +23,8 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 	const endTime = useAppSelector(selectEndDate)
 	const user = useAppSelector(selectOwnUser)
 	const granularity = useAppSelector(selectGranularity)
-	const GpNumber = useAppSelector(selectGroupNumber)
-	const selectUserGr = useAppSelector(selectUserGroups);
+	const selectedGroup = useAppSelector(selectSelectedGroup)
+	const jalaliIs = useAppSelector(selectCalendarMode)
 
 
 	async function handleGeneratePNG() {
@@ -61,244 +64,240 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 				</button>
 			</div> */}
 			{user?._id &&
-				<div id={'analytics-header'} className="flex flex-wrap m-1 bg-white w-[800px] h-[650px]  min-w-[800px] min-h-[600px] justify-center items-start">
-					<h1 className="text-xl w-full justify-center text-center p-2 m-2 h-fit border-black border-b">{t('report')}</h1>
-					<div className="flex flex-wrap h-fit">
-						<section className="flex justify-start flex-wrap w-full">
-							<Field text={t("companyLocation")} val={"Monitorex / Tehran  ......"} />
-							<Field text={t("Report Date time:")} val={new Date().toLocaleString()} />
-							<Field text={t("Group Name:")} val={GpNumber !== undefined && selectUserGr !== undefined ? selectUserGr?.[GpNumber]?.groupTitle : 'none'} />
-							<Field text={t("Report By:")} val={`${user?.username ?? ''} ${user?.family ?? ''} ${user?.name ?? ''} `} />
-							<Field text={t("Start Time Of the Report:")} val={new Date(startTime ?? 0).toLocaleString()} />
-							<Field text={t("End Time Of the Report:")} val={new Date(endTime ?? 0).toLocaleString()} />
-							<Field text={t("Devided By:")} val={granularity?.toString() ?? '1'} />
-							{/* <ul className="flex justify-start p-2 w-full border">
-								<li className="justify-start mx-2 w-1/4 font-[700]">company/location:</li>
-								<li className="flex w-3/4">Monitorex / Tehran  ......</li>
-							</ul> */}
-							{/* <ul className="flex p-2 w-full border">
-								<li className="mx-2 w-1/4 font-[700]">Report Date time:</li>
-								<li className="flex w-3/4">{new Date().toLocaleString()}</li>
-							</ul>
-							<ul className="flex flex-wrap w-full p-2">
-								<li className="mx-2 font-[700]">Group Name:</li>
-								<li>GP1 </li>
-							</ul>
+				<div id={'analytics-header'} className="flex flex-wrap p-3 border border-black bg-white w-[800px] h-auto  min-w-[800px] min-h-[500px] justify-center items-start">
+					<div className="h-fit">
+						<h1 className="text-xl w-full justify-center text-center p-2 m-0 h-fit border-black border-b">{t('report')}</h1>
+						<div className="flex flex-wrap h-fit">
+							<section className="flex justify-start flex-wrap w-full">
+								<Field text={`${t("companyInfo")} :`} val={`${process.env.NEXT_PUBLIC_COMPANY_NAME} / ${process.env.NEXT_PUBLIC_COMPANY_ADDRESS}	`} />
+								<Field text={`${t("user")} :`} val={`${user?.username ?? ''} ${user?.family ?? ''} ${user?.name ?? ''} `} />
+								<div className="flex w-full flex-wrap">
+									<div className="flex w-1/3">
+										<ul className="flex justify-start p-2 w-full border border-black">
+											<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("ReportTime")} : `}{jalaliIs === 'fa' ? (moment(new Date().toISOString()).format('HH:mm:ss - jYYYY/jMM/jDD')) : moment2().format('HH:mm:ss - YYYY/MM/DD')}</li>
+										</ul>
+									</div>
+									<div className="flex w-1/3">
+										<ul className="flex justify-start p-2 w-full border border-black">
+											<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("start")} : `}{jalaliIs === 'fa' ? (moment(startTime).format('HH:mm:ss - jYYYY/jMM/jDD')) : moment2(startTime).format('HH:mm:ss - YYYY/MM/DD')}</li>
+										</ul>
+									</div>
+									<div className="flex w-1/3">
+										<ul className="flex justify-start p-2 w-full border border-black">
+											<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("end")} : `}{jalaliIs === 'fa' ? (moment(endTime).format('HH:mm:ss - jYYYY/jMM/jDD')) : moment2(endTime).format('HH:mm:ss - YYYY/MM/DD')}</li>
+										</ul>
+									</div>
+								</div>
+								<div className="flex w-1/3">
+									<ul className="flex justify-start p-2 w-full border border-black">
+										<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("GroupName")} : ${selectedGroup?.groupTitle ?? 'none'}`}</li>
+									</ul>
+								</div>
+								<div className="flex w-2/3">
+									<ul className="flex justify-start p-2 w-full border border-black">
+										<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("viewOfEvery")} : ${granularity?.toString()} ${t("point")} ${t("once")}`}</li>
+									</ul>
+								</div>
+							</section>
+						</div>
+						<section className="flex m-0 w-full">
+							<table className={classes.table} >
+								<thead>
+									<tr
+									>
+										{reportData?.map((itemHeader, indexHeader) =>
+											<th
+												key={indexHeader}
+												className=" border  p-1"
+											>
+												{itemHeader.device?.title} : {itemHeader.sensor?.title}
+											</th>
+										)}
+										<th
+											className=" border  w-[120px]"
+										>
+											ITEM NAME(s)
+										</th>
+									</tr>
+								</thead>
+								<tbody
+									className="justify-center overflow-y-auto  "
+								>
+									<tr
+										className={''}
+									>
+										{reportData?.map((itemHeader, indexBody) =>
+											<td
+												key={indexBody}
+												onClick={() => { }}
+												className={
+													'p-1 border '
+												}
+											>
+												{itemHeader?.sensor?.unit}
+											</td>)}
+										<td
 
-							<ul className="flex flex-wrap w-full p-2 border">
-								<li className="mx-2 flex-wrap font-[700]">Report By:</li>
-								<li>{user.family} {user.name} {user.username}</li>
-							</ul>
-							<ul className="flex p-2 flex-wrap ">
-								<li className="mx-2 font-[700]">Start Time Of the Report:</li>
-								<li>{new Date(startTime ?? 0).toLocaleString()}</li>
-							</ul>
+											onClick={() => { }}
+											className={
+												'p-1 border '
+											}
+										>
+											UNIT
+										</td>
+									</tr>
+									<tr
+										className={''}
+									>
+										{reportData?.map((itemHeader, indexBody) =>
+											<td
+												key={indexBody}
+												onClick={() => { }}
+												className={
+													'p-1 border '
+												}
+											>
+												{itemHeader?.sensor?.type}
+											</td>)}
+										<td
 
-							<ul className="flex p-2 flex-wrap w-full border">
-								<li className="mx-2 font-[700] flex-wrap ">End Time Of the Report:</li>
-								<li>{new Date(endTime ?? 0).toLocaleString()}</li>
-							</ul>
-							<ul className="flex p-2 flex-wrap w-full">
-								<li className="mx-2 font-[700] flex-wrap ">Devided By:</li>
-								<li>{granularity}</li>
-							</ul> */}
+											onClick={() => { }}
+											className={
+												'p-1 border '
+											}
+										>
+											TYPE
+										</td>
+									</tr>
+									<tr
+										className={''}
+									>
+										{reportData?.map((itemHeader, indexBody) =>
+											<td
+												key={indexBody}
+												onClick={() => { }}
+												className={
+													'p-1 border '
+												}
+											>
+												{itemHeader?.min?.toString()}
+
+
+											</td>)}
+										<td
+
+											onClick={() => { }}
+											className={
+												'p-1 border '
+											}
+										>
+											MIN
+										</td>
+									</tr>
+									<tr
+										className={''}
+									>
+										{reportData?.map((itemHeader, indexBody) =>
+											<td
+												key={indexBody}
+												onClick={() => { }}
+												className={
+													'p-1 border '
+												}
+											>
+												{itemHeader?.max?.toString()}
+
+											</td>)}
+										<td
+
+											onClick={() => { }}
+											className={
+												'p-1 border '
+											}
+										>
+											MAX
+										</td>
+									</tr>
+									<tr
+										className={''}
+									>
+										{reportData?.map((itemHeader, indexBody) =>
+											<td
+												key={indexBody}
+												onClick={() => { }}
+												className={
+													'p-1 border '
+												}
+											>
+												{itemHeader?.average?.toFixed(2)}
+
+											</td>)}
+										<td
+											onClick={() => { }}
+											className={
+												'p-1 border '
+											}
+										>
+											AVERAGE
+										</td>
+									</tr>
+									<tr
+										className={''}
+									>
+										{reportData?.map((itemHeader, indexBody) =>
+											<td
+												key={indexBody}
+												onClick={() => { }}
+												className={
+													'p-1 border '
+												}
+											>
+												{itemHeader?.data?.length && itemHeader?.data?.length > 0 ? ((itemHeader?.data?.length) / (granularity ?? 1)).toFixed(0) : 0}
+
+											</td>)}
+										<td
+											onClick={() => { }}
+											className={
+												'p-1 border '
+											}
+										>
+											Records
+										</td>
+									</tr>
+									<tr
+										className={''}
+									>
+										{reportData?.map((itemHeader, indexBody) =>
+											<td
+												key={indexBody}
+												onClick={() => { }}
+												className={
+													'p-1 border '
+												}
+											>
+												{itemHeader.device?.address?.multiPort},
+												{itemHeader.device?.address?.sMultiPort}
+
+											</td>)}
+										<td
+											onClick={() => { }}
+											className={
+												'p-1 border '
+											}
+										>
+											Address
+										</td>
+									</tr>
+
+								</tbody>
+							</table>
 						</section>
 					</div>
-					<section className="flex m-2 w-full">
-						<table className={classes.table} >
-							<thead>
-								<tr
-								>
-									{reportData?.map((itemHeader, indexHeader) =>
-										<th
-											key={indexHeader}
-											className=" border  p-1"
-										>
-											{itemHeader.device?.title} : {itemHeader.sensor?.title}
-										</th>
-									)}
-									<th
-										className=" border  w-[120px]"
-									>
-										ITEM NAME(s)
-									</th>
-								</tr>
-							</thead>
-							<tbody
-								className="justify-center overflow-y-auto  "
-							>
-								<tr
-									className={''}
-								>
-									{reportData?.map((itemHeader, indexBody) =>
-										<td
-											key={indexBody}
-											onClick={() => { }}
-											className={
-												'p-1 border '
-											}
-										>
-											{itemHeader?.sensor?.unit}
-										</td>)}
-									<td
-
-										onClick={() => { }}
-										className={
-											'p-1 border '
-										}
-									>
-										UNIT
-									</td>
-								</tr>
-								<tr
-									className={''}
-								>
-									{reportData?.map((itemHeader, indexBody) =>
-										<td
-											key={indexBody}
-											onClick={() => { }}
-											className={
-												'p-1 border '
-											}
-										>
-											{itemHeader?.sensor?.type}
-										</td>)}
-									<td
-
-										onClick={() => { }}
-										className={
-											'p-1 border '
-										}
-									>
-										TYPE
-									</td>
-								</tr>
-								<tr
-									className={''}
-								>
-									{reportData?.map((itemHeader, indexBody) =>
-										<td
-											key={indexBody}
-											onClick={() => { }}
-											className={
-												'p-1 border '
-											}
-										>
-											{itemHeader?.min?.toString()}
-
-
-										</td>)}
-									<td
-
-										onClick={() => { }}
-										className={
-											'p-1 border '
-										}
-									>
-										MIN
-									</td>
-								</tr>
-								<tr
-									className={''}
-								>
-									{reportData?.map((itemHeader, indexBody) =>
-										<td
-											key={indexBody}
-											onClick={() => { }}
-											className={
-												'p-1 border '
-											}
-										>
-											{itemHeader?.max?.toString()}
-
-										</td>)}
-									<td
-
-										onClick={() => { }}
-										className={
-											'p-1 border '
-										}
-									>
-										MAX
-									</td>
-								</tr>
-								<tr
-									className={''}
-								>
-									{reportData?.map((itemHeader, indexBody) =>
-										<td
-											key={indexBody}
-											onClick={() => { }}
-											className={
-												'p-1 border '
-											}
-										>
-											{itemHeader?.average?.toFixed(2)}
-
-										</td>)}
-									<td
-										onClick={() => { }}
-										className={
-											'p-1 border '
-										}
-									>
-										AVERAGE
-									</td>
-								</tr>
-								<tr
-									className={''}
-								>
-									{reportData?.map((itemHeader, indexBody) =>
-										<td
-											key={indexBody}
-											onClick={() => { }}
-											className={
-												'p-1 border '
-											}
-										>
-											{itemHeader?.data?.length && itemHeader?.data?.length > 0 ? ((itemHeader?.data?.length) / (granularity ?? 1)).toFixed(0) : 0}
-
-										</td>)}
-									<td
-										onClick={() => { }}
-										className={
-											'p-1 border '
-										}
-									>
-										Records
-									</td>
-								</tr>
-								<tr
-									className={''}
-								>
-									{reportData?.map((itemHeader, indexBody) =>
-										<td
-											key={indexBody}
-											onClick={() => { }}
-											className={
-												'p-1 border '
-											}
-										>
-											{itemHeader.device?.address?.multiPort},
-											{itemHeader.device?.address?.sMultiPort}
-
-										</td>)}
-									<td
-										onClick={() => { }}
-										className={
-											'p-1 border '
-										}
-									>
-										Address
-									</td>
-								</tr>
-
-							</tbody>
-						</table>
-					</section>
 
 				</div>}
+
 		</div>
+
 	)
 }
 
@@ -315,9 +314,9 @@ interface FieldProps {
 const Field: React.FC<FieldProps> = (props) => {
 
 	return (
-		<ul className="flex justify-start p-2 w-full border ">
-			<li className="flex justify-start w-1/4 font-[700]">{props?.text}</li>
-			<li className="flex w-3/4">{(props?.val)}</li>
+		<ul className="flex justify-start p-2 w-full border border-black">
+			<li className="flex mx-2 justify-start w-auto font-[700]">{props?.text}</li>
+			<li className="flex mx-2 w-auto">{(props?.val)}</li>
 		</ul>
 
 	)

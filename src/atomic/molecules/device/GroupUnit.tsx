@@ -27,6 +27,8 @@ interface Props {
 }
 const GroupUnit: React.FC<Props> = (props) => {
   const [time, setTime] = useState(new Date());
+  const [lastTime, setLastTime] = useState<any>(undefined);
+
   const devices = useAppSelector(selectDevicesData);
   const selectUSer = useAppSelector(selectOwnUser);
   const selectGPnumber = useAppSelector(selectGroupNumber);
@@ -113,10 +115,19 @@ const GroupUnit: React.FC<Props> = (props) => {
             {group?.groupTitle}
           </div>
         </li>
+        <li className="flex w-full h-[4vh] justify-center items-center border-b border-[var(--border-color)] ">
+          <div className=" text-center justify-center w-full p-3">
+            {/* {deviceData?.deviceTitle ?? "- -"} */}
+            {lastTime !== undefined
+              ? new Date(lastTime).toLocaleTimeString()
+              : '- - -'}
+          </div>
+        </li>
 
         <li className="overflow-auto w-full h-[30vh]">
           {group?.sensors?.map((sensor, index) => (
             <SensorUnit
+              setLastTime={setLastTime}
               time={deviceData?.createdAt}
               index={index}
               sensor={sensor}

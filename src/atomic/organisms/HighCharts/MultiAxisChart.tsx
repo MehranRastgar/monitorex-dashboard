@@ -216,7 +216,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 	// const chartRef = useRef<typeof HighchartsReact>(null);
 	function liveUpdate() {
 		// console.table(selectLiveData)
-		if (newDataOFLive !== undefined && newDataOFLive.saved && state?.chartOptions?.series !== undefined) {
+		if (newDataOFLive !== undefined && newDataOFLive.saved && state?.chartOptions?.series !== undefined && props.liveChart) {
 			console.log(newDataOFLive)
 			// if (state?.chartOptions?.series.length !== undefined) {
 			// 	const localOffset = new Date().getTimezoneOffset();
@@ -276,7 +276,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 	}
 
 	function getdataLiveChart(chartsettings?: ChartSettingsType) {
-		if (selectDataOFChart?.length) {
+		if (selectDataOFChart?.length && props.liveChart) {
 			setState({})
 			const chartData = new HighchartsData([])
 			chartData.liveChart = props?.liveChart ?? false
@@ -303,8 +303,9 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 	useEffect(() => {
 		// liveUpdate()
 		// console.log("selectDataOFChart", selectDataOFChart)
+
 		selectDataOFChart?.map((sens, index) => {
-			if (sens?._id)
+			if (sens?._id && props.liveChart)
 				socket.on(sens?._id, (data: SensorWebsocketRealTimeDataType) => {
 					// setSelectLiveData(data)
 					// console.log(data)

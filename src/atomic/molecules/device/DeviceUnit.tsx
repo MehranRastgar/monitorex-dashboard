@@ -20,6 +20,7 @@ const DeviceUnit: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
   const selectDeviceN = useAppSelector(selectDeviceNumber)
   const [time, setTime] = useState(new Date());
+  const [lastTime, setLastTime] = useState<any>(undefined);
   const devices = useAppSelector(selectDevicesData);
   const [device, setDevice] = useState<DevicesReceiveType | undefined>(
     devices?.[props?.index ?? 0],
@@ -105,14 +106,15 @@ const DeviceUnit: React.FC<Props> = (props) => {
         <li className="flex w-full h-[4vh] justify-center items-center border-b border-[var(--border-color)] ">
           <div className=" text-center justify-center w-full p-3">
             {/* {deviceData?.deviceTitle ?? "- -"} */}
-            {deviceData?.createdAt !== undefined
-              ? new Date(deviceData?.createdAt).toLocaleTimeString()
+            {lastTime !== undefined
+              ? new Date(lastTime).toLocaleTimeString()
               : '- - -'}
           </div>
         </li>
         <li className="overflow-auto w-full h-[30vh] p-1">
           {device?.sensors?.map((sensor, index) => (
             <SensorUnit
+              setLastTime={setLastTime}
               time={deviceData?.createdAt}
               index={index}
               sensor={sensor}

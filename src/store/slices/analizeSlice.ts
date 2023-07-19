@@ -245,6 +245,8 @@ export const selectTableDatas = (state: AppState) =>
   state.analize.TableDatas;
 export const selectGranularity = (state: AppState) =>
   state.analize.granolarity;
+export const selectSelectedGroup = (state: AppState) =>
+  state.analize.selectedGroupWhole;
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 // export const incrementIfOdd =

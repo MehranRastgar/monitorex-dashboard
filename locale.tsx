@@ -147,10 +147,22 @@ i18n
           Dec: 'Dec',
           backToHome: 'Back to Main Page',
           notFoundMsg: 'Page Not Found!',
+          companyInfo: "Company info",
+          ReportTime: "Report time",
+          GroupName: "Group name",
+          viewOfEvery: "view of every"
         },
       },
       fa: {
         translation: {
+          point: 'نقطه',
+          once: 'یکبار',
+          viewOfEvery: 'نمایش هر',
+          GroupName: 'نام گروه',
+          ReportTime: "زمان گزارش",
+          companyInfo: 'مشخصات شرکت',
+          start: 'آغاز',
+          end: 'پایان',
           nationalId: 'شاره ملی',
           name: 'نام',
           family: 'فامیلی',
