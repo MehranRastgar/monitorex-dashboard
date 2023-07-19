@@ -5,7 +5,6 @@ import HighchartsReact from "highcharts-react-official"
 import HighchartsExporting from 'highcharts/modules/exporting';
 import HighchartsExportData from 'highcharts/modules/export-data';
 
-
 import { useAppSelector } from "src/store/hooks";
 import { selectChartOptions } from "src/store/slices/chartSlice";
 import classes from "./multiChart.module.scss";
@@ -40,6 +39,7 @@ import jsPDF from 'jspdf';
 import { selectSocketObject } from "src/store/slices/socketSlice";
 import { socket } from "src/components/socketio";
 import { SensorWebsocketRealTimeDataType } from "src/components/pages/sensors/sensorsTable";
+import ThemeInput from "src/atomic/atoms/ThemeInput/ThemeInput";
 // import "jspdf-autotable";
 if (typeof Highcharts === "object") {
 	HighchartsExporting(Highcharts);
@@ -141,7 +141,13 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 	const granularity = useAppSelector(selectGranularity)
 	const [selectLiveData, setSelectLiveData] = useState<SensorWebsocketRealTimeDataType>()
 	const chartRef = useRef<HTMLDivElement>(null);
+
 	const [newDataOFLive, setNewDataOFLive] = useState<SensorWebsocketRealTimeDataType>()
+
+	const [max, setMax] = useState<number | undefined | null>()
+	const [min, setMin] = useState<number | undefined | null>()
+	const [range, setRange] = useState<boolean>(false)
+
 	// const chartRefHigh = useRef<StockChart | null>(null);
 	async function getdata(chartsettings?: ChartSettingsType) {
 		console.log('how many time')
@@ -160,13 +166,17 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 			chartData.startDate = startDate ?? ''
 			chartData.endDate = endDate ?? ''
 			chartData.divideBy = props?.liveChart ? 1 : (granularity ? (granularity > 5 ? 5 : granularity) : 1);
+			chartData.max = max === null ? undefined : max;
+			chartData.min = min === null ? undefined : min;
 			chartData.sumOfdata(selectDataOFChart).then((data) => {
 				setState(data)
 				setChartSettings(chartData.chartSettings)
 			})
 
 
-		} else { setState(undefined) }
+		} else {
+			setState(undefined)
+		}
 	}
 
 	function handleGeneratePDF() {
@@ -213,71 +223,72 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 			});
 		}
 	}
+
 	// const chartRef = useRef<typeof HighchartsReact>(null);
-	function liveUpdate() {
-		// console.table(selectLiveData)
-		if (newDataOFLive !== undefined && newDataOFLive.saved && state?.chartOptions?.series !== undefined && props.liveChart) {
-			console.log(newDataOFLive)
-			// if (state?.chartOptions?.series.length !== undefined) {
-			// 	const localOffset = new Date().getTimezoneOffset();
-			// 	const offsetSeconds = localOffset * -60 * 1000;
-			// const arr: any[] = [];
-			let newdata = [...state?.chartOptions?.series];
+	// function liveUpdate() {
+	// 	// console.table(selectLiveData)
+	// 	if (newDataOFLive !== undefined && newDataOFLive.saved && state?.chartOptions?.series !== undefined && props.liveChart) {
+	// 		// console.log(newDataOFLive)
+	// 		// if (state?.chartOptions?.series.length !== undefined) {
+	// 		// 	const localOffset = new Date().getTimezoneOffset();
+	// 		// 	const offsetSeconds = localOffset * -60 * 1000;
+	// 		// const arr: any[] = [];
+	// 		let newdata = [...state?.chartOptions?.series];
 
-			// 	// console.log(selectLiveData?.[sensor?._id])
-			// 	// const chartRefs = document.getElementById('chart-analytics') as HTMLDivElement
-			selectDataOFChart?.map((sensor, index) => {
-				if (sensor._id === newDataOFLive?.sensorId) {
-					const point = [selectLocale === 'fa' ?
-						new Date(
-							newDataOFLive?.createdAt
-						).getTime()
-						:
-						new Date(newDataOFLive?.createdAt).getTime(),
-					newDataOFLive.value === 200000 ? null : (newDataOFLive?.value ?? null)];
+	// 		// 	// console.log(selectLiveData?.[sensor?._id])
+	// 		// 	// const chartRefs = document.getElementById('chart-analytics') as HTMLDivElement
+	// 		selectDataOFChart?.map((sensor, index) => {
+	// 			if (sensor._id === newDataOFLive?.sensorId) {
+	// 				const point = [selectLocale === 'fa' ?
+	// 					new Date(
+	// 						newDataOFLive?.createdAt
+	// 					).getTime()
+	// 					:
+	// 					new Date(newDataOFLive?.createdAt).getTime(),
+	// 				newDataOFLive.value === 200000 ? null : (newDataOFLive?.value ?? null)];
 
-					newdata?.[index].data.shift()
-					newdata?.[index].data.push(point)
-				}
-			})
-			let stater = {
-				...state,
-				chartOptions: {
-					...state.chartOptions,
-					series: [...newdata],
-				},
-			};
-			setState({ ...stater });
-		}
+	// 				// newdata?.[index].data.shift()
+	// 				newdata?.[index].data.push(point)
+	// 			}
+	// 		})
+	// 		let stater = {
+	// 			...state,
+	// 			chartOptions: {
+	// 				...state.chartOptions,
+	// 				series: [...newdata],
+	// 			},
+	// 		};
+	// 		setState({ ...stater });
+	// 	}
 
-		// 		// const point = [selectLiveData?.[sensor?._id]?.createdAt, selectLiveData?.[sensor?._id]?.value];
-		// 		if (data._id !== undefined && selectLiveData !== undefined) {
+	// 	// 		// const point = [selectLiveData?.[sensor?._id]?.createdAt, selectLiveData?.[sensor?._id]?.value];
+	// 	// 		if (data._id !== undefined && selectLiveData !== undefined) {
 
-		// 			const point = [selectLocale === 'fa' ?
-		// 				new Date(
-		// 					selectLiveData?.[data?._id]?.createdAt
-		// 				).getTime()
-		// 				:
-		// 				new Date(selectLiveData?.[data._id]?.createdAt).getTime(),
-		// 			selectLiveData?.[data._id]?.value === 200000 ? null : (selectLiveData?.[data._id]?.value ?? null)];
-		// 			if (newdata?.[index] !== undefined) {
-		// 				// console.log("newdata", newdata)
-		// 				newdata?.[index].data.push(point)
-		// 				if (newdata?.[index].data.length > 1500)
-		// 					newdata?.[index].data.shift()
-		// 				// console.log("newdata after", newdata)
+	// 	// 			const point = [selectLocale === 'fa' ?
+	// 	// 				new Date(
+	// 	// 					selectLiveData?.[data?._id]?.createdAt
+	// 	// 				).getTime()
+	// 	// 				:
+	// 	// 				new Date(selectLiveData?.[data._id]?.createdAt).getTime(),
+	// 	// 			selectLiveData?.[data._id]?.value === 200000 ? null : (selectLiveData?.[data._id]?.value ?? null)];
+	// 	// 			if (newdata?.[index] !== undefined) {
+	// 	// 				// console.log("newdata", newdata)
+	// 	// 				newdata?.[index].data.push(point)
+	// 	// 				if (newdata?.[index].data.length > 1500)
+	// 	// 					newdata?.[index].data.shift()
+	// 	// 				// console.log("newdata after", newdata)
 
-		// 			}
-		// 		}
-		// 	})
+	// 	// 			}
+	// 	// 		}
+	// 	// 	})
 
 
-		// }
-	}
+	// 	// }
+	// }
 
 	function getdataLiveChart(chartsettings?: ChartSettingsType) {
 		if (selectDataOFChart?.length && props.liveChart) {
-			setState({})
+			// if (!props.liveChart) setState({})
 			const chartData = new HighchartsData([])
 			chartData.liveChart = props?.liveChart ?? false
 			chartData.settingsDefault()
@@ -295,32 +306,39 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 				setChartSettings(chartData.chartSettings)
 			})
 
-		} else { setState(undefined) }
+		} else {
+			// setState(undefined)
+		}
 	}
-	useEffect(() => {
-		liveUpdate()
-	}, [newDataOFLive])
-	useEffect(() => {
-		// liveUpdate()
-		// console.log("selectDataOFChart", selectDataOFChart)
 
-		selectDataOFChart?.map((sens, index) => {
-			if (sens?._id && props.liveChart)
-				socket.on(sens?._id, (data: SensorWebsocketRealTimeDataType) => {
-					// setSelectLiveData(data)
-					// console.log(data)
-					setNewDataOFLive(data)
-					// dispatch(addNewRecordToSocket(data));
-					// console.log(data);
-				});
-		});
-		return () => {
-			selectDataOFChart?.map((sens, index) => {
-				if (sens?._id)
-					socket.off(sens?._id);
-			});
-		};
-	}, [selectDataOFChart]);
+
+
+	// useEffect(() => {
+	// 	if (props.liveChart) {
+	// 		liveUpdate()
+	// 	}
+	// }, [newDataOFLive])
+	// useEffect(() => {
+	// 	// liveUpdate()
+	// 	// console.log("selectDataOFChart", selectDataOFChart)
+
+	// 	selectDataOFChart?.map((sens, index) => {
+	// 		if (sens?._id && props.liveChart)
+	// 			socket.on(sens?._id, (data: SensorWebsocketRealTimeDataType) => {
+	// 				// setSelectLiveData(data)
+	// 				// console.log(data)
+	// 				setNewDataOFLive(data)
+	// 				// dispatch(addNewRecordToSocket(data));
+	// 				// console.log(data);
+	// 			});
+	// 	});
+	// 	return () => {
+	// 		selectDataOFChart?.map((sens, index) => {
+	// 			if (sens?._id)
+	// 				socket.off(sens?._id);
+	// 		});
+	// 	};
+	// }, [selectDataOFChart]);
 
 	useEffect(() => {
 		if (props.liveChart) {
@@ -332,6 +350,20 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 
 	}, [selectDataOFChart, selectLocale, userData?.chartSettings, granularity]);
 
+	useEffect(() => {
+		if (min === null && max === null) {
+			getdata(userData?.chartSettings as ChartSettingsType)
+		}
+		if ((min !== null && max !== null) && (min !== undefined && max !== undefined)) {
+			getdata(userData?.chartSettings as ChartSettingsType)
+		}
+	}, [range]);
+	useEffect(() => {
+		if ((min !== undefined && max !== undefined)) {
+			getdata(userData?.chartSettings as ChartSettingsType)
+		}
+
+	}, [max, min,]);
 	return <section className={`flex mt-5 flex-wrap w-full `}>
 		<Modal
 			open={settingsModal}
@@ -342,14 +374,16 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 		>
 			<MultiChartSettings closeFunction={setSettingsModal} />
 		</Modal>
+
 		<div className="absolute -translate-y-[40px] w-fit justify-start z-[80] scale-75">
+
 			<ThemeButton onClick={() => {
 				setSettingsModal(val => !val)
 			}} className=" -mx-2  hover:rotate-180 w-fit justify-center items-center flex">
 				<div className="w-[30px] rounded-full h-[30px] flex justify-center items-center bg-white text-black">
 					<Icon icon={outlineSettings} width="30" color="black" /></div>
 			</ThemeButton>
-			{Highcharts && customTheme && state?.chartOptions && statusReportApi === 'success' &&
+			{Highcharts && customTheme && state?.chartOptions && (statusReportApi === 'success') &&
 				<>
 					<button
 						className='hover:rotate-12 mx-2 w-[32px] h-[32px] text-[#f13232]'
@@ -368,14 +402,71 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 					>
 						<Icon icon={pngOutline} height="32" />
 						{/* {t(props?.downloadAsExcel)} */}
-					</button></>}
+					</button>
+
+
+				</>}
+			{/* <ThemeInput value={max} onChange={setMax} label="max" /> */}
+		</div>
+		<div className=" absolute -translate-y-[34px] left-4 w-fit justify-start z-[80] scale-75">
+
+			<div style={{
+				direction: 'ltr'
+			}} className="flex">
+				<div className="flex  justify-center content">
+					<div className="flex m-2">	range					</div>
+					<label className="checkBox2">
+						<input id="ch1" type="checkbox" checked={range} onChange={() => {
+							if (range) {
+								setMax(undefined)
+								setMin(undefined)
+							}
+							setRange(val => !val)
+						}} />
+						<div className="transition2"></div>
+					</label>
+				</div>
+
+				{range &&
+					<>
+						<div className="flex mx-2">
+							<label htmlFor="maxnum" className="m-2" >max</label>
+							<input
+								disabled={!range}
+								id={'maxnum'}
+								onChange={(e) => {
+									setMax(Number(e.target.value));
+								}}
+								placeholder={'max'}
+								className={`${classes?.inpt} `}
+								value={max}
+								type='number'
+							></input>
+						</div>
+						<div className="flex mx-2">
+							<label htmlFor="minnum" className="m-2" >min</label>
+							<input
+								disabled={!range}
+								id={'minnum'}
+								onChange={(e) => {
+									setMin(Number(e.target.value));
+								}}
+								placeholder={'min'}
+								className={`${classes?.inpt} `}
+								value={min}
+								type='number'
+							></input>
+						</div>
+					</>
+				}
+			</div>
 		</div>
 		<figure id='chart-analytics'
 			ref={chartRef}
 			key={JSON.stringify(chartSettings)}
 			className={`flex justify-center w-[100vw]  ${chartSettings?.xAxisRotation > 35 || chartSettings?.xAxisRotation < -35 ? ' xl:h-[50vw] h-[60vw]' : ' xl:h-[40vw] h-[50vw]'}`}>
 			<div className="" style={{ width: '1px', height: '100%', position: 'inherit' }}></div>
-			{Highcharts && customTheme && state?.chartOptions && statusReportApi === 'success' &&
+			{(Highcharts && customTheme && state?.chartOptions && (statusReportApi === 'success' || props.liveChart)) &&
 				< HighchartsReact
 					highcharts={Highcharts}
 					options={state?.chartOptions}
@@ -387,7 +478,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 				// id={'HighchartsReact'}
 				/>}
 
-			{statusReportApi === 'loading' && <div className="flex flex-wrap text-2xl w-full h-full justify-center"><LoadingTwo />
+			{(statusReportApi === 'loading' && !props.liveChart) && <div className="flex flex-wrap text-2xl w-full h-full justify-center"><LoadingTwo />
 				<h1 className="flex w-full justify-center">loading...</h1></div>}
 			{state === undefined && statusReportApi !== 'loading' && statusReportApi !== 'success' && <div className="flex flex-wrap text-2xl items-center w-full h-full justify-center">
 				<h1 className="flex w-full h-full justify-center">No Data</h1></div>}

@@ -47,11 +47,11 @@ import DataOfReport from 'src/atomic/organisms/analytics/DataOfReport';
 import { PrintPreview } from 'src/atomic/organisms/Print/PrintPreview';
 import TableDataOfReport, { SetGranularity } from 'src/atomic/organisms/DataTables/TableDataOfReport';
 import HeaderMakeReport from 'src/atomic/molecules/Report/HeaderMakeReport';
-import MultiAxisChart from 'src/atomic/organisms/HighCharts/MultiAxisChart';
-// const MultiAxisChart = dynamic(
-//   () => import("src/atomic/organisms/HighCharts/MultiAxisChart"),
-//   { ssr: false }
-// );
+// import MultiAxisChart from 'src/atomic/organisms/HighCharts/MultiAxisChart';
+const MultiAxisChart = dynamic(
+  () => import("src/atomic/organisms/HighCharts/MultiAxisChart"),
+  { ssr: false }
+);
 const DateTimeAnalytic = dynamic(
   () => import("../src/atomic/organisms/analytics/DateTimeAnalytic"),
   { ssr: false }

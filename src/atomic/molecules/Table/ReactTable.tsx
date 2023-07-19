@@ -9,6 +9,7 @@ import { selectSocketObject, socketObType } from 'src/store/slices/socketSlice';
 import { useExportData } from 'react-table-plugins';
 import domtoimage from 'dom-to-image';
 import moment from 'moment-jalaali';
+import moment2 from 'moment';
 
 import filePdf from '@iconify/icons-uiw/file-pdf';
 import plusIcon from '@iconify/icons-typcn/plus';
@@ -160,6 +161,8 @@ const ReactTable: React.FC<Props> = (props) => {
   function handleGeneratePDF() {
 
   }
+
+
   function getExportFileBlob({ columns, data, fileType, fileName }: {
     columns: any; data: any; fileType: any;
     fileName: any;
@@ -176,17 +179,33 @@ const ReactTable: React.FC<Props> = (props) => {
       const header = columns.map((c: any) => c.exportValue);
       const compatibleData = data.map((row: any) => {
         const obj: any = {};
+
         header.forEach((col: any, index: number) => {
           obj[col] = row[index];
         });
+
         return obj;
       });
 
+      // Format the "datetime" row in the compatibleData array
+      // const datetimeIndex = header.indexOf('date time');
+      // if (datetimeIndex !== -1) {
+      compatibleData.forEach((row: any) => {
+        // console.log(row)
+        const date = selectLocale === 'fa' ? (moment(new Date(row['date Time'])).format('jYYYY-jMM-jDD HH:mm:ss')) : (moment2(new Date(row['date Time'])).format('YYYY-MM-DD HH:mm:ss'))
+        row[header[1]] = date;
+      });
+
+      // }
+
+      // Create a new workbook and worksheet with the data
       let wb = XLSX.utils.book_new();
       let ws1 = XLSX.utils.json_to_sheet(compatibleData, {
         header,
       });
-      XLSX.utils.book_append_sheet(wb, ws1, "React Table Data");
+      XLSX.utils.book_append_sheet(wb, ws1, 'Data Table');
+
+      // Save the workbook as an Excel file
       XLSX.writeFile(wb, `${fileName}.xlsx`);
 
       // Returning false as downloading of file is already taken care of
@@ -246,58 +265,154 @@ const ReactTable: React.FC<Props> = (props) => {
 
       return false;
     }
-    if (fileType === "pdf+chart") {
-      const headerNames = columns.map((column: any) => column.exportValue);
-      // const doc: any = new JsPDF();
-      const chart = chartRef.current;
+    // if (fileType === "pdf+chart") {
+    //   setLoading(true)
+    //   const headerNames = columns.map((column: any) => column.exportValue);
+    //   // const doc: any = new JsPDF();
+    //   // const refd = document.getElementById('analytics-header') as HTMLDivElement
+    //   const options = { bgcolor: '#FFFFFF' };
+    //   // domtoimage.toPng(refd, { quality: 100, bgcolor: '#FFFFFF' }).then((dataUrl) => {
+    //   //   var img = new Image()
+    //   //   img.src = dataUrl
+
+    //   html2canvas(document.getElementById('chart-analytics') as HTMLDivElement).then(async (canvas) => {
+    //     //console.log('header')
+    //     const imgData = canvas.toDataURL('image/png');
+    //     // const imgDataOfHeader = canvasHeader.toDataURL('image/png');
 
 
-      if (true) {
-        html2canvas(document.getElementById('chart-analytics') as HTMLDivElement).then((canvas) => {
-          const imgData = canvas.toDataURL('image/png');
-          const doc: any = new JsPDF('p', 'px', 'a4');
-          // doc.
-          const imgWidth = doc.internal.pageSize.getWidth();
-          const imgHeight = canvas.height * imgWidth / canvas.width;
-          doc?.addImage(imgData, 'PNG', 4, 10, imgWidth - 10, imgHeight);
+    //     // document.body.appendChild(img)
 
-          // doc.
-          // doc.addPage();
-          var cellStyles = {
-            height: 8, // Set the cell height to 12 pixels
-          };
-          doc?.autoTable({
-            head: [headerNames],
-            body: data,
-            margin: { top: 5 },
-            startY: imgHeight + 20,
-            styles: {
-              lineColor: [0, 0, 0], lineWidth: 0.5,
-              minCellHeight: !dense ? 16 : 12,
-              height: 12,
-              halign: "center",
-              valign: "center",
-              fontSize: !dense ? 11 : 8,
-              cellPadding: 0.5,
-            },
-            bodyStyles: {
-              cellStyles: cellStyles,
-            }, willDrawCell: function (data: any) {
-              // check if the cell text is "no data"
-              if (data.cell.text == "no data") {
-                // change the fill color to red
-                doc.setFillColor(255, 0, 0);
-              }
-            }
-          });
 
-          doc.save(`${fileName}.pdf`);
-        });
-      }
+    //     const doc: any = new JsPDF('p', 'px', 'a4');
+    //     // doc.
+    //     // const imgProps = doc.getImageProperties(img);
 
-      return false;
-    }
+    //     // const pdfWidth = doc.internal.pageSize.getWidth();
+    //     // const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
+    //     const imgWidth = doc.internal.pageSize.getWidth();
+    //     const imgHeight = canvas.height * imgWidth / canvas.width;
+
+    //     const imgWidthHeader = doc.internal.pageSize.getWidth();
+    //     const imgHeightHeader = img.height * imgWidthHeader / img.width;
+
+    //     doc?.addImage(img, 'PNG', 4, 0, imgWidthHeader - 10, imgHeightHeader);
+    //     doc?.addImage(imgData, 'PNG', 4, imgHeightHeader, imgWidth - 10, imgHeight);
+
+
+
+    //     const formattedData = data.map((row: any) => {
+    //       const date = selectLocale === 'fa' ? new Date(moment(row?.['1']).format('jYYYY-jMM-jDD HH:mm:ss')) : new Date(row?.['1'])
+    //       return {
+    //         ...row,
+    //         // Format the date value here
+    //         1: date.getFullYear() + '/' + date.getMonth() + '/' + date.getDate() + ' - ' + date.toLocaleTimeString('en-US', { hour12: false }) // Change this to your desired date format
+    //       };
+    //     });
+    //     console.log(formattedData)
+    //     // doc.
+    //     // doc.addPage();
+
+    //     console.log(headerNames, formattedData)
+
+    //     var cellStyles = {
+    //       font: 'Vazir-Bold',
+    //       height: 4, // Set the cell height to 12 pixels
+    //     };
+    //     doc?.autoTable({
+    //       head: [headerNames],
+    //       body: formattedData,
+    //       margin: { top: 5 },
+    //       startY: imgHeight + imgHeightHeader + 20,
+    //       styles: {
+    //         fontStyle: 'Vazir-Bold',
+    //         lineColor: [0, 0, 0], lineWidth: 0.5,
+    //         minCellHeight: !dense ? 16 : 12,
+    //         height: 8,
+    //         halign: "center",
+    //         valign: 'middle',
+    //         fontSize: !dense ? 11 : 8,
+    //         cellPadding: 0.5,
+    //       },
+    //       // columnStyles: {
+    //       //   0: { valign: "top" },
+    //       //   1: {
+    //       //     fontStyle: 'bold',
+    //       //     halign: 'center',
+    //       //   },
+    //       //   2: {
+    //       //     fontStyle: 'bold',
+    //       //     halign: 'center',
+    //       //   },
+    //       //   3: {
+    //       //     fontStyle: 'bold',
+    //       //     halign: 'center',
+    //       //   },
+    //       // },
+    //       bodyStyles: {
+    //         fontStyle: 'Vazir-Bold'
+    //         ,
+    //         cellStyles: cellStyles,
+    //       }, willDrawCell: function (data: any) {
+    //         // check if the cell text is "no data"
+    //         if (data.cell.text == "no data") {
+    //           // change the fill color to red
+    //           doc.setFillColor('#fd8080');
+    //         }
+    //       }
+    //     })
+    //     //   const table = `
+    //     //   <table>
+    //     //     <thead>
+    //     //       <tr>
+    //     //         <th>Name</th>
+    //     //         <th>Email</th>
+    //     //       </tr>
+    //     //     </thead>
+    //     //     <tbody>
+    //     //       ${data.map((row) => `
+    //     //         <tr>
+    //     //           <td>${row.name}</td>
+    //     //           <td>${row.email}</td>
+    //     //         </tr>
+    //     //       `).join('')}
+    //     //     </tbody>
+    //     //   </table>
+    //     // `;
+    //     //   doc.html(table, {
+    //     //     callback: () => {
+    //     //       doc.save('table.pdf');
+    //     //     },
+    //     //   });
+    //     // };
+    //     // doc.html(table, {
+    //     //   x: 10,
+    //     //   y: 70,
+    //     //   callback: () => {
+    //     //     doc.save('table.pdf');
+    //     //   },
+    //     // });
+    //     doc.save(`${fileName}.pdf`);
+    //     setLoading(false)
+
+    //   }).catch(function (err) {
+    //     //console.log(err)
+    //     setLoading(false)
+
+    //   }).catch(function (err) {
+    //     //console.log(err)
+    //     setLoading(false)
+
+    //   })
+
+    //   // })
+
+
+
+
+    //   return false;
+    // }
     if (fileType === "pdf+chart+header") {
       setLoading(true)
       const headerNames = columns.map((column: any) => column.exportValue);
@@ -336,18 +451,40 @@ const ReactTable: React.FC<Props> = (props) => {
 
 
           const formattedData = data.map((row: any) => {
-            const date = selectLocale === 'fa' ? new Date(moment(row?.['1']).format('jYYYY-jMM-jDD HH:mm:ss')) : new Date(row?.['1'])
+            const date = selectLocale === 'fa' ? (moment(new Date(row?.['1'])).format('jYYYY-jMM-jDD HH:mm:ss')) : (moment2(new Date(row?.['1'])).format('YYYY-MM-DD HH:mm:ss'))
             return {
               ...row,
               // Format the date value here
-              1: date.getFullYear() + '/' + date.getMonth() + '/' + date.getDate() + ' - ' + date.toLocaleTimeString('en-US', { hour12: false }) // Change this to your desired date format
+              1: date, // Change this to your desired date format
+              // 2: '<div class="bg-red-400">Some content</div>'
             };
           });
-          console.log(formattedData)
+          const options = {
+            didParseCell: (data: any) => {
+              if (typeof data.cell.raw === 'string' && data.cell.raw.startsWith('<div')) {
+                data.cell.text = '';
+                data.cell.content = [
+                  {
+                    text: '',
+                    styles: {
+                      cellWidth: data.cell.width,
+                      cellHeight: data.cell.height,
+                    },
+                    // Use the HTML renderer to render the div
+                    // You can also use a custom renderer function to render the div
+                    // See the autoTable documentation for more information
+                    html: data.cell.raw,
+                  },
+                ];
+              }
+            },
+          };
+
+          // console.log(formattedData)
           // doc.
           // doc.addPage();
 
-          console.log(headerNames, formattedData)
+          // console.log(headerNames, formattedData)
 
           var cellStyles = {
             font: 'Vazir-Bold',
@@ -368,6 +505,7 @@ const ReactTable: React.FC<Props> = (props) => {
               fontSize: !dense ? 11 : 8,
               cellPadding: 0.5,
             },
+
             // columnStyles: {
             //   0: { valign: "top" },
             //   1: {
@@ -393,7 +531,8 @@ const ReactTable: React.FC<Props> = (props) => {
                 // change the fill color to red
                 doc.setFillColor('#fd8080');
               }
-            }
+            },
+            ...options,
           })
           //   const table = `
           //   <table>
@@ -481,7 +620,7 @@ const ReactTable: React.FC<Props> = (props) => {
                 <LoadingOne /></div>
             }
           </button>}
-          {props.ExportPdfChart && <button
+          {/* {props.ExportPdfChart && <button
             className='flex bg-blue-900 border-[var(--text-color)] border p-1 items-center justify-center rounded-md m-1 w-[68px] h-[32px] text-[var(--text-color)]'
             onClick={() => {
               exportData("pdf+chart", true);
@@ -490,7 +629,7 @@ const ReactTable: React.FC<Props> = (props) => {
             <Icon icon={filePdf} color={'#f13232'} height="22" />
             <Icon icon={plusIcon} height="22" />
             <Icon icon={chartLine} color={'cyan'} height="22" />
-          </button>}
+          </button>} */}
           {props.ExportCsv && <button
             className='m-1 w-[32px] h-[32px] text-[var(--text-color)]'
             onClick={() => {
@@ -507,14 +646,14 @@ const ReactTable: React.FC<Props> = (props) => {
           >
             <Icon icon="icon-park-twotone:excel" height="32" />
           </button>}
-          {props.ExportPdf && <button
+          {/* {props.ExportPdf && <button
             className='text-[#f13232] m-1 w-[32px] h-[32px] text-[var(--text-color)]'
             onClick={() => {
               exportData("pdf", true);
             }}
           >
             <Icon icon={filePdf} height="32" />
-          </button>}
+          </button>} */}
         </div>}
     </>
   }

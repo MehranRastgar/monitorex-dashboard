@@ -15,6 +15,8 @@ import dayjs, { Dayjs } from 'dayjs';
 
 interface Props {
   index: number;
+  rangeHour?: number
+  handleClick: any
 }
 const DeviceUnit: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
@@ -35,7 +37,7 @@ const DeviceUnit: React.FC<Props> = (props) => {
     dispatch(setEndDate(publishDate.toJSON()));
     dispatch(
       setStartDate(
-        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * 5).toLocaleString(),
+        new Date((dayjs().unix() * 1000) - (60 * 1000 * 60 * (props.rangeHour ?? 3))).toLocaleString(),
       ),
     );
 
@@ -50,7 +52,7 @@ const DeviceUnit: React.FC<Props> = (props) => {
       reportSensorsAsync({
         sensors: arr,
         start: new Date(
-          dayjs().unix() * 1000 - 60 * 1000 * 60 * 5,
+          dayjs().unix() * 1000 - (60 * 1000 * 60 * (props.rangeHour ?? 3)),
         ).toLocaleString(),
         end: publishDate.toJSON(),
       }),
@@ -58,27 +60,48 @@ const DeviceUnit: React.FC<Props> = (props) => {
   };
   useEffect(() => {
     if (device?._id)
-      socket.once(device?._id, (data: SensorWebsocketRealTimeDataType) => {
+      socket.on(device?._id, (data: SensorWebsocketRealTimeDataType) => {
         // console.log(data);
         setDeviceData(data);
       });
 
     return () => {
-      // if (device?._id) socket.off(device?._id);
+      if (device?._id) socket.off(device?._id);
     };
-  }, [devices, device, deviceData]);
+  }, [devices, device, deviceData,]);
 
+  //=====================================================
+  // const [intervalId, setIntervalId] = useState<any>(null);
 
-  useEffect(() => {
+  // const handleClick = (index?: number) => {
+  //   clearInterval(intervalId); // Clear the interval when another component is clicked
+  //   const id = setInterval(() => {
+  //     console.log('Interval tick', index);
+  //   }, 5000);
+  //   GetReport(devices?.[index]?.sensors ?? []);
+  //   dispatch(setSelectedDeviceNumber(index));
+  //   setIntervalId(id)
 
+  // };
 
-  }, []);
+  // useEffect(() => {
+  //   // Set the interval on mount and return a cleanup function to clear the interval on unmount
+  //   const id = setInterval(() => {
+  //     console.log('Interval tick');
+  //   }, 5000);
+  //   setIntervalId(id);
+  //   return () => clearInterval(id);
+  // }, []);
+  //=====================================================
+
 
   return (
     <section
       onClick={() => {
+        props.handleClick(props?.index)
+        dispatch(setSelectedDeviceNumber(props?.index));
         GetReport(devices?.[props?.index]?.sensors ?? []);
-        dispatch(setSelectedDeviceNumber(props.index));
+        // dispatch(setSelectedDeviceNumber(props.index));
       }}
       style={{
         backgroundImage: "var(--device-item)"

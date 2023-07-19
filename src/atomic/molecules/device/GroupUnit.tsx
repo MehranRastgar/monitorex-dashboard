@@ -24,6 +24,9 @@ import { GroupItemType } from 'src/types/types';
 
 interface Props {
   index?: number;
+  rangeHour?: number
+  handleClick: any
+
 }
 const GroupUnit: React.FC<Props> = (props) => {
   const [time, setTime] = useState(new Date());
@@ -52,10 +55,13 @@ const GroupUnit: React.FC<Props> = (props) => {
     //   setDeviceData(data);
     // });
 
+
     return () => {
+
       // if (device?._id) socket.off(device?._id);
     };
   }, [devices, device, deviceData]);
+
 
   const GetReport = (group: GroupItemType) => {
     let publishDate = new Date(1000 * dayjs().unix());
@@ -63,7 +69,7 @@ const GroupUnit: React.FC<Props> = (props) => {
     dispatch(setEndDate(publishDate.toJSON()));
     dispatch(
       setStartDate(
-        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * 5).toLocaleString(),
+        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * (props.rangeHour ?? 3)).toLocaleString(),
       ),
     );
 
@@ -74,7 +80,7 @@ const GroupUnit: React.FC<Props> = (props) => {
       reportSensorsAsync({
         sensors: arr,
         start: new Date(
-          dayjs().unix() * 1000 - 60 * 1000 * 60 * 5,
+          dayjs().unix() * 1000 - 60 * 1000 * 60 * (props.rangeHour ?? 3),
         ).toLocaleString(),
         end: publishDate.toJSON(),
       }),
@@ -87,6 +93,7 @@ const GroupUnit: React.FC<Props> = (props) => {
         // console.log(group, props.index);
         if (group) {
           GetReport(group);
+          props.handleClick(group)
           if (props?.index !== undefined)
             dispatch(setSelectedGroupNumber(props.index));
           dispatch(setSelectedSensors(group.sensors));

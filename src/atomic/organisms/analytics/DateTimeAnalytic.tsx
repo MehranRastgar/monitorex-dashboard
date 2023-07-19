@@ -77,18 +77,55 @@ export default function DateTimeAnalytic({ localeT }: { localeT: 'en' | 'fa' }) 
           <div className='flex'><Icon icon={calendarIcon} width="20" /><span className='mx-2'>شمسی</span></div> : <div className='flex'><span className='mx-2'>Julian</span><Icon icon={calendarIcon} width="20" /></div>}</p></div>
         <div className="flex">
           <div>
-            <DateTimePickerComponent
-              {...dateTimeEndProps}
-              locale={locale}
-              value={value2}
-              setValue={setValue2}
-            />
+            <div>
+
+              <DateTimePickerComponent
+                {...dateTimeEndProps}
+                locale={locale}
+                value={value2}
+                setValue={setValue2}
+              />
+              <div>
+              </div>
+
+              <DateTimePickerComponent
+                {...dateTimeStartProps}
+                locale={locale}
+                value={value}
+                setValue={setValue}
+              />
+            </div>
           </div>
-          <div className="flex">
+          <div className="flex w-fit justify-start ">
+            <HowMuchBefor
+              setValue={setValue}
+              str={['hour', '1']}
+              hourValue={1}
+            />
+            <HowMuchBefor
+              setValue={setValue}
+              str={['hour', '3']}
+              hourValue={3}
+            />
+            <HowMuchBefor
+              setValue={setValue}
+              str={['hour', '6']}
+              hourValue={6}
+            />
+            <HowMuchBefor
+              setValue={setValue}
+              str={['hour', '12']}
+              hourValue={12}
+            />
             <HowMuchBefor
               setValue={setValue}
               str={['hour', '24']}
               hourValue={24}
+            />
+            <HowMuchBefor
+              setValue={setValue}
+              str={['day', '3']}
+              hourValue={24 * 3}
             />
             <HowMuchBefor
               setValue={setValue}
@@ -111,14 +148,7 @@ export default function DateTimeAnalytic({ localeT }: { localeT: 'en' | 'fa' }) 
               hourValue={3 * 30 * 24}
             />
           </div>
-          <div>
-            <DateTimePickerComponent
-              {...dateTimeStartProps}
-              locale={locale}
-              value={value}
-              setValue={setValue}
-            />
-          </div>
+
 
           {/* <Grid>
               <HowManyDays SD={selectSD} ED={selectED} />
@@ -164,18 +194,18 @@ function HowMuchBefor({
 
   return (
     <>
-      <Box sx={{ p: 1, flexGrow: 1 }}>
-        <button
-          onClick={() => {
-            handleClick();
-          }}
-          type="button"
-          className="hover:bg-cyan-400/30 rounded-lg flex border border-black py-4 bg-black/30 text-white [var(--font-family)]"
-        >
-          <div className="mx-2">{t(str?.[1])}</div>
-          <div className="mx-2">{t(str?.[0])}</div>{' '}
-        </button>
-      </Box>
+      {/* <div className='flex w-[120px] min-w-24 h-fit'> */}
+      <button
+        onClick={() => {
+          handleClick();
+        }}
+        type="button"
+        className="m-2 h-fit hover:bg-cyan-400/30 rounded-lg flex border border-black py-4 bg-black/30 text-white [var(--font-family)]"
+      >
+        <div className="mx-2">{t(str?.[1])}</div>
+        <div className="mx-2">{t(str?.[0])}</div>{' '}
+      </button>
+      {/* </div> */}
     </>
   );
 }

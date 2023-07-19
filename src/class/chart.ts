@@ -68,6 +68,8 @@ export default class HighchartsData {
 	public divideBy: number = 1
 	public startDate: string = ''
 	public endDate: string = ''
+	public max: number | undefined = undefined;
+	public min: number | undefined = undefined;
 	constructor(private reportData: SensorsReportType[]) {
 		// this.processData();
 	}
@@ -129,8 +131,8 @@ export default class HighchartsData {
 			))
 			const val2 = Highcharts.dateFormat('%H:%M:%S', vals + offsetSeconds);
 
-			const stringssss = `<b  style="color:${color}; fontSize: 1em;">${val}</b>
-			${timeIsShow ? `<b style="color:${color}; fontSize: 1em;">${val2}</b>` : ""}`
+			const stringssss = `<b  style="color:${color}; fontSize: 1.2em;">${val}</b>
+			${timeIsShow ? `<b style="color:${color}; fontSize: 1.2em;">${val2}</b>` : ""}`
 			return stringssss
 		}
 	}
@@ -143,7 +145,8 @@ export default class HighchartsData {
 				points?: any;
 				x?: any;
 			}
-			const weekDays = ['یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنج شنبه', 'جمعه', 'شنبه',]
+			const weekDays = dateJalali ? ['یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنج شنبه', 'جمعه', 'شنبه',] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
 			const val = dateJalali !== undefined && dateJalali ? Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, new Date(moment((this as ChartTooltipOptions).x + offsetSeconds).format('jYYYY-jMM-jDD HH:mm:ss')).getTime()) : Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, (this as ChartTooltipOptions).x + offsetSeconds)
 			const weekd = weekDays?.[(parseInt(Highcharts.dateFormat(`%w`, (this as ChartTooltipOptions).x + offsetSeconds)))]
 			return [`<b><div style="background:red;color:${textColor};fontSize: 1.2em">` + val + ' - ' + weekd + '</div></b>'].concat(
@@ -247,6 +250,7 @@ export default class HighchartsData {
 				shared: true
 			},
 			legend: {
+
 				layout: 'vertical',
 				align: 'left',
 				x: 80,
@@ -298,7 +302,14 @@ export default class HighchartsData {
 	//make a function to get date and time
 	public async sumOfdata(data: SensorsReportType[]) {
 		console.time('how many sumOfdata')
-
+		let unit: string | undefined = undefined
+		data.map((item, index) => {
+			if (item?.sensor?.unit === unit || index === 0) {
+				unit = item?.sensor?.unit ?? ''
+			} else {
+				unit = undefined
+			}
+		})
 		const arrSeries: any[] = [];
 		let arrAxisY: any[] = [];
 		data?.map((sens, index) => {
@@ -307,6 +318,8 @@ export default class HighchartsData {
 				if (this.chartSettings.multiAxis === true) {
 					if (!(arrAxisY.findIndex(item => item?.unit === sens?.sensor?.unit) >= 0))
 						arrAxisY.push({
+							// min: -100, // Set the minimum value of the y-axis
+							// max: 150, // Set the maximum value of the y-axis
 							enablePolling: true,
 							gridLineDashStyle: (() => {
 								if (this.chartSettings.grid)
@@ -326,8 +339,9 @@ export default class HighchartsData {
 									if (this.chartSettings && this.chartSettings.lineColors && this.chartSettings.lineColors[index]) {
 										return {
 											color: this.chartSettings.lineColors[index],
-											fontSize: '1.0em',
-											fontFamily: 'cursive'
+											fontFamily: 'roboto',
+											fontSize: '1.4em',
+											fontWeight: '800',
 										};
 									} else {
 										return {
@@ -341,8 +355,9 @@ export default class HighchartsData {
 								style: (() => {
 									if (this.chartSettings && this.chartSettings.lineColors && this.chartSettings.lineColors[index]) {
 										return {
-											fontSize: '1.3em',
-											fontFamily: 'cursive',
+											fontFamily: 'roboto',
+											fontSize: '1.4em',
+											fontWeight: '800',
 											color: this.chartSettings.lineColors[index],
 										};
 									} else {
@@ -385,6 +400,8 @@ export default class HighchartsData {
 				} else {
 					arrAxisY = [...[{
 						unit: sens.sensor?.unit,
+						min: this.min, // Set the minimum value of the y-axis
+						max: this.max, // Set the maximum value of the y-axis
 						// Primary yAxis
 						gridLineDashStyle: (() => {
 							if (this.chartSettings.grid)
@@ -398,19 +415,20 @@ export default class HighchartsData {
 						})(),
 						labels: {
 							format: "{value}",
-
 							style: {
-								fontFamily: 'cursive',
-								font: '1.2em',
 								color: this.chartSettings?.lineColors?.[0] ?? 'var(--text-color)',
+								fontFamily: 'roboto',
+								fontSize: '1.4em',
+								fontWeight: '800',
 							},
 						},
 						title: {
-							text: `${sens.sensor?.type} (${sens.sensor?.unit})`,
+							text: unit !== undefined ? `${sens.sensor?.type} (${sens.sensor?.unit})` : '',
 							style: {
 								color: this.chartSettings?.lineColors?.[0] ?? 'var(--text-color)',
-								fontSize: '1.2em',
-								fontFamily: 'cursive',
+								fontSize: '1.4em',
+								fontWeight: '800',
+								fontFamily: 'roboto',
 							},
 						},
 						opposite: false,
@@ -447,11 +465,12 @@ export default class HighchartsData {
 				// xAxis: {
 				// 	categories: [...this.categories],
 				// },
+
+
 				accessibility: {
 					enabled: true
 				},
 				chart: {
-
 					backgroundImage: undefined,
 					backgroundColor: (() => {
 						if (this.chartSettings?.bgColor?.[0]) {
@@ -488,9 +507,13 @@ export default class HighchartsData {
 						"var(--text-color)",]
 				,
 				legend: {
+
 					itemHiddenStyle: { color: "var(--dev-bgc-disable)" },
 					itemHoverStyle: { color: "var(--dev-bgc-selected)" },
-					itemStyle: { color: this.chartSettings?.textColor?.[0] ?? "var(--text-color)" },
+					itemStyle: {
+						fontSize: '1.2em',
+						color: this.chartSettings?.textColor?.[0] ?? "var(--text-color)"
+					},
 					enabled: true,
 					align: "left",
 					alignColumns: true,
@@ -561,7 +584,7 @@ export default class HighchartsData {
 				},
 				plotOptions: {
 					series: {
-
+						animation: this.liveChart ? false : true,
 						showInLegend: true,
 						accessibility: {
 							exposeAsGroupOnly: true,

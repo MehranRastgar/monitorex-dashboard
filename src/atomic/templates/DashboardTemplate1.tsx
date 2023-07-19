@@ -3,10 +3,10 @@
 import { Box, Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
-import { SensorWebsocketRealTimeDataType } from '../../components/pages/sensors/sensorsTable';
+import { SensorWebsocketRealTimeDataType, SensorsReceiveTpe } from '../../components/pages/sensors/sensorsTable';
 import { socket } from '../../components/socketio';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectGroupNumber, setSelectedGroupNumber } from '../../store/slices/analizeSlice';
+import { reportSensorsAsync, selectGroupNumber, setEndDate, setSelectedDeviceNumber, setSelectedGroupNumber, setSelectedSensors, setStartDate } from '../../store/slices/analizeSlice';
 import { selectDevicesData } from '../../store/slices/devicesSlice';
 import { addNewRecordToSocket } from '../../store/slices/socketSlice';
 import { selectOwnUser, selectUserGroups } from '../../store/slices/userSlice';
@@ -25,6 +25,7 @@ import GroupUnit from '../molecules/device/GroupUnit';
 import { useTranslation } from 'react-i18next';
 import LiveSensorValue from '../organisms/LiveDataGrid/LiveSensorValue';
 import MultiAxisChart from '../organisms/HighCharts/MultiAxisChart';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface Props {
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -36,9 +37,9 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   const { t } = useTranslation();
   // const Groups = useAppSelector(selectUserGroups);
   // const gpNumber = useAppSelector(selectGroupNumber);
-
+  const devices = useAppSelector(selectDevicesData);
   const [showdiv, setShowdiv] = useState<boolean>(true);
-
+  const [range, setRange] = useState<number>(3);
   const dispatch = useAppDispatch();
   const Groups = useAppSelector(selectUserGroups);
   const ownUser = useAppSelector(selectOwnUser)
@@ -72,6 +73,96 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
     setShowdiv(false);
     setTimeout(() => setShowdiv(true), 500);
   }, [group]);
+
+
+
+  const [intervalId, setIntervalId] = useState<any>(null);
+
+  const GetReport = async (sensors: SensorsReceiveTpe[]) => {
+    let publishDate = new Date(1000 * dayjs().unix());
+
+    dispatch(setEndDate(publishDate.toJSON()));
+    dispatch(
+      setStartDate(
+        new Date((dayjs().unix() * 1000) - (60 * 1000 * 60 * (range ?? 3))).toLocaleString(),
+      ),
+    );
+
+    // dispatch(setSelectedSensors(group.sensors));
+    const arr: string[] = [];
+    await Promise.all(sensors?.map((item) => {
+      if (item.isRealTime)
+        arr.push(item?._id ?? '')
+    }));
+    // console.log('promise all', arr)
+    dispatch(
+      reportSensorsAsync({
+        sensors: arr,
+        start: new Date(
+          dayjs().unix() * 1000 - (60 * 1000 * 60 * (range ?? 3)),
+        ).toLocaleString(),
+        end: publishDate.toJSON(),
+      }),
+    );
+  };
+
+
+  const handleClick = (index?: number) => {
+    clearInterval(intervalId); // Clear the interval when another component is clicked
+    const id = setInterval(() => {
+      console.log('Interval tick', index);
+      GetReport(devices?.[index]?.sensors ?? []);
+    }, 60000);
+
+    setIntervalId(id)
+
+  };
+
+
+
+  const GetReportGroup = (group: GroupItemType) => {
+    let publishDate = new Date(1000 * dayjs().unix());
+
+    dispatch(setEndDate(publishDate.toJSON()));
+    dispatch(
+      setStartDate(
+        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * (range ?? 3)).toLocaleString(),
+      ),
+    );
+
+    dispatch(setSelectedSensors(group.sensors));
+    const arr: string[] = [];
+    group?.sensors.map((item) => arr.push(item?._id ?? ''));
+    dispatch(
+      reportSensorsAsync({
+        sensors: arr,
+        start: new Date(
+          dayjs().unix() * 1000 - 60 * 1000 * 60 * (range ?? 3),
+        ).toLocaleString(),
+        end: publishDate.toJSON(),
+      }),
+    );
+  };
+
+  const handleClickGroup = (group: GroupItemType) => {
+    clearInterval(intervalId); // Clear the interval when another component is clicked
+    const id = setInterval(() => {
+      console.log('Interval Group', group);
+      GetReportGroup(group);
+    }, 60000);
+
+    setIntervalId(id)
+
+  };
+
+  useEffect(() => {
+    // Set the interval on mount and return a cleanup function to clear the interval on unmount
+    // console.log('Interval tick');
+
+    return () => clearInterval(intervalId);
+  }, [intervalId]);
+
+
   return (
     <>
       <section className="flex justify-center min-w-full -mt-6">
@@ -108,7 +199,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               <div
                 className={groupOrDevice === 'device' ? 'flex p-2 ' : 'hidden'}>
                 {selectDevices !== null ? <>{selectDevices.map((dev, index) => (
-                  <DeviceUnit key={index.toString()} index={index} />
+                  <DeviceUnit handleClick={handleClick} rangeHour={range} key={index.toString()} index={index} />
                 ))}</> : (
                   <>
                     <section className="flex flex-wrap items-center border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4">
@@ -123,7 +214,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
                 {Groups !== null && Groups !== undefined && Groups.length !== 0 ? (
                   <>
                     {Groups?.map((dev, index) => (
-                      <GroupUnit key={dev._id} index={index} />
+                      <GroupUnit handleClick={handleClickGroup} rangeHour={range} key={dev._id} index={index} />
                     ))}
                   </>
                 ) : (
@@ -149,6 +240,48 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
             {/* <LiveChart /> */}
             <MultiAxisChart liveChart={true} chartSettings={{}} />
           </Item>
+          <Item className="flex justify-center min-w-full rounded-md border border-[var(--border-color)] p-2 m-3">
+            <div className="flex w-fit justify-start ">
+              <div className='flex mx-2'>range</div>
+              <ThemeButton
+                className='mx-2'
+                onClick={() => setRange(1)}
+                type={range === 1 ? 'activate' : 'explore'}
+              >
+                1 {t("hour")}
+              </ThemeButton>
+              <ThemeButton
+                className='mx-2'
+                onClick={() => setRange(3)}
+                type={range === 3 ? 'activate' : 'explore'}
+
+              >
+                3 {t("hour")}
+              </ThemeButton>
+              <ThemeButton
+                className='mx-2'
+                onClick={() => setRange(6)}
+                type={range === 6 ? 'activate' : 'explore'}
+              >
+                6 {t("hour")}
+              </ThemeButton>
+              <ThemeButton
+                className='mx-2'
+                onClick={() => setRange(12)}
+                type={range === 12 ? 'activate' : 'explore'}
+              >
+                12 {t("hour")}
+              </ThemeButton>
+              <ThemeButton
+                className='mx-2'
+                onClick={() => setRange(24)}
+                type={range === 24 ? 'activate' : 'explore'}
+              >
+                24 {t("hour")}
+              </ThemeButton>
+            </div>
+          </Item>
+
           {/* <div className="min-w-full min-h-[40vh] rounded-md m-1 border border-[var(--border-color)]">
             <LiveSensorValue />
           </div> */}
@@ -203,3 +336,4 @@ export default DashboardTemplate1;
              <UserGropsList/>
               <AlarmsList/> */
 }
+

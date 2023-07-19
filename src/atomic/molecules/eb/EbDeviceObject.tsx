@@ -27,21 +27,19 @@ export default function EbDeviceObject({
 
   return (
     <>
-      <section>
-        <div>
-          {selectDevices?.map(({ _id, title, type }) => (
-            <>
-              {/* <h2>{title}</h2> */}
-              {type === "Electrical panel" && _id !== undefined ? (
-                <Item className="flex justify-center m-4 w-fit max-w-[800px]">
-                  <OneEPanel idOfSub={_id} />
-                </Item>
-              ) : (
-                <></>
-              )}
-            </>
-          ))}
-        </div>
+      <section className="flex flex-wrap w-full">
+        {selectDevices?.map(({ _id, title, type }) => (
+          <div key={_id} className="flex flex-wrap w-full">
+            {/* <h2>{title}</h2> */}
+            {type === "Electrical panel" && _id !== undefined ? (
+              <Item className="flex flex-wrap justify-center m-4 w-full">
+                <OneEPanel idOfSub={_id} />
+              </Item>
+            ) : (
+              <></>
+            )}
+          </div>
+        ))}
       </section>
     </>
   );
