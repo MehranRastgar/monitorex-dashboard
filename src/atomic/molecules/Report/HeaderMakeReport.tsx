@@ -64,7 +64,7 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 				</button>
 			</div> */}
 			{user?._id &&
-				<div id={'analytics-header'} className="flex flex-wrap p-3 border border-black bg-white w-[800px] h-auto  min-w-[800px] min-h-[500px] justify-center items-start">
+				<div id={'analytics-header'} className={`${jalaliIs === 'fa' ? ' font-Vazir-Light ' : ''}` + "flex flex-wrap p-3 border border-black bg-white w-[800px] h-auto  min-w-[800px] min-h-[500px] justify-center items-start "}>
 					<div className="h-fit">
 						<h1 className="text-xl w-full justify-center text-center p-2 m-0 h-fit border-black border-b">{t('report')}</h1>
 						<div className="flex flex-wrap h-fit">
