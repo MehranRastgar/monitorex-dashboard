@@ -42,35 +42,35 @@ const ArrayOfElectrical: React.FC<Props> = (props) => {
   }, [arrayOfElec]);
   return (
     <>
-      <div
+      {/* <div
         onClick={() => {
           if (arrayOfElec?.length > 0) {
             // setArrayOfElec([]);
           }
         }}
-        className="flex transition-all duration-700 "
-      >
-        {props.eb?.electricals?.slice(offs, offs + 7)?.map((elec, index) =>
-          <DeviceName
-            index={index}
-            byte={props.byte}
-            elec={elec}
-            key={index}
-          >
-            <ObjectElectrical
-              // key={index}
-              number={index + 1 + offs}
-              OnOrOff={
-                props?.byte !== undefined
-                  ? (props?.byte & (0x00000001 << (6 - index))) === 0
-                    ? false
-                    : true
-                  : undefined
-              }
-            />
-          </DeviceName>
-        )}
-      </div>
+        className="flex flex-wrap transition-all duration-700 "
+      > */}
+      {props.eb?.electricals?.slice(offs, offs + 7)?.map((elec, index) =>
+        <DeviceName
+          index={index}
+          byte={props.byte}
+          elec={elec}
+          key={index}
+        >
+          <ObjectElectrical
+            // key={index}
+            number={index + 1 + offs}
+            OnOrOff={
+              props?.byte !== undefined
+                ? (props?.byte & (0x00000001 << (6 - index))) === 0
+                  ? false
+                  : true
+                : undefined
+            }
+          />
+        </DeviceName>
+      )}
+      {/* </div> */}
     </>
   );
 };
@@ -93,7 +93,7 @@ const DeviceName: React.FC<PropsDev> = ({
 
   return (
     <div
-      className={`flex flex-wrap w-20 h-20 justify-center  m-2  ${byte !== undefined
+      className={`flex flex-wrap rounded-xl p-2 w-20 h-20 justify-center  m-2  ${byte !== undefined
         ? (byte & (0x00000001 << (6 - index))) === 0
           ? "bg-gray-600"
           : "bg-green-600"

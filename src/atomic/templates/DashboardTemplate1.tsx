@@ -45,6 +45,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   const ownUser = useAppSelector(selectOwnUser)
   const gpNumber = useAppSelector(selectGroupNumber);
   const [group, setGroup] = useState<GroupItemType | null>(null);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
   const [groupOrDevice, setGroupOrDevice] = useState<'group' | 'device'>(
     'device',
   );
@@ -108,8 +109,11 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
 
 
   const handleClick = (index: number) => {
-    clearInterval(intervalId); // Clear the interval when another component is clicked
+    clearInterval(intervalId);
+    setIsUpdate(false)
+    // Clear the interval when another component is clicked
     const id = setInterval(() => {
+      setIsUpdate(true)
       console.log('Interval tick', index);
       GetReport(devices?.[index]?.sensors ?? []);
     }, 60000);
@@ -145,8 +149,11 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   };
 
   const handleClickGroup = (group: GroupItemType) => {
-    clearInterval(intervalId); // Clear the interval when another component is clicked
+    clearInterval(intervalId);
+    setIsUpdate(false)
+    // Clear the interval when another component is clicked
     const id = setInterval(() => {
+      setIsUpdate(true)
       console.log('Interval Group', group);
       GetReportGroup(group);
     }, 60000);
@@ -159,7 +166,10 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
     // Set the interval on mount and return a cleanup function to clear the interval on unmount
     // console.log('Interval tick');
 
-    return () => clearInterval(intervalId);
+    return () => {
+      // setIsUpdate(false)
+      clearInterval(intervalId);
+    }
   }, [intervalId]);
 
 
@@ -199,7 +209,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               <div
                 className={groupOrDevice === 'device' ? 'flex p-2 ' : 'hidden'}>
                 {selectDevices !== null ? <>{selectDevices.map((dev, index) => (
-                  <DeviceUnit handleClick={handleClick} rangeHour={range} key={index.toString()} index={index} />
+                  <DeviceUnit setIsUpdate={setIsUpdate} handleClick={handleClick} rangeHour={range} key={index.toString()} index={index} />
                 ))}</> : (
                   <>
                     <section className="flex flex-wrap items-center border-[var(--border-color)] border h-[40vh] max-w-[350px] lg:min-w-[20rem] md:min-w-[12rem] min-w-[12rem] mb-4">
@@ -214,7 +224,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
                 {Groups !== null && Groups !== undefined && Groups.length !== 0 ? (
                   <>
                     {Groups?.map((dev, index) => (
-                      <GroupUnit handleClick={handleClickGroup} rangeHour={range} key={dev._id} index={index} />
+                      <GroupUnit setIsUpdate={setIsUpdate} handleClick={handleClickGroup} rangeHour={range} key={dev._id} index={index} />
                     ))}
                   </>
                 ) : (
@@ -238,7 +248,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
           </div> */}
           <Item className="flex justify-center min-w-full rounded-md border border-[var(--border-color)] p-2 m-3">
             {/* <LiveChart /> */}
-            <MultiAxisChart liveChart={true} chartSettings={{}} />
+            <MultiAxisChart isUpdate={isUpdate} liveChart={true} chartSettings={{}} />
           </Item>
           <Item className="flex justify-center min-w-full rounded-md border border-[var(--border-color)] p-2 m-3">
             <div className="flex w-fit justify-start ">

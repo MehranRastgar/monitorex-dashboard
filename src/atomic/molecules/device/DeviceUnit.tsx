@@ -15,8 +15,9 @@ import dayjs, { Dayjs } from 'dayjs';
 
 interface Props {
   index: number;
-  rangeHour?: number
-  handleClick: any
+  rangeHour?: number;
+  handleClick: any;
+  setIsUpdate: any;
 }
 const DeviceUnit: React.FC<Props> = (props) => {
   const dispatch = useAppDispatch()
@@ -100,6 +101,7 @@ const DeviceUnit: React.FC<Props> = (props) => {
       onClick={() => {
         props.handleClick(props?.index)
         dispatch(setSelectedDeviceNumber(props?.index));
+        props.setIsUpdate(false)
         GetReport(devices?.[props?.index]?.sensors ?? []);
         // dispatch(setSelectedDeviceNumber(props.index));
       }}

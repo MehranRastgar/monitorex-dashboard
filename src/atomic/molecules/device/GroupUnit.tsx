@@ -26,7 +26,7 @@ interface Props {
   index?: number;
   rangeHour?: number
   handleClick: any
-
+  setIsUpdate?: any
 }
 const GroupUnit: React.FC<Props> = (props) => {
   const [time, setTime] = useState(new Date());
@@ -94,6 +94,7 @@ const GroupUnit: React.FC<Props> = (props) => {
         if (group) {
           GetReport(group);
           props.handleClick(group)
+          props?.setIsUpdate(false)
           if (props?.index !== undefined)
             dispatch(setSelectedGroupNumber(props.index));
           dispatch(setSelectedSensors(group.sensors));

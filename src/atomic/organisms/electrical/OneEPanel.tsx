@@ -40,30 +40,35 @@ const OneEPanel: React.FC<Props> = (props) => {
   };
   return (
     <>
-      <div className="flex flex-wrap items-end w-full">
+      <div className="flex flex-wrap font-Vazir-Medium justify-center items-end w-full">
         {/* <ThingDevice {...thingOption} /> */}
-        <h1 className="flex w-full m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].title}</h1>
-        <div>
-          <ArrayOfElectrical
-            eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
-            offset={0}
-            byte={value?.metaField?.byte1}
-          />
-        </div>
-        <div>
-          <ArrayOfElectrical
-            eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
-            offset={1}
-            byte={value?.metaField?.byte2}
-          />
-        </div>
-        <div>
-          <ArrayOfElectrical
-            eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
-            offset={2}
-            byte={value?.metaField?.byte3}
-          />
-        </div>
+        <div className="flex w-full">
+          <h1 className="flex w-full m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].title}</h1>
+          <div className="flex ">
+            <h1 className="flex w-full m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].address?.multiPort}</h1>
+            <h1 className="flex w-full m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].address?.sMultiPort}</h1>
+          </div></div>
+        {/* <div> */}
+        <ArrayOfElectrical
+          eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
+          offset={0}
+          byte={value?.metaField?.byte1}
+        />
+        {/* </div> */}
+        {/* <div> */}
+        <ArrayOfElectrical
+          eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
+          offset={1}
+          byte={value?.metaField?.byte2}
+        />
+        {/* </div> */}
+        {/* <div> */}
+        <ArrayOfElectrical
+          eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}
+          offset={2}
+          byte={value?.metaField?.byte3}
+        />
+        {/* </div> */}
       </div>
     </>
   );

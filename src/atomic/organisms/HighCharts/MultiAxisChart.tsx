@@ -124,6 +124,7 @@ const reportData: SensorsReportType = {
 interface Props {
 	chartSettings: object
 	liveChart?: boolean
+	isUpdate?: boolean
 }
 // const myChart = new Chart()
 const MultiAxisChart: React.FC<Props> = (props) => {
@@ -287,6 +288,8 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 	// }
 
 	function getdataLiveChart(chartsettings?: ChartSettingsType) {
+		if (!props?.isUpdate)
+			setState({})
 		if (selectDataOFChart?.length && props.liveChart) {
 			// if (!props.liveChart) setState({})
 			const chartData = new HighchartsData([])
