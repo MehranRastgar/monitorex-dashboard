@@ -45,7 +45,7 @@ export default function Devices() {
   return (
     <Layout>
       <section>
-        <h1>electrical boards</h1>
+        <h1 className="flex font-Vazir-Medium text-2xl">{t("electricalBoards")}</h1>
         <EbDeviceObject />
       </section>
     </Layout>

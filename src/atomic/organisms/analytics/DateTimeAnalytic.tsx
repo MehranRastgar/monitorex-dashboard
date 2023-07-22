@@ -24,6 +24,7 @@ import ButtonRegular from '../../atoms/ButtonA/ButtonRegular';
 import { selectCalendarMode } from 'src/store/slices/themeSlice';
 import { Icon } from '@iconify/react';
 import calendarIcon from '@iconify/icons-bx/calendar';
+import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 
 const dateTimeStartProps = {
   label: 'startDate',
@@ -96,7 +97,7 @@ export default function DateTimeAnalytic({ localeT }: { localeT: 'en' | 'fa' }) 
               />
             </div>
           </div>
-          <div className="flex w-fit justify-start ">
+          <div className="flex flex-wrap w-fit justify-start ">
             <HowMuchBefor
               setValue={setValue}
               str={['hour', '1']}
@@ -195,16 +196,23 @@ function HowMuchBefor({
   return (
     <>
       {/* <div className='flex w-[120px] min-w-24 h-fit'> */}
-      <button
+      <ThemeButton
+        className=' flex mx-2 h-fit m-2'
+        onClick={() => handleClick()}
+        type={'explore'}
+      >
+        {/* <button
         onClick={() => {
           handleClick();
         }}
         type="button"
         className="m-2 h-fit hover:bg-cyan-400/30 rounded-lg flex border border-black py-4 bg-black/30 text-white [var(--font-family)]"
-      >
+      > */}
+        {/* <div className='flex'> */}
         <div className="mx-2">{t(str?.[1])}</div>
         <div className="mx-2">{t(str?.[0])}</div>{' '}
-      </button>
+        {/* </div> */}
+      </ThemeButton>
       {/* </div> */}
     </>
   );

@@ -1,4 +1,4 @@
-import { Datum, SensorsReportType } from "src/store/slices/analizeSlice";
+import { Datum, DatumEb, EbReportType, SensorsReportType } from "src/store/slices/analizeSlice";
 import moment from 'moment-jalaali';
 
 import Highcharts from "highcharts";
@@ -9,6 +9,9 @@ interface ChartTooltipOptions extends Highcharts.TooltipOptions {
 }
 
 
+interface ChartLabelsOption extends Highcharts.TooltipOptions {
+	value?: any;
+}
 
 
 
@@ -70,6 +73,7 @@ export default class HighchartsData {
 	public endDate: string = ''
 	public max: number | undefined = undefined;
 	public min: number | undefined = undefined;
+	public ebitem: string[] = ['eb1', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2']
 	constructor(private reportData: SensorsReportType[]) {
 		// this.processData();
 	}
@@ -160,6 +164,41 @@ export default class HighchartsData {
 		}
 	}
 	//=============================================================================================
+	//=============================================================================================
+	getTooltipFormatterEB = (color?: string, textColor?: string, dateJalali?: boolean) => {
+		return function (this: ChartTooltipOptions): any {
+			const localOffset = new Date().getTimezoneOffset();
+			const offsetSeconds = localOffset * -60 * 1000;
+			interface ChartTooltipOptions extends Highcharts.TooltipOptions {
+				points?: any;
+				x?: any;
+			}
+			const weekDays = dateJalali ? ['یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنج شنبه', 'جمعه', 'شنبه',] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+			const val = dateJalali !== undefined && dateJalali ? Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, new Date(moment((this as ChartTooltipOptions).x + offsetSeconds).format('jYYYY-jMM-jDD HH:mm:ss')).getTime()) : Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, (this as ChartTooltipOptions).x + offsetSeconds)
+			const weekd = weekDays?.[(parseInt(Highcharts.dateFormat(`%w`, (this as ChartTooltipOptions).x + offsetSeconds)))]
+			return [`<b><div style="background:red;color:${textColor};fontSize: 1.2em">` + val + ' - ' + weekd + '</div></b>']
+			// .concat(
+			// 	(this as ChartTooltipOptions).points !== undefined ?
+			// 		(this as ChartTooltipOptions)?.points?.map(function (point: any) {
+			// 			return point.series.name + ': ' + (
+			// 				`<b><div style="backgroundColor:${color};color:${textColor};fontSize: 1.2em">` +
+			// 				point.y.toFixed(2)) + '</div></b>'
+			// 		}) : []
+			// );
+		}
+	}
+	//=============================================================================================
+	YaxisLabelFormatter = (ebitem: string[]) => {
+		return function (this: ChartLabelsOption): any {
+			let itemx = ''
+			if (this.value > 0)
+				itemx = ebitem[(this.value / 2)]
+			else itemx = ''
+
+			return itemx
+		}
+	}
 	// private processDataAlt() {
 	// 	console.time('how many processData')
 	// 	this.reportData.forEach((report) => {
@@ -680,6 +719,7 @@ export default class HighchartsData {
 
 		return dataTO
 	}
+	//=============================================================================================
 	public testchart = {
 		chart: {
 			backgroundColor: this.chartSettings?.bgColor?.[0],
@@ -1041,6 +1081,349 @@ export default class HighchartsData {
 			columns: columns
 		}
 	}
+
+	//=============================================================================================
+	private makeDataEb(data: { x: any, y: any }[], index2: number) {
+		console.time("everymake")
+		const localOffset = new Date().getTimezoneOffset();
+		const offsetSeconds = localOffset * -60 * 1000;
+		const arr: any[] = [];
+		// const startDate = new Date(this.startDate).toISOString()
+		// const endDate = new Date(this.endDate).toISOString()
+		// arr.push([
+		// 	this.dateJalali ? new Date(moment(startDate).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(startDate).getTime() + offsetSeconds,
+		// 	0,
+		// ]);
+		data.map((item, index) => {
+			if (item?.x !== undefined)
+				if (item?.x !== undefined && item?.y !== undefined || !this?.chartSettings?.continues)
+					arr.push([
+						new Date(item?.x).getTime(),
+						(item?.y?.[index2] + (index2 * 2)) ?? null
+					]);
+		});
+		// arr.push([
+		// 	this.dateJalali ? new Date(moment(endDate).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(endDate).getTime() + offsetSeconds,
+		// 	0,
+		// ]);
+		console.timeEnd("everymake")
+
+		return arr;
+	}
+	//=============================================================================================
+	public async sumOfdataEB(data: DatumEb[]) {
+		//make a function to get date and time
+		console.time('how many sumOfdata')
+
+		const convertBytesToBits = (bytes: any) => {
+			const output: any = {};
+			let bitIndex = 1;
+			Object.values(bytes).forEach((byte: any) => {
+				for (let bit = 6; bit >= 0; bit--) {
+					output[bitIndex] = (byte & (1 << bit)) >> bit;
+					bitIndex++;
+				}
+			});
+			return output;
+		};
+		const data12: { x: any, y: any }[] = []
+		data?.map((item, index) => {
+			if (item.y) {
+				// console.log(item.y?.byte1)
+				// console.log(item.y?.byte2)
+				data12.push(
+					{
+						x: item.x,
+						y: convertBytesToBits(item.y)
+					}
+				)
+				// console.log(convertBytesToBits(item.y))
+
+			}
+		})
+
+		console.log(data12?.[5])
+
+		const arrSeries: any[] = [];
+		let arrAxisY: any[] = [];
+		Object.values(data12?.[0]?.y)?.map((y, index) => {
+			arrAxisY.push({
+				tickInterval: 2,
+				// Primary yAxis
+				gridLineDashStyle: (() => {
+					if (this.chartSettings.grid)
+						return 'longdash'
+					else return 'none'
+				})(),
+				gridLineWidth: false,
+				labels: {
+					format: "{value}",
+					// title: String(index),
+					formatter: this.YaxisLabelFormatter(this.ebitem),
+					style: {
+						color: this.chartSettings?.lineColors?.[0] ?? 'var(--text-color)',
+						fontFamily: 'roboto',
+						fontSize: '1.4em',
+						fontWeight: '800',
+					},
+				},
+				opposite: false,
+			});
+			arrSeries.push({
+				lineWidth: this.chartSettings.justPoint ? 0 : this.chartSettings?.lineDiameter ?? 2,
+				step: true,
+				marker: {
+					enabled: this.chartSettings.justPoint,
+					radius: 2,
+				},
+				id: index,
+				type: 'line',
+				name: this.ebitem?.[index] ?? 'no name',
+				dashStyle: this.chartSettings.lineStyleUseDifferent ? this.lineStylesArray[index] : undefined,
+
+				data: [...this.makeDataEb(data12, index)],
+			});
+
+
+
+
+			// })
+
+
+		})
+
+		// // console.log('this.chartSettings?.xAxisRotation', this.chartSettings?.xAxisRotation)
+		let dataTO: any = {
+
+			chartOptions: {
+				...this.testchart,
+				// xAxis: {
+				// 	categories: [...this.categories],
+				// },
+
+
+				accessibility: {
+					enabled: true
+				},
+
+				chart: {
+					backgroundImage: undefined,
+					backgroundColor: (() => {
+						if (this.chartSettings?.bgColor?.[0]) {
+							return this.chartSettings?.bgColor?.[0]
+							// fontSize: '1.2em',
+
+
+						} else {
+							return {
+								// fontSize: '1.2em',
+							};
+						}
+					})(),
+					zoomType: 'x',
+					zooming: {
+						mouseWheel: true
+					},
+					panning: true,
+					panKey: 'shift',
+					scrollablePlotArea: {
+						minWidth: 600,
+						scrollPositionX: 1
+					}
+				},
+				colors:
+					this.chartSettings?.lineColors?.length ? [...this.chartSettings?.lineColors] : [
+						"var(--chart-color-1)",
+						"var(--chart-color-2)",
+						"var(--chart-color-3)",
+						"blue",
+						"green",
+						"cyan",
+						"yellow",
+						"var(--text-color)",]
+				,
+				legend: {
+
+					itemHiddenStyle: { color: "var(--dev-bgc-disable)" },
+					itemHoverStyle: { color: "var(--dev-bgc-selected)" },
+					itemStyle: {
+						fontSize: '1.2em',
+						color: this.chartSettings?.textColor?.[0] ?? "var(--text-color)"
+					},
+					enabled: true,
+					align: "left",
+					alignColumns: true,
+					backgroundColor: this.chartSettings?.bgColor?.[0] ?? "var(--bgc)",
+					floating: false,
+				},
+				series: [...arrSeries],
+				yAxis: [...arrAxisY,],
+				// title: {
+				// 	text: 'Environment Monitoring' + ' - ' + starttime.toLocaleString() + ' -to ' + endtime.toLocaleString(),
+				// 	style: {
+				// 		color: this.chartSettings?.textColor?.[0] ?? 'var(--text-color)',
+				// 	},
+				// 	align: 'left',
+				// },
+				xAxis:
+				{
+					tickInterval: 'auto',
+					// minorTickInterval: 'auto',
+					// startOnTick: false,
+					// endOnTick: false,
+					tickPositioner: (() => {
+						if (this.liveChart) {
+							return (function (this: any) {
+								var positions = [],
+									tick = Math.floor(this.dataMin),
+									increment = Math.ceil((this.dataMax - this.dataMin) / 20);
+								for (tick; tick - increment <= this.dataMax; tick += increment) {
+									positions.push(tick);
+								}
+								return positions;
+							})
+
+						} else {
+							return null
+						}
+					})(),
+					type: 'datetime',
+					labels: {
+						allowOverlap: false,
+						rotation: parseInt(this.chartSettings.xAxisRotation?.toString() ?? '0'),
+						formatter: this.myXAxisFormater(this.chartSettings?.textColor?.[0] ?? 'var(--text-color)', this.chartSettings?.xAxisTimeValue, this.dateJalali),
+						style: {
+							display: 'flex flex-wrap',
+							justifyContent: 'center',
+							alignItems: 'center',
+							// backgroundColor: 'red',
+							padding: 5,
+							margin: 5,
+							// border: '1px solid black'
+						},
+					}
+				},
+				subtitle: {
+					text: 'Source: Monitorex.ir',
+					align: 'left',
+					style: {
+						color: this.chartSettings?.textColor?.[0] ?? 'var(--text-color)',
+					},
+				},
+				tooltip: {
+					style: {
+						color: this.chartSettings?.textColor?.[0] ?? 'var(--text-color)',
+					},
+					backgroundColor: this.chartSettings?.bgColor?.[0] ?? 'var(--bgc)',
+					formatter: this.getTooltipFormatterEB(this.chartSettings?.bgColor?.[0], this.chartSettings?.textColor?.[0], this.dateJalali),
+					split: true
+				},
+				plotOptions: {
+					series: {
+						step: 'left',
+						animation: this.liveChart ? false : true,
+						showInLegend: true,
+						accessibility: {
+							exposeAsGroupOnly: true,
+						},
+					},
+				},
+				scrollbar: (() => {
+					if (this.liveChart) {
+						return {
+							barBackgroundColor: "gray",
+							barBorderRadius: 7,
+							barBorderWidth: 0,
+							buttonBackgroundColor: "gray",
+							buttonBorderWidth: 0,
+							buttonBorderRadius: 7,
+							trackBackgroundColor: "none",
+							trackBorderWidth: 1,
+							trackBorderRadius: 8,
+							trackBorderColor: "#CCC",
+							enabled: false,
+						};
+					} else {
+						return {
+							enabled: false,
+
+						};
+					}
+				})(),
+
+				navigator: (() => {
+					if (this.liveChart) {
+						return {
+
+							enabled: false,
+						};
+					} else {
+						return {
+							enabled: false,
+
+						};
+					}
+				})(),
+				rangeSelector: (() => {
+					if (this.liveChart) {
+						return {
+							enabled: false,
+							buttons: [
+								{
+									type: "hour",
+									count: 6,
+									text: "6h",
+								},
+								{
+									type: "hour",
+									count: 12,
+									text: "12h",
+								},
+								{
+									type: "day",
+									count: 1,
+									text: "1d",
+								},
+								{
+									type: "day",
+									count: 3,
+									text: "7d",
+								},
+								{
+									type: "day",
+									count: 7,
+									text: "14d",
+								},
+								{
+									type: "all",
+									text: "All",
+								},
+							],
+							selected: 0,
+						};
+					} else {
+						return {
+							enabled: false,
+
+						};
+					}
+				})(),
+
+			},
+
+		}
+		if (this.chartSettings.multiAxis)
+			dataTO['chartOptions']['yAxis'] = [...arrAxisY]
+
+		return dataTO
+
+
+
+
+	}
+	//=============================================================================================
+	//=============================================================================================
+	//=============================================================================================
 	//=============================================================================================
 
 }

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 import { SensorsReceiveTpe } from '../../components/pages/sensors/sensorsTable';
-import { reportSensors } from '../api/analizeApi';
+import { reportEb, reportSensors } from '../api/analizeApi';
 import { DevicesReceiveType } from '../api/devicesApi';
 import dayjs, { Dayjs } from 'dayjs';
 
@@ -20,8 +20,10 @@ export interface AnalizeState {
   selectedSensors?: SensorsReceiveTpe[];
   sensorsReport?: SensorsReportType[];
   sensorsLiveData?: SensorsReportType[];
+  ebReport?: EbReportType[],
   statusReportApi: statusApiType;
-  selectedGroup?: number; ///////
+  statusEbReportApi: statusApiType;
+  selectedGroup?: number; /////// 
   selectedGroupWhole?: GroupItemType;
   selectionType?: 'device' | 'group';
   TableColumns?: object[],
@@ -29,6 +31,23 @@ export interface AnalizeState {
   granolarity?: number
 
 }
+
+export interface EbReportType {
+  _id?: string;
+  data?: DatumEb[];
+}
+
+export interface DatumEb {
+  x?: Date;
+  y?: Y;
+}
+
+export interface Y {
+  byte1?: number;
+  byte2?: number;
+  byte3?: number;
+}
+
 export interface SensorsReportType {
   _id?: string;
   data?: Datum[];
@@ -60,6 +79,7 @@ type statusApiType = 'idle' | 'loading' | 'success' | 'failed' | 'unauthorize';
 const initialState: AnalizeState = {
   statusApi: 'idle',
   statusReportApi: 'idle',
+  statusEbReportApi: 'idle',
 };
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -76,7 +96,15 @@ export const reportSensorsAsync = createAsyncThunk(
     return data;
   },
 );
+export const reportEbAsync = createAsyncThunk(
+  'analize/ebReport',
 
+  async (report: { deviceId: string; start: string; end: string }) => {
+    const data = await reportEb(report);
+    // The value we return becomes the `fulfilled` action payload
+    return data;
+  },
+);
 export const analizeSlice = createSlice({
   name: 'analize',
   initialState,
@@ -191,7 +219,31 @@ export const analizeSlice = createSlice({
           state.statusReportApi = 'failed';
           state.sensorsReport = undefined;
         },
+      )
+      //=========================================================
+      .addCase(
+        reportEbAsync.pending,
+        (state, action: PayloadAction<any>) => {
+          state.statusEbReportApi = 'loading';
+          state.ebReport = undefined;
+        },
+      )
+      .addCase(
+        reportEbAsync.fulfilled,
+        (state, action: PayloadAction<EbReportType[]>) => {
+          state.statusEbReportApi = 'success';
+          state.ebReport = action.payload;
+        },
+      )
+      .addCase(
+        reportEbAsync.rejected,
+        (state, action: PayloadAction<any>) => {
+          state.statusEbReportApi = 'failed';
+          state.ebReport = undefined;
+        },
       );
+    //=========================================================
+
   },
 });
 
@@ -227,6 +279,8 @@ export const selectSelectedSensorsAnalize = (state: AppState) =>
   state.analize.selectedSensors;
 export const selectSensorReports = (state: AppState) =>
   state.analize.sensorsReport;
+export const selectEbReports = (state: AppState) =>
+  state.analize.ebReport;
 export const selectSensorLiveData = (state: AppState) =>
   state.analize.sensorsLiveData;
 export const selectStatusReportApi = (state: AppState) =>
@@ -247,6 +301,8 @@ export const selectGranularity = (state: AppState) =>
   state.analize.granolarity;
 export const selectSelectedGroup = (state: AppState) =>
   state.analize.selectedGroupWhole;
+export const selectEbStatusApi = (state: AppState) =>
+  state.analize.statusEbReportApi;
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.
 // export const incrementIfOdd =

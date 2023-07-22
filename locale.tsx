@@ -150,11 +150,14 @@ i18n
           companyInfo: "Company info",
           ReportTime: "Report time",
           GroupName: "Group name",
-          viewOfEvery: "view of every"
+          viewOfEvery: "view of every",
+          electricalBoards: "Electrical Boards"
+
         },
       },
       fa: {
         translation: {
+          electricalBoards: "تابلو برق ها",
           point: 'نقطه',
           once: 'یکبار',
           viewOfEvery: 'نمایش هر',
