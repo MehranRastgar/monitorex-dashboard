@@ -378,11 +378,11 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 			<MultiChartSettings closeFunction={setSettingsModal} />
 		</Modal>
 
-		<div className="absolute -translate-y-[40px] w-fit justify-start z-[80] scale-75">
+		<div className="absolute p-0 flex -translate-y-[38px] w-fit justify-start z-[80] scale-75">
 
 			<ThemeButton onClick={() => {
 				setSettingsModal(val => !val)
-			}} className=" -mx-2  hover:rotate-180 w-fit justify-center items-center flex">
+			}} className=" -mx-2 -mt-2 hover:rotate-180 w-fit justify-center items-center flex">
 				<div className="w-[30px] rounded-full h-[30px] flex justify-center items-center bg-white text-black">
 					<Icon icon={outlineSettings} width="30" color="black" /></div>
 			</ThemeButton>
@@ -410,12 +410,8 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 
 				</>}
 			{/* <ThemeInput value={max} onChange={setMax} label="max" /> */}
-		</div>
-		<div className=" absolute -translate-y-[34px] left-4 w-fit justify-start z-[80] scale-75">
-
-			<div style={{
-				direction: 'ltr'
-			}} className="flex">
+			<div className="border-l-2 mx-10"></div>
+			<div className="flex">
 				<div className="flex  justify-center content">
 					<div className="flex m-2">	range					</div>
 					<label className="checkBox2">
@@ -428,42 +424,48 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 						}} />
 						<div className="transition2"></div>
 					</label>
+					{range &&
+						<div className="flex">
+							<div className="flex mx-2">
+								<label htmlFor="maxnum" className="m-2" >max</label>
+								<input
+									disabled={!range}
+									id={'maxnum'}
+									onChange={(e) => {
+										setMax(Number(e.target.value));
+									}}
+									placeholder={'max'}
+									className={`${classes?.inpt} `}
+									value={max === null ? undefined : max}
+									type='number'
+								></input>
+							</div>
+							<div className="flex mx-2">
+								<label htmlFor="minnum" className="m-2" >min</label>
+								<input
+									disabled={!range}
+									id={'minnum'}
+									onChange={(e) => {
+										setMin(Number(e.target.value));
+									}}
+									placeholder={'min'}
+									className={`${classes?.inpt} `}
+									value={min === null ? undefined : min}
+									type='number'
+								></input>
+							</div>
+						</div>
+					}
 				</div>
+				{/* <div className=" absolute -translate-y-[34px] left-4 w-fit justify-start z-[80] scale-75"> */}
 
-				{range &&
-					<>
-						<div className="flex mx-2">
-							<label htmlFor="maxnum" className="m-2" >max</label>
-							<input
-								disabled={!range}
-								id={'maxnum'}
-								onChange={(e) => {
-									setMax(Number(e.target.value));
-								}}
-								placeholder={'max'}
-								className={`${classes?.inpt} `}
-								value={max === null ? undefined : max}
-								type='number'
-							></input>
-						</div>
-						<div className="flex mx-2">
-							<label htmlFor="minnum" className="m-2" >min</label>
-							<input
-								disabled={!range}
-								id={'minnum'}
-								onChange={(e) => {
-									setMin(Number(e.target.value));
-								}}
-								placeholder={'min'}
-								className={`${classes?.inpt} `}
-								value={min === null ? undefined : min}
-								type='number'
-							></input>
-						</div>
-					</>
-				}
+
+				{/* </div> */}
 			</div>
+
 		</div>
+
+
 		<figure id='chart-analytics'
 			ref={chartRef}
 			key={JSON.stringify(chartSettings)}
