@@ -223,13 +223,13 @@ Route (pages)                              Size     First Load JS
 ├   └ css/d8db9ab0af884d8d.css             3.3 kB
 ├   /_app                                  0 B             141 kB
 ├ ○ /404                                   423 B           227 kB
-├ ○ /analytics (988 ms)                    9.27 kB         899 kB
+├ ○ /analytics                             9.27 kB         899 kB
 ├   └ css/1812bf26ec2e3dfa.css             2.93 kB
 ├ λ /api/sendotp                           0 B             141 kB
 ├ λ /api/signin                            0 B             141 kB
-├ ○ /devices (498 ms)                      38.6 kB        1.05 MB
+├ ○ /devices (720 ms)                      38.6 kB        1.05 MB
 ├   └ css/e500265f335610c8.css             2.7 kB
-├ ○ /electricalboard (726 ms)              85.1 kB         769 kB
+├ ○ /electricalboard (583 ms)              85.1 kB         769 kB
 ├   └ css/55088ec8e7b7260c.css             2.6 kB
 ├ ○ /login                                 2.85 kB         173 kB
 ├   └ css/ca9dc42df1f7aa5f.css             1.22 kB
@@ -246,8 +246,8 @@ Route (pages)                              Size     First Load JS
   ├ chunks/framework-847cdbe141f8ae13.js   45.4 kB
   ├ chunks/main-210227607f7f3f86.js        26.9 kB
   ├ chunks/pages/_app-544d1e9fe74dbbd6.js  66.1 kB
-  ├ chunks/webpack-faf46513054c978a.js     2.78 kB
-  └ css/d9d953c2885887d6.css               11.1 kB
+  ├ chunks/webpack-dd6158f7d5a00821.js     2.78 kB
+  └ css/03c2d5b4a0c20966.css               11.1 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

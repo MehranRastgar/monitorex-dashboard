@@ -133,10 +133,10 @@ export default class HighchartsData {
 			// )) : (Highcharts.dateFormat('%Y-%m-%d',
 			// 	vals + offsetSeconds
 			// ))
-			const val = dateJalali !== undefined && dateJalali ? (moment(vals + offsetSeconds).format('jYYYY-jMM-jDD')) : (Highcharts.dateFormat('%Y-%m-%d',
+			const val = dateJalali !== undefined && dateJalali ? (moment(vals).format('jYYYY-jMM-jDD')) : (Highcharts.dateFormat('%Y-%m-%d',
 				vals + offsetSeconds
 			))
-			const val2 = dateJalali !== undefined && dateJalali ? (moment(vals + offsetSeconds).format('HH:mm:ss')) : (Highcharts.dateFormat('%H:%M:%S',
+			const val2 = dateJalali !== undefined && dateJalali ? (moment(vals).format('HH:mm:ss')) : (Highcharts.dateFormat('%H:%M:%S',
 				vals + offsetSeconds
 			))
 
