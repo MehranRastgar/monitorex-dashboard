@@ -18,6 +18,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 interface Props {
 	closeFunction?: any
 }
+const styleItem = 'flex-wrap m-2 justify-center content'
+
 const MultiChartSettings: React.FC<Props> = (props) => {
 	const { t } = useTranslation()
 	const userData = useAppSelector(selectOwnUser)
@@ -64,24 +66,23 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 		props?.closeFunction(false)
 	};
 
-
 	useEffect(() => {
 	}, []);
-	return <div className="flex flex-wrap items-start h-full w-full max-h-[500px] max-w-[600px] bg-[var(--bgc)] ">
+	return <div className="flex rtl:font-Vazir-Bold flex-wrap items-start h-full w-full max-h-[500px] max-w-[600px] bg-[var(--bgc)] ">
 		<Item>
-			<div className="flex w-full h-fit justify-start">
-				<h1 className="flex m-4 w-full">{(t('chartSettings'))}</h1>
+			<div className="flex w-full h-fit justify-start text-xl">
+				<h1 className="flex m-4 rtl:font-Vazir-Bold w-full">{(t('chartSettings'))}</h1>
 				<span className="flex m-4 text-red-500 cursor-pointer" onClick={() => { props?.closeFunction(false) }}><Icon width={20} icon={closeOutline} />
 				</span>
 			</div>
 			<form
-				className="flex flex-wrap items-start justify-start h-full"
+				className="flex p-1 flex-wrap items-start justify-start h-full rtl:font-Vazir-Bold"
 				onSubmit={handleSubmit(onSubmit)}
 				noValidate
 			>
 				<div className="flex m-2 rounded-md border p-2 border-[var(--border-color)] w-full flex-wrap overflow-y-auto max-h-[350px]">
-					<section className="flex w-full flex-wrap  m-1 p-2   " >
-						<div className={'flex-wrap mx-2 '} >
+					<section className="flex flex-wrap mt-2" >
+						<div className={styleItem} >
 							<label className={classes.label} htmlFor='chartMode'>{t('chart Mode')}</label>
 							<select className={classes.inpt}  {...register('chartMode',)} >
 								{arrayChartMode.map((op, index) =>
@@ -90,76 +91,53 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 							</select>
 							<p className='text-red-300 tex-xs'>{errors?.chartMode?.message && '!' + errors?.chartMode?.message}</p>
 						</div>
-						{/* <div className="flex flex-wrap justify-center content">
-							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='continues'>{t('continues')}</label>
-							<label className="checkBox2">
-								<input id="ch1" type="checkbox"  {...register('continues')} />
-								<div className="transition2"></div>
-							</label>
-						</div> */}
-						{/* <div className={' flex-wrap mx-2 '} >
-							<label className={"checkBox2"} htmlFor='continues'>{t('continues')}</label>
-							<input className="checkBox2" type='checkbox' {...register('continues')} />
-							<div className="transition2"></div>
-						</div> */}
-
-						<div className="flex flex-wrap justify-center content">
+						<div className={styleItem} >
+							<label className={classes.label} htmlFor='lineDiameter'>{t('line Diameter')}</label>
+							<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('lineDiameter' as const, { required: { value: true, message: t('diameter is required') } })} />
+							<p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p>
+						</div>
+						<div className={styleItem} >
+							<label className={classes.label} htmlFor='xAxisRotation'>{t('X axis angle')}</label>
+							<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('xAxisRotation')} />
+							{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
+						</div>
+					</section>
+					<section className=" flex flex-wrap mt-4" >
+						<div className={styleItem}>
 							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='justPoint'>{t('justPoint')}</label>
 							<label className="checkBox2">
 								<input id="ch1" type="checkbox"  {...register('justPoint')} />
 								<div className="transition2"></div>
 							</label>
 						</div>
-						<div className="flex flex-wrap justify-center content">
+						<div className={styleItem}>
 							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='lineStyleUseDifferent'>{t('lineStyleUseDifferent')}</label>
 							<label className="checkBox2">
 								<input id="ch1" type="checkbox"  {...register('lineStyleUseDifferent')} />
 								<div className="transition2"></div>
 							</label>
 						</div>
-						<div className="flex flex-wrap justify-center content">
+						<div className={styleItem}>
 							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='multiAxis'>{t('multiAxis')}</label>
 							<label className="checkBox2">
 								<input id="ch1" type="checkbox"  {...register('multiAxis')} />
 								<div className="transition2"></div>
 							</label>
 						</div>
-						<div className="flex flex-wrap justify-center content">
+						<div className={styleItem}>
 							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='grid'>{t('grid')}</label>
 							<label className="checkBox2">
 								<input id="ch1" type="checkbox"  {...register('grid')} />
 								<div className="transition2"></div>
 							</label>
 						</div>
-
-						<div className={'flex-wrap mx-2 '} >
-							<label className={classes.label} htmlFor='lineDiameter'>{t('line Diameter')}</label>
-							<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('lineDiameter' as const, { required: { value: true, message: t('diameter is required') } })} />
-							<p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p>
-						</div>
-						<div className={'flex-wrap mx-2 '} >
-							<label className={classes.label} htmlFor='xAxisRotation'>{t('X axis angle')}</label>
-							<input className={classes.inpt + ' w-[80px]'} type='number' step="any" {...register('xAxisRotation')} />
-							{/* <p className='text-red-300 tex-xs'>{errors?.continues?.message && '!' + errors?.continues?.message}</p> */}
-						</div>
-
-						<div className="flex flex-wrap justify-center content">
+						<div className={styleItem} >
 							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='xAxisTimeValue'>{t('X axis time')}</label>
 							<label className="checkBox2">
 								<input id="ch1" type="checkbox"  {...register('xAxisTimeValue')} />
 								<div className="transition2"></div>
 							</label>
 						</div>
-						{/* <fieldset className={classes2.checkbox_switch}>
-						<legend className={classes.legend_left}>Location</legend>
-						<input type="checkbox" id="checkbox-3" />
-						<label htmlFor="checkbox-3" title="Turn Location on/off" className={classes.checkbox_right}></label>
-					</fieldset> */}
-						{/* <div className={'flex-wrap mx-2 '} >
-						<label className={classes.label} htmlFor='bgColor'>{t('bgColor')}</label>
-						<input className={classes.inpt} type='color' {...register('bgColor')} />
-						
-					</div> */}
 					</section>
 					<section className="flex flex-wrap  m-1 p-2 w-full" >
 						<h1 className='flex w-full m-1'>line colors</h1>
@@ -179,7 +157,6 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 						<button type='button' onClick={() => append('#606')} className='h-fit'>{t('Add Color +')}</button>
 					</section>
 					<section className="flex flex-wrap  m-1 p-2 w-fit" >
-
 						<div className={'flex flex-wrap'} >
 							{bgcolor?.fields?.map((field, index) => {
 								return (
