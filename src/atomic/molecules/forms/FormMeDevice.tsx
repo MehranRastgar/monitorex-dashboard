@@ -18,6 +18,7 @@ import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 import { putDeviceAsync, removeDeviceAsync, selectDevicesStatus, selectPutStatus, selectSelectedDevice, setDevicesStatus, setPutStatus } from 'src/store/slices/devicesSlice';
 import { useQuery } from 'react-query';
 import { GetDevices } from 'src/api/devices';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 
@@ -175,7 +176,9 @@ const FormMeDevice: React.FC<Props> = (props) => {
                     <label className={classes.label} htmlFor={`sensors.${index}.title`}>{t('title')}</label>
                     <input className={classes.inpt} type='text' {...register(`sensors.${index}.title` as const, { required: { value: true, message: t('title is required') } })} />
                     <p className='text-red-300 tex-xs'>{errors?.sensors?.[index]?.title?.message && '!' + errors?.sensors?.[index]?.title?.message}</p>
-                    {index > 0 && <button type='button' onClick={() => remove(index)} className='h-fit text-[red] p-1 text-[8px]'>{t('Remove Senosr')}</button>}
+                    {index > 0 && <button type='button' onClick={() => remove(index)} className='h-fit text-[red] p-1 text-[8px]'>
+                      <DeleteIcon />
+                    </button>}
                   </div>
                   <div className={'flex-wrap mx-2 '} >
                     <label className={classes.label} htmlFor={`sensors.${index}.type`}>{t('type')}</label>
@@ -216,7 +219,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
                     <label className={classes.label} htmlFor={`electricals.${index}.title`}>{t('title')}-{index + 1}</label>
                     <input className={classes.inpt} type='text' {...register(`electricals.${index}.deviceName` as const, { required: { value: true, message: t('title is required') } })} />
                     <p className='text-red-300 tex-xs'>{errors?.electricals?.[index]?.deviceName?.message && '!' + errors?.electricals?.[index]?.deviceName?.message}</p>
-                    {index > 0 && <button type='button' onClick={() => elecFields.remove(index)} className='h-fit text-[red] p-1 text-[8px]'>{t('Remove Electrical')}</button>}
+                    {index > 0 && <button type='button' onClick={() => elecFields.remove(index)} className='h-fit text-[red] p-1 text-[8px]'><DeleteIcon /></button>}
                   </div>
                 </div>
               )
@@ -235,7 +238,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
                     <label className={classes.label} htmlFor={`factors.${index}.factorName`}>{t('factorName')}-{index + 1}</label>
                     <input className={classes.inpt} type='text' {...register(`factors.${index}.factorName` as const, { required: { value: true, message: t('factorName is required') } })} />
                     <p className='text-red-300 tex-xs'>{errors?.factors?.[index]?.factorName?.message && '!' + errors?.factors?.[index]?.factorName?.message}</p>
-                    {index > -1 && <button type='button' onClick={() => factorFields.remove(index)} className='h-fit text-[red] p-1 text-[8px]'>{t('Remove factor')}</button>}
+                    {index > -1 && <button type='button' onClick={() => factorFields.remove(index)} className='h-fit text-[red] p-1 text-[8px]'><DeleteIcon /></button>}
                   </div>
                 </div>
               )
@@ -262,6 +265,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
             }}
           >
             {t('remove') + ' ' + t('device')}
+            <DeleteIcon />
           </ThemeButton>}
         </div>
       </form>

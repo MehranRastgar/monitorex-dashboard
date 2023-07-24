@@ -6,7 +6,6 @@ import { selectOwnUser, setUsersData, updateUserData } from "src/store/slices/us
 import { UserType } from "src/types/types";
 import classes from './formik.module.scss';
 import classes2 from './multiChart.module.scss';
-
 import { ChartSettingsType } from "src/class/chart";
 import { setChartSettings } from "src/store/slices/chartSlice";
 import FormThemeButton from "src/atomic/atoms/ThemeButton/FormThemeButton";
@@ -14,6 +13,7 @@ import { Icon } from "@iconify/react";
 import closeOutline from '@iconify/icons-zondicons/close-outline';
 
 import Item from "src/atomic/atoms/Item/Item";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Props {
 	closeFunction?: any
@@ -172,7 +172,7 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 											<label className={classes.label} htmlFor={`lineColors.${index}`}>{t('color')}</label>
 											<input className={classes.inpt} type='color' {...register(`lineColors.${index}` as const, { required: { value: true, message: t('title is required') } })} />
 											<p className='text-red-300 tex-xs'>{errors?.lineColors?.[index]?.message && '!' + errors?.lineColors?.[index]?.message}</p>
-											{index > -1 && <button type='button' onClick={() => remove(index)} className='h-fit bg-white  text-[red] px-1 m-2 rounded-md text-[8px]'>{t('remove')}</button>}
+											{index > -1 && <button type='button' onClick={() => remove(index)} className='h-fit   text-[red] px-1 m-2 rounded-md text-[8px]'><DeleteIcon /></button>}
 										</div></div>)
 							}
 							)}</div>
@@ -188,7 +188,7 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 											<label className={classes.label} htmlFor={`bgColor.${index}`}>{t('bg color')}</label>
 											<input className={classes.inpt} type='color' {...register(`bgColor.${index}` as const, { required: { value: true, message: t('bg is required') } })} />
 											<p className='text-red-300 tex-xs'>{errors?.bgColor?.[index]?.message && '!' + errors?.bgColor?.[index]?.message}</p>
-											{index > -1 && <button type='button' onClick={() => bgcolor.remove(index)} className='h-fit bg-white  text-[red] px-1 m-2 rounded-md text-[8px]'>{t('remove')}</button>}
+											{index > -1 && <button type='button' onClick={() => bgcolor.remove(index)} className='h-fit   text-[red] px-1 m-2 rounded-md text-[8px]'><DeleteIcon /></button>}
 										</div></div>)
 							}
 							)}</div>
@@ -203,7 +203,7 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 											<label className={classes.label} htmlFor={`textColor.${index}`}>{t('text color')}</label>
 											<input className={classes.inpt} type='color' {...register(`textColor.${index}` as const, { required: { value: true, message: t('text Color is required') } })} />
 											<p className='text-red-300 tex-xs'>{errors?.textColor?.[index]?.message && '!' + errors?.textColor?.[index]?.message}</p>
-											{index > -1 && <button type='button' onClick={() => textcolor.remove(index)} className='h-fit bg-white  text-[red] px-1 m-2 rounded-md text-[8px]'>{t('remove')}</button>}
+											{index > -1 && <button type='button' onClick={() => textcolor.remove(index)} className='h-fit   text-[red] px-1 m-2 rounded-md text-[8px]'><DeleteIcon /></button>}
 										</div></div>)
 							}
 							)}</div>
@@ -218,7 +218,8 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 											<label className={classes.label} htmlFor={`gridColor.${index}`}>{t('grid color')}</label>
 											<input className={classes.inpt} type='color' {...register(`gridColor.${index}` as const, { required: { value: true, message: t('text Color is required') } })} />
 											<p className='text-red-300 tex-xs'>{errors?.gridColor?.[index]?.message && '!' + errors?.gridColor?.[index]?.message}</p>
-											{index > -1 && <button type='button' onClick={() => gridcolor.remove(index)} className='h-fit bg-white  text-[red] px-1 m-2 rounded-md text-[8px]'>{t('remove')}</button>}
+											{index > -1 && <button type='button' onClick={() => gridcolor.remove(index)} className='h-fit   text-[red] px-1 m-2 rounded-md text-[8px]'><DeleteIcon />
+											</button>}
 										</div></div>)
 							}
 							)}</div>
