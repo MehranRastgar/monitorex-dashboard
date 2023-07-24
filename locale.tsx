@@ -151,12 +151,15 @@ i18n
           ReportTime: "Report time",
           GroupName: "Group name",
           viewOfEvery: "view of every",
-          electricalBoards: "Electrical Boards"
+          electricalBoards: "Electrical Boards",
+          hours: 'hours',
+          range: 'range'
 
         },
       },
       fa: {
         translation: {
+          range: 'بازه',
           electricalBoards: "تابلو برق ها",
           point: 'نقطه',
           once: 'یکبار',
@@ -207,6 +210,7 @@ i18n
           takeReport: 'رپورت بگیر',
           printPreview: 'پیشنمایش پرینت',
           hour: 'ساعت',
+          hours: 'ساعت',
           day: 'روز',
           month: 'ماه',
           calendar: 'تقویم',

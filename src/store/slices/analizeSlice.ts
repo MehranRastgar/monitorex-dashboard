@@ -80,6 +80,7 @@ const initialState: AnalizeState = {
   statusApi: 'idle',
   statusReportApi: 'idle',
   statusEbReportApi: 'idle',
+  granolarity: 1
 };
 
 // The function below is called a thunk and allows us to perform async logic. It

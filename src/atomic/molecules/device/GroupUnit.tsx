@@ -69,7 +69,7 @@ const GroupUnit: React.FC<Props> = (props) => {
     dispatch(setEndDate(publishDate.toJSON()));
     dispatch(
       setStartDate(
-        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * (props.rangeHour ?? 3)).toLocaleString(),
+        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * ((props.rangeHour ?? 3) - 1)).toLocaleString(),
       ),
     );
 
@@ -80,7 +80,7 @@ const GroupUnit: React.FC<Props> = (props) => {
       reportSensorsAsync({
         sensors: arr,
         start: new Date(
-          dayjs().unix() * 1000 - 60 * 1000 * 60 * (props.rangeHour ?? 3),
+          dayjs().unix() * 1000 - 60 * 1000 * 60 * ((props.rangeHour ?? 3) - 1),
         ).toLocaleString(),
         end: publishDate.toJSON(),
       }),

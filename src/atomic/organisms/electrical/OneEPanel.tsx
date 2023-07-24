@@ -40,7 +40,7 @@ const OneEPanel: React.FC<Props> = (props) => {
   };
   return (
     <>
-      <div className="flex flex-wrap font-Vazir-Medium justify-center items-end w-full">
+      <div className="flex rtl:font-Vazir-Bold flex-wrap  justify-center items-end w-full">
         {/* <ThingDevice {...thingOption} /> */}
         <div className="flex w-full">
           <h1 className="flex w-full m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].title}</h1>

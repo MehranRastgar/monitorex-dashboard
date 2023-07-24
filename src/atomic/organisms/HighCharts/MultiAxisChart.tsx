@@ -367,7 +367,7 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 		}
 
 	}, [max, min,]);
-	return <section className={`flex mt-5 flex-wrap w-full `}>
+	return <section className={`flex mt-8 flex-wrap w-full `}>
 		<Modal
 			open={settingsModal}
 			onClose={() => setSettingsModal(false)}

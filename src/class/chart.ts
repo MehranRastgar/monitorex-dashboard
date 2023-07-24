@@ -30,6 +30,7 @@ export interface ChartSettingsType {
 	bgColor?: string[];
 	lineColors?: string[];
 	textColor?: string[];
+	gridColor?: string[];
 	xAxisRotation?: number
 	xAxisTimeValue?: boolean
 }
@@ -50,6 +51,7 @@ export default class HighchartsData {
 		lineColors: [],
 		bgColor: [],
 		textColor: [],
+		gridColor: [],
 		lineDiameter: 2,
 		xAxisRotation: 0
 
@@ -73,7 +75,7 @@ export default class HighchartsData {
 	public endDate: string = ''
 	public max: number | undefined = undefined;
 	public min: number | undefined = undefined;
-	public ebitem: string[] = ['eb1', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2', 'eb2']
+	public ebitem: string[] = []
 	constructor(private reportData: SensorsReportType[]) {
 		// this.processData();
 	}
@@ -90,6 +92,7 @@ export default class HighchartsData {
 			lineColors: [],
 			bgColor: [],
 			textColor: [],
+			gridColor: [],
 			lineDiameter: 2,
 			xAxisRotation: 0
 		}
@@ -119,6 +122,7 @@ export default class HighchartsData {
 			...this.chartSettings,
 			bgColor: undefined,
 			textColor: undefined,
+			gridColor: undefined,
 			lineColors: undefined,
 		}
 	}
@@ -198,7 +202,7 @@ export default class HighchartsData {
 		return function (this: ChartLabelsOption): any {
 			let itemx = ''
 			if (this.value > 0)
-				itemx = ebitem[(this.value / 2)]
+				itemx = ebitem[(this.value / 2) - 1]
 			else itemx = ''
 
 			return itemx
@@ -364,6 +368,8 @@ export default class HighchartsData {
 						arrAxisY.push({
 							// min: -100, // Set the minimum value of the y-axis
 							// max: 150, // Set the maximum value of the y-axis
+							gridLineColor: this.chartSettings?.gridColor?.[0] ?? 'var(--text-color)',
+
 							enablePolling: true,
 							gridLineDashStyle: (() => {
 								if (this.chartSettings.grid)
@@ -447,6 +453,8 @@ export default class HighchartsData {
 						min: this.min, // Set the minimum value of the y-axis
 						max: this.max, // Set the maximum value of the y-axis
 						// Primary yAxis
+						gridLineColor: this.chartSettings?.gridColor?.[0] ?? 'var(--text-color)',
+
 						gridLineDashStyle: (() => {
 							if (this.chartSettings.grid)
 								return 'longdash'
@@ -487,7 +495,6 @@ export default class HighchartsData {
 						type: this.chartSettings.chartMode,
 						name: sens?.device?.title + ":" + sens?.sensor?.title + '' + ` (${sens.sensor?.unit})`,
 						dashStyle: this.chartSettings.lineStyleUseDifferent ? this.lineStylesArray[index] : undefined,
-
 						data: [...this.makeData(sens?.data)],
 					});
 				}
@@ -1099,12 +1106,13 @@ export default class HighchartsData {
 		// 	this.dateJalali ? new Date(moment(startDate).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(startDate).getTime() + offsetSeconds,
 		// 	0,
 		// ]);
+		console.log(index2)
 		data.map((item, index) => {
 			if (item?.x !== undefined)
 				if (item?.x !== undefined && item?.y !== undefined || !this?.chartSettings?.continues)
 					arr.push([
 						new Date(item?.x).getTime(),
-						(item?.y?.[index2] + (index2 * 2)) ?? null
+						(item?.y?.[index2 + 1] + (((index2) * 2) + 2)) ?? null
 					]);
 		});
 		// arr.push([
@@ -1151,10 +1159,13 @@ export default class HighchartsData {
 
 		const arrSeries: any[] = [];
 		let arrAxisY: any[] = [];
+		console.log('Object.values', Object.values(data12?.[0]?.y))
 		Object.values(data12?.[0]?.y)?.map((y, index) => {
 			arrAxisY.push({
 				tickInterval: 2,
 				// Primary yAxis
+				gridLineColor: this.chartSettings?.gridColor?.[0] ?? 'var(--text-color)',
+
 				gridLineDashStyle: (() => {
 					if (this.chartSettings.grid)
 						return 'longdash'
@@ -1188,15 +1199,8 @@ export default class HighchartsData {
 
 				data: [...this.makeDataEb(data12, index)],
 			});
-
-
-
-
-			// })
-
-
 		})
-
+		console.log(arrSeries, arrAxisY)
 		// // console.log('this.chartSettings?.xAxisRotation', this.chartSettings?.xAxisRotation)
 		let dataTO: any = {
 

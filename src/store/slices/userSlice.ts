@@ -3,6 +3,7 @@ import { GroupItemType, SignInRequest, UserType } from '../../types/types';
 import {
   checkSignIn,
   CreateUserApi,
+  PatchOwnUserApi,
   PatchUserApi,
   signIn,
   UpdateGroupApi,
@@ -77,6 +78,23 @@ export const signInCheck = createAsyncThunk('user/checkSignIn', async () => {
   return response;
 });
 //--------------------------------------------------------------------------------//
+export const updateUser = createAsyncThunk(
+  'user/updateUser',
+  async (userInfo: UserType) => {
+    const response:
+      | UserType
+      | {
+        error: {
+          errorCode: any;
+        };
+      } = await PatchUserApi(
+        String(localStorage?.getItem('access_token')),
+        userInfo,
+      );
+    return response;
+  },
+);
+//--------------------------------------------------------------------------------//
 export const updateUserData = createAsyncThunk(
   'user/updateUserData',
   async (userInfo: UserType) => {
@@ -86,7 +104,7 @@ export const updateUserData = createAsyncThunk(
         error: {
           errorCode: any;
         };
-      } = await PatchUserApi(
+      } = await PatchOwnUserApi(
         String(localStorage?.getItem('access_token')),
         userInfo,
       );
@@ -215,6 +233,29 @@ export const userSlice = createSlice({
       })
       .addCase(
         updateUserData.fulfilled,
+        (state, action: PayloadAction<UserType | any>) => {
+          // state.ownUser = action.payload.user;
+          // state.token = action.payload.access_token;
+          if (state?.token !== undefined) {
+            // localStorage.setItem("access_token", state?.token);
+            state.signInFlag = 'success';
+            state.updateFlag = 'success';
+            // localStorage.setItem("user", JSON.stringify(state?.ownUser));
+            state.selectedUser = action.payload.user;
+            state.ownUser = action.payload.user;
+          } else {
+            state.signInFlag = 'faild';
+          }
+        },
+      )
+      .addCase(updateUser.pending, (state) => {
+        state.updateFlag = 'pending';
+      })
+      .addCase(updateUser.rejected, (state) => {
+        state.updateFlag = 'faild';
+      })
+      .addCase(
+        updateUser.fulfilled,
         (state, action: PayloadAction<UserType | any>) => {
           // state.ownUser = action.payload.user;
           // state.token = action.payload.access_token;

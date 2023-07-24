@@ -49,6 +49,12 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 			control
 		},
 	)
+	const gridcolor = useFieldArray<any>(
+		{
+			name: 'gridColor',
+			control
+		},
+	)
 	const onSubmit = (chartFormData: ChartSettingsType) => {
 		if (userData._id !== undefined) {
 			dispatch(updateUserData({
@@ -84,13 +90,13 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 							</select>
 							<p className='text-red-300 tex-xs'>{errors?.chartMode?.message && '!' + errors?.chartMode?.message}</p>
 						</div>
-						<div className="flex flex-wrap justify-center content">
+						{/* <div className="flex flex-wrap justify-center content">
 							<label className={"flex-wrap w-full text-center mx-2 "} htmlFor='continues'>{t('continues')}</label>
 							<label className="checkBox2">
 								<input id="ch1" type="checkbox"  {...register('continues')} />
 								<div className="transition2"></div>
 							</label>
-						</div>
+						</div> */}
 						{/* <div className={' flex-wrap mx-2 '} >
 							<label className={"checkBox2"} htmlFor='continues'>{t('continues')}</label>
 							<input className="checkBox2" type='checkbox' {...register('continues')} />
@@ -202,6 +208,21 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 							}
 							)}</div>
 						{textcolor?.fields.length === 0 && <button type='button' onClick={() => textcolor.append('#ffff')} className='h-fit'>{t('Add text Color +')}</button>}
+					</section>
+					<section className="flex flex-wrap  m-1 p-2 w-fit" >
+						<div className={'flex flex-wrap'} >
+							{gridcolor?.fields?.map((field, index) => {
+								return (
+									<div className={'flex flex-wrap'} key={field.id}>
+										<div className={'flex-wrap mx-2 '} >
+											<label className={classes.label} htmlFor={`gridColor.${index}`}>{t('grid color')}</label>
+											<input className={classes.inpt} type='color' {...register(`gridColor.${index}` as const, { required: { value: true, message: t('text Color is required') } })} />
+											<p className='text-red-300 tex-xs'>{errors?.gridColor?.[index]?.message && '!' + errors?.gridColor?.[index]?.message}</p>
+											{index > -1 && <button type='button' onClick={() => gridcolor.remove(index)} className='h-fit bg-white  text-[red] px-1 m-2 rounded-md text-[8px]'>{t('remove')}</button>}
+										</div></div>)
+							}
+							)}</div>
+						{gridcolor?.fields.length === 0 && <button type='button' onClick={() => gridcolor.append('#ffff')} className='h-fit'>{t('Add text Color +')}</button>}
 					</section>
 				</div>
 				<div className="flex w-full justify-around mt-1 h-fit">

@@ -19,7 +19,7 @@ import ThemeButton from 'src/atomic/atoms/ThemeButton/ThemeButton';
 import { putDeviceAsync, removeDeviceAsync, selectDevicesStatus, selectPutStatus, selectSelectedDevice, setDevicesStatus, setPutStatus } from 'src/store/slices/devicesSlice';
 import { useQuery } from 'react-query';
 import { GetUsers } from 'src/api/users';
-import { createUser, selectSelectedUser, selectUpdateFlag, setSelectedUser, setUserUpdateFlag, updateUserData } from 'src/store/slices/userSlice';
+import { createUser, selectSelectedUser, selectUpdateFlag, setSelectedUser, setUserUpdateFlag, updateUser, updateUserData } from 'src/store/slices/userSlice';
 import User from 'src/class/user';
 import { UserType } from 'src/types/types';
 import { set } from 'mongoose';
@@ -68,7 +68,7 @@ const FormMeUser: React.FC<Props> = (props) => {
   //   useAppSelector(selectFormData);
   const onSubmit = (userFormData: UserType) => {
     if (userFormData._id !== undefined) {
-      dispatch(updateUserData(userFormData));
+      dispatch(updateUser(userFormData));
     } else {
       const user: UserType = { ...userFormData };
       dispatch(createUser(user));
@@ -213,8 +213,6 @@ export interface FormMapType {
 
 const accessControll = [
   'manage',
-  'create',
-  'delete',
-  'update',
   'read',
+  'none'
 ]

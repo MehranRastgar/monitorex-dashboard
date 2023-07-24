@@ -383,16 +383,12 @@ export interface GroupItemType {
 export type isAdminType = boolean;
 export type abilityActionsType =
   | 'manage'
-  | 'create'
   | 'read'
-  | 'update'
-  | 'delete';
+  | 'none'
 export enum AbilityAction {
   Manage = 'manage',
-  Create = 'create',
-  Read = 'read',
-  Update = 'update',
-  Delete = 'delete',
+  Create = 'read',
+  Read = 'none',
 }
 
 export interface Client {

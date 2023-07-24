@@ -252,7 +252,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
           </Item>
           <Item className="flex justify-center min-w-full rounded-md border border-[var(--border-color)] p-2 m-3">
             <div className="flex w-fit justify-start ">
-              <div className='flex mx-2'>range</div>
+              <div className='flex m-2 text-xl font-Vazir-Bold'>{t('range')}</div>
               <ThemeButton
                 className='mx-2'
                 onClick={() => setRange(1)}

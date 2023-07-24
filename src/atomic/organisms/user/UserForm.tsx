@@ -155,7 +155,7 @@ const UserPermissions: React.FC = () => {
   const [showitems, setShowitems] = useState(false);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const permisionOptions = ['manage', 'create', 'read', 'update', 'delete'];
+  const permisionOptions = ['manage', 'read', 'none'];
   const fields = [
     { name: 'devices', label: 'devices', type: 'text', size: 150 },
     { name: 'profile', label: 'profile', type: 'text', size: 150 },

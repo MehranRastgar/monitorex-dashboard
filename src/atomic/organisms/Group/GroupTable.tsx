@@ -80,7 +80,7 @@ const GroupTable: React.FC<Props> = (props) => {
         Header: 'time range',
         id: 'timeRange',
         accessor: (row: any, i: number) =>
-          row.timeRange / 1000 / 60 / 60 + ' ساعت ',
+          row.timeRange / 1000 / 60 / 60 + '-' + t('hours'),
       },
     ],
 
