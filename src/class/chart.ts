@@ -1112,7 +1112,7 @@ export default class HighchartsData {
 				if (item?.x !== undefined && item?.y !== undefined || !this?.chartSettings?.continues)
 					arr.push([
 						new Date(item?.x).getTime(),
-						(item?.y?.[index2 + 1] + (((index2) * 2) + 2)) ?? null
+						item?.y?.[index2 + 1] === 200 ? null : (item?.y?.[index2 + 1] + (((index2) * 2) + 2))
 					]);
 		});
 		// arr.push([
@@ -1129,8 +1129,15 @@ export default class HighchartsData {
 		console.time('how many sumOfdata')
 
 		const convertBytesToBits = (bytes: any) => {
+			// console.log("bytesvbytes", bytes)
+			if (bytes.byte1 === null) {
+				return { 0: 200, 1: 200, 2: 200, 3: 200, 4: 200, 5: 200, 6: 200, 7: 200, 8: 200, 9: 200, 10: 200, 11: 200, 12: 200, 13: 200, 14: 200, 15: 200, 16: 200, 17: 200, 18: 200, 19: 200, 20: 200, 21: 200 }
+			}
+
+
 			const output: any = {};
 			let bitIndex = 1;
+			// if ()
 			Object.values(bytes).forEach((byte: any) => {
 				for (let bit = 6; bit >= 0; bit--) {
 					output[bitIndex] = (byte & (1 << bit)) >> bit;
@@ -1154,12 +1161,12 @@ export default class HighchartsData {
 
 			}
 		})
-
-		console.log(data12?.[5])
+		// console.log()
+		console.log(data12)
 
 		const arrSeries: any[] = [];
 		let arrAxisY: any[] = [];
-		console.log('Object.values', Object.values(data12?.[0]?.y))
+		// console.log('Object.values', Object.values(data12?.[0]?.y))
 		Object.values(data12?.[0]?.y)?.map((y, index) => {
 			arrAxisY.push({
 				tickInterval: 2,
@@ -1200,7 +1207,7 @@ export default class HighchartsData {
 				data: [...this.makeDataEb(data12, index)],
 			});
 		})
-		console.log(arrSeries, arrAxisY)
+		// console.log(arrSeries, arrAxisY)
 		// // console.log('this.chartSettings?.xAxisRotation', this.chartSettings?.xAxisRotation)
 		let dataTO: any = {
 
