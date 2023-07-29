@@ -56,6 +56,7 @@ import {
 } from "../../store/slices/devicesSlice";
 import { GetDevices } from "../../api/devices";
 import { socket } from "../socketio";
+import { selectStatusReportApi } from "src/store/slices/analizeSlice";
 
 var changeRoute: boolean = false;
 
@@ -277,7 +278,7 @@ function Layout({ children }: { children: any }) {
   }
   const [allert, setAllert] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
-
+  const selectReportstatus = useAppSelector(selectStatusReportApi)
   const handleClose = () => {
     setOpen(false);
   };
@@ -288,8 +289,8 @@ function Layout({ children }: { children: any }) {
           {allert}
         </Alert>
       </Snackbar>
-      {isLoading || selectsigninflag === 'loading' || selectsigninflag === 'pending' ? (
-        <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-transparent top-0 left-0 h-[100%] w-[100%]">
+      {selectReportstatus === 'loading' || isLoading || selectsigninflag === 'loading' || selectsigninflag === 'pending' ? (
+        <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-blue-400/30 backdrop-blur-sm top-0 left-0 h-[100%] w-[100%]">
           <div className="flex flex-wrap h-fit">
             <div className="flex h-fit justify-center w-full">
               <Image

@@ -39,7 +39,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   // const gpNumber = useAppSelector(selectGroupNumber);
   const devices = useAppSelector(selectDevicesData);
   const [showdiv, setShowdiv] = useState<boolean>(true);
-  const [range, setRange] = useState<number>(3);
+  const [range, setRange] = useState<number>(Number(localStorage.getItem('range')) ?? 3);
   const dispatch = useAppDispatch();
   const Groups = useAppSelector(selectUserGroups);
   const ownUser = useAppSelector(selectOwnUser)
@@ -130,7 +130,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
     dispatch(setEndDate(publishDate.toJSON()));
     dispatch(
       setStartDate(
-        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * ((range ?? 3) - 1)).toLocaleString(),
+        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * ((range ?? Number(localStorage.getItem('range')) ?? 3) - 1)).toLocaleString(),
       ),
     );
 
@@ -141,7 +141,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
       reportSensorsAsync({
         sensors: arr,
         start: new Date(
-          dayjs().unix() * 1000 - 60 * 1000 * 60 * ((range ?? 3) - 1),
+          dayjs().unix() * 1000 - 60 * 1000 * 60 * ((range ?? Number(localStorage.getItem('range')) ?? 3) - 1),
         ).toLocaleString(),
         end: publishDate.toJSON(),
       }),
@@ -255,14 +255,20 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               <div className='flex m-2 text-xl font-Vazir-Bold'>{t('range')}</div>
               <ThemeButton
                 className='mx-2'
-                onClick={() => setRange(1)}
+                onClick={() => {
+                  localStorage.setItem('range', '1')
+                  setRange(1)
+                }}
                 type={range === 1 ? 'activate' : 'explore'}
               >
                 1 {t("hour")}
               </ThemeButton>
               <ThemeButton
                 className='mx-2'
-                onClick={() => setRange(3)}
+                onClick={() => {
+                  localStorage.setItem('range', '3')
+                  setRange(3)
+                }}
                 type={range === 3 ? 'activate' : 'explore'}
 
               >
@@ -270,21 +276,30 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
               </ThemeButton>
               <ThemeButton
                 className='mx-2'
-                onClick={() => setRange(6)}
+                onClick={() => {
+                  localStorage.setItem('range', '6')
+                  setRange(6)
+                }}
                 type={range === 6 ? 'activate' : 'explore'}
               >
                 6 {t("hour")}
               </ThemeButton>
               <ThemeButton
                 className='mx-2'
-                onClick={() => setRange(12)}
+                onClick={() => {
+                  localStorage.setItem('range', '12')
+                  setRange(12)
+                }}
                 type={range === 12 ? 'activate' : 'explore'}
               >
                 12 {t("hour")}
               </ThemeButton>
               <ThemeButton
                 className='mx-2'
-                onClick={() => setRange(24)}
+                onClick={() => {
+                  localStorage.setItem('range', '24')
+                  setRange(24)
+                }}
                 type={range === 24 ? 'activate' : 'explore'}
               >
                 24 {t("hour")}

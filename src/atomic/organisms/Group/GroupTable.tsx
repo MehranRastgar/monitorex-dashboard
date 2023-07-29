@@ -129,7 +129,7 @@ const GroupTable: React.FC<Props> = (props) => {
     dispatch(setEndDate(publishDate.toJSON()));
     dispatch(
       setStartDate(
-        new Date(dayjs().unix() * 1000 - group.timeRange).toLocaleString(),
+        new Date(dayjs().unix() * 1000 - group.timeRange).toJSON(),
       ),
     );
 
@@ -141,7 +141,7 @@ const GroupTable: React.FC<Props> = (props) => {
         sensors: arr,
         start: new Date(
           dayjs().unix() * 1000 - group.timeRange,
-        ).toLocaleString(),
+        ).toJSON(),
         end: publishDate.toJSON(),
       }),
     );

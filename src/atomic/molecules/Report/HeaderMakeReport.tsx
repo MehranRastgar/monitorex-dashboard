@@ -73,7 +73,7 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 								<Field text={`${t("user")} :`} val={`${user?.username ?? ''} ${user?.family ?? ''} ${user?.name ?? ''} `} />
 								<div className="flex w-full flex-wrap">
 									<div className="flex w-1/3">
-										<ul className="flex justify-start p-2 w-full border border-black">
+										<ul className="flex justify-start py-2 px-1 w-full border border-black">
 											<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("ReportTime")} : `}{jalaliIs === 'fa' ? (moment(new Date().toISOString()).format('HH:mm:ss - jYYYY/jMM/jDD')) : moment2().format('HH:mm:ss - YYYY/MM/DD')}</li>
 										</ul>
 									</div>
