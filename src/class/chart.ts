@@ -15,7 +15,7 @@ interface ChartLabelsOption extends Highcharts.TooltipOptions {
 
 
 
-export const Granolarity: number[] = [1, 2, 5, 10, 20, 50];
+export const Granolarity: number[] = [0, 1, 2, 5, 10, 20, 50];
 
 export interface ChartSettingsType {
 	chartMode: 'spline' | 'line';
@@ -338,6 +338,13 @@ export default class HighchartsData {
 		// 	this.dateJalali ? new Date(moment(endDate).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(endDate).getTime() + offsetSeconds,
 		// 	0,
 		// ]);
+		console.log(arr)
+		arr.map((data, index) => {
+			if (index < 10) {
+
+				console.log(new Date(data?.[0]))
+			}
+		})
 		console.timeEnd("everymake")
 
 		return arr;
