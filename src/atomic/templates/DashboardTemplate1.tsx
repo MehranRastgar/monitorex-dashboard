@@ -1,7 +1,7 @@
 // import DemoDualAxes from "../molecules/AntChart/MultiLineChart";
 
 import { Box, Grid, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { SensorWebsocketRealTimeDataType, SensorsReceiveTpe } from '../../components/pages/sensors/sensorsTable';
 import { socket } from '../../components/socketio';
@@ -39,7 +39,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   // const gpNumber = useAppSelector(selectGroupNumber);
   const devices = useAppSelector(selectDevicesData);
   const [showdiv, setShowdiv] = useState<boolean>(true);
-  const [range, setRange] = useState<number>(Number(localStorage.getItem('range')) ?? 3);
+  const [range, setRange] = useState<number>(3);
   const dispatch = useAppDispatch();
   const Groups = useAppSelector(selectUserGroups);
   const ownUser = useAppSelector(selectOwnUser)
@@ -49,6 +49,13 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
   const [groupOrDevice, setGroupOrDevice] = useState<'group' | 'device'>(
     'device',
   );
+
+
+
+  useEffect(() => {
+    setRange(Number(localStorage?.getItem('range')) ?? 3)
+  }, [])
+
 
   useEffect(() => {
     if (gpNumber !== undefined && Groups?.[gpNumber] !== undefined)
@@ -130,7 +137,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
     dispatch(setEndDate(publishDate.toJSON()));
     dispatch(
       setStartDate(
-        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * ((range ?? Number(localStorage.getItem('range')) ?? 3) - 1)).toLocaleString(),
+        new Date(dayjs().unix() * 1000 - 60 * 1000 * 60 * ((range ?? Number(localStorage?.getItem('range')) ?? 3) - 1)).toLocaleString(),
       ),
     );
 
@@ -141,7 +148,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
       reportSensorsAsync({
         sensors: arr,
         start: new Date(
-          dayjs().unix() * 1000 - 60 * 1000 * 60 * ((range ?? Number(localStorage.getItem('range')) ?? 3) - 1),
+          dayjs().unix() * 1000 - 60 * 1000 * 60 * ((range ?? Number(localStorage?.getItem('range')) ?? 3) - 1),
         ).toLocaleString(),
         end: publishDate.toJSON(),
       }),

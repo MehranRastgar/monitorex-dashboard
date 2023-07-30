@@ -158,11 +158,11 @@ export default function Analytics() {
                     : false
                 }
                 type="submit"
-                className="flex items-center h-[30px]"
+                className="flex items-center h-[40px]"
                 onClick={handleReport}
               >
                 <div className="flex items-center justify-center">
-                  <span className="flex mx-1 text-xs ">{t('takeReport')}</span>
+                  <span className="flex mx-1 text-xl ">{t('takeReport')}</span>
                   <Icon fontSize={20} icon={documentList} ></Icon>
                 </div>
               </ThemeButton>
@@ -177,11 +177,11 @@ export default function Analytics() {
                     : false
                 }
                 type="explore"
-                className="flex h-[30px]"
+                className="flex h-[40px]"
                 onClick={() => setOpen(true)}
               >
                 <div className="flex items-center justify-center">
-                  <span className="flex mx-1 text-xs ">
+                  <span className="flex mx-1 text-xl ">
                     {t('saveInGroups')}
                   </span>
                   <Icon fontSize={20} icon={saveIcon} ></Icon>

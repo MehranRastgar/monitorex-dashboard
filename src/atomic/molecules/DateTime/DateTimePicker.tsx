@@ -44,18 +44,20 @@ const style = {
   },
   ".MuiFormLabel-filled": {
     translate: "0px",
+    fontSize: 22,
+    fontFamily: "Vazir-Bold"
   },
   ".MuiInputBase-input": {
     color: "var(--text-color)",
-    fontSize: 16,
+    fontSize: 22,
   },
   ".MuiInputLabel-filled": {
     color: "var(--text-color)",
-    fontSize: 16,
+    fontSize: 22,
   },
   ".MuiButtonBase-root": {
     bgcolor: "var(--card-bgc)",
-    color: "var(--text-color)",
+    color: "blue",
   },
 };
 

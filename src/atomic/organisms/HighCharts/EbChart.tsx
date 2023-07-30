@@ -280,7 +280,7 @@ const EbChart: React.FC<Props> = (props) => {
 		<figure id='chart-analytics'
 			ref={chartRef}
 			key={JSON.stringify(chartSettings)}
-			className={`flex justify-center w-[85vw]  ${chartSettings?.xAxisRotation > 35 || chartSettings?.xAxisRotation < -35 ? ' xl:h-[50vw] h-[60vw]' : ' xl:h-[40vw] h-[50vw]'}`}>
+			className={`flex justify-center w-[85vw]  ${chartSettings?.xAxisRotation > 35 || chartSettings?.xAxisRotation < -35 ? ' xl:h-[50vw] h-[70vw]' : ' xl:h-[40vw] h-[50vw]'}`}>
 			<div className="" style={{ width: '1px', height: '100%', position: 'inherit' }}></div>
 			{(Highcharts && customTheme && state?.chartOptions && (statusReportApi === 'success' || props.liveChart)) &&
 				< HighchartsReact

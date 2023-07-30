@@ -72,11 +72,11 @@ export default function EbDeviceObject({
                       : false
                   }
                   type="submit"
-                  className="flex items-center h-[30px]"
+                  className="flex items-center h-[40px] mt-4"
                   onClick={() => { handleReport(_id) }}
                 >
                   <div className="flex items-center justify-center">
-                    <span className="flex mx-1 text-xs ">{t('takeReport')}</span>
+                    <span className="flex mx-1 text-xl ">{t('takeReport')}</span>
                     <Icon fontSize={20} icon={documentList} ></Icon>
                   </div>
                 </ThemeButton>

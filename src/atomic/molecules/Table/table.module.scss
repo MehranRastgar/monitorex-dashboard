@@ -3,7 +3,7 @@
 .table {
   font-family: var(--fontFamily);
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 18px;
   width: 100%;
   position: relative;
 
@@ -75,6 +75,8 @@
 }
 /* Denser table rows */
 .table_dense td {
+  font-size: 16px;
+
   line-height: 12px;
   max-height: 16px;
   height: 16px;

@@ -18,6 +18,7 @@ const OneEPanel: React.FC<Props> = (props) => {
 
   useEffect(() => {
     socket.on(props.idOfSub, (data: any) => {
+      console.log(data)
       setValue(data);
       // console.log(data)
     });
@@ -25,6 +26,13 @@ const OneEPanel: React.FC<Props> = (props) => {
       socket.off(props.idOfSub);
     };
   }, []);
+
+  useEffect(() => {
+    const ifNotReceive = setTimeout(() => setValue(undefined), 35000)
+    return () => {
+      clearTimeout(ifNotReceive)
+    }
+  }, [value])
 
   const thingOption: DeviceThingProps = {
     mode: "diselected",
@@ -42,12 +50,20 @@ const OneEPanel: React.FC<Props> = (props) => {
     <>
       <div className="flex rtl:font-Vazir-Bold flex-wrap  justify-center items-end w-full">
         {/* <ThingDevice {...thingOption} /> */}
+        {/* {value !== undefined
+          ? new Date(value?.timestamp).toLocaleTimeString()
+          : '- - -'} */}
         <div className="flex w-full">
-          <h1 className="flex w-full m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].title}</h1>
-          <div className="flex ">
-            <h1 className="flex w-full m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].address?.multiPort}</h1>
-            <h1 className="flex w-full m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].address?.sMultiPort}</h1>
-          </div></div>
+          <h1 className="flex w-1/3 m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].title}</h1>
+          <h1 className="flex w-1/3 m-2 text-3xl justify-center"> {value !== undefined
+            ? new Date(value?.timestamp).toLocaleTimeString()
+            : '- - -'}</h1>
+          <div className="flex w-1/3 justify-end">
+            <h1 className="flex w-fit m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].address?.multiPort}</h1>
+
+            <h1 className="flex w-fit m-2 text-3xl">{devices.filter((de) => de._id === props?.idOfSub)?.[0].address?.sMultiPort}</h1>
+          </div>
+        </div>
         {/* <div> */}
         <ArrayOfElectrical
           eb={devices.filter((de) => de._id === props?.idOfSub)?.[0]}

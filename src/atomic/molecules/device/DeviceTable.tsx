@@ -85,7 +85,7 @@ const DeviceTable: React.FC<Props> = (props) => {
   const data = React.useMemo(
     () =>
       queryDevices.isSuccess === true
-        ? queryDevices.data
+        ? queryDevices?.data?.filter(item => item.type === 'Sensor Cotroller')
         : [{ title: 'no data' }],
     [queryDevices?.data],
   );
@@ -157,9 +157,10 @@ const DeviceTable: React.FC<Props> = (props) => {
   return (
     <>
       {/* {queryDevices.data[0].DeviceUniqueName} */}
-      <div className="flex justify-center flex-wrap h-[25rem] ">
+      <div className="flex justify-center flex-wrap h-[25rem]  font-Vazir-Bold ">
         <section className="flex items-start flex-wrap h-[20rem] max-w-[20rem] w-[20rem]">
-          <span className="mx-4 "> {t('devices')}</span>
+          <span className="mx-4 text-[22px]"> {t('devices')}</span>
+          {/* {data?.[0].type} */}
           {queryDevices.isSuccess === true && (
             <ReactTable
               hasSearch={true}
@@ -173,7 +174,7 @@ const DeviceTable: React.FC<Props> = (props) => {
           )}
         </section>
         <section className="flex flex-wrap h-[20rem] max-w-[15rem] overflow-hidden w-[20rem]">
-          <span className="mx-4 mb-[23px]"> {t('sensors')}</span>
+          <span className="mx-4 mb-[23px] text-[22px]"> {t('sensors')}</span>
           {selectedDevice?.sensors?.length !== undefined && (
             <ReactTable
               hasPagination={false}
@@ -239,9 +240,9 @@ const DeviceTable: React.FC<Props> = (props) => {
           </div>
         </div>
         <section className="flex flex-wrap h-[20rem] max-w-[15rem] overflow-hidden w-[20rem]">
-          <span className="mx-4 mb-[23px]"> {t('group')}</span>
+          <span className="mx-4 mb-[23px] text-[22px]"> {t('group')}</span>
           {selectedSensorRedux?.length && (
-            <span className="mx-4 mb-[23px]">
+            <span className="mx-4 mb-[23px] text-[22px]">
               {selectedSensorRedux.length} {t('pcs')} {t('sensor')}
             </span>
           )}

@@ -168,7 +168,7 @@ const GroupTable: React.FC<Props> = (props) => {
   return (
     <div className="flex justify-center flex-wrap min-h-[25rem] ">
       <section className="flex items-start flex-wrap h-[20rem] max-w-[30rem] w-[30rem]  mb-[4rem]">
-        <span className="mx-4 "> {t('devices')}</span>
+        <span className="mx-4 text-xl"> {t('groups')}</span>
         {data !== undefined && (
           <ReactTable
             hasSearch={true}

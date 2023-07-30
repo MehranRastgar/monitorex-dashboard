@@ -6,13 +6,12 @@
 
   cursor: pointer;
   display: inline-block;
-  font-family:  Roboto,-apple-system, system-ui, Roboto, sans-serif;
   padding: 7px 20px;
   text-align: center;
   text-decoration: none;
   transition: all 250ms;
   border: 0;
-  font-size: 16px;
+  font-size: 20px;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -111,6 +110,6 @@
 
 html[dir='rtl'] {
   .btn {
-    font-family: 'Vazir-bold',iranyekan, 'IRANSans', 'Tahoma';
+    font-family: 'Vazir-Bold',iranyekan, 'IRANSans', 'Tahoma';
   }
 }

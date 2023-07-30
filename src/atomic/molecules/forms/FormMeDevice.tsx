@@ -161,7 +161,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
                 else return false
               },
             })}>
-              <option value={'Sensor Cotroller'}>Sensor Cotroller</option>
+              <option value={'Sensor Cotroller'}>Sensor Controller</option>
               <option value={'Electrical panel'}>Electrical panel</option>
             </select>
           </div>
