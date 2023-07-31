@@ -31,6 +31,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { GroupItemType } from 'src/types/types';
 import User from 'src/class/user';
 import { selectOwnUser, updateUserData } from 'src/store/slices/userSlice';
+import { selectDevicesData } from 'src/store/slices/devicesSlice';
 
 interface Props {
   index?: number;
@@ -45,6 +46,7 @@ const GroupTable: React.FC<Props> = (props) => {
   const [selectedRow, setSelectedRow] = useState<string>('');
   const [groupA, setgroupA] = useState<GroupItemType | undefined>();
   const [selectedRowSensor, setSelectedRowSensor] = useState<string>('');
+  const devices = useAppSelector(selectDevicesData)
   const [selectedDevice, setSelectedDevice] = useState<
     DevicesReceiveType | undefined
   >(undefined);
@@ -96,6 +98,11 @@ const GroupTable: React.FC<Props> = (props) => {
       {
         Header: 'sensor name',
         accessor: 'title',
+      },
+      {
+        Header: 'device',
+        accessor: (row: any, i: number) =>
+          devices?.find(dev => dev?.sensors?.find(se => row._id === se._id))?.title,
       },
       {
         Header: 'type',
@@ -182,23 +189,23 @@ const GroupTable: React.FC<Props> = (props) => {
         )}
       </section>
       <section className="flex items-start flex-wrap h-[20rem] max-w-[30rem] w-[30rem] ">
-        <div className="mx-4 "> {t('sensors')}</div>
-        <div className='flex'>
+        <div className="mx-4 text-xl"> {t('sensors')}</div>
+        <div className='flex text-xl'>
           <div className="mx-4 ">
-            {' '}
+            {/* {' '} */}
             {t('group')}: {groupA?.groupTitle}
           </div>
           <div className="flex items-center h-fit m-1">
-            <button
+            <ThemeButton
               onClick={() => {
                 handleRemoveGp(groupA?._id);
               }}
-              className="mx-2 border p-1 rounded-lg button-remove h-fit"
-              type="button"
+              className="mx-2 border p-1 rounded-lg button-remove h-fit text-white"
+              type="reject"
               disabled={undefined === groupA?._id}
             >
               {t('delete') + ' ' + t('group')}
-            </button>
+            </ThemeButton>
           </div>
         </div>
         {selectedSensorRedux !== undefined && (

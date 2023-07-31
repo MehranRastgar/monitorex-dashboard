@@ -46,7 +46,7 @@ function TimeBox() {
             <div className={classes.lanBox} onClick={showBoxHandler}>
                 <Icon icon={calendarIcon} width="20" />
 
-                <div className={classes.lang_slc}>{calselect === 'fa' ? 'شمسی' : 'Julian'}</div>
+                <div className={classes.lang_slc}>{calselect === 'fa' ? 'شمسی' : 'Gregorian'}</div>
 
                 <Icon icon={arrowDownBold} width="10" />
             </div>
@@ -60,7 +60,7 @@ function TimeBox() {
                         showBoxHandler();
                     }}
                 >
-                    Julian (en)
+                    Gregorian (en)
                 </div>
                 <div
                     onClick={() => {

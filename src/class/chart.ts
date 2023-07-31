@@ -338,13 +338,7 @@ export default class HighchartsData {
 		// 	this.dateJalali ? new Date(moment(endDate).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(endDate).getTime() + offsetSeconds,
 		// 	0,
 		// ]);
-		console.log(arr)
-		arr.map((data, index) => {
-			if (index < 10) {
 
-				console.log(new Date(data?.[0]))
-			}
-		})
 		console.timeEnd("everymake")
 
 		return arr;
