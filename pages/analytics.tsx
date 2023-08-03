@@ -50,11 +50,11 @@ import HeaderMakeReport from 'src/atomic/molecules/Report/HeaderMakeReport';
 // import MultiAxisChart from 'src/atomic/organisms/HighCharts/MultiAxisChart';
 const MultiAxisChart = dynamic(
   () => import("src/atomic/organisms/HighCharts/MultiAxisChart"),
-  { ssr: false }
+  { ssr: true }
 );
 const DateTimeAnalytic = dynamic(
   () => import("../src/atomic/organisms/analytics/DateTimeAnalytic"),
-  { ssr: false }
+  { ssr: true }
 );
 export default function Analytics() {
   const [open, setOpen] = useState(false);

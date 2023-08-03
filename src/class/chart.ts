@@ -187,14 +187,14 @@ export default class HighchartsData {
 			const val = dateJalali !== undefined && dateJalali ? (moment((this as ChartTooltipOptions).x).format('jYYYY-jMM-jDD HH:mm:ss').toLocaleUpperCase()) : Highcharts.dateFormat(`%Y-%m-%d %H:%M:%S`, (this as ChartTooltipOptions).x + offsetSeconds)
 			const weekd = weekDays?.[(parseInt(Highcharts.dateFormat(`%w`, (this as ChartTooltipOptions).x + offsetSeconds)))]
 			return [`<b><div style="background:red;color:${textColor};fontSize: 1.2em">` + val + ' - ' + weekd + '</div></b>']
-			// .concat(
-			// 	(this as ChartTooltipOptions).points !== undefined ?
-			// 		(this as ChartTooltipOptions)?.points?.map(function (point: any) {
-			// 			return point.series.name + ': ' + (
-			// 				`<b><div style="backgroundColor:${color};color:${textColor};fontSize: 1.2em">` +
-			// 				point.y.toFixed(2)) + '</div></b>'
-			// 		}) : []
-			// );
+				.concat(
+					(this as ChartTooltipOptions).points !== undefined ?
+						(this as ChartTooltipOptions)?.points?.map(function (point: any) {
+							return point.series.name + ': ' + (
+								`<b><div style="backgroundColor:${color};color:${textColor};fontSize: 1.2em">` +
+								(point.y.toFixed(2) % 2 === 0 ? 'Off' : 'On')) + '</div></b>'
+						}) : []
+				);
 		}
 	}
 	//=============================================================================================
@@ -1107,7 +1107,7 @@ export default class HighchartsData {
 		// 	this.dateJalali ? new Date(moment(startDate).format('jYYYY-jMM-jDD HH:mm:ss')).getTime() + offsetSeconds : new Date(startDate).getTime() + offsetSeconds,
 		// 	0,
 		// ]);
-		console.log(index2)
+		// console.log(index2)
 		data.map((item, index) => {
 			if (item?.x !== undefined)
 				if (item?.x !== undefined && item?.y !== undefined || !this?.chartSettings?.continues)
@@ -1163,50 +1163,52 @@ export default class HighchartsData {
 			}
 		})
 		// console.log()
-		console.log(data12)
+		// console.log(data12)
 
 		const arrSeries: any[] = [];
 		let arrAxisY: any[] = [];
 		// console.log('Object.values', Object.values(data12?.[0]?.y))
 		Object.values(data12?.[0]?.y)?.map((y, index) => {
-			arrAxisY.push({
-				tickInterval: 2,
-				// Primary yAxis
-				gridLineColor: this.chartSettings?.gridColor?.[0] ?? 'var(--text-color)',
+			if (this.ebitem?.[index]?.length > 0) {
+				arrAxisY.push({
+					tickInterval: 2,
+					// Primary yAxis
+					gridLineColor: this.chartSettings?.gridColor?.[0] ?? 'var(--text-color)',
 
-				gridLineDashStyle: (() => {
-					if (this.chartSettings.grid)
-						return 'longdash'
-					else return 'none'
-				})(),
-				gridLineWidth: false,
-				labels: {
-					format: "{value}",
-					// title: String(index),
-					formatter: this.YaxisLabelFormatter(this.ebitem),
-					style: {
-						color: this.chartSettings?.lineColors?.[0] ?? 'var(--text-color)',
-						fontFamily: 'roboto',
-						fontSize: '1.4em',
-						fontWeight: '800',
+					gridLineDashStyle: (() => {
+						if (this.chartSettings.grid)
+							return 'longdash'
+						else return 'none'
+					})(),
+					gridLineWidth: false,
+					labels: {
+						format: "{value}",
+						// title: String(index),
+						formatter: this.YaxisLabelFormatter(this.ebitem),
+						style: {
+							color: this.chartSettings?.lineColors?.[0] ?? 'var(--text-color)',
+							fontFamily: 'roboto',
+							fontSize: '1.4em',
+							fontWeight: '800',
+						},
 					},
-				},
-				opposite: false,
-			});
-			arrSeries.push({
-				lineWidth: this.chartSettings.justPoint ? 0 : this.chartSettings?.lineDiameter ?? 2,
-				step: true,
-				marker: {
-					enabled: this.chartSettings.justPoint,
-					radius: 2,
-				},
-				id: index,
-				type: 'line',
-				name: this.ebitem?.[index] ?? 'no name',
-				dashStyle: this.chartSettings.lineStyleUseDifferent ? this.lineStylesArray[index] : undefined,
+					opposite: false,
+				});
+				arrSeries.push({
+					lineWidth: this.chartSettings.justPoint ? 0 : this.chartSettings?.lineDiameter ?? 2,
+					step: true,
+					marker: {
+						enabled: this.chartSettings.justPoint,
+						radius: 2,
+					},
+					id: index,
+					type: 'line',
+					name: this.ebitem?.[index] ?? 'no name',
+					dashStyle: this.chartSettings.lineStyleUseDifferent ? this.lineStylesArray[index] : undefined,
 
-				data: [...this.makeDataEb(data12, index)],
-			});
+					data: [...this.makeDataEb(data12, index)],
+				});
+			}
 		})
 		// console.log(arrSeries, arrAxisY)
 		// // console.log('this.chartSettings?.xAxisRotation', this.chartSettings?.xAxisRotation)

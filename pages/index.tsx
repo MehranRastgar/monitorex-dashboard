@@ -11,7 +11,13 @@ import ObjectElectrical from "../src/atomic/molecules/electrical/ObjectElectrica
 import ArrayOfElectrical from "../src/atomic/organisms/electrical/ArrayOfElectrical";
 import OneEPanel from "../src/atomic/organisms/electrical/OneEPanel";
 import Item from "../src/atomic/atoms/Item/Item";
-import DashboardTemplate1 from "../src/atomic/templates/DashboardTemplate1";
+
+import dynamic from "next/dynamic";
+const DashboardTemplate1 = dynamic(
+  () => import("../src/atomic/templates/DashboardTemplate1"),
+  { ssr: true })
+// import DashboardTemplate1 from "../src/atomic/templates/DashboardTemplate1";
+
 import ButtonPupup from "../src/atomic/molecules/Pupup/ButtonPupup";
 // import LogBox from "../src/atomic/molecules/Log/LogBox";
 import {

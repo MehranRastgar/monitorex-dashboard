@@ -74,16 +74,19 @@ export default function DateTimeAnalytic({ localeT }: { localeT: 'en' | 'fa' }) 
   return (
     <>
       <section className="flex flex-wrap m-2 justify-center scale-75 lg:scale-100 ">
-        <ThemeButton
-          onClick={() => {
-            if (selectLocale === 'fa')
-              dispatch(setCalendar('en'))
-            else
-              dispatch(setCalendar('fa'))
+        <div className='flex w-full justify-center'>
+          <ThemeButton
+            onClick={() => {
+              if (selectLocale === 'fa')
+                dispatch(setCalendar('en'))
+              else
+                dispatch(setCalendar('fa'))
 
-          }}
-          type='activate' className='flex w-fit justify-center mb-8 '><p className=' rounded-md p-2'>{selectLocale === 'fa' ?
-            <div className='flex'><Icon icon={calendarIcon} width="20" /><span className='mx-2'>شمسی</span></div> : <div className='flex'><span className='mx-2'>Gregorian</span><Icon icon={calendarIcon} width="20" /></div>}</p></ThemeButton>
+            }}
+            type='activate' className='flex h-fit w-fit justify-center mb-8 '><p className=' rounded-md p-2'>{selectLocale === 'fa' ?
+              <div className='flex'><Icon icon={calendarIcon} width="20" /><span className='mx-2'>شمسی</span></div> : <div className='flex'><span className='mx-2'>Gregorian</span><Icon icon={calendarIcon} width="20" /></div>}</p>
+          </ThemeButton>
+        </div>
         <div className="flex">
           <div>
             <div>
@@ -157,8 +160,6 @@ export default function DateTimeAnalytic({ localeT }: { localeT: 'en' | 'fa' }) 
               hourValue={3 * 30 * 24}
             />
           </div>
-
-
           {/* <Grid>
               <HowManyDays SD={selectSD} ED={selectED} />
             </Grid> */}

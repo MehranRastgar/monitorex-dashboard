@@ -24,6 +24,7 @@ const DeviceMA: React.FC<Props> = () => {
         >
           {t('devices')}
         </ThemeButton>
+        <div className="mx-2"></div>
         <ThemeButton
           onClick={() => setGroupOrDevice('group')}
           type={groupOrDevice === 'group' ? 'activate' : 'deactivate'}

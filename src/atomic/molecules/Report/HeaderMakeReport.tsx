@@ -11,6 +11,8 @@ import domtoimage from 'dom-to-image';
 import { selectCalendarMode } from "src/store/slices/themeSlice";
 import moment from 'moment-jalaali';
 import moment2 from 'moment';
+import { useContext } from "react";
+import langContextObj from "../../../store/langContext";
 
 interface Props {
 
@@ -25,7 +27,7 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 	const granularity = useAppSelector(selectGranularity)
 	const selectedGroup = useAppSelector(selectSelectedGroup)
 	const jalaliIs = useAppSelector(selectCalendarMode)
-
+	const langCtx = useContext(langContextObj);
 
 	async function handleGeneratePNG() {
 		// const chart = chartRef.current;
@@ -52,7 +54,7 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 
 
 	return (
-		<div className="flex w-full items-start justify-center overflow-auto text-black ">
+		<div className="flex  w-full items-start justify-center overflow-auto text-black ">
 			{/* <div>
 				<button
 					className='text-[#f13232] m-1 w-[32px] h-[32px] text-[var(--text-color)]'
@@ -64,9 +66,15 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 				</button>
 			</div> */}
 			{user?._id &&
-				<div id={'analytics-header'} className={`${jalaliIs === 'fa' ? ' font-Vazir-Light ' : ''}` + "flex flex-wrap p-3 border border-black bg-white w-[800px] h-auto  min-w-[800px] min-h-[500px] justify-center items-start "}>
+				<div id={'analytics-header'}
+					style={{
+						fontFamily: `${langCtx.lang === 'fa' ? 'Vazir' : 'Roboto'}`,
+						fontWeight: '800'
+
+					}}
+					className={"flex font-(var(--fontFamily)) flex-wrap p-3 border border-black bg-white w-[800px] h-[550px] justify-center items-start "}>
 					<div className="h-fit">
-						<h1 className="text-xl w-full justify-center text-center p-2 m-0 h-fit border-black border-b">{t('report')}</h1>
+						<h1 className="flex text-xl w-full justify-center text-center p-2 px-1 m-0 h-fit border-black border-b">{t('report')}</h1>
 						<div className="flex flex-wrap h-fit">
 							<section className="flex justify-start flex-wrap w-full">
 								<Field text={`${t("companyInfo")} :`} val={`${process.env.NEXT_PUBLIC_COMPANY_NAME} / ${process.env.NEXT_PUBLIC_COMPANY_ADDRESS}	`} />
@@ -74,27 +82,32 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 								<div className="flex w-full flex-wrap">
 									<div className="flex w-1/3">
 										<ul className="flex justify-start py-2 px-1 w-full border border-black">
-											<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("ReportTime")} : `}{jalaliIs === 'fa' ? (moment(new Date().toISOString()).format('HH:mm:ss - jYYYY/jMM/jDD')) : moment2().format('HH:mm:ss - YYYY/MM/DD')}</li>
+											<li className="flex flex-nowrap  mx-2 w-full font-[700]">
+												<div>{`${t("ReportTime")} : `}</div>
+												<div>
+													{jalaliIs === 'fa' ? (moment(new Date().toISOString()).format('HH:mm:ss - jYYYY/jMM/jDD')) : moment2().format('HH:mm:ss - YYYY/MM/DD')}
+												</div>
+											</li>
 										</ul>
 									</div>
 									<div className="flex w-1/3">
-										<ul className="flex justify-start p-2 w-full border border-black">
-											<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("start")} : `}{jalaliIs === 'fa' ? (moment(startTime).format('HH:mm:ss - jYYYY/jMM/jDD')) : moment2(startTime).format('HH:mm:ss - YYYY/MM/DD')}</li>
+										<ul className="flex justify-start p-2 px-1 w-full border border-black">
+											<li className="flex  mx-2 justify-start w-auto font-[700]">{`${t("start")} : `}{jalaliIs === 'fa' ? (moment(startTime).format('HH:mm:ss - jYYYY/jMM/jDD')) : moment2(startTime).format('HH:mm:ss - YYYY/MM/DD')}</li>
 										</ul>
 									</div>
 									<div className="flex w-1/3">
-										<ul className="flex justify-start p-2 w-full border border-black">
-											<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("end")} : `}{jalaliIs === 'fa' ? (moment(endTime).format('HH:mm:ss - jYYYY/jMM/jDD')) : moment2(endTime).format('HH:mm:ss - YYYY/MM/DD')}</li>
+										<ul className="flex justify-start p-2 px-1 w-full border border-black">
+											<li className="flex  mx-2 justify-start w-auto font-[700]">{`${t("end")} : `}{jalaliIs === 'fa' ? (moment(endTime).format('HH:mm:ss - jYYYY/jMM/jDD')) : moment2(endTime).format('HH:mm:ss - YYYY/MM/DD')}</li>
 										</ul>
 									</div>
 								</div>
 								<div className="flex w-1/3">
-									<ul className="flex justify-start p-2 w-full border border-black">
+									<ul className="flex justify-start p-2 px-1 w-full border border-black">
 										<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("GroupName")} : ${selectedGroup?.groupTitle ?? 'none'}`}</li>
 									</ul>
 								</div>
 								<div className="flex w-2/3">
-									<ul className="flex justify-start p-2 w-full border border-black">
+									<ul className="flex justify-start p-2 px-1 w-full border border-black">
 										<li className="flex mx-2 justify-start w-auto font-[700]">{`${t("viewOfEvery")} : ${granularity?.toString()} ${t("point")} ${t("once")}`}</li>
 									</ul>
 								</div>
@@ -314,10 +327,10 @@ interface FieldProps {
 const Field: React.FC<FieldProps> = (props) => {
 
 	return (
-		<ul className="flex justify-start p-2 w-full border border-black">
-			<li className="flex mx-2 justify-start w-auto font-[700]">{props?.text}</li>
-			<li className="flex mx-2 w-auto">{(props?.val)}</li>
-		</ul>
+		<div className="flex text-justify justify-start p-2 px-1 w-full border border-black">
+			<div className="flex mx-2 justify-start w-auto font-[700]">{props?.text}</div>
+			<div className="flex mx-2 w-auto">{(props?.val)}</div>
+		</div>
 
 	)
 }

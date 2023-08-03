@@ -173,7 +173,7 @@ const GroupTable: React.FC<Props> = (props) => {
   }, [selectedRow]);
 
   return (
-    <div className="flex justify-center flex-wrap min-h-[25rem] ">
+    <div className="flex justify-center flex-wrap min-h-[25rem] font-Vazir-Medium">
       <section className="flex items-start flex-wrap h-[20rem] max-w-[30rem] w-[30rem]  mb-[4rem]">
         <span className="mx-4 text-xl"> {t('groups')}</span>
         {data !== undefined && (

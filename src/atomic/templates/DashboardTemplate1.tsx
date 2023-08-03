@@ -195,6 +195,7 @@ const DashboardTemplate1: React.FC<Props> = (props) => {
             >
               {t('devices')}
             </ThemeButton>
+            <div className="mx-2"></div>
             <ThemeButton
               className=' rounded-l-none'
               onClick={() => {
