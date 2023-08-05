@@ -66,7 +66,7 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 				</button>
 			</div> */}
 			{user?._id &&
-				<div id={'analytics-header '}
+				<div id={'analytics-header'}
 					style={{
 						fontFamily: `${langCtx.lang === 'fa' ? 'Vazir' : 'Roboto'}`,
 						fontWeight: '800'
