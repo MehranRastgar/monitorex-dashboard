@@ -54,7 +54,7 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 
 
 	return (
-		<div className="flex  w-full items-start justify-center overflow-auto text-black ">
+		<div className="flex  w-full items-start justify-center  min-w-[800px] min-h-[550px] text-black ">
 			{/* <div>
 				<button
 					className='text-[#f13232] m-1 w-[32px] h-[32px] text-[var(--text-color)]'
@@ -66,14 +66,14 @@ const HeaderMakeReport: React.FC<Props> = (props) => {
 				</button>
 			</div> */}
 			{user?._id &&
-				<div id={'analytics-header'}
+				<div id={'analytics-header '}
 					style={{
 						fontFamily: `${langCtx.lang === 'fa' ? 'Vazir' : 'Roboto'}`,
 						fontWeight: '800'
 
 					}}
-					className={"flex font-(var(--fontFamily)) flex-wrap p-3 border border-black bg-white w-[800px] h-[550px] justify-center items-start "}>
-					<div className="h-fit">
+					className={"flex font-(var(--fontFamily)) flex-wrap p-3 border border-black bg-white min-w-[800px] w-[800px] min-h-[550px] h-[550px] justify-center items-start "}>
+					<div className="h-fit ">
 						<h1 className="flex text-xl w-full justify-center text-center p-2 px-1 m-0 h-fit border-black border-b">{t('report')}</h1>
 						<div className="flex flex-wrap h-fit">
 							<section className="flex justify-start flex-wrap w-full">

@@ -141,9 +141,9 @@ export default function Analytics() {
   }, [queryDevices.isFetching, queryDevices.isSuccess]);
   return (
     <Layout>
-      <Item className="flex flex-wrap justify-center ">
+      <Item className="justify-center w-full overflow-auto ">
         <DeviceMA />
-        <div className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
+        <div className="flex flex-wrap min-w-[800px] justify-center w-full border border-[var(--border-color)] p-4 mt-2 rounded-md">
           {selectLocale === 'fa' ?
             <DateTimeAnalytic key={selectLocale} localeT={'fa'} /> :
             <DateTimeAnalytic key={selectLocale} localeT={'en'} />}
@@ -206,15 +206,16 @@ export default function Analytics() {
           />
         </Modal>
       </Item>
-      <Item className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5 ">
+      <Item className="justify-center w-full border overflow-auto border-[var(--border-color)] p-4 mt-5 ">
         <MultiAxisChart chartSettings={{}} />
         {/* <MultiReportChartContainer /> */}
       </Item>
-      <Item className="flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5 ">
+      <Item className="  justify-center w-full border overflow-auto border-[var(--border-color)] p-4 mt-5 ">
         <TableDataOfReport />
       </Item>
-      <Item className=" flex flex-wrap justify-center w-full border border-[var(--border-color)] p-4 mt-5">
+      <Item className="justify-center w-full overflow-auto border border-[var(--border-color)] p-4 mt-5">
         <HeaderMakeReport />
+        {/* <div className='flex border w-[800px] min-w-[800px] h-[600px] min-h-[600px] bg-red-500'></div> */}
       </Item>
     </Layout>
   );
