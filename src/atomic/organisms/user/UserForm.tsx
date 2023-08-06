@@ -84,24 +84,28 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSave, isAdmin }) => {
         onSubmit={handleSubmit(onSubmit)}
         noValidate
       >
-        <section className="flex flex-wrap  m-1 p-2 w-full" >
+        <section
+          style={{
+            fontFamily: 'var(--fontFamily)'
+          }}
+          className="flex flex-wrap  m-1 p-2 w-full" >
           <div className='flex w-full mb-4'>
             <h1 className='w-full'>{t('userInfo')}</h1>
             <span className='flex justify-end text-end'>{selectedUser?._id}</span></div>
           <div className={'flex-wrap mx-2 '} >
             <label className={classes.label} htmlFor='username'>{t('userName')}</label>
             <input className={classes.inpt} type='text' {...register('username', { required: { value: true, message: t('username is required') } })} />
-            <p className='text-red-300 tex-xs'>{errors?.username?.message && '!' + errors?.username?.message}</p>
+            <p className='text-red-300 text-lg'>{errors?.username?.message && '!' + errors?.username?.message}</p>
           </div>
           <div className={'flex-wrap mx-2 '} >
             <label className={classes.label} htmlFor='password'>{t('password')}</label>
             <input className={classes.inpt} type='password' {...register('password',)} />
-            <p className='text-red-300 tex-xs'>{errors?.password?.message && '!' + errors?.password?.message}</p>
+            <p className='text-red-300 text-lg'>{errors?.password?.message && '!' + errors?.password?.message}</p>
           </div>
           <div className={'flex-wrap mx-2 '} >
             <label className={classes.label} htmlFor='email'>{t('email')}</label>
             <input className={classes.inpt} type='email' {...register('email', { required: { value: true, message: t('email is required') } })} />
-            <p className='text-red-300 tex-xs'>{errors?.username?.message && '!' + errors?.username?.message}</p>
+            <p className='text-red-300 text-lg'>{errors?.username?.message && '!' + errors?.username?.message}</p>
           </div>
 
         </section>
@@ -109,17 +113,17 @@ const UserForm: React.FC<UserFormProps> = ({ user, onSave, isAdmin }) => {
           <div className={'flex-wrap mx-2 '} >
             <label className={classes.label} htmlFor='family'>{t('family')}</label>
             <input className={classes.inpt} type='text' {...register('family',)} />
-            <p className='text-red-300 tex-xs'>{errors?.family?.message && '!' + errors?.family?.message}</p>
+            <p className='text-red-300 text-lg'>{errors?.family?.message && '!' + errors?.family?.message}</p>
           </div>
           <div className={'flex-wrap mx-2 '} >
             <label className={classes.label} htmlFor='name'>{t('name')}</label>
             <input className={classes.inpt} type='text' {...register('name',)} />
-            <p className='text-red-300 tex-xs'>{errors?.name?.message && '!' + errors?.name?.message}</p>
+            <p className='text-red-300 text-lg'>{errors?.name?.message && '!' + errors?.name?.message}</p>
           </div>
           <div className={'flex-wrap mx-2 '} >
             <label className={classes.label} htmlFor='nationalId'>{t('nationalId')}</label>
             <input className={classes.inpt} type='text' {...register('nationalId',)} />
-            <p className='text-red-300 tex-xs'>{errors?.nationalId?.message && '!' + errors?.nationalId?.message}</p>
+            <p className='text-red-300 text-lg'>{errors?.nationalId?.message && '!' + errors?.nationalId?.message}</p>
           </div>
         </section>
         <div className="flex w-full justify-around mt-4 h-fit">

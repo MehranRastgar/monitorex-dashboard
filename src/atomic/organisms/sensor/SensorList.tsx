@@ -56,7 +56,11 @@ export default function SensorList({
       <Box className={"select-none"}>
         <Box sx={{ p: 1 }}>
           <Item>
-            <div className="font-Vazir-Medium text-[20px]">{t("list")}</div>
+            <div
+              style={{
+                fontFamily: 'var(--fontFamily)'
+              }}
+              className=" text-[20px]">{t("list")}</div>
           </Item>
         </Box>
         <Box sx={{ p: 1 }}>

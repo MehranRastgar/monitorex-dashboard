@@ -45,7 +45,11 @@ const GroupListComponent: React.FC<GroupListComponentProps> = (props) => {
     <>
       <div className="flex w-full h-[300px] ">
         <Item className="w-full m-2 border border-gray-600 overflow-hidden  ">
-          <Typography className=" font-Vazir-Medium">
+          <Typography
+            style={{
+              fontFamily: 'var(--fontFamily)'
+            }}
+            className=" ">
             {t(props.type === 'group' ? 'groups' : 'devices')}
           </Typography>
           <section className=" h-[230px] overflow-y-scroll">
@@ -59,11 +63,10 @@ const GroupListComponent: React.FC<GroupListComponentProps> = (props) => {
                       dispatch(setSelectedGroupNumber(Index));
                       dispatch(setSelectionType('device'));
                     }}
-                    className={`flex border border-gray-500 p-1 w-full cursor-pointer  ${
-                      GpNumber === Index && selectionType === 'device'
+                    className={`flex border border-gray-500 p-1 w-full cursor-pointer  ${GpNumber === Index && selectionType === 'device'
                         ? 'bg-green-500/80 text-gray-800'
                         : ''
-                    }`}
+                      }`}
                   >
                     {/* <Typography className="w-4 font-Vazir-Bold">
                       {Index + 1}
@@ -84,11 +87,10 @@ const GroupListComponent: React.FC<GroupListComponentProps> = (props) => {
                       dispatch(setSelectedGroupNumber(Index));
                       dispatch(setSelectionType('group'));
                     }}
-                    className={`flex border border-gray-500 p-1 w-full cursor-pointer  ${
-                      GpNumber === Index && selectionType === 'group'
+                    className={`flex border border-gray-500 p-1 w-full cursor-pointer  ${GpNumber === Index && selectionType === 'group'
                         ? 'bg-green-500/80 text-gray-800'
                         : ''
-                    }`}
+                      }`}
                   >
                     {/* <Typography className="w-4 font-Vazir-Bold">
                       {Index + 1}

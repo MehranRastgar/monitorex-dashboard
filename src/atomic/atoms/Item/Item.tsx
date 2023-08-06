@@ -6,6 +6,7 @@ const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "var(--blur-bg-bl)",
   // backdropFilter: "blur( 8px )",
   // "-webkit-backdrop-filter": "blur( 8px )",
+  fontFamily: 'var(--fontFamily)',
   margin: ' 1,3 ,1 ,3',
   borderRadius: '1rem',
   ...theme.typography.body2,

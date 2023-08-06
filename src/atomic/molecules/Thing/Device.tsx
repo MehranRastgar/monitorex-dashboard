@@ -33,7 +33,7 @@ const ThingDevice: React.FC<DeviceThingProps> = (props) => {
 
   return (
     <>
-      <div onClick={() => {}} className={classes.box + " flex"}>
+      <div onClick={() => { }} className={classes.box + " flex"}>
         <Badge color="info" badgeContent={props.badge}>
           <div className="flex  overflow-hidden rounded">
             {props?.icon !== undefined ? (
@@ -54,25 +54,23 @@ const ThingDevice: React.FC<DeviceThingProps> = (props) => {
               ref={inputRef}
               className={
                 classes.dev_body +
-                " font-Vazir-Medium z-[2]  " +
-                `${
-                  props.mode === "diselected"
-                    ? ``
-                    : `${
-                        props.mode === "disable"
-                          ? `${classes.dev_body_disable}`
-                          : `${classes.dev_body_selected}`
-                      }`
+                "z-[2]  " +
+                `${props.mode === "diselected"
+                  ? ``
+                  : `${props.mode === "disable"
+                    ? `${classes.dev_body_disable}`
+                    : `${classes.dev_body_selected}`
+                  }`
                 }`
               }
             >
-              <Typography className="flex w-full text-[14px] font-Vazir-Medium  hover:break-all overflow-hidden">
+              <Typography className="flex w-full text-[14px]   hover:break-all overflow-hidden">
                 {props?.title ?? "no title"}
               </Typography>
               {props?.arrOfAttributes?.map((attr, index) => (
                 <>
                   <Typography
-                    className="w-full hover:break-all overflow-hidden rounded font-Vazir-Medium text-[12px]"
+                    className="w-full hover:break-all overflow-hidden rounded  text-[12px]"
                     key={index}
                   >
                     {attr}

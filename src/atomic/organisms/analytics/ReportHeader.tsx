@@ -38,7 +38,7 @@ export default function ReportHeader() {
   return (
     <>
       <section className="border rounded-lg p-4">
-        <Typography className="mb-10 font-Vazir-Bold text-2xl">
+        <Typography className="mb-10 text-2xl">
           {t("report")}
         </Typography>
         <div className="flex flex-wrap">
@@ -48,8 +48,8 @@ export default function ReportHeader() {
         </div>
         <div className="flex w-full border-b"></div>
         <TitleDesc
-          ct="flex w-full justify-start font-Vazir-Bold"
-          cx="flex mx-2 font-Vazir-Medium"
+          ct="flex w-full justify-start "
+          cx="flex mx-2 "
           title={t("userName")}
           desc={userInfo?.username}
         />
@@ -84,14 +84,14 @@ export function ReportHeaderPrintMode() {
       <section className="border rounded-lg p-2 bg-white">
         <li>
           <ul>
-            <Typography className="mb-6 font-Vazir-Bold text-2xl bg-white text-black">
+            <Typography className="mb-6 text-2xl bg-white text-black">
               {t("report")}
             </Typography>
           </ul>
           <ul className="border">
             <TitleDesc
-              ct="flex w-full justify-start font-Vazir-Bold text-black"
-              cx="flex mx-2 font-Vazir-Medium"
+              ct="flex w-full justify-start  text-black"
+              cx="flex mx-2 "
               title={t("userName")}
               desc={userInfo?.username}
             />

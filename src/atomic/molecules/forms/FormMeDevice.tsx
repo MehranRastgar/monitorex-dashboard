@@ -106,9 +106,16 @@ const FormMeDevice: React.FC<Props> = (props) => {
   }, [selectformdatainit]);
   // renderCount++
   return (
-    <div >
+    <div
+      style={{
+        fontFamily: 'var(--fontFamily)'
+      }}
+    >
 
       <form
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
         onChange={() => {
           setChanges(value => !value)
         }}
@@ -259,7 +266,7 @@ const FormMeDevice: React.FC<Props> = (props) => {
             </FormThemeButton>}
           {selectedDevice?._id && <ThemeButton
             type="reject"
-            className="m-2 h-fit"
+            className=" m-2 h-fit"
             onClick={(e) => {
               dispatch(removeDeviceAsync(selectedDevice));
             }}

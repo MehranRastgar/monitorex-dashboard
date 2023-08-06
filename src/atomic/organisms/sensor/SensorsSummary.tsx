@@ -68,7 +68,7 @@ const SensorObjectForSummary: React.FC<PropsObj> = ({ sensor }) => {
     };
   }, [socketObj]);
 
-  useEffect(() => {}, [socketObj]);
+  useEffect(() => { }, [socketObj]);
   // useEffect(() => {
   //   ////console.log(sensor);
   //   const timo = setTimeout((timo) => {
@@ -97,7 +97,11 @@ const SensorObjectForSummary: React.FC<PropsObj> = ({ sensor }) => {
 
   return (
     <>
-      <Item className="flex p-[15px] justify-start flex-wrap w-auto max-h-[100px] text-xs m-1 font-Vazir-Medium">
+      <Item
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
+        className="flex p-[15px] justify-start flex-wrap w-auto max-h-[100px] text-xs m-1 ">
         {/* <SensorTitleDescribe title="ID" describe={sensor?._id} /> */}
         <SensorTitleDescribe
           title="sensorName"
@@ -112,19 +116,18 @@ const SensorObjectForSummary: React.FC<PropsObj> = ({ sensor }) => {
         />
         <h4>{sensor?.unit}</h4>
         <div
-          className={`flex  z-[50]  p-2 text-md rounded-lg ${
-            sensorLive?.value === 200000
+          className={`flex  z-[50]  p-2 text-md rounded-lg ${sensorLive?.value === 200000
               ? "bg-gray-400"
               : sensorLive?.value !== undefined
-              ? "bg-green-600"
-              : "bg-orange-600"
-          }`}
+                ? "bg-green-600"
+                : "bg-orange-600"
+            }`}
         >
           {sensorLive?.value === 200000
             ? "no-data"
             : sensorLive?.value.toString() ?? (
-                <CircularProgress size={15} color="secondary" />
-              )}
+              <CircularProgress size={15} color="secondary" />
+            )}
         </div>
       </Item>
     </>

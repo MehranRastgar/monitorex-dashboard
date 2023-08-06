@@ -38,7 +38,11 @@ const DeviceFormFormik = () => {
   }, [formdataRedux?.numberOfPorts, formdataRedux?.type]);
 
   return (
-    <div className="flex flex-wrap items-start min-w-[800px] mx-2 -mt-1 p-2 border border-[var(--border-color)] rounded-md">
+    <div
+      style={{
+        fontFamily: 'var(--fontFamily)'
+      }}
+      className="flex flex-wrap items-start min-w-[800px] mx-2 -mt-1 p-2 border border-[var(--border-color)] rounded-md">
       <FormMeDevice />
     </div>
   );

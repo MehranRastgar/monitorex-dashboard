@@ -51,7 +51,11 @@ export default function EbDeviceObject({
 
   return (
     <>
-      <section className="flex flex-wrap w-full">
+      <section
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
+        className="flex flex-wrap w-full">
         <Item className="flex flex-wrap justify-center m-4 w-full">
           {selectLocale === 'fa' ?
             <DateTimeAnalytic key={selectLocale} localeT={'fa'} /> :

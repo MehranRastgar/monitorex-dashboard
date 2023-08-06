@@ -151,8 +151,8 @@ info  - Linting and checking validity of types...
 43:6  Warning: React Hook useEffect has a missing dependency: 'GpNumber'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/organisms/UserGroups/UserGroupsContainer.tsx
-161:6  Warning: React Hook useEffect has a missing dependency: 'selectUserGr'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
-164:6  Warning: React Hook useEffect has a missing dependency: 'gpMap'. Either include it or remove the dependency array. You can also replace multiple useState variables with useReducer if 'setNameofGp' needs the current value of 'gpMap'.  react-hooks/exhaustive-deps
+165:6  Warning: React Hook useEffect has a missing dependency: 'selectUserGr'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+168:6  Warning: React Hook useEffect has a missing dependency: 'gpMap'. Either include it or remove the dependency array. You can also replace multiple useState variables with useReducer if 'setNameofGp' needs the current value of 'gpMap'.  react-hooks/exhaustive-deps
 
 ./src/atomic/templates/DeviceManagement.tsx
 75:6  Warning: React Hook React.useEffect has missing dependencies: 'dispatch', 'queryDevices.data', and 'queryDevices.status'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -211,9 +211,6 @@ Warning: A null PostCSS plugin was provided. This entry will be ignored.
 Browserslist: caniuse-lite is outdated. Please run:
   npx update-browserslist-db@latest
   Why you should do it regularly: https://github.com/browserslist/update-db#readme
-
-[1m[33mwarn[39m[22m - The RTL features in Tailwind CSS are currently in preview.
-[1m[33mwarn[39m[22m - Preview features are not covered by semver, and may be improved in breaking ways at any time.
 info  - Compiled successfully
 info  - Collecting page data...
 info  - Generating static pages (0/12)
@@ -224,34 +221,34 @@ info  - Generating static pages (12/12)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ○ / (308 ms)                             1.94 kB         229 kB
+┌ ○ / (708 ms)                             1.94 kB         229 kB
 ├   /_app                                  0 B             141 kB
-├ ○ /404 (1021 ms)                         423 B           227 kB
-├ ○ /analytics (822 ms)                    9.54 kB         900 kB
-├   └ css/779cde75d8b411ad.css             2.88 kB
+├ ○ /404                                   423 B           227 kB
+├ ○ /analytics (761 ms)                    9.52 kB         900 kB
+├   └ css/c4f91995cee21452.css             2.88 kB
 ├ λ /api/sendotp                           0 B             141 kB
 ├ λ /api/signin                            0 B             141 kB
 ├ ○ /devices                               38.6 kB        1.05 MB
-├   └ css/8e54f9d8d29eb451.css             2.64 kB
-├ ○ /electricalboard (522 ms)              94.5 kB         770 kB
-├   └ css/12d1432216bfe3c3.css             2.6 kB
+├   └ css/37de93affbd4b102.css             2.65 kB
+├ ○ /electricalboard                       94.5 kB         771 kB
+├   └ css/166aa9fcddd9891d.css             2.6 kB
 ├ ○ /login                                 2.85 kB         173 kB
 ├   └ css/ca9dc42df1f7aa5f.css             1.22 kB
-├ ○ /management                            8.63 kB         801 kB
-├   └ css/f4955b1828ee1b47.css             2.91 kB
+├ ○ /management (351 ms)                   8.67 kB         801 kB
+├   └ css/5837a95043466ad4.css             2.91 kB
 ├ ○ /routes                                3.44 kB         230 kB
 ├   └ css/3f5358800af44f66.css             2.86 kB
 ├ ○ /sensors                               2.88 kB         230 kB
 ├   └ css/bd7e967af9f78130.css             1.86 kB
-├ ○ /settings                              3.3 kB          795 kB
-├   └ css/8ed17cf71b81f8ff.css             2.91 kB
+├ ○ /settings                              3.32 kB         796 kB
+├   └ css/048accabcbeab3a1.css             2.92 kB
 └ ○ /users                                 320 B           227 kB
 + First Load JS shared by all              153 kB
   ├ chunks/framework-847cdbe141f8ae13.js   45.4 kB
   ├ chunks/main-210227607f7f3f86.js        26.9 kB
-  ├ chunks/pages/_app-93fccee8457d1d16.js  66.2 kB
-  ├ chunks/webpack-2338cff76fd59053.js     2.97 kB
-  └ css/a9ed067c46b7735f.css               11.2 kB
+  ├ chunks/pages/_app-f257be8d6d35b38a.js  66.2 kB
+  ├ chunks/webpack-0cfc4fa1ea0e2eb8.js     2.97 kB
+  └ css/1a955420313ea2d1.css               11.2 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)
 ○  (Static)  automatically rendered as static HTML (uses no initial props)

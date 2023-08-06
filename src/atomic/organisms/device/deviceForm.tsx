@@ -109,21 +109,21 @@ export default function DeviceForm() {
       // dispatch(getDevicesAsync());
     }
   }, [selectEM]);
-  useEffect(() => {}, [selectedDevice]);
+  useEffect(() => { }, [selectedDevice]);
   if (selectedDevice !== undefined)
     return (
       <form key={selectedDevice?._id ?? 'newid'}>
         <Box className={'select-none'} sx={{ flexGrow: 1 }}>
           <Box sx={{ flexGrow: 1, padding: 1 }}>
             <Item>
-              <div className="font-Vazir-Medium text-[20px]">
+              <div className=" text-[20px]">
                 {t('deviceName')} {selectedDevice?.title ?? ''}
               </div>
             </Item>
           </Box>
           <Box sx={{ p: 1 }}>
             <Item>
-              <div className="flex w-full p-2 border-b font-Vazir-Medium"></div>
+              <div className="flex w-full p-2 border-b  "></div>
               <Grid container spacing={2}>
                 <Grid>
                   <TextField
@@ -359,7 +359,7 @@ export default function DeviceForm() {
           </Box>
           {selectedDevice.type === 'Sensor Cotroller' ? (
             <Item sx={{ margin: 1 }}>
-              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+              <h2 className="flex w-full p-2 text-xl  ">
                 {t('sensors')}
               </h2>
               <SensorsPart
@@ -370,7 +370,7 @@ export default function DeviceForm() {
           ) : (
             <>
               {/* <Item sx={{ margin: 1 }}>
-                <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                <h2 className="flex w-full p-2 text-xl  ">
                   {t("electrical")}
                 </h2>
                 <ElectricalPorts/>
@@ -380,7 +380,7 @@ export default function DeviceForm() {
           {selectedDevice.type === 'Sensor Cotroller' ? (
             <Box sx={{ p: 1 }}>
               <Item>
-                <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                <h2 className="flex w-full p-2 text-xl  ">
                   {t('factors')}
                 </h2>
                 <FactorsPart />
@@ -391,7 +391,7 @@ export default function DeviceForm() {
           )}
           <Box sx={{ p: 1 }}>
             <Item>
-              <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+              <h2 className="flex w-full p-2 text-xl  ">
                 {t('info')}
               </h2>
               <Box sx={{ p: 1, flexGrow: 1 }}>
@@ -511,7 +511,7 @@ const selectPort: object[] = [
 ];
 
 function DeviceShowWhat({ port, type }: { port?: number; type?: string }) {
-  useEffect(() => {}, [port, type]);
+  useEffect(() => { }, [port, type]);
   return (
     <>
       <div className="mr-10">
@@ -585,7 +585,7 @@ function SensorsPart({ port, type }: { port?: number; type?: string }) {
         selectedDevice?.sensors?.map((sensor: SensorsReceiveTpe, index) => (
           <>
             <Box key={index} sx={{ p: 0 }}>
-              <h2 className="flex w-full p-2 text-xs font-Vazir-Medium">
+              <h2 className="flex w-full p-2 text-xs  ">
                 {t('Sensor - ') +
                   index +
                   (sensor?.title ? ' (' + sensor?.title + ') ' : '')}
@@ -849,7 +849,7 @@ function ElectricalPorts() {
         {selectedDevice?.electricals?.map(({ _id, deviceName }, index) => (
           <>
             <div key={index} className="w-fit m-2">
-              <h2 className="flex w-fit p-2 text-md font-Vazir-Medium">
+              <h2 className="flex w-fit p-2 text-md  ">
                 {t('electrical - ') +
                   (index + 1).toString() +
                   (deviceName ? ' (' + deviceName + ') ' : '')}
@@ -926,7 +926,7 @@ function FactorsPart() {
           <div key={index}>
             <Box sx={{ p: 1 }}>
               <Item>
-                <h2 className="flex w-full p-2 text-xl font-Vazir-Medium">
+                <h2 className="flex w-full p-2 text-xl  ">
                   {t('Factor - ') +
                     index +
                     (factor?.factorName

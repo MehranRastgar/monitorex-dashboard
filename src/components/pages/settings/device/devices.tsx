@@ -32,7 +32,11 @@ const AddItemButton = ({ handleClick }: { handleClick: any }) => {
 
   return (
     <Button onClick={handleClick} size={"small"} variant="outlined">
-      <h3 className="flex font-Vazir-Bold">
+      <h3
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
+        className="flex ">
         {t("addnew")}
         <div className="mx-2">
           <Icon

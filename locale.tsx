@@ -155,11 +155,14 @@ i18n
           hours: 'hours',
           range: 'Range',
           saveInGroups: "Save In Groups",
+          updateGroup: 'Update Group',
 
         },
       },
       fa: {
         translation: {
+          updateGroup: 'بروز رسانی گروه',
+          update: 'بروز رسانی',
           range: 'بازه',
           electricalBoards: "تابلو برق ها",
           point: 'نقطه',

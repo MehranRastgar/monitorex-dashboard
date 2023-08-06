@@ -48,7 +48,11 @@ const OneEPanel: React.FC<Props> = (props) => {
   };
   return (
     <>
-      <div className="flex rtl:font-Vazir-Bold flex-wrap  justify-center items-end w-full">
+      <div
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
+        className="flex  flex-wrap  justify-center items-end w-full">
         {/* <ThingDevice {...thingOption} /> */}
         {/* {value !== undefined
           ? new Date(value?.timestamp).toLocaleTimeString()

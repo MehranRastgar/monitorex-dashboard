@@ -52,7 +52,11 @@ function Settings() {
       }} className="fixed z-[-1] top-0 right-0 w-[100vw] h-[100vh]"></img>
       <section >
         <h1 className="text-xl m-4">{t("profile")}</h1>
-        <Item>
+        <Item
+          style={{
+            fontFamily: 'var(--fontFamily)'
+          }}
+        >
           {userOwn?.isSuccess && (
             <UserForm
               onSave={handleUserSave}

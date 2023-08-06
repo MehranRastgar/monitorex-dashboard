@@ -68,15 +68,26 @@ const MultiChartSettings: React.FC<Props> = (props) => {
 
 	useEffect(() => {
 	}, []);
-	return <div className="flex rtl:font-Vazir-Bold flex-wrap items-start h-full w-full max-h-[500px] max-w-[600px] bg-[var(--bgc)] ">
+	return <div
+		style={{
+			fontFamily: 'var(--fontFamily)'
+		}}
+		className="flex   flex-wrap items-start h-full w-full max-h-[500px] max-w-[600px] bg-[var(--bgc)] ">
 		<Item>
-			<div className="flex w-full h-fit justify-start text-xl">
-				<h1 className="flex m-4 rtl:font-Vazir-Bold w-full">{(t('chartSettings'))}</h1>
+			<div
+				style={{
+					fontFamily: 'var(--fontFamily)'
+				}}
+				className="flex w-full h-fit justify-start text-xl">
+				<h1 className="flex m-4   w-full">{(t('chartSettings'))}</h1>
 				<span className="flex m-4 text-red-500 cursor-pointer" onClick={() => { props?.closeFunction(false) }}><Icon width={20} icon={closeOutline} />
 				</span>
 			</div>
 			<form
-				className="flex p-1 flex-wrap items-start justify-start h-full rtl:font-Vazir-Bold"
+				style={{
+					fontFamily: 'var(--fontFamily)'
+				}}
+				className="flex p-1 flex-wrap items-start justify-start h-full  "
 				onSubmit={handleSubmit(onSubmit)}
 				noValidate
 			>

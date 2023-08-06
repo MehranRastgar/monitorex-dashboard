@@ -53,9 +53,9 @@ export default function SelectDeviceFromSelector() {
 
   return (
     <>
-      <Box className="flex lg:flex-nowrap flex-wrap justify-start w-full mt-1 font-Vazir-Medium">
+      <Box className="flex lg:flex-nowrap flex-wrap justify-start w-full mt-1 ">
         <Item className="flex flex-wrap lg:w-1/2 lg:max-w-1/2 w-full">
-          <div className="font-Vazir-Medium text-[15px] w-full">
+          <div className=" text-[15px] w-full">
             {t("chooseDevice")}
           </div>
           {/* <button
@@ -98,7 +98,7 @@ export default function SelectDeviceFromSelector() {
           </div>
         </Item>
         <Item className="flex flex-wrap overflow-hidden min-w-1/2 w-full max-w-1/2 mr-1 ">
-          <div className="font-Vazir-Medium text-[15px] w-full ">
+          <div className=" text-[15px] w-full ">
             {t("chooseSensor")}
           </div>
           <div className="my-2  product-slider-one-container items-center w-full">
@@ -318,7 +318,7 @@ export function SensorSelectedForReport() {
         ) : (
           <>
             <Box sx={{ p: 1 }}>
-              <Typography className="font-Vazir-Medium">
+              <Typography className="">
                 {t("deviceNotExist")}
               </Typography>
             </Box>

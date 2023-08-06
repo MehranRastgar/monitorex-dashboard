@@ -11,7 +11,7 @@ const ProgressAndNoData: React.FC<Props> = (props) => {
   return (
     <>
       <div className="flex h-full w-full items-center">
-        <div className="flex flex-wrap font-Vazir-Medium items-center justify-center w-full text-[60px] ">
+        <div className="flex flex-wrap items-center justify-center w-full text-[60px] ">
           <div className="flex items-center justify-center w-full">
             {props.isLoading === true ? (
               <CircularProgress size={60} color="secondary" />

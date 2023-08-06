@@ -290,7 +290,11 @@ function Layout({ children }: { children: any }) {
         </Alert>
       </Snackbar>
       {selectReportstatus === 'loading' || isLoading || selectsigninflag === 'loading' || selectsigninflag === 'pending' ? (
-        <div className="fixed flex-wrap flex items-center justify-center z-[1000] bg-blue-400/30 backdrop-blur-sm top-0 left-0 h-[100%] w-[100%]">
+        <div
+          style={{
+            fontFamily: 'var(--fontFamily)'
+          }}
+          className="fixed flex-wrap flex items-center justify-center z-[1000] bg-blue-400/30 backdrop-blur-sm top-0 left-0 h-[100%] w-[100%]">
           <div className="flex flex-wrap h-fit">
             <div className="flex h-fit justify-center w-full">
               <Image

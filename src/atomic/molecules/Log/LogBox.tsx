@@ -80,7 +80,7 @@ const LogBox: React.FC<LogBoxProps> = ({ id, title }) => {
           {stop ? (
             <h2 className="flex  w-full">
               scroll down to continue{" - "}
-              <span className="flex font-Vazir-Bold text-red-600">
+              <span className="flex text-red-600">
                 {" "}
                 terminal puased
               </span>

@@ -73,8 +73,12 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
   };
   return (
     <>
-      <Item>
-        <section className="flex flex-wrap w-full h-auto min-h-[100px] font-Vazir-Medium rounded-[5px]">
+      <Item
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
+      >
+        <section className="flex flex-wrap w-full h-auto min-h-[100px]  rounded-[5px]">
           <h1 className="flex w-full justify-center text-xl">{t('groups')}</h1>
           {selectUserGr?.map((gpitem, index) => (
             <>
@@ -104,7 +108,7 @@ const UserGroupsContainer: React.FC<UserGroupsContainerProps> = (props) => {
           aria-describedby="modal-modal-description "
         >
           <Box sx={{ ...style, height: '200px' }}>
-            <Typography className="text-lg font-Vazir-Bold">
+            <Typography className="text-lg ">
               {t('do_you_want_to_remove_this_group')}
             </Typography>
             <div className="flex m-4 mt-10">
@@ -164,10 +168,14 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
   }, [updateGp]);
   return (
     <>
-      <Box sx={style}>
+      <Box
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
+        sx={style}>
         <section className="flex flex-wrap w-full h-[auto]  rounded-[5px]">
           <div className="flex flex-wrap w-full">
-            <Typography className="text-lg font-Vazir-Bold">
+            <Typography className="text-lg ">
               {t('take_a_name_for_this_group')}
             </Typography>
             <ThemeInput
@@ -178,7 +186,7 @@ const UserGroupsSaveContainer: React.FC<UserGroupsSaveContainerProps> = (
           </div>
           <div>
             or
-            <Typography className="text-lg font-Vazir-Bold">
+            <Typography className="text-lg ">
               {t('updateGroup')}
             </Typography>
             <ThemeInputSelect

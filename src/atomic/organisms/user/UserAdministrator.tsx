@@ -95,7 +95,11 @@ const UserAdministrator: React.FC<Props> = (props) => {
 
   return (
     <Item key={selectedUser?._id} className="my-2">
-      <div className="flex text-xl text-[var(--text-ultimate-color)] font-Vazir-Bold m-2">
+      <div
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
+        className="flex text-xl text-[var(--text-ultimate-color)] m-2">
         <h1 className="mx-3 ">{t('user')}</h1>:
         <h2 className="mx-3 ">{selectedUser?._id ?? t('new')}</h2>
         <h3 className="mx-3 flex">
@@ -137,7 +141,7 @@ const UserAdministrator: React.FC<Props> = (props) => {
         aria-describedby="modal-modal-description "
       >
         <Box sx={{ ...style, height: '200px' }}>
-          <Typography className="text-lg font-Vazir-Bold">
+          <Typography className="text-lg ">
             {t('do_you_want_to_remove_this_group')}
           </Typography>
           <div className="flex m-4 mt-10">
@@ -150,7 +154,7 @@ const UserAdministrator: React.FC<Props> = (props) => {
                 setOpen(false);
               }}
             >
-              <Typography className="text-lg font-Vazir-Bold">
+              <Typography className="text-lg ">
                 {t('yes')}
               </Typography>
             </Button>
@@ -162,7 +166,7 @@ const UserAdministrator: React.FC<Props> = (props) => {
                 setOpen(false);
               }}
             >
-              <Typography className="text-lg font-Vazir-Bold">
+              <Typography className="text-lg ">
                 {t('no')}
               </Typography>
             </Button>

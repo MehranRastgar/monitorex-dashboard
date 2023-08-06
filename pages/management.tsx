@@ -57,7 +57,11 @@ function TabPanel(props: TabPanelProps) {
         {...props.other}
       >
         {props.value === props.index && (
-          <Box sx={{ p: 3 }}>
+          <Box
+            style={{
+              fontFamily: 'var(--fontFamily)'
+            }}
+            sx={{ p: 3 }}>
             <Typography>{props.children}</Typography>
           </Box>
         )}

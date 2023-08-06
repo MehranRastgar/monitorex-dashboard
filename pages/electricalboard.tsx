@@ -44,8 +44,12 @@ export default function Devices() {
   }, [queryDevices.isFetching, queryDevices.isSuccess]);
   return (
     <Layout>
-      <section>
-        <h1 className="flex font-Vazir-Medium text-2xl">{t("electricalBoards")}</h1>
+      <section
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
+      >
+        <h1 className="flex text-2xl">{t("electricalBoards")}</h1>
         <EbDeviceObject />
       </section>
     </Layout>

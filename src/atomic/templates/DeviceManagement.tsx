@@ -81,7 +81,11 @@ export default function DeviceManagement() {
   }, [selectStateOfDeviceSlice]);
   return (
     <>
-      <section className="flex flex-wrap w-full">
+      <section
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
+        className="flex flex-wrap w-full">
         <aside className="flex flex-wrap h-fit  lg:w-1/3 w-full ">
           <DeviceList />
           <div className="w-full">

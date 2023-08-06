@@ -20,7 +20,11 @@ const ManagementRouting = () => {
 
 
     return <section >
-        <div className="flex w-full justify-center">
+        <div
+            style={{
+                fontFamily: 'var(--fontFamily)'
+            }}
+            className="flex w-full justify-center">
             <ThemeButton
                 className="mx-1"
                 onClick={() => {
