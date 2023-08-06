@@ -224,16 +224,16 @@ info  - Generating static pages (12/12)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ○ / (1770 ms)                            1.94 kB         229 kB
+┌ ○ / (308 ms)                             1.94 kB         229 kB
 ├   /_app                                  0 B             141 kB
-├ ○ /404 (806 ms)                          423 B           227 kB
-├ ○ /analytics (1447 ms)                   9.53 kB         900 kB
+├ ○ /404 (1021 ms)                         423 B           227 kB
+├ ○ /analytics (822 ms)                    9.54 kB         900 kB
 ├   └ css/779cde75d8b411ad.css             2.88 kB
 ├ λ /api/sendotp                           0 B             141 kB
 ├ λ /api/signin                            0 B             141 kB
 ├ ○ /devices                               38.6 kB        1.05 MB
 ├   └ css/8e54f9d8d29eb451.css             2.64 kB
-├ ○ /electricalboard (836 ms)              94.5 kB         770 kB
+├ ○ /electricalboard (522 ms)              94.5 kB         770 kB
 ├   └ css/12d1432216bfe3c3.css             2.6 kB
 ├ ○ /login                                 2.85 kB         173 kB
 ├   └ css/ca9dc42df1f7aa5f.css             1.22 kB
@@ -249,7 +249,7 @@ Route (pages)                              Size     First Load JS
 + First Load JS shared by all              153 kB
   ├ chunks/framework-847cdbe141f8ae13.js   45.4 kB
   ├ chunks/main-210227607f7f3f86.js        26.9 kB
-  ├ chunks/pages/_app-5fe6f0e67826f792.js  66.2 kB
+  ├ chunks/pages/_app-93fccee8457d1d16.js  66.2 kB
   ├ chunks/webpack-2338cff76fd59053.js     2.97 kB
   └ css/a9ed067c46b7735f.css               11.2 kB
 

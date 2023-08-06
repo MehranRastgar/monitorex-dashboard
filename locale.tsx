@@ -12,8 +12,8 @@ i18n
         translation: {
           chartSettings: "Chart Settings",
           new_device: 'new device',
-          electricalboard: 'electrical',
-          real_time_view: 'real time',
+          electricalboard: 'Electrical',
+          real_time_view: 'Real Time',
           changes: 'changes',
           saveAsNewGroup: 'save as new group',
           saveToThisGroup: 'save in this group',
@@ -153,7 +153,7 @@ i18n
           viewOfEvery: "view of every",
           electricalBoards: "Electrical Boards",
           hours: 'hours',
-          range: 'range',
+          range: 'Range',
           saveInGroups: "Save In Groups",
 
         },

@@ -97,11 +97,11 @@ const DeviceTable: React.FC<Props> = (props) => {
         accessor: (_row: any, i: number) => i + 1,
       },
       {
-        Header: 'device name',
+        Header: 'Device name',
         accessor: 'title',
       },
       {
-        Header: 'ports',
+        Header: 'Ports',
         accessor: 'sensors.length',
       },
     ],
@@ -116,11 +116,11 @@ const DeviceTable: React.FC<Props> = (props) => {
         accessor: (_row: any, i: number) => i + 1,
       },
       {
-        Header: 'sensor name',
+        Header: 'Sensor name',
         accessor: 'title',
       },
       {
-        Header: 'port number',
+        Header: 'Port number',
         accessor: 'type',
       },
     ],
@@ -139,7 +139,7 @@ const DeviceTable: React.FC<Props> = (props) => {
         accessor: 'title',
       },
       {
-        Header: 'type',
+        Header: 'Type',
         accessor: 'type',
       },
     ],
@@ -157,7 +157,11 @@ const DeviceTable: React.FC<Props> = (props) => {
   return (
     <>
       {/* {queryDevices.data[0].DeviceUniqueName} */}
-      <div className="flex justify-center flex-wrap h-[25rem]  font-Vazir-Bold ">
+      <div
+        style={{
+          fontFamily: 'var(--fontFamily)'
+        }}
+        className="flex justify-center flex-wrap h-[25rem] ">
         <section className="flex items-start flex-wrap h-[20rem] max-w-[20rem] w-[20rem]">
           <span className="mx-4 text-[22px]"> {t('devices')}</span>
           {/* {data?.[0].type} */}

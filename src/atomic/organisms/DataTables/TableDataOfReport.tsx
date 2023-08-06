@@ -116,7 +116,7 @@ const TableDataOfReport: React.FC<Props> = () => {
         {statusReportApi === 'success' && columns.length > 1 && (
           <ReactTable
             ExportExcel={true}
-            ExportCsv={true}
+            ExportCsv={false}
             // ExportPdfChart={true}
             ExportPdfChartHeader={true}
             isDense={true}
