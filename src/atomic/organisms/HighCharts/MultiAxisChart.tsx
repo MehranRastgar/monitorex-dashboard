@@ -149,6 +149,13 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 	const [min, setMin] = useState<number | undefined | null>()
 	const [range, setRange] = useState<boolean>(false)
 
+
+	useEffect(() => {
+		setMin(Number(localStorage.getItem('minrange')))
+		setMax(Number(localStorage.getItem('maxrange')))
+		setRange(localStorage.getItem('rangestat') === 'true' ? true : false)
+	}, [])
+
 	// const chartRefHigh = useRef<StockChart | null>(null);
 	async function getdata(chartsettings?: ChartSettingsType) {
 		console.log('how many time')
@@ -304,6 +311,8 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 			chartData.startDate = startDate ?? ''
 			chartData.endDate = endDate ?? ''
 			chartData.divideBy = props?.liveChart ? 1 : (granularity ? (granularity > 5 ? 5 : granularity) : 1);
+			chartData.max = max === null ? undefined : max;
+			chartData.min = min === null ? undefined : min;
 			chartData.sumOfdata(selectDataOFChart).then((data) => {
 				setState(data)
 				setChartSettings(chartData.chartSettings)
@@ -417,10 +426,15 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 					<label className="checkBox2">
 						<input id="ch1" type="checkbox" checked={range} onChange={() => {
 							if (range) {
-								setMax(undefined)
-								setMin(undefined)
+								setMax(null)
+								setMin(null)
 							}
+							if (range)
+								localStorage.setItem('rangestat', 'false')
+							else
+								localStorage.setItem('rangestat', 'true')
 							setRange(val => !val)
+
 						}} />
 						<div className="transition2"></div>
 					</label>
@@ -432,12 +446,17 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 									disabled={!range}
 									id={'maxnum'}
 									onChange={(e) => {
-										setMax(Number(e.target.value));
+
+										if (Number(e.target.value) !== undefined) {
+											setMax(Number(e.target.value));
+											localStorage.setItem('maxrange', e.target.value)
+										}
 									}}
 									placeholder={'max'}
 									className={`${classes?.inpt} `}
-									value={max === null ? undefined : max}
-									type='number'
+									// value={max === null ? undefined : max}
+									defaultValue={max === null ? undefined : max}
+									type='string'
 								></input>
 							</div>
 							<div className="flex mx-2">
@@ -446,12 +465,18 @@ const MultiAxisChart: React.FC<Props> = (props) => {
 									disabled={!range}
 									id={'minnum'}
 									onChange={(e) => {
-										setMin(Number(e.target.value));
+										if (Number(e.target.value) !== undefined) {
+											setMin(Number(e.target.value));
+											localStorage.setItem('minrange', e.target.value)
+										}
+
 									}}
 									placeholder={'min'}
 									className={`${classes?.inpt} `}
-									value={min === null ? undefined : min}
-									type='number'
+									// value={min === null ? undefined : min}
+									defaultValue={min === null ? undefined : min}
+
+									type='string'
 								></input>
 							</div>
 						</div>

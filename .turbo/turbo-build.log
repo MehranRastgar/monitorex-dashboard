@@ -125,9 +125,9 @@ info  - Linting and checking validity of types...
 232:5  Warning: React Hook useEffect has missing dependencies: 'getdata' and 'userData?.chartSettings'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/organisms/HighCharts/MultiAxisChart.tsx
-354:5  Warning: React Hook useEffect has missing dependencies: 'getdata', 'getdataLiveChart', and 'props.liveChart'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-363:5  Warning: React Hook useEffect has missing dependencies: 'getdata', 'max', 'min', and 'userData?.chartSettings'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
-369:5  Warning: React Hook useEffect has missing dependencies: 'getdata' and 'userData?.chartSettings'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+363:5  Warning: React Hook useEffect has missing dependencies: 'getdata', 'getdataLiveChart', and 'props.liveChart'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+372:5  Warning: React Hook useEffect has missing dependencies: 'getdata', 'max', 'min', and 'userData?.chartSettings'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+378:5  Warning: React Hook useEffect has missing dependencies: 'getdata' and 'userData?.chartSettings'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
 
 ./src/atomic/organisms/sensor/SensorList.tsx
 53:6  Warning: React Hook React.useEffect has missing dependencies: 'devices' and 'dispatch'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
@@ -211,6 +211,7 @@ Warning: A null PostCSS plugin was provided. This entry will be ignored.
 Browserslist: caniuse-lite is outdated. Please run:
   npx update-browserslist-db@latest
   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+warn  - Failed to download the stylesheet for https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap. Skipped optimizing this font.
 info  - Compiled successfully
 info  - Collecting page data...
 info  - Generating static pages (0/12)
@@ -221,20 +222,20 @@ info  - Generating static pages (12/12)
 info  - Finalizing page optimization...
 
 Route (pages)                              Size     First Load JS
-┌ ○ / (708 ms)                             1.94 kB         229 kB
+┌ ○ / (535 ms)                             1.94 kB         229 kB
 ├   /_app                                  0 B             141 kB
-├ ○ /404                                   423 B           227 kB
-├ ○ /analytics (761 ms)                    9.52 kB         900 kB
+├ ○ /404 (518 ms)                          423 B           227 kB
+├ ○ /analytics (1276 ms)                   9.52 kB         900 kB
 ├   └ css/c4f91995cee21452.css             2.88 kB
 ├ λ /api/sendotp                           0 B             141 kB
 ├ λ /api/signin                            0 B             141 kB
 ├ ○ /devices                               38.6 kB        1.05 MB
 ├   └ css/37de93affbd4b102.css             2.65 kB
-├ ○ /electricalboard                       94.5 kB         771 kB
+├ ○ /electricalboard (579 ms)              94.5 kB         771 kB
 ├   └ css/166aa9fcddd9891d.css             2.6 kB
 ├ ○ /login                                 2.85 kB         173 kB
 ├   └ css/ca9dc42df1f7aa5f.css             1.22 kB
-├ ○ /management (351 ms)                   8.67 kB         801 kB
+├ ○ /management (497 ms)                   8.67 kB         801 kB
 ├   └ css/5837a95043466ad4.css             2.91 kB
 ├ ○ /routes                                3.44 kB         230 kB
 ├   └ css/3f5358800af44f66.css             2.86 kB
@@ -247,7 +248,7 @@ Route (pages)                              Size     First Load JS
   ├ chunks/framework-847cdbe141f8ae13.js   45.4 kB
   ├ chunks/main-210227607f7f3f86.js        26.9 kB
   ├ chunks/pages/_app-f257be8d6d35b38a.js  66.2 kB
-  ├ chunks/webpack-0cfc4fa1ea0e2eb8.js     2.97 kB
+  ├ chunks/webpack-52aa1e4912f71b30.js     2.97 kB
   └ css/1a955420313ea2d1.css               11.2 kB
 
 λ  (Server)  server-side renders at runtime (uses getInitialProps or getServerSideProps)

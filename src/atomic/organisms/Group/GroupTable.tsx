@@ -204,7 +204,7 @@ const GroupTable: React.FC<Props> = (props) => {
               onClick={() => {
                 handleRemoveGp(groupA?._id);
               }}
-              className="mx-2 border p-1 rounded-lg button-remove h-fit text-white"
+              className="mx-2 border p-1 rounded-lg h-fit "
               type="reject"
               disabled={undefined === groupA?._id}
             >
